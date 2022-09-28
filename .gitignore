@@ -1,0 +1,7 @@
+# Ignore IDE Files
+.idea/
+
+# Ignore Build Folders
+/target
+
+
