@@ -2,6 +2,4 @@
 .idea/
 
 # Ignore Build Folders
-/target
-
-
+target
