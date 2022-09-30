@@ -1,4 +1,5 @@
-# Rust Web UI - Stoic Dreams
+# Rust Web UI Workspace - Stoic Dreams
+## [Crates.io/crates/webui](https://crates.io/crates/webui)
 
 ## About
 
@@ -6,7 +7,9 @@ This project has been created to house a Rust based web UI framework to remove b
 
 ## Goals
 
+- Minimize boilerplate code when starting new website projects.
 - Adhere to Material UI standards.
+- Provide robust component systems for handling common display types, user input and interactions, and data processing.
 
 ## Getting Started
 
@@ -15,7 +18,6 @@ This project was setup on a Mac, so for now instructions are only included for M
 ### Download
 
 Clone this solution into a folder.
-
 
 ### Install Required Dev Dependencies
 
@@ -37,3 +39,13 @@ cargo install trunk
 
 [Rust Docs](https://www.rust-lang.org/)
 [Yew Docs](https://yew.rs/)
+
+## Author
+
+**[Erik Gassler](https://www.erikgassler.com) - [Stoic Dreams](https://www.stoicdreams.com)** - Just a simpleton who likes making stuff with bits and bytes.
+
+**Support** - Visit [Stoic Dreams' GitHub Sponsor page](https://github.com/sponsors/StoicDreams) if you would like to provide support to Stoic Dreams.
+
+## License
+
+MIT

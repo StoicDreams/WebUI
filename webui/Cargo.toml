@@ -1,8 +1,8 @@
 [package]
 name = "webui"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
-description = "[early development] Website UI framework and component library for quickly building websites with native support for Material UI standardization."
+description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 license = "MIT"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
