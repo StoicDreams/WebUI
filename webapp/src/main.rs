@@ -1,4 +1,4 @@
 
 fn main() {
-    println!("{}", webui::get_startup_message());
+    webui::start_app();
 }

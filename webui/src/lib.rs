@@ -3,6 +3,20 @@
 //! `webui` is a website framework for building webassembly SPA websites quickly and easily.
 //! Development is just getting started, so we do not recommend using at this point for anything more than experimenting.
 
+use yew::prelude::*;
+
+/// Initializer to run in app main() to start website
+pub fn start_app() {
+    yew::start_app::<App>();
+}
+
+#[function_component(App)]
+fn app() -> Html {
+    html! {
+        <h1>{ get_startup_message() }</h1>
+    }
+}
+
 /// Return Hello, world!
 /// 
 /// # Examples

@@ -35,6 +35,12 @@ Install [Trunk](https://trunkrs.dev/)
 cargo install trunk
 ```
 
+Add waxm build target
+
+```bash
+rustup target add wasm-unknown-unknown
+```
+
 ## Other Resources
 
 [Rust Docs](https://www.rust-lang.org/)
