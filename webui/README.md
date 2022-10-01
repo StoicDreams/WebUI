@@ -1,5 +1,8 @@
 # Web UI
 
+[View on GitHub - github.com/StoicDreams/RustWebUI](https://github.com/StoicDreams/RustWebUI)
+[View on crates.io - crates.io/crates/webui](https://crates.io/crates/webui)
+
 ## About
 
 `webui` is a website framework for building webassembly SPA websites quickly and easily.
