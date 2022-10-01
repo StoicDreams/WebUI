@@ -53,7 +53,7 @@ Start by creating your project using cargo.
 ```bash
 cargo new name_of_your_app
 cd name_of_your_app
-```bash
+```
 
 Verify your Rust environment is setup correctly.
 
@@ -70,7 +70,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.1.3"
+webui = "0.1.4"
 ```
 
 Add an `index.html` file to the root of your project folder (not the `src` folder).
