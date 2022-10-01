@@ -1,6 +1,7 @@
 # Web UI
 
 [View on GitHub - github.com/StoicDreams/RustWebUI](https://github.com/StoicDreams/RustWebUI)
+
 [View on crates.io - crates.io/crates/webui](https://crates.io/crates/webui)
 
 ## About
@@ -69,7 +70,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.1.2"
+webui = "0.1.3"
 ```
 
 Add an `index.html` file to the root of your project folder (not the `src` folder).
