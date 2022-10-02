@@ -106,6 +106,7 @@ Other files are considered starter files and will not overwrite an existing file
 | webui.css | | X |
 | app.webmanifest | X | |
 | robots.txt | X | |
+| Logo.svg | X | |
 
 ### Run Dev Server for Testing
 
