@@ -77,7 +77,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.1.7"
+webui = "0.1.8"
 ```
 
 Install webui executable - this will be used to build your boilerplate static files.
@@ -101,7 +101,7 @@ Certain files are considered static and are not meant to be manually updated. Th
 Other files are considered starter files and will not overwrite an existing file during updates. If you want to update to the latest starter file, then you will need to delete or rename your existing file - recommend renaming file, such as postfixing .bck to the file name, so you can copy over your customizations to the new Web UI file once it's created.
 
 | File | Starter | Static |
-| --- |: --- :|: --- :|
+| --- | :---:| :---: |
 | index.html | X | |
 | webui.css | | X |
 | app.webmanifest | X | |
