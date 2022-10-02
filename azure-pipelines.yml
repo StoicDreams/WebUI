@@ -54,12 +54,6 @@ stages:
     condition: succeeded()
     pool:
       vmImage: 'ubuntu-latest'
-    variables:
-      azureSubscription: '$(azureSubscription)'
-      azureConnection: '$(azureConnection)'
-      accountName: '$(accountName)'
-      resourceGroup: '$(resourceGroup)'
-      profileName: '$(profileName)'
     steps:
       - task: AzureCLI@2
         displayName: 'Remove Old Files'
