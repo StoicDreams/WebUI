@@ -1,0 +1,33 @@
+
+trigger:
+- main
+
+stages:
+- stage: Alpha
+  jobs:
+  - job: Build
+    displayName: 'Build Website'
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+      - task: PowerShell@2
+        displayName: 'Run Build Script'
+        inputs:
+          filePath: 'AzurePipelineBuild.ps1'
+      - task: PublishBuildArtifacts@1
+        inputs:
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/webui'
+          ArtifactName: 'drop'
+          publishLocation: 'Container'
+  - job: Release
+    displayName: 'Deploy to Azure'
+    dependsOn:
+    - Build
+    condition: succeeded()
+    pool:
+      vmImage: 'windows-latest'
+    steps:
+      - task: PowerShell@2
+        displayName: 'Run Deployment Script'
+        inputs:
+          filePath: 'AzurePipelineRelease.ps1'
