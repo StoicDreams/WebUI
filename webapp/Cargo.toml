@@ -7,3 +7,20 @@ edition = "2021"
 
 [dependencies]
 webui = { path = "../webui" }
+
+[profile.dev]
+opt-level = "s"
+lto = true
+incremental = true
+
+[profile.release]
+opt-level = "s"
+lto = true
+
+[profile.dev.build-override]
+opt-level = "s"
+codegen-units = 16
+
+[profile.release.build-override]
+opt-level = "s"
+codegen-units = 16

@@ -29,7 +29,31 @@ Make sure rust is up to date
 rustup update
 ```
 
-Install [Trunk](https://trunkrs.dev/)
+Install Rusts automatic formatting tool.
+
+```bash
+rustup component add rustfmt
+```
+
+Then you can run this command to apply formatting to your project.
+
+```bash
+cargo fmt
+```
+
+Install Rusts Clippy linting tool.
+
+```bash
+rustup component add clippy
+```
+
+Then you can run this command to find additional linting errors.
+
+```bash
+cargo clippy
+```
+
+Install [Trunk](https://trunkrs.dev/) executable - this will be used to run your website locally for testing in your browser.
 
 ```bash
 cargo install trunk
@@ -39,6 +63,20 @@ Add waxm build target
 
 ```bash
 rustup target add wasm-unknown-unknown
+```
+
+Install webui executable - this will be used to build your boilerplate static files.
+
+Run `webui` in your projects root folder (not `src`) to add static files (index.html, css, etc.).
+
+```bash
+webui
+```
+
+Run `trunk server --open` from your project root to run your site locally.
+
+```bash
+trunk server --open
 ```
 
 ## Other Resources

@@ -1,8 +1,10 @@
 # Web UI
 
-[View on GitHub - github.com/StoicDreams/RustWebUI](https://github.com/StoicDreams/RustWebUI)
+[View WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
 [View on crates.io - crates.io/crates/webui](https://crates.io/crates/webui)
+
+[View on GitHub - github.com/StoicDreams/RustWebUI](https://github.com/StoicDreams/RustWebUI)
 
 ## About
 
@@ -70,7 +72,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.1.4"
+webui = "0.1.5"
 ```
 
 Add an `index.html` file to the root of your project folder (not the `src` folder).
@@ -86,7 +88,11 @@ Make sure to copy the exact contents as below. Head and body content will be fil
 </html>
 ```
 
+Start the development server
 
+```bash
+trunk serve --open
+```
 
 ## Author
 
