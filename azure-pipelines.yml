@@ -21,7 +21,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            $test_results = cargo test | Out-String
+            $test_results = cargo test --release | Out-String
 
             if ($test_results.Contains("test result: FAILED")) {
               throw "Tests Failed"
@@ -41,7 +41,7 @@ stages:
             cd webapp
 
             # Build
-            trunk build
+            trunk build --release
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp/dist'
@@ -54,11 +54,40 @@ stages:
     condition: succeeded()
     pool:
       vmImage: 'ubuntu-latest'
+    variables:
+      azureSubscription: '$(azureSubscription)'
+      azureConnection: '$(azureConnection)'
+      accountName: '$(accountName)'
+      resourceGroup: '$(resourceGroup)'
+      profileName: '$(profileName)'
     steps:
-      - task: PowerShell@2
+      - task: AzureCLI@2
+        displayName: 'Remove Old Files'
         inputs:
-          targetType: 'inline'
-          script: |
-            # Write your PowerShell commands here.
-            
-            Write-Host "Hello World"
+          azureSubscription: '$(azureSubscription)'
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: 'az storage blob delete-batch -s ''$web'' --account-name $(accountName)'
+      - task: AzureFileCopy@2
+        displayName: 'AzureBlob File Copy'
+        inputs:
+          SourcePath: '$(System.DefaultWorkingDirectory)/webapp/dist'
+          azureSubscription: $(azureConnection)
+          Destination: AzureBlob
+          storage: $(accountName)
+          ContainerName: '$web'
+      - task: AzureCLI@2
+        displayName: 'Set Correct Content-Type Attributes'
+        inputs:
+          azureSubscription: '$(azureSubscription)'
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            az storage blob update -c '$web' -n *.wasm --account-name $(accountName) --content-type application/wasm
+      - task: AzureCLI@2
+        displayName: 'Purge Storage Cache'
+        inputs:
+          azureSubscription: $(azureConnection)
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: 'az cdn endpoint purge -g $(resourceGroup) -n $(accountName) --profile-name $(profileName) --content-paths ''/*'''
