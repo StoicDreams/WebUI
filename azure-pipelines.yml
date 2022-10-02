@@ -11,9 +11,15 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
       - task: PowerShell@2
-        displayName: 'Run Build Script'
+        displayName: 'Run Tests'
         inputs:
-          filePath: 'AzurePipelineBuild.ps1'
+          targetType: 'inline'
+          script: |
+            $test_results = cargo test | Out-String
+
+            if ($test_results.Contains("test result: FAILED")) {
+              throw "Tests Failed"
+            }
       - task: PublishBuildArtifacts@1
         inputs:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/'
@@ -28,6 +34,9 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
       - task: PowerShell@2
-        displayName: 'Run Deployment Script'
         inputs:
-          filePath: 'AzurePipelineRelease.ps1'
+          targetType: 'inline'
+          script: |
+            # Write your PowerShell commands here.
+            
+            Write-Host "Hello World"
