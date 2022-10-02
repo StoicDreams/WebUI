@@ -27,7 +27,13 @@ stages:
               throw "Tests Failed"
             }
       - task: PowerShell@2
-        displayName: 'Set Build Target'
+        displayName: 'Install Trunk'
+        inputs:
+          targetType: 'inline'
+          script: |
+            cargo install trunk
+      - task: PowerShell@2
+        displayName: 'Build Web App'
         inputs:
           targetType: 'inline'
           script: |
