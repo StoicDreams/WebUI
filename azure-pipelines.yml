@@ -43,6 +43,7 @@ stages:
             # Build
             trunk build --release
       - task: PublishBuildArtifacts@1
+        displayName: 'Publish Build Artifacts'
         inputs:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp/dist'
           ArtifactName: 'drop'
@@ -55,7 +56,7 @@ stages:
           scriptLocation: inlineScript
           inlineScript: 'az storage blob delete-batch -s ''$web'' --account-name $(accountName)'
       - task: AzureFileCopy@2
-        displayName: 'AzureBlob File Copy'
+        displayName: 'Copy Files to Azure Blob Storage'
         inputs:
           SourcePath: '$(System.DefaultWorkingDirectory)/webapp/dist'
           azureSubscription: $(azureConnection)
