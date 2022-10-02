@@ -11,6 +11,12 @@ stages:
       vmImage: 'ubuntu-latest'
     steps:
       - task: PowerShell@2
+        displayName: 'Set Build Target'
+        inputs:
+          targetType: 'inline'
+          script: |
+            rustup target add wasm32-unknown-unknown
+      - task: PowerShell@2
         displayName: 'Run Tests'
         inputs:
           targetType: 'inline'
@@ -20,9 +26,19 @@ stages:
             if ($test_results.Contains("test result: FAILED")) {
               throw "Tests Failed"
             }
+      - task: PowerShell@2
+        displayName: 'Set Build Target'
+        inputs:
+          targetType: 'inline'
+          script: |
+            # Change directory to webapp
+            cd webapp
+
+            # Build
+            trunk build
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp/dist'
           ArtifactName: 'drop'
           publishLocation: 'Container'
   - job: Release
