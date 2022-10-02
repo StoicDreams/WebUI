@@ -10,3 +10,22 @@ Invoke-Item $fileName
 
 # Run Rust updater to assure installation succeeded.
 rustup update
+
+# Install Trunk
+cargo install trunk
+
+# Set build target
+rustup target add wasm-unknown-unknown
+
+# Run tests
+$test_results = cargo test | Out-String
+
+if ($test_results.Contains("test result: FAILED")) {
+	throw "Tests Failed"
+}
+
+# Change directory to webapp
+cd webapp
+
+# Build
+trunk build
