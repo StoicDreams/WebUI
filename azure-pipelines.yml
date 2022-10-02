@@ -16,7 +16,7 @@ stages:
           filePath: 'AzurePipelineBuild.ps1'
       - task: PublishBuildArtifacts@1
         inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/webui'
+          PathtoPublish: '$(System.DefaultWorkingDirectory)/'
           ArtifactName: 'drop'
           publishLocation: 'Container'
   - job: Release
