@@ -6,6 +6,8 @@
 
 [View on GitHub - github.com/StoicDreams/RustWebUI](https://github.com/StoicDreams/RustWebUI)
 
+[Stoic Dreams Discord](https://discord.gg/Z6WFptDyQn)
+
 ## About
 
 `webui` is a website framework for building webassembly SPA websites quickly and easily.

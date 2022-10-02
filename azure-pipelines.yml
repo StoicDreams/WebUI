@@ -5,10 +5,10 @@ trigger:
 stages:
 - stage: Alpha
   jobs:
-  - job: Build
-    displayName: 'Build Website'
+  - job: CICD
+    displayName: 'Build, Test, and Deploy Website'
     pool:
-      vmImage: 'ubuntu-latest'
+      vmImage: 'windows-latest'
     steps:
       - task: PowerShell@2
         displayName: 'Set Build Target'
@@ -47,14 +47,6 @@ stages:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp/dist'
           ArtifactName: 'drop'
           publishLocation: 'Container'
-  - job: Release
-    displayName: 'Deploy to Azure'
-    dependsOn:
-    - Build
-    condition: succeeded()
-    pool:
-      vmImage: 'windows-latest'
-    steps:
       - task: AzureCLI@2
         displayName: 'Remove Old Files'
         inputs:
@@ -65,7 +57,7 @@ stages:
       - task: AzureFileCopy@2
         displayName: 'AzureBlob File Copy'
         inputs:
-          SourcePath: '$(System.DefaultWorkingDirectory)'
+          SourcePath: '$(System.DefaultWorkingDirectory)/webapp/dist'
           azureSubscription: $(azureConnection)
           Destination: AzureBlob
           storage: $(accountName)
@@ -77,7 +69,11 @@ stages:
           scriptType: pscore
           scriptLocation: inlineScript
           inlineScript: |
-            az storage blob update -c '$web' -n *.wasm --account-name $(accountName) --content-type application/wasm
+            $myloc = "$((Get-Location).ProviderPath)\webapp\dist\"
+            Get-ChildItem "webapp/dist" -Filter "*.wasm" -Recurse -Force | ForEach-Object {
+                $rel_Path = $_.FullName.Replace($myloc, "")
+                az storage blob update -c '$web' -n $rel_Path --account-name $(accountName) --content-type application/wasm
+            }
       - task: AzureCLI@2
         displayName: 'Purge Storage Cache'
         inputs:
