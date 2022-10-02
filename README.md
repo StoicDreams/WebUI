@@ -65,11 +65,19 @@ Add waxm build target
 rustup target add wasm-unknown-unknown
 ```
 
-Install webui executable - this will be used to build your boilerplate static files.
+### Testing Changes to Web UI
 
-Run `webui` in your projects root folder (not `src`) to add static files (index.html, css, etc.).
+Install webui executable from local development.
 
 ```bash
+# From the workspace root folder
+cargo install --path webui
+```
+
+Delete any starter files that need refeshing (index.html, etc) and run `webui` 
+
+```bash
+# From the webapp folder
 webui
 ```
 
@@ -78,6 +86,29 @@ Run `trunk server --open` from your project root to run your site locally.
 ```bash
 trunk server --open
 ```
+
+### Increment Versions after updates
+
+If a major or minor release update is required, then first manually apply the version update to `webui/Cargo.toml`, making sure to reset lower versions to 0.
+
+Run this script to increment the patch version and apply the new version to any references / docs.
+
+```powershell
+# From the workspace root folder
+.\IncrementVersion.ps1
+```
+
+### Publish Latest Updates to [crates.io](https://crates.io/crates/webui/)
+
+First, commit any changes to Git.
+
+Then, run the publish command from the `webui` folder to publish.
+
+```bash
+# From the webui folder
+cargo publish
+```
+
 
 ## Other Resources
 

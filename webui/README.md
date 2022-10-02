@@ -36,7 +36,8 @@ Make sure rust is up to date
 rustup update
 ```
 
-Install [Trunk](https://trunkrs.dev/)
+Install [Trunk](https://trunkrs.dev/) executable - this will be used to run your website locally for testing in your browser.
+
 
 ```bash
 cargo install trunk
@@ -75,23 +76,39 @@ edition = "2021"
 webui = "0.1.5"
 ```
 
-Add an `index.html` file to the root of your project folder (not the `src` folder).
-
-Make sure to copy the exact contents as below. Head and body content will be filled in by the `webui` framework code.
-
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-	<head> </head>
-	<body></body>
-</html>
-```
-
-Start the development server
+Install webui executable - this will be used to build your boilerplate static files.
 
 ```bash
-trunk serve --open
+cargo install webui
+```
+
+Run `webui` in your projects root folder (not `src`) to add static files (index.html, css, etc.).
+
+```bash
+webui
+```
+
+### Web UI Files
+
+Note that you should run `webui` command anytime you update to a new version, making sure to update both the webui executable and the webui dependency in your project.
+
+Certain files are considered static and are not meant to be manually updated. These files will be overwritten during updates.
+
+Other files are considered starter files and will not overwrite an existing file during updates. If you want to update to the latest starter file, then you will need to delete or rename your existing file - recommend renaming file, such as postfixing .bck to the file name, so you can copy over your customizations to the new Web UI file once it's created.
+
+| File | Starter | Static |
+| --- |: --- :|: --- :|
+| index.html | X | |
+| webui.css | | X |
+| app.webmanifest | X | |
+| robots.txt | X | |
+
+### Run Dev Server for Testing
+
+Run `trunk server --open` from your project root to run your site locally. The `--open` flag will open your website in your default browser. If you already have the page open you can exclude the `--open` flag.
+
+```bash
+trunk server --open
 ```
 
 ## Author

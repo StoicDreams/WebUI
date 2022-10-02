@@ -1,0 +1,21 @@
+{
+  "name": "Web UI Framework Documentation",
+  "short_name": "Web UI Docs",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#FF2E46",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "Logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "512x512"
+    },
+    {
+      "src": "Logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "192x192"
+    }
+  ]
+}
