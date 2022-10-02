@@ -62,7 +62,7 @@ cargo install trunk
 Add waxm build target
 
 ```bash
-rustup target add wasm-unknown-unknown
+rustup target add wasm32-unknown-unknown
 ```
 
 ### Testing Changes to Web UI

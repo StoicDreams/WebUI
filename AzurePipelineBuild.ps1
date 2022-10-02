@@ -15,7 +15,7 @@ rustup update
 cargo install trunk
 
 # Set build target
-rustup target add wasm-unknown-unknown
+rustup target add wasm32-unknown-unknown
 
 # Run tests
 $test_results = cargo test | Out-String

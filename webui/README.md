@@ -46,7 +46,7 @@ cargo install trunk
 Add waxm build target
 
 ```bash
-rustup target add wasm-unknown-unknown
+rustup target add wasm32-unknown-unknown
 ```
 
 ### Start a new Rust project
