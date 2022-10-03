@@ -44,24 +44,28 @@ function UpdateProjectVersion {
 	Write-Host "Updated - $projectPath" -ForegroundColor Green
 }
 
+function ApplyVersionUpdates {
+	Param (
+		[string] $path,
+		[string] $filter,
+		[string] $rgxTargetXML,
+		[string] $newXML
+	)
+	Get-ChildItem -Path $path -Filter $filter -Recurse -File -Force | ForEach-Object {
+		UpdateProjectVersion $_.FullName $version $rgxTargetXML $newXML
+	}
+}
+
 if($null -ne $version) {
 	Write-Host Found Version: $version -ForegroundColor Green
 	$rootpath = Get-Location
 	$rootpath = $rootpath.ToString().ToLower()
 	Write-Host Path: "Root Path Start: $rootpath"
 
-	Get-ChildItem -Path .\webui -Filter Cargo.toml -Recurse -File -Force | ForEach-Object {
-		Write-Host "Checking Cargo file $($_.FullName)"
-		UpdateProjectVersion $_.FullName $version 'version = "([0-9\.]+)"' "version = ""$version"""
-	}
-	Get-ChildItem -Path .\webapp -Filter Cargo.toml -Recurse -File -Force | ForEach-Object {
-		Write-Host "Checking Cargo file $($_.FullName)"
-		UpdateProjectVersion $_.FullName $version 'webui = "([0-9\.]+)"' "webui = ""$version"""
-	}
-	Get-ChildItem -Path .\webui -Filter README.md -Recurse -File -Force | ForEach-Object {
-		Write-Host "Checking Readme file $($_.FullName)"
-		UpdateProjectVersion $_.FullName $version 'webui = "([0-9\.]+)"' "webui = ""$version"""
-	}
+	ApplyVersionUpdates .\webui Cargo.toml 'version = "([0-9\.]+)"' "version = ""$version"""
+	ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"' "version = ""$version"""
+	ApplyVersionUpdates .\webapp Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$version"""
+	ApplyVersionUpdates .\webui README.md 'webui = "([0-9\.]+)"' "webui = ""$version"""
 } else {
 	Write-Host Current version was not found -ForegroundColor Red
 }

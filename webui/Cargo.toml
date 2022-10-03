@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.1.9"
+version = "0.1.11"
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 keywords = ["webassembly", "ui"]
@@ -9,12 +9,13 @@ license = "MIT"
 authors = ["Erik Gasssler"]
 documentation = "https://docs.rs/webui"
 repository = "https://github.com/StoicDreams/RustWebUI"
-#homepage = "https://webui.stoicdreams.com"
+homepage = "https://webui.stoicdreams.com"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 yew = "0.19"
+yew-agent = "0.1"
 gloo-net = "0.2"
 serde = "1.0"
 wasm-bindgen-futures = "0.4"

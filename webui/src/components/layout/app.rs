@@ -1,31 +1,33 @@
-use yew::prelude::*;
+use super::app_body::AppBody;
+use super::app_drawer_bottom::AppDrawerBottom;
+use super::app_drawer_left::AppDrawerLeft;
+use super::app_drawer_right::AppDrawerRight;
+use super::app_drawer_top::AppDrawerTop;
+use super::app_footer::AppFooter;
+use super::app_header::AppHeader;
+use crate::data_types::app_config::AppConfig;
+use yew::{function_component, html, use_state, ContextProvider, Properties};
 
-pub(crate) struct App;
+#[derive(Properties, PartialEq)]
+pub struct AppProps {
+    pub config: AppConfig,
+}
 
-impl Component for App {
-	type Message = ();
-	type Properties = ();
+#[function_component(App)]
+pub(crate) fn app(props: &AppProps) -> Html {
+    let ctx = use_state(|| props.config.clone());
 
-	fn create(ctx: &Context<Self>) -> Self {
-		App
-	}
-
-	fn view(&self, _ctx: &Context<Self>) -> Html {
-		html! {
-			<div id="app">
-				<header>
-					{"Web UI"}
-				</header>
-				<main>
-					{"Page Body"}
-				</main>
-				<footer>
-				</footer>
-				<aside class="top"></aside>
-				<aside class="right"></aside>
-				<aside class="bottom"></aside>
-				<aside class="left"></aside>
-			</div>
-		}
-	}
+    html! {
+        <div id="app">
+            <ContextProvider<AppConfig> context={(*ctx).clone()}>
+                <AppHeader />
+                <AppBody />
+                <AppFooter />
+                <AppDrawerTop />
+                <AppDrawerRight />
+                <AppDrawerBottom />
+                <AppDrawerLeft />
+            </ContextProvider<AppConfig>>
+        </div>
+    }
 }
