@@ -7,6 +7,7 @@ edition = "2021"
 
 [dependencies]
 webui = { path = "../webui" }
+yew = "0.19"
 
 [profile.dev]
 opt-level = "s"
@@ -14,7 +15,13 @@ lto = true
 incremental = true
 
 [profile.release]
-opt-level = "s"
+# less code to include into binary
+panic = 'abort'
+# optimization over all codebase ( better optimization, slower build )
+codegen-units = 1
+# optimization for size ( more aggressive )
+opt-level = 'z'
+# link time optimization using using whole-program analysis
 lto = true
 
 [profile.dev.build-override]
