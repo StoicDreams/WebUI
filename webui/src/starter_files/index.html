@@ -15,6 +15,7 @@
 		<link data-trunk href="app.webmanifest" rel="copy-file" />
 		<link data-trunk href="robots.txt" rel="copy-file" />
 		<link data-trunk href="Logo.svg" rel="copy-file" />
+		<link data-trunk href="service-worker.js" rel="copy-file" />
 
 		<!--Other useful meta tags
 		<meta name="author" content="">
@@ -31,6 +32,9 @@
 		<meta name="twitter:description" content="">
 		<meta name="twitter:image" content="">
 		-->
+		<script type="text/javascript">
+			navigator.serviceWorker.register('service-worker.js');
+		</script>
 	</head>
 	<body></body>
 </html>
