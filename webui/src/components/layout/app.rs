@@ -14,7 +14,6 @@ pub struct AppProps {
     pub config: AppConfig,
 }
 
-
 /// Inner process for starting website
 pub(crate) fn start_webui_app(app_config: AppConfig) {
     let props = AppProps { config: app_config };

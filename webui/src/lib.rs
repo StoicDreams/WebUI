@@ -3,10 +3,12 @@
 //! `webui` is a website framework for building webassembly SPA websites quickly and easily.
 //! Development is just getting started, so we do not recommend using at this point for anything more than experimenting.
 
-use crate::data_types::app_config::AppConfig;
+pub use crate::data_types::app_config::AppConfig;
+pub use crate::components::container::paper::Paper;
+
 use components::layout::app::start_webui_app;
 
-mod components;
+pub mod components;
 
 /// Data Types
 pub mod data_types;
@@ -15,7 +17,7 @@ pub mod data_types;
 /// 
 /// example
 /// ```rust,ignore
-/// use webui::data_types::app_config::AppConfig;
+/// use webui::AppConfig;
 /// 
 /// fn main() {
 ///     let app_config: AppConfig = AppConfig {

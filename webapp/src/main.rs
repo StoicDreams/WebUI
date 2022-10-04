@@ -1,4 +1,4 @@
-use webui::data_types::app_config::AppConfig;
+use webui::AppConfig;
 
 fn main() {
     let app_config: AppConfig = AppConfig {

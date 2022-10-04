@@ -9,7 +9,7 @@ pub(crate) fn app_footer() -> Html {
     html! {
         <footer>
             <span>
-                {format!("© {} {}", "2022", app_config.company_name)}
+                {format!("© {} {} All Rights Reserved", "2022", app_config.company_name)}
             </span>
         </footer>
     }

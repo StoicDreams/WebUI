@@ -1,4 +1,4 @@
-use crate::AppConfig;
+use crate::{AppConfig, Paper };
 use yew::{function_component, html, use_context};
 
 /// App header component
@@ -8,7 +8,7 @@ pub(crate) fn app_header() -> Html {
 
     html! {
         <header>
-            { app_config.app_name }
+            <Paper>{ app_config.app_name }</Paper>
         </header>
     }
 }
