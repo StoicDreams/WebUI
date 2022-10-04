@@ -77,7 +77,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.1.17"
+webui = "0.1.18"
 ```
 
 Install webui executable - this will be used to build your boilerplate static files.
@@ -100,13 +100,14 @@ Certain files are considered static and are not meant to be manually updated. Th
 
 Other files are considered starter files and will not overwrite an existing file during updates. If you want to update to the latest starter file, then you will need to delete or rename your existing file - recommend renaming file, such as postfixing .bck to the file name, so you can copy over your customizations to the new Web UI file once it's created.
 
-| File | Starter | Static |
-| --- | :---:| :---: |
-| index.html | X | |
-| webui.css | | X |
-| app.webmanifest | X | |
-| robots.txt | X | |
-| Logo.svg | X | |
+| File | Starter | Static | Details |
+| --- | :---:| :---: | --- |
+| index.html | X | | Update metadata information and add any links for extended js/css functionality. |
+| webui.css | | X | Base styles, do not edit. |
+| app.webmanifest | X | | Update with information about your app. This is used for installable SPAs. |
+| robots.txt | X | | Update as needed to manage search bot rules. |
+| Logo.svg | X | | Placeholder logo. Update with your own.
+| service-worker.js | X | | Basic service worker for file caching, also required for installable SPA apps. |
 
 ### Run Dev Server for Testing
 
