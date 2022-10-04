@@ -1,4 +1,5 @@
 
+/// Struct holding App/Website configuration details.
 #[derive(Clone, Debug, PartialEq)]
 pub struct AppConfig {
     pub app_name: String,

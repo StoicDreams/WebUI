@@ -1,6 +1,7 @@
 use yew::{function_component, html, use_context};
 use crate::AppConfig;
 
+/// App footer component
 #[function_component(AppFooter)]
 pub(crate) fn app_footer() -> Html {
     let app_config = use_context::<AppConfig>().expect("no app config found");
