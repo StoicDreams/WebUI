@@ -16,7 +16,7 @@ fn main() {
 	run_ma("git", &["commit", "-m", &args.commit]);
 	run_ma("git", &["push", "-u", "origin", "main"]);
 	run("pwsh", "./IncrementVersion.ps1");
-	run("cargo", "publish");
+	run_ma("cargo", &["publish","-p","webui"]);
 	run("echo", "Finished Successfully");
 }
 
