@@ -2,6 +2,7 @@
 
 members = [
     "webui",
+	"webuisave",
 	"webapp",
 ]
 
