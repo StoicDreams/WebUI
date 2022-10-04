@@ -12,10 +12,10 @@ fn main() {
 	run("echo", &format!("Commit Messge: {}", &args.commit));
 	run("cargo", "build");
 	run("cargo", "test");
+	run("pwsh", "./IncrementVersion.ps1");
 	run_ma("git", &["add", "-A"]);
 	run_ma("git", &["commit", "-m", &args.commit]);
 	run_ma("git", &["push", "-u", "origin", "main"]);
-	run("pwsh", "./IncrementVersion.ps1");
 	run_ma("cargo", &["publish","-p","webui"]);
 	run("echo", "Finished Successfully");
 }
