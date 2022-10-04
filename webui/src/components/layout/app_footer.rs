@@ -1,5 +1,5 @@
 use yew::{function_component, html, use_context};
-use crate::AppConfig;
+use crate::{ AppConfig, Paper };
 
 /// App footer component
 #[function_component(AppFooter)]
@@ -8,9 +8,17 @@ pub(crate) fn app_footer() -> Html {
 
     html! {
         <footer>
-            <span>
+            <Paper class="grow" />
+            <Paper>
                 {format!("© {} {} All Rights Reserved", "2022", app_config.company_name)}
-            </span>
+            </Paper>
+            <Paper class="grow" />
+            if !app_config.hide_powered_by {
+                <Paper>
+                    <sup>{"Powered by "}</sup>
+                    <a href="https://webui.stoicdreams.com">{"Web UI"}</a>
+                </Paper>
+            }
         </footer>
     }
 }

@@ -6,4 +6,5 @@ pub struct AppConfig {
     pub company_name: String,
     pub company_home_url: String,
     pub domain: String,
+    pub hide_powered_by: bool,
 }

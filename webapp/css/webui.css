@@ -19,6 +19,7 @@
 	--color-danger-offset: var(--color-white);
 	--color-title: #b13b3b;
 	--color-title-offset: var(--color-white);
+	--color-shade: rgba(125,125,125,0.2);
 
 	--padding: 5px;
 	--htag-font-size: 1.5rem;
@@ -106,13 +107,28 @@ header {
 	padding: var(--padding);
 }
 
-footer {
+#app > footer {
+	display: flex;
 	position: absolute;
 	left: 0;
 	bottom: 0;
 	width: 100%;
 	text-align: center;
 	font-size: 0.8rem;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: var(--padding);
+	background-color: var(--color-shade);
+	padding: calc(var(--padding) * 0.5) calc(var(--padding) * 1.5);
+}
+
+a:link,
+a:visited,
+a:focus,
+a:active {
+	color: inherit;
 }
 
 .paper {
@@ -126,6 +142,8 @@ footer {
 .d-inlineblock { display: inline-block; }
 .d-inlineflex { display: inline-flex; }
 .d-inlineflexbox { display: inline-flexbox; }
+
+.grow { flex-grow: 1; }
 
 .pa-0 { padding: 0; }
 .pa-1 { padding: var(--padding); }

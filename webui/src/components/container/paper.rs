@@ -5,7 +5,10 @@ use yew::{function_component, html, Properties, Children, Classes};
 pub struct PaperProps {
     #[prop_or_default]
     pub elevation: u8,
+    #[prop_or_default]
     pub children: Children,
+    #[prop_or_default]
+    pub class: String,
 }
 
 /// Common container component
@@ -16,6 +19,10 @@ pub fn paper(props: &PaperProps) -> Html {
 
     if props.elevation > 0 {
         classes.push(format!("elevation-{}", props.elevation));
+    }
+
+    if !props.class.is_empty() {
+        classes.push(&props.class);
     }
 
     html! {
