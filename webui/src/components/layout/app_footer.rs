@@ -1,5 +1,5 @@
+use crate::{AppConfig, Paper};
 use yew::{function_component, html, use_context};
-use crate::{ AppConfig, Paper };
 
 /// App footer component
 #[function_component(AppFooter)]

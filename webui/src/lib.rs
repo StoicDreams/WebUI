@@ -3,8 +3,8 @@
 //! `webui` is a website framework for building webassembly SPA websites quickly and easily.
 //! Development is just getting started, so we do not recommend using at this point for anything more than experimenting.
 
-pub use crate::data_types::app_config::AppConfig;
 pub use crate::components::container::paper::Paper;
+pub use crate::data_types::app_config::AppConfig;
 
 use components::layout::app::start_webui_app;
 
@@ -14,11 +14,11 @@ pub mod components;
 pub mod data_types;
 
 /// Initializer to run in app main() to start website
-/// 
+///
 /// example
 /// ```rust,ignore
 /// use webui::AppConfig;
-/// 
+///
 /// fn main() {
 ///     let app_config: AppConfig = AppConfig {
 ///         app_name: "Web UI".to_owned(),

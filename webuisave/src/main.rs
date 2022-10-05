@@ -1,36 +1,39 @@
-use std::process::Command;
 use clap::Parser;
+use std::process::Command;
 
 #[derive(Parser, Debug)]
 struct Args {
-	#[arg(short, long)]
-	commit: String,
+    #[arg(short, long)]
+    commit: String,
 }
 
 fn main() {
-	let args = Args::parse();
-	run("echo", &format!("Commit Messge: {}", &args.commit));
-	run("cargo", "build");
-	run("cargo", "test");
-	run("pwsh", "./IncrementVersion.ps1");
-	run_ma("git", &["add", "-A"]);
-	run_ma("git", &["commit", "-m", &args.commit]);
-	run_ma("git", &["push", "-u", "origin", "main"]);
-	run_ma("cargo", &["publish","-p","webui"]);
-	run("echo", "Finished Successfully");
+    let args = Args::parse();
+    run("echo", &format!("Commit Messge: {}", &args.commit));
+    run("cargo", "build");
+    run("cargo", "test");
+    run("pwsh", "./IncrementVersion.ps1");
+    run_ma("git", &["add", "-A"]);
+    run_ma("git", &["commit", "-m", &args.commit]);
+    run_ma("git", &["push", "-u", "origin", "main"]);
+    run_ma("cargo", &["publish", "-p", "webui"]);
+    run("echo", "Finished Successfully");
 }
 
-fn run(command:&str, commandarg: &str) {
-	run_ma(command, &[commandarg]);
+fn run(command: &str, commandarg: &str) {
+    run_ma(command, &[commandarg]);
 }
 
-fn run_ma(command:&str, commandargs: &[&str]) {
-	let output = Command::new(command).args(commandargs).output().expect("BAD");
+fn run_ma(command: &str, commandargs: &[&str]) {
+    let output = Command::new(command)
+        .args(commandargs)
+        .output()
+        .expect("BAD");
 
-	if !output.status.success() {
-		let s = String::from_utf8_lossy(&output.stderr);
-		panic!("Failed command {}:\n{}", command, s);
-	}
+    if !output.status.success() {
+        let s = String::from_utf8_lossy(&output.stderr);
+        panic!("Failed command {}:\n{}", command, s);
+    }
 
-	println!("{}", String::from_utf8_lossy(&output.stdout));
+    println!("{}", String::from_utf8_lossy(&output.stdout));
 }

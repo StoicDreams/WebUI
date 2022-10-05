@@ -1,4 +1,3 @@
-
 /// Module holding application entry component App
 pub(crate) mod app;
 

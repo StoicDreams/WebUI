@@ -1,4 +1,4 @@
-use crate::{AppConfig, Paper };
+use crate::{AppConfig, Paper};
 use yew::{function_component, html, use_context};
 
 /// App header component

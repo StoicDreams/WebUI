@@ -83,7 +83,7 @@ Install webui executable from local development.
 cargo install --path webui
 ```
 
-Delete any starter files that need refeshing (index.html, etc) and run `webui` 
+Delete any starter files that need refeshing (index.html, etc) and run `webui`
 
 ```bash
 # From the webapp folder
@@ -117,7 +117,6 @@ Then, run the publish command from the `webui` folder to publish.
 # From the webui folder
 cargo publish
 ```
-
 
 ## Other Resources
 

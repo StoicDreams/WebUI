@@ -1,4 +1,4 @@
-use yew::{function_component, html, Properties, Children, Classes};
+use yew::{function_component, html, Children, Classes, Properties};
 
 /// Properties for Paper component
 #[derive(Properties, PartialEq)]

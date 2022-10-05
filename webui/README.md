@@ -42,7 +42,6 @@ rustup update
 
 Install [Trunk](https://trunkrs.dev/) executable - this will be used to run your website locally for testing in your browser.
 
-
 ```bash
 cargo install trunk
 ```
@@ -77,7 +76,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.1.19"
+webui = "0.1.20"
 ```
 
 Install webui executable - this will be used to build your boilerplate static files.

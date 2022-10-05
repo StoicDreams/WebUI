@@ -1,6 +1,6 @@
 [package]
 name = "webapp"
-version = "0.1.19"
+version = "0.1.20"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 webui = { path = "../webui" }
 yew = "0.19"
+yew-router = "0.16"
 
 [profile.dev]
 opt-level = "s"
