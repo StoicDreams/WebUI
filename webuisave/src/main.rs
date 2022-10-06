@@ -12,9 +12,9 @@ fn main() {
     let args = Args::parse();
     copy_static_files();
     run("echo", &format!("Commit Messge: {}", &args.commit));
+    run("pwsh", "./IncrementVersion.ps1");
     run("cargo", "build");
     run("cargo", "test");
-    run("pwsh", "./IncrementVersion.ps1");
     run_ma("git", &["add", "-A"]);
     run_ma("git", &["commit", "-m", &args.commit]);
     run_ma("git", &["push", "-u", "origin", "main"]);

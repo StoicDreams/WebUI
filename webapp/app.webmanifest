@@ -10,12 +10,8 @@
     {
       "src": "Logo.svg",
       "type": "image/svg+xml",
-      "sizes": "512x512"
-    },
-    {
-      "src": "Logo.svg",
-      "type": "image/svg+xml",
-      "sizes": "192x192"
+      "sizes": "48x48 72x72 96x96 128x128 144x144 192x192 256x256 384x384 512x512",
+      "purpose": "maskable any"
     }
   ]
 }
