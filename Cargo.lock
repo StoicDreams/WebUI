@@ -640,7 +640,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.1.23"
+version = "0.1.24"
 dependencies = [
  "webui",
  "yew",
@@ -649,7 +649,7 @@ dependencies = [
 
 [[package]]
 name = "webui"
-version = "0.1.23"
+version = "0.1.24"
 dependencies = [
  "gloo-net",
  "serde",
