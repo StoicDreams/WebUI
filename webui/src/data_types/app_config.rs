@@ -1,3 +1,4 @@
+use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
 use yew::Html;
 
 /// Struct holding App/Website configuration details.
@@ -9,4 +10,5 @@ pub struct AppConfig {
     pub domain: String,
     pub hide_powered_by: bool,
     pub body_html: fn() -> Html,
+    pub header_left_drawer_toggle: Option<DrawerToggleInfo>,
 }

@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.1.26"
+version = "0.1.27"
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 keywords = ["webassembly", "ui"]
@@ -18,5 +18,8 @@ yew = "0.19"
 yew-agent = "0.1"
 yew-router = "0.16"
 gloo-net = "0.2"
+gloo-utils = "0.1"
 serde = "1.0"
 wasm-bindgen-futures = "0.4"
+log = "0.4"
+console_log = "0.2"

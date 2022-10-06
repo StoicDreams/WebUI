@@ -1,5 +1,7 @@
+use std::option::Option;
 use webui::AppConfig;
 
+mod nav_menu;
 mod page_routes;
 pub(crate) mod pages;
 
@@ -15,6 +17,7 @@ fn setup_app_config() -> AppConfig {
         domain: "StoicDreams.com".to_owned(),
         hide_powered_by: false,
         body_html: page_routes::body_html,
+        header_left_drawer_toggle: Option::Some(nav_menu::nav_menu_info()),
     };
     app_config
 }

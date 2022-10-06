@@ -21,6 +21,7 @@
 	--color-title-offset: var(--color-white);
 	--color-shade: rgba(125,125,125,0.2);
 
+	--corners: 3px;
 	--padding: 5px;
 	--htag-font-size: 1.5rem;
 	--nav-transition-in: 300ms;
@@ -104,11 +105,29 @@ main {
 }
 
 header {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--padding);
 	background-color: var(--color-title);
 	color: var(--color-title-offset);
 	padding: var(--padding);
 }
 
+a:link,
+a:visited,
+a:focus,
+a:active {
+	color: inherit;
+}
+p {
+	padding: 0;
+	margin: 0;
+}
+p:not(:first-child) { margin-top: calc(1.5 * var(--padding)); }
+
+/* Layout Styles */
 #app > footer {
 	display: flex;
 	position: absolute;
@@ -125,20 +144,54 @@ header {
 	background-color: var(--color-shade);
 	padding: calc(var(--padding) * 0.5) calc(var(--padding) * 1.5);
 }
+#app > aside {
+	display: block;
+	position: absolute;
+	overflow: visible;
+}
+#app > aside.top {
+	bottom: 100%;
+	width: 100%;
+	height: 100%;
+	left: 0;
+}
+#app > aside.right {
+	top: 0;
+	width: 100%;
+	height: 100%;
+	left: 100%;
+}
+#app > aside.bottom {
+	top: 100%;
+	width: 100%;
+	height: 100%;
+	left: 0;
+}
+#app > aside.left {
+	top: 0;
+	width: 100%;
+	right: 100%;
+}
 
-a:link,
-a:visited,
-a:focus,
-a:active {
-	color: inherit;
-}
-p {
-	padding: 0;
-	margin: 0;
-}
-p:not(:first-child) { margin-top: calc(1.5 * var(--padding)); }
+/* Helper Classes */
 .paper {
 	border-radius: var(--default-borderradius);
+}
+
+.btn {
+	display: inline-block;
+	text-decoration: none;
+	background-color: var(--color-tertiary);
+	color: var(--color-tertiary-offset);
+	padding: calc(1 * var(--padding)) calc(2 * var(--padding));
+	cursor: pointer;
+	border-radius: var(--corners);
+}
+.btn.toggle {
+
+}
+.btn:disabled {
+	cursor: not-allowed;
 }
 
 .d-block { display: block; }

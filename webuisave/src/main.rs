@@ -1,6 +1,6 @@
 use clap::Parser;
-use std::process::Command;
 use std::fs;
+use std::process::Command;
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -12,6 +12,7 @@ fn main() {
     let args = Args::parse();
     copy_static_files();
     run("pwsh", "./IncrementVersion.ps1");
+    run("cargo", "fmt");
     run("cargo", "update");
     run("cargo", "build");
     run("cargo", "test");
@@ -23,11 +24,15 @@ fn main() {
 }
 
 /// Copy static files from webapp to webui
-/// 
+///
 /// Active dev updates files in webapp.
 /// When saving, we want to copy these files over to their counterpart in webui.
 fn copy_static_files() {
-    fs::copy("webapp/css/webui.css", "webui/src/static_files/css/webui.css").unwrap();
+    fs::copy(
+        "webapp/css/webui.css",
+        "webui/src/static_files/css/webui.css",
+    )
+    .unwrap();
 }
 
 fn run(command: &str, commandarg: &str) {

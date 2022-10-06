@@ -6,9 +6,11 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="robots" content="index, follow">
 		<base href="/" />
+		<script type="text/javascript">
+			navigator.serviceWorker.register('service-worker.js');
+		</script>
 		<link href="Logo.svg" rel="icon" type="image/svg+xml" sizes="any" />
 		<link rel="manifest" href="app.webmanifest">
-		<meta name="theme-color" content="#FF2E46" />
 		
 		<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&amp;display=swap" rel="stylesheet" />
 		<link data-trunk href="css/webui.css" rel="css" />
@@ -18,6 +20,7 @@
 		<link data-trunk href="Logo.svg" rel="copy-file" />
 		<link data-trunk href="service-worker.js" rel="copy-file" />
 
+		<meta name="theme-color" content="#FF2E46" />
 		<!--Other useful meta tags
 		<meta name="author" content="">
 		<meta name="description" content="">
@@ -33,9 +36,7 @@
 		<meta name="twitter:description" content="">
 		<meta name="twitter:image" content="">
 		-->
-		<script type="text/javascript">
-			navigator.serviceWorker.register('service-worker.js');
-		</script>
+		<script src="https://kit.fontawesome.com/2864fb7787.js" crossorigin="anonymous"></script>
 	</head>
 	<body></body>
 </html>
