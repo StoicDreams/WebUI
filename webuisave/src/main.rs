@@ -10,10 +10,10 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
+    _ = fs::remove_file("Cargo.lock");
     copy_static_files();
     run("echo", &format!("Commit Messge: {}", &args.commit));
     run("pwsh", "./IncrementVersion.ps1");
-    run("cargo", "update");
     run("cargo", "build");
     run("cargo", "test");
     run_ma("git", &["add", "-A"]);
