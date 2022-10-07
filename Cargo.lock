@@ -106,16 +106,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "console_log"
-version = "0.2.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "501a375961cef1a0d44767200e66e4a559283097e91d0730b1d75dfb2f8a1494"
-dependencies = [
- "log",
- "web-sys",
-]
-
-[[package]]
 name = "futures-channel"
 version = "0.3.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -607,7 +597,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.1.35"
+version = "0.1.36"
 dependencies = [
  "gloo-net",
  "gloo-utils",
@@ -621,13 +611,11 @@ dependencies = [
 
 [[package]]
 name = "webui"
-version = "0.1.35"
+version = "0.1.36"
 dependencies = [
- "console_log",
  "gloo-net",
  "gloo-utils",
  "js-sys",
- "log",
  "serde",
  "wasm-bindgen",
  "wasm-bindgen-futures",

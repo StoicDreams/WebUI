@@ -31,26 +31,48 @@ impl Component for AppHeader {
                 self.app_drawer_agent.send(message);
                 false
             }
+            AppDrawerReceiverMessage::None => false,
         }
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
-        //js! {
-        //    console.log("Hello World");
-        //};
+        let left_drawer_info = self.app_config.header_left_drawer_toggle.clone();
         html! {
             <header>
-                {match self.app_config.header_left_drawer_toggle.clone() {
-                    Some(drawer_info) => {
-                        let message = drawer_info.drawer_content as usize;
-                        html! {
-                            <a class="btn toggle elevation-1" onclick={ctx.link().callback(move |_| AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(message.to_owned())))}>
-                                {(drawer_info.display)()}
-                            </a>
+                <a class="logo" onclick={ctx.link().callback(
+                    move |_| {
+                        match left_drawer_info.clone() {
+                            Some(drawer_info) => {
+                                let message = drawer_info.drawer_content as usize;
+                                AppDrawerReceiverMessage::AppDrawerMessage(
+                                    AppDrawerRequest::ToggleLeftDrawer(
+                                        message.to_owned()
+                                    )
+                                )
+                            },
+                            None => AppDrawerReceiverMessage::None,
                         }
-                    },
-                    None => html! {""}
-                }}
+                    }
+                )}>
+                    {match &self.app_config.header_logo_src {
+                        Some(logo) => {
+                            html! {
+                                <img src={logo.to_string()} title={format!("{} logo", self.app_config.company_name)} />
+                            }
+                        },
+                        None => html! {}
+                    }}
+                    {match self.app_config.header_left_drawer_toggle.clone() {
+                        Some(drawer_info) => {
+                            html! {
+                                <a class="btn toggle elevation-1">
+                                    {(drawer_info.display)()}
+                                </a>
+                            }
+                        },
+                        None => html! {}
+                    }}
+                </a>
                 <Paper>{ self.app_config.app_name.clone() }</Paper>
             </header>
         }

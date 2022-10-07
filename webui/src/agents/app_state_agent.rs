@@ -3,28 +3,25 @@ use std::collections::HashSet;
 use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
-pub(crate) enum AppDrawerRequest {
-    ToggleTopDrawer(usize),
-    ToggleRightDrawer(usize),
-    ToggleBottomDrawer(usize),
-    ToggleLeftDrawer(usize),
+pub enum AppStateRequest {
+    PathUpdate(String),
 }
 
-pub(crate) enum AppDrawerReceiverMessage {
-    AppDrawerMessage(AppDrawerRequest),
+pub enum AppStateReceiverMessage {
+    AppStateMessage(AppStateRequest),
     None,
 }
 
-pub(crate) struct AppDrawerAgent {
-    link: AgentLink<AppDrawerAgent>,
+pub struct AppStateAgent {
+    link: AgentLink<AppStateAgent>,
     subscribers: HashSet<HandlerId>,
 }
 
-impl Agent for AppDrawerAgent {
+impl Agent for AppStateAgent {
     type Reach = Context<Self>;
     type Message = ();
-    type Input = AppDrawerRequest;
-    type Output = AppDrawerRequest;
+    type Input = AppStateRequest;
+    type Output = AppStateRequest;
 
     fn create(link: AgentLink<Self>) -> Self {
         Self {

@@ -20,6 +20,8 @@
 	--color-title: #b13b3b;
 	--color-title-offset: var(--color-white);
 	--color-shade: rgba(125,125,125,0.2);
+	--color-active: var(--color-info);
+	--color-active-offset: var(--color-info-offset);
 
 	--backdrop-blur: blur(4px);
 	--transition-speed: 180ms;
@@ -32,6 +34,8 @@
 	--window-height: 900px;
 	--main-width: 900px;
 	--main-height: 900px;
+	--header-height: 0px;
+	--footer-height: 0px;
 	--elevation-0: none;
 	--elevation-1: 0px 2px 1px -1px rgba(0,0,0,0.2),0px 1px 1px 0px rgba(0,0,0,0.14),0px 1px 3px 0px rgba(0,0,0,0.12);
 	--elevation-2: 0px 3px 1px -2px rgba(0,0,0,0.2),0px 2px 2px 0px rgba(0,0,0,0.14),0px 1px 5px 0px rgba(0,0,0,0.12);
@@ -148,7 +152,18 @@ p:not(:first-child) { margin-top: calc(1.5 * var(--padding)); }
 }
 
 /* Helper Classes */
-
+header > .logo {
+	display: flex;
+	gap: var(--padding);
+	height: 100%;
+	width: auto;
+	align-items: center;
+	margin-right: var(--padding);
+}
+header > .logo > img {
+	height: 2em;
+	width: auto;
+}
 aside.app-drawer {
 	position: absolute;
 	overflow: visible;
@@ -271,6 +286,10 @@ aside.app-drawer.left {
 	align-items: center;
 	padding: var(--padding);
 	text-decoration: none;
+}
+.navlink.active {
+	background-color: var(--color-active);
+	color: var(--color-active-offset);
 }
 
 .btn {

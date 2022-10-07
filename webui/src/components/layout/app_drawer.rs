@@ -76,6 +76,7 @@ impl Component for AppDrawer {
                 }
                 is_open != self.is_open
             }
+            AppDrawerReceiverMessage::None => false,
         }
     }
 

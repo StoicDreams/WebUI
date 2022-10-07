@@ -1,21 +1,56 @@
 use crate::{
-    data_types::{
-        app_config,
-        nav_route::{NavLinkInfo, NavRoute},
-    },
-    AppConfig,
+    app_state_agent::{AppStateAgent, AppStateReceiverMessage, AppStateRequest},
+    data_types::nav_route::{NavLinkInfo, NavRoute},
+    interop, AppConfig,
 };
-use yew::{function_component, html, use_context, Html};
+use yew::{html, Callback, Component, Html};
+use yew_agent::{Bridge, Bridged};
 
-/// App page body component - page specific content is rendered here
-#[function_component(AppBody)]
-pub(crate) fn app_body() -> Html {
-    let app_config = use_context::<AppConfig>().expect("no app config found");
+pub(crate) struct AppBody {
+    app_state_agent: Box<dyn Bridge<AppStateAgent>>,
+    current_path: String,
+}
 
-    html! {
-        <main>
-            {(get_page_content(app_config.nav_routing, "/"))()}
-        </main>
+impl Component for AppBody {
+    type Message = AppStateReceiverMessage;
+    type Properties = ();
+
+    fn create(ctx: &yew::Context<Self>) -> Self {
+        Self {
+            app_state_agent: AppStateAgent::bridge(
+                ctx.link()
+                    .callback(AppStateReceiverMessage::AppStateMessage),
+            ),
+            current_path: interop::get_path().to_lowercase(),
+        }
+    }
+
+    fn update(&mut self, _ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
+        match msg {
+            AppStateReceiverMessage::AppStateMessage(message) => match message {
+                AppStateRequest::PathUpdate(path) => {
+                    if path.to_lowercase() == self.current_path {
+                        return false;
+                    }
+                    self.current_path = path.to_lowercase();
+                    return true;
+                }
+            },
+            AppStateReceiverMessage::None => false,
+        }
+    }
+
+    fn view(&self, ctx: &yew::Context<Self>) -> Html {
+        let (app_config, _) = ctx
+            .link()
+            .context::<AppConfig>(Callback::noop())
+            .expect("no app config found");
+        let path = self.current_path.to_owned();
+        html! {
+            <main>
+                {(get_page_content(app_config.nav_routing, &path))()}
+            </main>
+        }
     }
 }
 

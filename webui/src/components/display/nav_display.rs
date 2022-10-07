@@ -1,7 +1,7 @@
 use crate::{NavLink, NavRoute, Paper};
 use yew::{function_component, html, Classes, Html, Properties};
 
-/// Properties for Paper component
+/// Properties for NavDislay component
 #[derive(Properties, PartialEq)]
 pub struct NavDisplayProps {
     #[prop_or_default]
@@ -10,7 +10,7 @@ pub struct NavDisplayProps {
     pub class: String,
 }
 
-/// Common container component
+/// Component for display a navigation tree
 #[function_component(NavDisplay)]
 pub fn nav_display(props: &NavDisplayProps) -> Html {
     let classes = &mut Classes::new();
