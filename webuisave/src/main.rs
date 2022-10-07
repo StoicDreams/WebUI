@@ -42,7 +42,7 @@ fn run(command: &str, commandarg: &str) {
 }
 
 fn run_ma(command: &str, commandargs: &[&str]) {
-    print!("Running Command: {} {:?}", command, commandargs);
+    println!("Running Command: {} {:?}", command, commandargs);
     let output = Command::new(command)
         .args(commandargs)
         .output()
