@@ -23,7 +23,7 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
     nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
         "Home",
         "/",
-        "fa-solid fa-bars",
+        "fa-solid fa-house",
         roles::PUBLIC,
         page_home,
     )));
