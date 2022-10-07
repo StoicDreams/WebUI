@@ -43,7 +43,7 @@ rustup update
 Install [Trunk](https://trunkrs.dev/) executable - this will be used to run your website locally for testing in your browser.
 
 ```bash
-cargo install trunk
+cargo install trunk wasm-bindgen-cli
 ```
 
 Add waxm build target
@@ -76,7 +76,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.1.27"
+webui = "0.1.33"
 ```
 
 Install webui executable - this will be used to build your boilerplate static files.

@@ -1,7 +1,5 @@
-use crate::page_routes::Route;
-use webui::data_types::drawer_toggle_info::DrawerToggleInfo;
-use yew::{html, Html};
-use yew_router::prelude::*;
+use webui::{data_types::drawer_toggle_info::DrawerToggleInfo, NavLink};
+use yew::prelude::*;
 
 pub fn nav_menu_info() -> DrawerToggleInfo {
     DrawerToggleInfo {
@@ -11,15 +9,22 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
             }
         },
         class: "".to_string(),
-        drawer_content: nav_menu,
+        drawer_content: nav_menu_render,
     }
 }
 
-pub(crate) fn nav_menu() -> Html {
+fn nav_menu_render() -> Html {
+    html! {
+        <NavMenu />
+    }
+}
+
+#[function_component(NavMenu)]
+fn nav_menu() -> Html {
     html! {
         <>
-            <Link<Route> to={Route::Home}>{"Home"}</Link<Route>>
-            <Link<Route> to={Route::About}>{"About"}</Link<Route>>
+            <NavLink to="/">{"Home"}</NavLink>
+            <NavLink to="/about">{"about"}</NavLink>
         </>
     }
 }

@@ -1,24 +1,27 @@
 use crate::{
-    agents::app_drawer_agent::{AppDrawerAgent, Request},
-    AppConfig, Paper,
+    agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
+    AppConfig, NavLink, Paper,
 };
 use yew::{html, Callback, Component, Context, Html};
 use yew_agent::{Dispatched, Dispatcher};
-
-pub(crate) enum HeaderAction {
-    ToggleTopDrawer(usize),
-    ToggleRightDrawer(usize),
-    ToggleBottomDrawer(usize),
-    ToggleLeftDrawer(usize),
-}
+use yew_router::Routable;
 
 pub(crate) struct AppHeader {
-    event_bus: Dispatcher<AppDrawerAgent>,
+    app_drawer_agent: Dispatcher<AppDrawerAgent>,
     app_config: AppConfig,
 }
 
+/// Website route handling definition
+#[derive(Clone, Routable, PartialEq)]
+pub enum Route {
+    #[at("/")]
+    Home,
+    #[at("/about")]
+    About,
+}
+
 impl Component for AppHeader {
-    type Message = HeaderAction;
+    type Message = AppDrawerReceiverMessage;
     type Properties = ();
 
     fn create(_ctx: &Context<Self>) -> Self {
@@ -28,32 +31,30 @@ impl Component for AppHeader {
             .expect("no app config found");
         Self {
             app_config,
-            event_bus: AppDrawerAgent::dispatcher(),
+            app_drawer_agent: AppDrawerAgent::dispatcher(),
         }
     }
 
     fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            HeaderAction::ToggleLeftDrawer(message) => {
-                log::info!("Header -> Toggle Left Drawer");
-                self.event_bus
-                    .send(Request::AppDrawerAgentMsg(message.to_owned()));
+            AppDrawerReceiverMessage::AppDrawerMessage(message) => {
+                self.app_drawer_agent.send(message);
                 false
             }
-            HeaderAction::ToggleTopDrawer(_) => todo!(),
-            HeaderAction::ToggleRightDrawer(_) => todo!(),
-            HeaderAction::ToggleBottomDrawer(_) => todo!(),
         }
     }
 
     fn view(&self, ctx: &Context<Self>) -> Html {
+        //js! {
+        //    console.log("Hello World");
+        //};
         html! {
             <header>
                 {match self.app_config.header_left_drawer_toggle.clone() {
                     Some(drawer_info) => {
                         let message = drawer_info.drawer_content as usize;
                         html! {
-                            <a class="btn toggle elevation-1" onclick={ctx.link().callback(move |_| HeaderAction::ToggleLeftDrawer(message.to_owned()))}>
+                            <a class="btn toggle elevation-1" onclick={ctx.link().callback(move |_| AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(message.to_owned())))}>
                                 {(drawer_info.display)()}
                             </a>
                         }

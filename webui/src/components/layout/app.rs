@@ -1,41 +1,54 @@
 use super::app_body::AppBody;
-use super::app_drawer_bottom::AppDrawerBottom;
-use super::app_drawer_left::AppDrawerLeft;
-use super::app_drawer_right::AppDrawerRight;
-use super::app_drawer_top::AppDrawerTop;
+use super::app_contexts::AppContexts;
+use super::app_drawer::AppDrawer;
 use super::app_footer::AppFooter;
 use super::app_header::AppHeader;
 use crate::data_types::app_config::AppConfig;
-use yew::{function_component, html, use_state, ContextProvider, Properties};
+use yew::prelude::*;
+use yew_router::prelude::*;
 
 /// Properties for AppConfig component
 #[derive(Properties, PartialEq)]
-pub struct AppProps {
+pub(crate) struct AppProps {
     pub config: AppConfig,
 }
 
+/// Website route handling definition
+#[derive(Clone, Routable, PartialEq)]
+pub enum Route {
+    #[at("/")]
+    Home,
+    #[at("/about")]
+    About,
+}
 /// Inner process for starting website
 pub(crate) fn start_webui_app(app_config: AppConfig) {
     let props = AppProps { config: app_config };
     yew::start_app_with_props::<App>(props);
 }
+struct App;
 
-/// Root level component for application entry
-#[function_component(App)]
-pub(crate) fn app(props: &AppProps) -> Html {
-    let ctx = use_state(|| props.config.clone());
+impl Component for App {
+    type Message = ();
+    type Properties = AppProps;
 
-    html! {
-        <div id="app">
-            <ContextProvider<AppConfig> context={(*ctx).clone()}>
-                <AppHeader />
-                <AppBody />
-                <AppFooter />
-                <AppDrawerTop />
-                <AppDrawerRight />
-                <AppDrawerBottom />
-                <AppDrawerLeft />
-            </ContextProvider<AppConfig>>
-        </div>
+    fn create(ctx: &Context<Self>) -> Self {
+        Self
+    }
+    fn view(&self, ctx: &Context<Self>) -> Html {
+        let props = ctx.props();
+        html! {
+            <div id="app">
+                <AppContexts app_config={props.config.clone()}>
+                    <AppHeader />
+                    <AppBody />
+                    <AppFooter />
+                    <AppDrawer class="top" />
+                    <AppDrawer class="right" />
+                    <AppDrawer class="bottom" />
+                    <AppDrawer class="left" />
+                </AppContexts>
+            </div>
+        }
     }
 }

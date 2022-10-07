@@ -21,6 +21,8 @@
 	--color-title-offset: var(--color-white);
 	--color-shade: rgba(125,125,125,0.2);
 
+	--backdrop-blur: blur(4px);
+	--transition-speed: 180ms;
 	--corners: 3px;
 	--padding: 5px;
 	--htag-font-size: 1.5rem;
@@ -93,7 +95,7 @@ html, body, #app {
 	letter-spacing: var(--typography-letterspacing);
 }
 main, header, footer, iframe,
-aside.top, aside.right, aside.bottom, aside.left {
+aside, section, div {
 	display: block;
 }
 
@@ -144,36 +146,120 @@ p:not(:first-child) { margin-top: calc(1.5 * var(--padding)); }
 	background-color: var(--color-shade);
 	padding: calc(var(--padding) * 0.5) calc(var(--padding) * 1.5);
 }
-#app > aside {
-	display: block;
+
+/* Helper Classes */
+
+aside.app-drawer {
 	position: absolute;
 	overflow: visible;
+	z-index: 500;
 }
-#app > aside.top {
+aside.app-drawer.top {
 	bottom: 100%;
 	width: 100%;
 	height: 100%;
 	left: 0;
 }
-#app > aside.right {
+aside.app-drawer.right {
 	top: 0;
 	width: 100%;
 	height: 100%;
 	left: 100%;
 }
-#app > aside.bottom {
+aside.app-drawer.bottom {
 	top: 100%;
 	width: 100%;
 	height: 100%;
 	left: 0;
 }
-#app > aside.left {
+aside.app-drawer.left {
 	top: 0;
 	width: 100%;
+	height: 100%;
 	right: 100%;
 }
+.app-drawer > .page-cover {
+	display: block;
+	position: absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	background-color: var(--color-shade);
+	backdrop-filter: var(--backdrop-blur);
+	-webkit-backdrop-filter: var(--backdrop-blur);
+}
+.app-drawer > .drawer-placement {
+	display: block;
+	position: absolute;
+	width: min-content;
+	height: min-content;
+	max-width: 100%;
+	max-height: 100%;
+	overflow: visible;
+}
+.app-drawer .drawer-content {
+	display: flex;
+	height: 100%;
+	width: 100%;
+	padding: var(--padding);
+	position: relative;
+	flex-direction: column;
+	gap: var(--padding);
+	transition: all var(--transition-speed) ease-in-out;
+	background-color: var(--site-background-color);
+	color: var(--site-background-offset);
+	overflow: auto;
+}
+.app-drawer.open.top > .page-cover {
+	top:100%;
+}
+.app-drawer.open.right > .page-cover {
+	left:-100%;
+}
+.app-drawer.open.bottom > .page-cover {
+	top:-100%;
+}
+.app-drawer.open.left > .page-cover {
+	left:100%;
+}
+.app-drawer.top > .drawer-placement,
+.app-drawer.bottom > .drawer-placement {
+	width: 100%;
+}
+.app-drawer.right > .drawer-placement,
+.app-drawer.left > .drawer-placement {
+	height: 100%;
+}
+.app-drawer.left > .drawer-placement {
+	top: 0;
+	right: 0;
+}
+.app-drawer.top > .drawer-placement > .drawer-content {
+	top: 0;
+}
+.app-drawer.top.open > .drawer-placement > .drawer-content {
+	top: 100%;
+}
+.app-drawer.right > .drawer-placement > .drawer-content {
+	right: 0;
+}
+.app-drawer.right.open > .drawer-placement > .drawer-content {
+	right: 100%;
+}
+.app-drawer.bottom > .drawer-placement > .drawer-content {
+	bottom: 0;
+}
+.app-drawer.bottom.open > .drawer-placement > .drawer-content {
+	bottom: 100%;
+}
+.app-drawer.left > .drawer-placement > .drawer-content {
+	left: 0;
+}
+.app-drawer.left.open > .drawer-placement > .drawer-content {
+	left: 100%;
+}
 
-/* Helper Classes */
 .paper {
 	border-radius: var(--default-borderradius);
 }
@@ -187,9 +273,7 @@ p:not(:first-child) { margin-top: calc(1.5 * var(--padding)); }
 	cursor: pointer;
 	border-radius: var(--corners);
 }
-.btn.toggle {
 
-}
 .btn:disabled {
 	cursor: not-allowed;
 }

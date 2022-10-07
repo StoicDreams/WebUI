@@ -4,12 +4,15 @@
 //! Development is just getting started, so we do not recommend using at this point for anything more than experimenting.
 
 pub use crate::components::container::paper::Paper;
+pub use crate::components::touch::navlink::NavLink;
 pub use crate::data_types::app_config::AppConfig;
+pub use crate::interop::bindings;
 
 use components::layout::app::start_webui_app;
 
 pub mod agents;
 pub mod components;
+pub mod interop;
 
 /// Data Types
 pub mod data_types;
@@ -34,6 +37,5 @@ pub mod data_types;
 /// }
 /// ```
 pub fn start_app(app_config: AppConfig) {
-    console_log::init_with_level(log::Level::Debug);
     start_webui_app(app_config);
 }

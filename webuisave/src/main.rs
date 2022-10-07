@@ -16,6 +16,7 @@ fn main() {
     run("cargo", "update");
     run("cargo", "build");
     run("cargo", "test");
+    run_ma("cargo", &["install", "--path", "webui"]);
     run_ma("git", &["add", "-A"]);
     run_ma("git", &["commit", "-m", &args.commit]);
     run_ma("git", &["push", "-u", "origin", "main"]);
@@ -33,6 +34,7 @@ fn copy_static_files() {
         "webui/src/static_files/css/webui.css",
     )
     .unwrap();
+    fs::copy("webapp/js/webui.js", "webui/src/static_files/js/webui.js").unwrap();
 }
 
 fn run(command: &str, commandarg: &str) {
@@ -40,6 +42,7 @@ fn run(command: &str, commandarg: &str) {
 }
 
 fn run_ma(command: &str, commandargs: &[&str]) {
+    print!("Running Command: {} {:?}", command, commandargs);
     let output = Command::new(command)
         .args(commandargs)
         .output()

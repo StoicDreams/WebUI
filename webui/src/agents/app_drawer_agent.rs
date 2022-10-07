@@ -2,9 +2,16 @@ use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
 use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
-#[derive(Serialize, Deserialize, Debug)]
-pub(crate) enum Request {
-    AppDrawerAgentMsg(usize),
+#[derive(Clone, Copy, Serialize, Deserialize, Debug)]
+pub(crate) enum AppDrawerRequest {
+    ToggleTopDrawer(usize),
+    ToggleRightDrawer(usize),
+    ToggleBottomDrawer(usize),
+    ToggleLeftDrawer(usize),
+}
+
+pub(crate) enum AppDrawerReceiverMessage {
+    AppDrawerMessage(AppDrawerRequest),
 }
 
 pub(crate) struct AppDrawerAgent {
@@ -15,8 +22,8 @@ pub(crate) struct AppDrawerAgent {
 impl Agent for AppDrawerAgent {
     type Reach = Context<Self>;
     type Message = ();
-    type Input = Request;
-    type Output = usize;
+    type Input = AppDrawerRequest;
+    type Output = AppDrawerRequest;
 
     fn create(link: AgentLink<Self>) -> Self {
         Self {
@@ -28,13 +35,8 @@ impl Agent for AppDrawerAgent {
     fn update(&mut self, _msg: Self::Message) {}
 
     fn handle_input(&mut self, msg: Self::Input, _id: HandlerId) {
-        match msg {
-            Request::AppDrawerAgentMsg(s) => {
-                log::info!("Agent:Toggle Left Drawer");
-                for sub in self.subscribers.iter() {
-                    self.link.respond(*sub, s);
-                }
-            }
+        for sub in self.subscribers.iter() {
+            self.link.respond(*sub, msg);
         }
     }
 
