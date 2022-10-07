@@ -5,7 +5,6 @@ use super::app_footer::AppFooter;
 use super::app_header::AppHeader;
 use crate::data_types::app_config::AppConfig;
 use yew::prelude::*;
-use yew_router::prelude::*;
 
 /// Properties for AppConfig component
 #[derive(Properties, PartialEq)]
@@ -13,14 +12,6 @@ pub(crate) struct AppProps {
     pub config: AppConfig,
 }
 
-/// Website route handling definition
-#[derive(Clone, Routable, PartialEq)]
-pub enum Route {
-    #[at("/")]
-    Home,
-    #[at("/about")]
-    About,
-}
 /// Inner process for starting website
 pub(crate) fn start_webui_app(app_config: AppConfig) {
     let props = AppProps { config: app_config };

@@ -264,6 +264,15 @@ aside.app-drawer.left {
 	border-radius: var(--default-borderradius);
 }
 
+.navlink {
+	display: flex;
+	flex-direction: row;
+	gap: var(--padding);
+	align-items: center;
+	padding: var(--padding);
+	text-decoration: none;
+}
+
 .btn {
 	display: inline-block;
 	text-decoration: none;
@@ -278,6 +287,12 @@ aside.app-drawer.left {
 	cursor: not-allowed;
 }
 
+.nav-group,
+.nav-link {
+	display: block;
+	padding: calc(0.1 * var(--padding));
+}
+
 .d-block { display: block; }
 .d-flex { display: flex; gap: var(--padding); }
 .d-flexbox { display: flexbox; }
@@ -285,7 +300,7 @@ aside.app-drawer.left {
 .d-inlineblock { display: inline-block; }
 .d-inlineflex { display: inline-flex; }
 .d-inlineflexbox { display: inline-flexbox; }
-.d-flex > *:not([width]) {
+.d-flex:not(.flex-column):not(.flex-columnreverse) > *:not([width]) {
 	flex: 100 1 400px;
 }
 .d-flex > *[width] {
@@ -302,6 +317,9 @@ aside.app-drawer.left {
 
 .min-content { width: min-content; }
 .max-content { width: max-content; }
+.justify-left { justify-content: left; }
+.justify-center { justify-content: center; }
+.justify-right { justify-content: right; }
 
 .pa-0 { padding: 0; }
 .pa-a { padding: auto; }
@@ -462,3 +480,7 @@ aside.app-drawer.left {
 .elevation-23 { box-shadow: var(--elevation-23); }
 .elevation-24 { box-shadow: var(--elevation-24); }
 .elevation-25 { box-shadow: var(--elevation-25); }
+
+.scrollable {
+	overflow: auto;
+}

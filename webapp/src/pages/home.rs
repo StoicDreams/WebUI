@@ -1,9 +1,8 @@
 use webui::Paper;
-use yew::{function_component, html};
+use yew::{html, Html};
 
-/// App page body component - page specific content is rendered here
-#[function_component(PageHome)]
-pub(crate) fn app_body() -> Html {
+/// App home page
+pub(crate) fn page_home() -> Html {
     html! {
         <>
             <Paper class="d-flex flex-row flex-wrapreverse">

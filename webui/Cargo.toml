@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.1.33"
+version = "0.1.34"
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 keywords = ["webassembly", "ui"]
@@ -16,7 +16,6 @@ homepage = "https://webui.stoicdreams.com"
 [dependencies]
 yew = "0.19"
 yew-agent = "0.1"
-yew-router = "0.16"
 js-sys = "0.3"
 wasm-bindgen = "0.2"
 wasm-bindgen-futures = "0.4"

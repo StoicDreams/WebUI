@@ -118,6 +118,22 @@ Then, run the publish command from the `webui` folder to publish.
 cargo publish
 ```
 
+### Web UI Save and Publish
+
+Install the `webuisave` script
+
+```bash
+# From the workspace root folder
+cargo install --path webuisave
+```
+
+Run the script whenever you're ready to save and publish updates.
+
+```bash
+# From the workspace root folder
+webuisave -c "Your commit message"
+```
+
 ## Other Resources
 
 [Rust Docs](https://www.rust-lang.org/)

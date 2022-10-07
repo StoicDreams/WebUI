@@ -1,5 +1,10 @@
-use webui::{data_types::drawer_toggle_info::DrawerToggleInfo, NavLink};
+use webui::{
+    data_types::drawer_toggle_info::DrawerToggleInfo, roles, NavDisplay, NavGroupInfo, NavLinkInfo,
+    NavRoute, Paper,
+};
 use yew::prelude::*;
+
+use crate::pages::{about::page_about, home::page_home};
 
 pub fn nav_menu_info() -> DrawerToggleInfo {
     DrawerToggleInfo {
@@ -13,18 +18,32 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
     }
 }
 
-fn nav_menu_render() -> Html {
-    html! {
-        <NavMenu />
-    }
+pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
+    let nav_routes: &mut Vec<NavRoute> = &mut Vec::new();
+    nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
+        "Home",
+        "/",
+        "fa-solid fa-bars",
+        roles::PUBLIC,
+        page_home,
+    )));
+    nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
+        "About",
+        "/about",
+        "fa-solid fa-circle-info",
+        roles::PUBLIC,
+        page_about,
+    )));
+    nav_routes.to_owned()
 }
 
-#[function_component(NavMenu)]
-fn nav_menu() -> Html {
+fn nav_menu_render() -> Html {
     html! {
         <>
-            <NavLink to="/">{"Home"}</NavLink>
-            <NavLink to="/about">{"about"}</NavLink>
+            <Paper class="d-flex pa-1 justify-center">
+                <img src="Logo.svg" title="Web UI Logo" />
+            </Paper>
+            <NavDisplay routes={get_nav_routing()} class="d-flex flex-column pa-1" />
         </>
     }
 }

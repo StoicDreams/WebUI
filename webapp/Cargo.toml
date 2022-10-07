@@ -1,6 +1,6 @@
 [package]
 name = "webapp"
-version = "0.1.33"
+version = "0.1.34"
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -8,7 +8,6 @@ edition = "2021"
 [dependencies]
 webui = { path = "../webui" }
 yew = "0.19"
-yew-router = "0.16"
 js-sys = "0.3"
 wasm-bindgen = "0.2"
 wasm-bindgen-futures = "0.4"

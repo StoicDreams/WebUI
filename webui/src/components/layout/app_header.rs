@@ -1,23 +1,13 @@
 use crate::{
     agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
-    AppConfig, NavLink, Paper,
+    AppConfig, Paper,
 };
 use yew::{html, Callback, Component, Context, Html};
 use yew_agent::{Dispatched, Dispatcher};
-use yew_router::Routable;
 
 pub(crate) struct AppHeader {
     app_drawer_agent: Dispatcher<AppDrawerAgent>,
     app_config: AppConfig,
-}
-
-/// Website route handling definition
-#[derive(Clone, Routable, PartialEq)]
-pub enum Route {
-    #[at("/")]
-    Home,
-    #[at("/about")]
-    About,
 }
 
 impl Component for AppHeader {
