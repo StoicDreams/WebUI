@@ -36,7 +36,11 @@ fn get_page_content(routes: Vec<NavRoute>, page: &str) -> fn() -> Html {
 fn get_page(routes: Vec<NavRoute>, page: &str) -> Option<NavLinkInfo> {
     for route in routes {
         match route {
-            NavRoute::NavLink(link_info) => {}
+            NavRoute::NavLink(link_info) => {
+                if link_info.path.to_lowercase() == page.to_lowercase() {
+                    return Option::Some(link_info);
+                }
+            }
             NavRoute::NavGroup(group_info) => {
                 if group_info.children.len() == 0 {
                     continue;
