@@ -4,6 +4,7 @@ use yew::Html;
 #[derive(Clone, Debug, PartialEq)]
 pub struct DrawerToggleInfo {
     pub display: fn() -> Html,
+    pub title: String,
     pub class: String,
     pub drawer_content: fn() -> Html,
 }

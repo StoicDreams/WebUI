@@ -39,21 +39,22 @@ impl Component for AppHeader {
         let left_drawer_info = self.app_config.header_left_drawer_toggle.clone();
         html! {
             <header>
-                <a class="logo" onclick={ctx.link().callback(
-                    move |_| {
-                        match left_drawer_info.clone() {
-                            Some(drawer_info) => {
-                                let message = drawer_info.drawer_content as usize;
-                                AppDrawerReceiverMessage::AppDrawerMessage(
-                                    AppDrawerRequest::ToggleLeftDrawer(
-                                        message.to_owned()
+                <button class="logo" onclick={
+                    ctx.link().callback(
+                        move |_| {
+                            match left_drawer_info.clone() {
+                                Some(drawer_info) => {
+                                    let message = drawer_info.drawer_content as usize;
+                                    AppDrawerReceiverMessage::AppDrawerMessage(
+                                        AppDrawerRequest::ToggleLeftDrawer(
+                                            message.to_owned()
+                                        )
                                     )
-                                )
-                            },
-                            None => AppDrawerReceiverMessage::None,
+                                },
+                                None => AppDrawerReceiverMessage::None,
+                            }
                         }
-                    }
-                )}>
+                    )}>
                     {match &self.app_config.header_logo_src {
                         Some(logo) => {
                             html! {
@@ -65,15 +66,25 @@ impl Component for AppHeader {
                     {match self.app_config.header_left_drawer_toggle.clone() {
                         Some(drawer_info) => {
                             html! {
-                                <a class="btn toggle elevation-1">
+                                <button class="btn toggle elevation-1">
                                     {(drawer_info.display)()}
-                                </a>
+                                </button>
                             }
                         },
                         None => html! {}
                     }}
-                </a>
-                <Paper>{ self.app_config.app_name.clone() }</Paper>
+                </button>
+                <Paper class="grow">{ self.app_config.app_name.clone() }</Paper>
+                {match self.app_config.header_top_drawer_toggle.clone() {
+                    Some(drawer_info) => {
+                        html! {
+                            <button class="btn toggle elevation-1">
+                                {(drawer_info.display)()}
+                            </button>
+                        }
+                    },
+                    None => html! {}
+                }}
             </header>
         }
     }

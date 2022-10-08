@@ -132,7 +132,12 @@ p {
 	margin: 0;
 }
 p:not(:first-child) { margin-top: calc(1.5 * var(--padding)); }
-
+button {
+	background-color: inherit;
+	color: inherit;
+	border: none;
+	outline: none;
+}
 /* Layout Styles */
 #app > footer {
 	display: flex;

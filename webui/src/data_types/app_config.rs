@@ -13,4 +13,9 @@ pub struct AppConfig {
     pub hide_powered_by: bool,
     pub nav_routing: Vec<NavRoute>,
     pub header_left_drawer_toggle: Option<DrawerToggleInfo>,
+    pub header_right_drawer_toggle: Option<DrawerToggleInfo>,
+    pub header_top_drawer_toggle: Option<DrawerToggleInfo>,
+    pub footer_left_drawer_toggle: Option<DrawerToggleInfo>,
+    pub footer_right_drawer_toggle: Option<DrawerToggleInfo>,
+    pub footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
 }
