@@ -1,6 +1,6 @@
 use webui::{
-    data_types::drawer_toggle_info::DrawerToggleInfo, roles, NavDisplay, NavGroupInfo, NavLinkInfo,
-    NavRoute, Paper,
+    data_types::drawer_toggle_info::DrawerToggleInfo, roles, Direction, NavDisplay, NavGroupInfo,
+    NavLinkInfo, NavRoute, Paper,
 };
 use yew::prelude::*;
 
@@ -15,6 +15,7 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
         },
         title: "Open Navigation Menu".to_owned(),
         class: "".to_owned(),
+        drawer: Direction::Left,
         drawer_content: nav_menu_render,
     }
 }

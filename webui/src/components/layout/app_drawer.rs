@@ -1,8 +1,8 @@
 use crate::{
     agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
-    interop,
+    DrawerToggleInfo,
 };
-use yew::{html, Component, Html, Properties};
+use yew::{html, Component, Html, MouseEvent, Properties};
 use yew_agent::{Bridge, Bridged};
 
 /// Properties for app drawer components
@@ -21,6 +21,22 @@ pub(crate) struct AppDrawer {
     app_drawer_agent: Box<dyn Bridge<AppDrawerAgent>>,
     is_open: bool,
     content: usize,
+}
+
+pub(crate) fn render_drawer_button(
+    button_info: Option<DrawerToggleInfo>,
+    onclick: yew::Callback<MouseEvent>,
+) -> Html {
+    match button_info {
+        Some(drawer_info) => {
+            html! {
+                <button type="button" title={drawer_info.title} class="btn toggle elevation-1" onclick={onclick}>
+                    {(drawer_info.display)()}
+                </button>
+            }
+        }
+        None => html! {},
+    }
 }
 
 impl AppDrawer {

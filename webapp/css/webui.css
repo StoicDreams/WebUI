@@ -261,6 +261,7 @@ aside.app-drawer.left {
 	height: 100%;
 	justify-content: center;
 	align-items: center;
+	opacity: 0;
 }
 .app-drawer.top > .drawer-placement {
 	left: 0;
@@ -295,6 +296,7 @@ aside.app-drawer.left {
 }
 .app-drawer.top.open > .drawer-placement {
 	top: 100%;
+	opacity: 1;
 }
 .app-drawer.right > .drawer-placement > .drawer-content {
 	left: 0;
@@ -304,6 +306,7 @@ aside.app-drawer.left {
 }
 .app-drawer.bottom.open > .drawer-placement {
 	top: -100%;
+	opacity: 1;
 }
 .app-drawer.left > .drawer-placement > .drawer-content {
 	left: 0;

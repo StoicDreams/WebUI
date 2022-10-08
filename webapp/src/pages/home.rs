@@ -1,4 +1,4 @@
-use webui::{Paper};
+use webui::Paper;
 use yew::{html, Html};
 
 /// App home page

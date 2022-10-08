@@ -5,10 +5,10 @@ pub fn is_current_path(path: String) -> bool {
 }
 
 /// Macro for quickly logging data to the browser's console.log
-/// 
+///
 /// ```rust,ignore
 /// use webui::jslog;
-/// 
+///
 /// jslog!("hello {}", "world");
 /// jslog!("A B C {} {} {}", 1, 2, 3);
 /// ```

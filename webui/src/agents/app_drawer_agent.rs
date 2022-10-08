@@ -3,14 +3,14 @@ use std::collections::HashSet;
 use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
-pub(crate) enum AppDrawerRequest {
+pub enum AppDrawerRequest {
     ToggleTopDrawer(usize),
     ToggleRightDrawer(usize),
     ToggleBottomDrawer(usize),
     ToggleLeftDrawer(usize),
 }
 
-pub(crate) enum AppDrawerReceiverMessage {
+pub enum AppDrawerReceiverMessage {
     AppDrawerMessage(AppDrawerRequest),
     None,
 }

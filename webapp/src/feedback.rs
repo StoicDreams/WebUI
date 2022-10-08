@@ -1,4 +1,4 @@
-use webui::{DrawerToggleInfo, Paper};
+use webui::{Direction, DrawerToggleInfo, Paper};
 use yew::{html, Html};
 
 pub fn feedback_button_info() -> DrawerToggleInfo {
@@ -9,6 +9,7 @@ pub fn feedback_button_info() -> DrawerToggleInfo {
             }
         },
         title: "Give Feedback".to_owned(),
+        drawer: Direction::Top,
         class: "".to_owned(),
         drawer_content: get_render,
     }

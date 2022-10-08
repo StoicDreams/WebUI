@@ -1,24 +1,30 @@
-use crate::{AppConfig, Paper};
+use crate::{AppConfig, AppDrawerButton, Paper};
 use yew::{function_component, html, use_context};
 
 /// App footer component
 #[function_component(AppFooter)]
 pub(crate) fn app_footer() -> Html {
     let app_config = use_context::<AppConfig>().expect("no app config found");
+    let left_drawer_info = app_config.footer_left_drawer_toggle.clone();
+    let bottom_drawer_info = app_config.footer_bottom_drawer_toggle.clone();
+    let right_drawer_info = app_config.footer_right_drawer_toggle.clone();
 
     html! {
         <footer>
-            <Paper class="grow" />
+            <AppDrawerButton info={left_drawer_info.clone()} />
+            <Paper class="flex-grow" />
             <Paper>
                 {format!("© {} {} All Rights Reserved", "2022", app_config.company_name)}
             </Paper>
-            <Paper class="grow" />
+            <AppDrawerButton info={bottom_drawer_info.clone()} />
+            <Paper class="flex-grow" />
             if !app_config.hide_powered_by {
                 <Paper>
                     <sup>{"Powered by "}</sup>
                     <a href="https://webui.stoicdreams.com">{"Web UI"}</a>
                 </Paper>
             }
+            <AppDrawerButton info={right_drawer_info.clone()} />
         </footer>
     }
 }
