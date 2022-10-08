@@ -34,10 +34,10 @@ impl Component for App {
                     <AppHeader />
                     <AppBody />
                     <AppFooter />
-                    <AppDrawer class="top" />
-                    <AppDrawer class="right" />
-                    <AppDrawer class="bottom" />
-                    <AppDrawer class="left" />
+                    <AppDrawer drawer={Direction::Top} />
+                    <AppDrawer drawer={Direction::Right} />
+                    <AppDrawer drawer={Direction::Bottom} />
+                    <AppDrawer drawer={Direction::Left} />
                 </AppContexts>
             </div>
         }

@@ -3,7 +3,9 @@ use crate::*;
 /// Properties for app drawer components
 #[derive(Properties, PartialEq)]
 pub(crate) struct AppDrawerProps {
-    pub class: String,
+    #[prop_or_default]
+    pub class: Option<String>,
+    pub drawer: Direction,
 }
 
 #[derive(Default, Copy, Clone, PartialEq, Debug)]
@@ -16,22 +18,6 @@ pub(crate) struct AppDrawer {
     app_drawer_agent: Box<dyn Bridge<AppDrawerAgent>>,
     is_open: bool,
     content: usize,
-}
-
-pub(crate) fn render_drawer_button(
-    button_info: Option<DrawerToggleInfo>,
-    onclick: yew::Callback<MouseEvent>,
-) -> Html {
-    match button_info {
-        Some(drawer_info) => {
-            html! {
-                <button type="button" title={drawer_info.title} class="btn toggle elevation-1" onclick={onclick}>
-                    {(drawer_info.display)()}
-                </button>
-            }
-        }
-        None => html! {},
-    }
 }
 
 impl AppDrawer {
@@ -64,25 +50,25 @@ impl Component for AppDrawer {
             AppDrawerReceiverMessage::AppDrawerMessage(message) => {
                 match message {
                     AppDrawerRequest::ToggleTopDrawer(fnval) => {
-                        if ctx.props().class != "top" {
+                        if ctx.props().drawer != Direction::Top {
                             return false;
                         }
                         self.toggle_state(fnval);
                     }
                     AppDrawerRequest::ToggleRightDrawer(fnval) => {
-                        if ctx.props().class != "right" {
+                        if ctx.props().drawer != Direction::Right {
                             return false;
                         }
                         self.toggle_state(fnval);
                     }
                     AppDrawerRequest::ToggleBottomDrawer(fnval) => {
-                        if ctx.props().class != "bottom" {
+                        if ctx.props().drawer != Direction::Bottom {
                             return false;
                         }
                         self.toggle_state(fnval);
                     }
                     AppDrawerRequest::ToggleLeftDrawer(fnval) => {
-                        if ctx.props().class != "left" {
+                        if ctx.props().drawer != Direction::Left {
                             return false;
                         }
                         self.toggle_state(fnval);
@@ -97,8 +83,9 @@ impl Component for AppDrawer {
     fn view(&self, ctx: &yew::Context<Self>) -> Html {
         let props = ctx.props();
         let class = format!(
-            "app-drawer {} {}",
-            props.class,
+            "app-drawer {} {} {}",
+            props.drawer,
+            props.class.to_owned().unwrap_or_default(),
             if self.is_open { "open" } else { "closed" }
         );
         let content: fn() -> Html = if self.content > 0 {
@@ -107,33 +94,29 @@ impl Component for AppDrawer {
         } else {
             || html!("")
         };
-        let class_direction_cover = ctx.props().class.to_owned();
-        let class_direction_placement = ctx.props().class.to_owned();
+        let drawer_cover = ctx.props().drawer.to_owned();
+        let drawer_placement = ctx.props().drawer.to_owned();
         html! {
             <aside class={class}>
                 <div class="page-cover" onclick={ctx.link().callback(move |_|
                     {
-                        if class_direction_cover == "top" {
-                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(0.to_owned()));
-                        } else if class_direction_cover == "right" {
-                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(0.to_owned()));
-                        } else if class_direction_cover == "bottom" {
-                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(0.to_owned()));
+                        match drawer_cover {
+                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(0.to_owned())),
+                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(0.to_owned())),
+                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(0.to_owned())),
+                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned())),
                         }
-                        AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned()))
                     }
                 )}>
                 </div>
                 <div class="drawer-placement" onclick={ctx.link().callback(move |_|
                     {
-                        if class_direction_placement == "top" {
-                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(0.to_owned()));
-                        } else if class_direction_placement == "right" {
-                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(0.to_owned()));
-                        } else if class_direction_placement == "bottom" {
-                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(0.to_owned()));
+                        match drawer_placement {
+                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(0.to_owned())),
+                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(0.to_owned())),
+                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(0.to_owned())),
+                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned())),
                         }
-                        AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned()))
                     }
                 )}>
                     <div class="drawer-content">
