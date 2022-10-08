@@ -5,6 +5,7 @@
 
 pub mod agents;
 pub mod components;
+#[macro_use]
 pub mod interop;
 
 pub(crate) use crate::agents::app_drawer_agent;
