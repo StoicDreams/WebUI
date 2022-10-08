@@ -120,6 +120,15 @@ cargo publish
 
 ### Web UI Save and Publish
 
+This console app provides a single command to:
+
+- Sync static files from webapp to webui
+- Increment the Patch version for webui
+- Verify tests
+- Commit changes
+- Push to GitHub
+- Publish to crates.io
+
 Install the `webuisave` script
 
 ```bash
