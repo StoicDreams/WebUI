@@ -109,6 +109,8 @@ main {
 	flex-direction: column;
 	margin: 0;
 	padding: var(--padding);
+	max-height: calc(var(--window-height) - var(--header-height) - var(--footer-height));
+	overflow: auto;
 }
 
 header {
