@@ -1,14 +1,16 @@
 :root {
-	--site-background-color: #333333;
-	--site-background-offset: #FFFFFF;
 	--color-black: #101010;
 	--color-white: #FFFFFF;
-	--color-primary: #FF2E46;
-	--color-primary-offset: #FFFFFF;
+	--site-background-color: #333333;
+	--site-background-offset: var(--color-white);
+	--color-title: #b13b3b;
+	--color-title-offset: var(--color-white);
+	--color-primary: #9e091a;
+	--color-primary-offset: var(--color-white);
 	--color-secondary: #2e54ff;
-	--color-secondary-offset: #FFFFFF;
-	--color-tertiary: #2e54ff;
-	--color-tertiary-offset: #FFFFFF;
+	--color-secondary-offset: var(--color-white);
+	--color-tertiary: #7d0b77;
+	--color-tertiary-offset: var(--color-white);
 	--color-info: #2196f3;
 	--color-info-offset: var(--color-white);
 	--color-success: #1c970e;
@@ -17,11 +19,11 @@
 	--color-warning-offset: var(--color-white);
 	--color-danger: rgb(183, 5, 5);
 	--color-danger-offset: var(--color-white);
-	--color-title: #b13b3b;
-	--color-title-offset: var(--color-white);
 	--color-shade: rgba(125,125,125,0.2);
 	--color-active: var(--color-info);
 	--color-active-offset: var(--color-info-offset);
+	--color-button: var(--color-info);
+	--color-button-offset: var(--color-info-offset);
 
 	--backdrop-blur: blur(4px);
 	--transition-speed: 180ms;
@@ -334,8 +336,8 @@ aside.app-drawer.left {
 .btn {
 	display: inline-block;
 	text-decoration: none;
-	background-color: var(--color-tertiary);
-	color: var(--color-tertiary-offset);
+	background-color: var(--color-button);
+	color: var(--color-button-offset);
 	padding: calc(1 * var(--padding)) calc(2 * var(--padding));
 	cursor: pointer;
 	border-radius: var(--corners);
@@ -383,6 +385,17 @@ aside.app-drawer.left {
 .flex-nowrap { flex-wrap: nowrap; }
 .flex-wrapreverse { flex-wrap: wrap-reverse; }
 .flex-grow { flex-grow: 1; }
+.flex-gap0 { gap: 0; }
+.flex-gap1 { gap: var(--typography-size); }
+.flex-gap2 { gap: calc(var(--typography-size) * 1.25); }
+.flex-gap3 { gap: calc(var(--typography-size) * 1.5); }
+.flex-gap4 { gap: calc(var(--typography-size) * 1.75); }
+.flex-gap5 { gap: calc(var(--typography-size) * 2); }
+.flex-gap6 { gap: calc(var(--typography-size) * 2.25); }
+.flex-gap7 { gap: calc(var(--typography-size) * 2.5); }
+.flex-gap8 { gap: calc(var(--typography-size) * 2.75); }
+.flex-gap9 { gap: calc(var(--typography-size) * 3); }
+.flex-gap10 { gap: calc(var(--typography-size) * 3.25); }
 
 .min-content { width: min-content; }
 .max-content { width: max-content; }
@@ -597,4 +610,8 @@ aside.app-drawer.left {
 .theme-danger {
 	background-color: var(--color-danger);
 	color: var(--color-danger-offset);
+}
+.theme-title {
+	background-color: var(--color-title);
+	color: var(--color-title-offset);
 }

@@ -2,3 +2,6 @@
 ///
 /// <p>text segment</p>
 pub mod paragraphs;
+
+/// Methods for displaying section titles
+pub mod titles;

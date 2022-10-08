@@ -1,10 +1,15 @@
-use webui::{html, Html, Paper};
+use webui::*;
 
 /// App page body component - page specific content is rendered here
 pub(crate) fn page_about() -> Html {
     html! {
-        <Paper>
-            {"Welcome to the about page."}
-        </Paper>
+        <>
+            {title_secondary!(html!{"About Stoic Dreams"})}
+            <Paper class="pa-3">
+                {paragraphs!(
+                    "Stoic Dreams is a software development studio with a focus on delivering tools and best practices to make software development easier and faster with the highest quality possible."
+                )}
+            </Paper>
+        </>
     }
 }

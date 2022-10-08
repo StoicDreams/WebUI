@@ -27,6 +27,7 @@ pub use crate::data_types::direction::Direction;
 pub use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
 pub use crate::data_types::nav_route::*;
 pub use crate::data_types::roles;
+pub use crate::macros::titles::*;
 pub use crate::macros::*;
 pub use yew;
 pub use yew::prelude::*;

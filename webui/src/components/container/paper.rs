@@ -9,6 +9,8 @@ pub struct PaperProps {
     pub children: Children,
     #[prop_or_default]
     pub class: String,
+    #[prop_or_default]
+    pub style: String,
 }
 
 /// Common container component
@@ -62,7 +64,7 @@ pub fn paper(props: &PaperProps) -> Html {
     }
 
     html! {
-        <section class={classes.clone()}>
+        <section class={classes.clone()} style={props.style.to_owned()}>
             { for props.children.iter() }
         </section>
     }
