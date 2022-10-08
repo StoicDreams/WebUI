@@ -1,5 +1,5 @@
-use crate::AppDrawerOptions;
 use crate::yew::Context;
+use crate::AppDrawerOptions;
 use crate::{
     agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
     html, Children, Component, Direction, Dispatched, Dispatcher, DrawerToggleInfo, Html,
@@ -65,10 +65,7 @@ impl Component for AppDrawerButton {
                 .link()
                 .callback(move |_: MouseEvent| match drawer_info.clone() {
                     Some(drawer_info) => {
-                        let message = AppDrawerOptions::new(
-                            drawer_info.title.to_owned(),
-                            drawer_info.drawer_content,
-                        ).build();
+                        let message = drawer_info.get_options();
                         match drawer_info.drawer {
                             Direction::Top => AppDrawerReceiverMessage::AppDrawerMessage(
                                 AppDrawerRequest::ToggleTopDrawer(Some(message)),

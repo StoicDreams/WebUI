@@ -6,17 +6,14 @@ use webui::{
 use crate::pages::{about::page_about, home::page_home};
 
 pub fn nav_menu_info() -> DrawerToggleInfo {
-    DrawerToggleInfo {
-        display: || {
-            html! {
-                <i class="fa-solid fa-bars"></i>
-            }
-        },
-        title: "Open Navigation Menu".to_owned(),
-        class: "".to_owned(),
-        drawer: Direction::Left,
-        drawer_content: nav_menu_render,
-    }
+    DrawerToggleInfo::new(
+        "Navigation Menu".to_owned(),
+        || html! {<i class="fa-solid fa-bars"></i>},
+        nav_menu_render,
+    )
+    .hide_title()
+    .set_drawer(Direction::Left)
+    .build()
 }
 
 pub(crate) fn get_nav_routing() -> Vec<NavRoute> {

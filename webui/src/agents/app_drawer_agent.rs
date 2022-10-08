@@ -1,17 +1,19 @@
 use crate::yew_agent::{Agent, AgentLink, Context, HandlerId};
+use crate::*;
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
-use crate::*;
 
 #[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
 pub struct AppDrawerOptions {
     pub(crate) title: String,
     pub(crate) display_ref: usize,
+    pub(crate) hide_title: bool,
     pub(crate) hide_close_x: bool,
 }
 pub struct AppDrawerOptionsBuilder {
     title: String,
     display_ref: usize,
+    hide_title: bool,
     hide_close_x: bool,
 }
 
@@ -20,20 +22,26 @@ impl AppDrawerOptionsBuilder {
         AppDrawerOptions {
             title: self.title,
             display_ref: self.display_ref,
-            hide_close_x: self.hide_close_x
+            hide_title: self.hide_title,
+            hide_close_x: self.hide_close_x,
         }
     }
     pub fn hide_close_x(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
         self.hide_close_x = true;
         self
     }
+    pub fn hide_title(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
+        self.hide_title = true;
+        self
+    }
 }
 
 impl AppDrawerOptions {
-    pub fn new(title: String, display: fn()-> Html) -> AppDrawerOptionsBuilder {
+    pub fn new(title: String, display: fn() -> Html) -> AppDrawerOptionsBuilder {
         AppDrawerOptionsBuilder {
             title,
             display_ref: display as usize,
+            hide_title: false,
             hide_close_x: false,
         }
     }
