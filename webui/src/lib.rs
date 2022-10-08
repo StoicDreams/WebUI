@@ -13,6 +13,8 @@ pub use crate::components::container::paper::Paper;
 pub use crate::components::display::nav_display::NavDisplay;
 pub use crate::components::touch::navlink::NavLink;
 pub use crate::data_types::app_config::AppConfig;
+pub use crate::data_types::direction::Direction;
+pub use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
 pub use crate::data_types::nav_route::*;
 pub use crate::data_types::roles;
 

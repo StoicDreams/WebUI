@@ -1,4 +1,7 @@
-use crate::agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest};
+use crate::{
+    agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
+    interop,
+};
 use yew::{html, Component, Html, Properties};
 use yew_agent::{Bridge, Bridged};
 
@@ -93,11 +96,35 @@ impl Component for AppDrawer {
         } else {
             || html!("")
         };
+        let class_direction_cover = ctx.props().class.to_owned();
+        let class_direction_placement = ctx.props().class.to_owned();
         html! {
             <aside class={class}>
-                <div class="page-cover" onclick={ctx.link().callback(move |_| AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned())))}>
+                <div class="page-cover" onclick={ctx.link().callback(move |_|
+                    {
+                        if class_direction_cover == "top" {
+                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(0.to_owned()));
+                        } else if class_direction_cover == "right" {
+                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(0.to_owned()));
+                        } else if class_direction_cover == "bottom" {
+                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(0.to_owned()));
+                        }
+                        AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned()))
+                    }
+                )}>
                 </div>
-                <div class="drawer-placement">
+                <div class="drawer-placement" onclick={ctx.link().callback(move |_|
+                    {
+                        if class_direction_placement == "top" {
+                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(0.to_owned()));
+                        } else if class_direction_placement == "right" {
+                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(0.to_owned()));
+                        } else if class_direction_placement == "bottom" {
+                            return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(0.to_owned()));
+                        }
+                        AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned()))
+                    }
+                )}>
                     <div class="drawer-content">
                         {content()}
                     </div>

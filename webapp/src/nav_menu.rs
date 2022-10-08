@@ -10,11 +10,11 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
     DrawerToggleInfo {
         display: || {
             html! {
-                <i class="fa-solid fa-bars" />
+                <i class="fa-solid fa-bars"></i>
             }
         },
         title: "Open Navigation Menu".to_owned(),
-        class: "".to_string(),
+        class: "".to_owned(),
         drawer_content: nav_menu_render,
     }
 }
