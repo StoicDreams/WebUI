@@ -15,7 +15,7 @@ pub(crate) fn page_home() -> Html {
                         html!{
                             <>
                                 {"But Blazor is not without it's major issues, which we will not dive into here. But, you can check out our "}
-                                <a href="https://blazorui.stoicdreams.com">{"Blazor UI project"}</a>
+                                <Link title="Blazor UI documentation and website demo" href="https://blazorui.stoicdreams.com">{"Blazor UI project"}</Link>
                                 {" to see for yourself the differences between it and what we're accomplishing here."}
                             </>
                         },
@@ -44,7 +44,9 @@ pub(crate) fn page_home() -> Html {
                             html!{
                                 <>
                                     {"We will be updating this website to provide full documentation, but for now you can check out "}
-                                    <a href="https://crates.io/crates/webui">{"our Rust-built documentation"}</a>
+                                    <Link title="Web UI rust crate documentation" href="https://crates.io/crates/webui">
+                                        {"our Rust-built documentation"}
+                                    </Link>
                                     {"."}
                                 </>
                             }

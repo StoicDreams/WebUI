@@ -1,3 +1,6 @@
+/// Module for external links
+pub mod link;
+
 /// Module for navigation links
 pub mod navlink;
 

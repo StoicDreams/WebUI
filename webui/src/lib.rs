@@ -21,6 +21,7 @@ pub use crate::agents::app_state_agent::*;
 pub use crate::components::container::paper::Paper;
 pub use crate::components::display::nav_display::NavDisplay;
 pub use crate::components::touch::app_drawer_button::AppDrawerButton;
+pub use crate::components::touch::link::Link;
 pub use crate::components::touch::navlink::NavLink;
 pub use crate::data_types::app_config::AppConfig;
 pub use crate::data_types::direction::Direction;
