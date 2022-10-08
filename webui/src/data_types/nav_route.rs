@@ -1,4 +1,4 @@
-use yew::Html;
+use crate::Html;
 
 /// Page navigation information
 ///
@@ -8,8 +8,7 @@ use yew::Html;
 ///
 /// example
 /// ```rust
-/// use webui::{NavLinkInfo, roles};
-/// use yew::prelude::*;
+/// use webui::*;
 ///
 /// fn page_home() -> Html {
 /// 	html! {
@@ -33,8 +32,7 @@ impl NavLinkInfo {
     ///
     /// example
     /// ```rust
-    /// use webui::{NavLinkInfo, roles};
-    /// use yew::prelude::*;
+    /// use webui::*;
     ///
     /// fn page_home() -> Html {
     /// 	html! {
@@ -81,8 +79,7 @@ pub struct NavGroupInfo {
 ///
 /// example
 /// ```rust
-/// use webui::{NavRoute, NavGroupInfo, NavLinkInfo, roles};
-/// use yew::prelude::*;
+/// use webui::*;
 ///
 /// fn page_home() -> Html {
 /// 	html! {

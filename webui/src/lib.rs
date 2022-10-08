@@ -9,7 +9,8 @@ pub mod components;
 pub mod interop;
 
 pub(crate) use crate::agents::app_drawer_agent;
-pub use crate::agents::app_state_agent;
+pub use crate::agents::app_drawer_agent::*;
+pub use crate::agents::app_state_agent::*;
 pub use crate::components::container::paper::Paper;
 pub use crate::components::display::nav_display::NavDisplay;
 pub use crate::components::touch::app_drawer_button::AppDrawerButton;
@@ -19,6 +20,10 @@ pub use crate::data_types::direction::Direction;
 pub use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
 pub use crate::data_types::nav_route::*;
 pub use crate::data_types::roles;
+pub use yew;
+pub use yew::prelude::*;
+pub use yew_agent;
+pub use yew_agent::*;
 
 use components::layout::app::start_webui_app;
 

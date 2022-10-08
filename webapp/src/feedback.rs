@@ -1,5 +1,4 @@
-use webui::{Direction, DrawerToggleInfo, Paper};
-use yew::{html, Html};
+use webui::{html, Direction, DrawerToggleInfo, Html, Paper};
 
 pub fn feedback_button_info() -> DrawerToggleInfo {
     DrawerToggleInfo {

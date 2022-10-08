@@ -1,9 +1,4 @@
-use crate::{
-    agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
-    DrawerToggleInfo,
-};
-use yew::{html, Component, Html, MouseEvent, Properties};
-use yew_agent::{Bridge, Bridged};
+use crate::*;
 
 /// Properties for app drawer components
 #[derive(Properties, PartialEq)]

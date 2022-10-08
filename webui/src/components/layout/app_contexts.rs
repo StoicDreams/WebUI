@@ -1,6 +1,4 @@
-use yew::{function_component, html, Children, ContextProvider, Properties};
-
-use crate::AppConfig;
+use crate::{function_component, html, AppConfig, Children, ContextProvider, Properties};
 
 /// Properties for app drawer components
 #[derive(Properties, PartialEq)]

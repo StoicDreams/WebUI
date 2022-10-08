@@ -1,9 +1,9 @@
+use crate::yew::Context;
 use crate::{
     agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
-    Direction, DrawerToggleInfo, Paper,
+    html, Children, Component, Direction, Dispatched, Dispatcher, DrawerToggleInfo, Html,
+    MouseEvent, Paper, Properties,
 };
-use yew::{html, Children, Component, Context, Html, MouseEvent, Properties};
-use yew_agent::{Dispatched, Dispatcher};
 
 /// Properties for NavLink component
 #[derive(Properties, PartialEq)]

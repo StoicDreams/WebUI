@@ -4,7 +4,7 @@ use super::app_drawer::AppDrawer;
 use super::app_footer::AppFooter;
 use super::app_header::AppHeader;
 use crate::data_types::app_config::AppConfig;
-use yew::prelude::*;
+use crate::*;
 
 /// Properties for AppConfig component
 #[derive(Properties, PartialEq)]
@@ -23,7 +23,7 @@ impl Component for App {
     type Message = ();
     type Properties = AppProps;
 
-    fn create(ctx: &Context<Self>) -> Self {
+    fn create(_ctx: &Context<Self>) -> Self {
         Self
     }
     fn view(&self, ctx: &Context<Self>) -> Html {

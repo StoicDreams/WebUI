@@ -1,10 +1,4 @@
-use crate::{
-    app_drawer_agent::{AppDrawerAgent, AppDrawerRequest},
-    app_state_agent::{AppStateAgent, AppStateReceiverMessage, AppStateRequest},
-    interop,
-};
-use yew::{html, Children, Classes, Component, Context, Html, Properties};
-use yew_agent::{Bridge, Bridged, Dispatched, Dispatcher};
+use crate::*;
 
 /// Properties for NavLink component
 #[derive(Properties, PartialEq)]
@@ -17,6 +11,32 @@ pub struct NavLinkProps {
     pub class: String,
 }
 
+/// Navigation link component
+///
+/// Use this when you want to display a navigation button or link
+/// Make sure the `to` property starts with a forward slash `/`
+///
+/// example to display a link
+/// ```rust
+/// use webui::*;
+///
+/// fn component() -> Html {
+///     html! {
+///         <NavLink to="/some-page">{"A Link"}</NavLink>
+///     }
+/// }
+/// ```
+///
+/// example to display a button
+/// ```rust
+/// use webui::*;
+///
+/// fn component() -> Html {
+///     html! {
+///         <NavLink to="/some-page">{"A Link"}</NavLink>
+///     }
+/// }
+/// ```
 pub struct NavLink {
     app_state_agent: Box<dyn Bridge<AppStateAgent>>,
     app_drawer_agent: Dispatcher<AppDrawerAgent>,

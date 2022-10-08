@@ -1,5 +1,4 @@
-use crate::{NavLink, NavRoute, Paper};
-use yew::{function_component, html, Classes, Html, Properties};
+use crate::{function_component, html, Classes, Html, NavLink, NavRoute, Paper, Properties};
 
 /// Properties for NavDislay component
 #[derive(Properties, PartialEq)]

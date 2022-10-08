@@ -1,5 +1,4 @@
-use webui::Paper;
-use yew::{html, Html};
+use webui::{html, Html, Paper};
 
 /// App home page
 pub(crate) fn page_home() -> Html {

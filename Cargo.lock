@@ -597,21 +597,15 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.1.40"
+version = "0.1.41"
 dependencies = [
- "gloo-net",
- "gloo-utils",
- "js-sys",
- "wasm-bindgen",
- "wasm-bindgen-futures",
- "wasm-logger",
  "webui",
  "yew",
 ]
 
 [[package]]
 name = "webui"
-version = "0.1.40"
+version = "0.1.41"
 dependencies = [
  "gloo-net",
  "gloo-utils",

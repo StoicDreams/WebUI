@@ -1,8 +1,7 @@
 use webui::{
-    data_types::drawer_toggle_info::DrawerToggleInfo, roles, Direction, NavDisplay, NavGroupInfo,
-    NavLinkInfo, NavRoute, Paper,
+    data_types::drawer_toggle_info::DrawerToggleInfo, html, roles, Direction, Html, NavDisplay,
+    NavGroupInfo, NavLinkInfo, NavRoute, Paper,
 };
-use yew::prelude::*;
 
 use crate::pages::{about::page_about, home::page_home};
 

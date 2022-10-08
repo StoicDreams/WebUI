@@ -1,6 +1,4 @@
-use yew::Html;
-
-use crate::Direction;
+use crate::{Direction, Html};
 
 /// Struct used for defining details for displaying buttons that toggle drawer content.
 #[derive(Clone, Debug, PartialEq)]

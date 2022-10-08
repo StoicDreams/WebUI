@@ -1,10 +1,4 @@
-use crate::{
-    app_state_agent::{AppStateAgent, AppStateReceiverMessage, AppStateRequest},
-    data_types::nav_route::{NavLinkInfo, NavRoute},
-    interop, AppConfig,
-};
-use yew::{html, Callback, Component, Html};
-use yew_agent::{Bridge, Bridged};
+use crate::*;
 
 pub(crate) struct AppBody {
     app_state_agent: Box<dyn Bridge<AppStateAgent>>,

@@ -1,6 +1,6 @@
+use crate::yew_agent::{Agent, AgentLink, Context, HandlerId};
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
-use yew_agent::{Agent, AgentLink, Context, HandlerId};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub enum AppDrawerRequest {
