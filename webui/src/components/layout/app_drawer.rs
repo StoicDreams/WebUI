@@ -8,23 +8,30 @@ pub(crate) struct AppDrawerProps {
     pub drawer: Direction,
 }
 
-#[derive(Default, Copy, Clone, PartialEq, Debug)]
+#[derive(Default, Clone, PartialEq, Debug)]
 pub(crate) struct AppDrawerState {
     pub is_open: bool,
-    pub content: usize,
+    pub content: Option<AppDrawerOptions>,
 }
 
 pub(crate) struct AppDrawer {
     app_drawer_agent: Box<dyn Bridge<AppDrawerAgent>>,
     is_open: bool,
-    content: usize,
+    content: AppDrawerOptions,
 }
 
 impl AppDrawer {
-    fn toggle_state(&mut self, content_ref: usize) {
-        self.is_open = content_ref > 0 && !self.is_open;
-        if content_ref > 0 {
-            self.content = content_ref.clone();
+    fn toggle_state(&mut self, content_ref: Option<AppDrawerOptions>) {
+        match content_ref {
+            Some(options) => {
+                self.is_open = options.display_ref > 0 && !self.is_open;
+                if options.display_ref > 0 {
+                    self.content = options.clone();
+                }
+            },
+            None => {
+                self.is_open = false;
+            }
         }
     }
 }
@@ -40,7 +47,10 @@ impl Component for AppDrawer {
                     .callback(AppDrawerReceiverMessage::AppDrawerMessage),
             ),
             is_open: false,
-            content: 0,
+            content: AppDrawerOptions::new(
+                "Loading...".to_owned(),
+                || html!{}
+            ).build(),
         }
     }
 
@@ -88,12 +98,7 @@ impl Component for AppDrawer {
             props.class.to_owned().unwrap_or_default(),
             if self.is_open { "open" } else { "closed" }
         );
-        let content: fn() -> Html = if self.content > 0 {
-            let fnptr = self.content as *const ();
-            unsafe { std::mem::transmute(fnptr) }
-        } else {
-            || html!("")
-        };
+        let content = self.content.clone().get_display();
         let drawer_cover = ctx.props().drawer.to_owned();
         let drawer_placement = ctx.props().drawer.to_owned();
         html! {
@@ -101,10 +106,10 @@ impl Component for AppDrawer {
                 <div class="page-cover" onclick={ctx.link().callback(move |_|
                     {
                         match drawer_cover {
-                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(0.to_owned())),
-                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(0.to_owned())),
-                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(0.to_owned())),
-                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned())),
+                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None)),
+                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(None)),
+                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(None)),
+                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None)),
                         }
                     }
                 )}>
@@ -112,10 +117,10 @@ impl Component for AppDrawer {
                 <div class="drawer-placement" onclick={ctx.link().callback(move |_|
                     {
                         match drawer_placement {
-                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(0.to_owned())),
-                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(0.to_owned())),
-                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(0.to_owned())),
-                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(0.to_owned())),
+                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None)),
+                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(None)),
+                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(None)),
+                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None)),
                         }
                     }
                 )}>

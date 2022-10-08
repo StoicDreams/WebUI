@@ -1,13 +1,59 @@
 use crate::yew_agent::{Agent, AgentLink, Context, HandlerId};
 use serde::{Deserialize, Serialize};
 use std::collections::HashSet;
+use crate::*;
+
+#[derive(Clone, Serialize, Deserialize, Debug, PartialEq)]
+pub struct AppDrawerOptions {
+    pub(crate) title: String,
+    pub(crate) display_ref: usize,
+    pub(crate) hide_close_x: bool,
+}
+pub struct AppDrawerOptionsBuilder {
+    title: String,
+    display_ref: usize,
+    hide_close_x: bool,
+}
+
+impl AppDrawerOptionsBuilder {
+    pub fn build(self: Self) -> AppDrawerOptions {
+        AppDrawerOptions {
+            title: self.title,
+            display_ref: self.display_ref,
+            hide_close_x: self.hide_close_x
+        }
+    }
+    pub fn hide_close_x(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
+        self.hide_close_x = true;
+        self
+    }
+}
+
+impl AppDrawerOptions {
+    pub fn new(title: String, display: fn()-> Html) -> AppDrawerOptionsBuilder {
+        AppDrawerOptionsBuilder {
+            title,
+            display_ref: display as usize,
+            hide_close_x: false,
+        }
+    }
+    pub(crate) fn get_display(self: Self) -> fn() -> Html {
+        let content: fn() -> Html = if self.display_ref > 0 {
+            let fnptr = self.display_ref as *const ();
+            unsafe { std::mem::transmute(fnptr) }
+        } else {
+            || html!("")
+        };
+        content
+    }
+}
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub enum AppDrawerRequest {
-    ToggleTopDrawer(usize),
-    ToggleRightDrawer(usize),
-    ToggleBottomDrawer(usize),
-    ToggleLeftDrawer(usize),
+    ToggleTopDrawer(Option<AppDrawerOptions>),
+    ToggleRightDrawer(Option<AppDrawerOptions>),
+    ToggleBottomDrawer(Option<AppDrawerOptions>),
+    ToggleLeftDrawer(Option<AppDrawerOptions>),
 }
 
 pub enum AppDrawerReceiverMessage {

@@ -1,3 +1,4 @@
+use crate::AppDrawerOptions;
 use crate::yew::Context;
 use crate::{
     agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
@@ -64,19 +65,22 @@ impl Component for AppDrawerButton {
                 .link()
                 .callback(move |_: MouseEvent| match drawer_info.clone() {
                     Some(drawer_info) => {
-                        let message = drawer_info.drawer_content as usize;
+                        let message = AppDrawerOptions::new(
+                            drawer_info.title.to_owned(),
+                            drawer_info.drawer_content,
+                        ).build();
                         match drawer_info.drawer {
                             Direction::Top => AppDrawerReceiverMessage::AppDrawerMessage(
-                                AppDrawerRequest::ToggleTopDrawer(message.to_owned()),
+                                AppDrawerRequest::ToggleTopDrawer(Some(message)),
                             ),
                             Direction::Right => AppDrawerReceiverMessage::AppDrawerMessage(
-                                AppDrawerRequest::ToggleRightDrawer(message.to_owned()),
+                                AppDrawerRequest::ToggleRightDrawer(Some(message)),
                             ),
                             Direction::Bottom => AppDrawerReceiverMessage::AppDrawerMessage(
-                                AppDrawerRequest::ToggleBottomDrawer(message.to_owned()),
+                                AppDrawerRequest::ToggleBottomDrawer(Some(message)),
                             ),
                             Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(
-                                AppDrawerRequest::ToggleLeftDrawer(message.to_owned()),
+                                AppDrawerRequest::ToggleLeftDrawer(Some(message)),
                             ),
                         }
                     }

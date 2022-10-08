@@ -71,13 +71,13 @@ impl Component for NavLink {
                             self.is_active = true;
                             self.app_state_agent.send(to_send.to_owned());
                             self.app_drawer_agent
-                                .send(AppDrawerRequest::ToggleTopDrawer(0));
+                                .send(AppDrawerRequest::ToggleTopDrawer(None));
                             self.app_drawer_agent
-                                .send(AppDrawerRequest::ToggleRightDrawer(0));
+                                .send(AppDrawerRequest::ToggleRightDrawer(None));
                             self.app_drawer_agent
-                                .send(AppDrawerRequest::ToggleBottomDrawer(0));
+                                .send(AppDrawerRequest::ToggleBottomDrawer(None));
                             self.app_drawer_agent
-                                .send(AppDrawerRequest::ToggleLeftDrawer(0));
+                                .send(AppDrawerRequest::ToggleLeftDrawer(None));
                             return true;
                         }
                         if self.is_active {
