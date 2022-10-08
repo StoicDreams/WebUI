@@ -3,12 +3,19 @@
 //! `webui` is a website framework for building webassembly SPA websites quickly and easily.
 //! Development is just getting started, so we do not recommend using at this point for anything more than experimenting.
 
+/// Agents for sending and receiving messages between components.
 pub mod agents;
+/// Components used for managing and rendering html output
 pub mod components;
+/// Data Types
+pub mod data_types;
+/// Generalized macros
+#[macro_use]
+pub mod macros;
+/// Javascript interop and related macros
 #[macro_use]
 pub mod interop;
 
-pub(crate) use crate::agents::app_drawer_agent;
 pub use crate::agents::app_drawer_agent::*;
 pub use crate::agents::app_state_agent::*;
 pub use crate::components::container::paper::Paper;
@@ -20,15 +27,13 @@ pub use crate::data_types::direction::Direction;
 pub use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
 pub use crate::data_types::nav_route::*;
 pub use crate::data_types::roles;
+pub use crate::macros::*;
 pub use yew;
 pub use yew::prelude::*;
 pub use yew_agent;
 pub use yew_agent::*;
 
 use components::layout::app::start_webui_app;
-
-/// Data Types
-pub mod data_types;
 
 /// Initializer to run in app main() to start website
 ///

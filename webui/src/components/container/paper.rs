@@ -12,6 +12,42 @@ pub struct PaperProps {
 }
 
 /// Common container component
+///
+/// Basic example
+/// ```rust
+/// use webui::*;
+///
+/// fn page() -> Html {
+/// 	html! {
+/// 		<Paper>{"Your child content here"}</Paper>
+/// 	}
+/// }
+/// ```
+///
+/// Add classes
+/// ```rust
+/// use webui::*;
+///
+/// fn page() -> Html {
+/// 	html! {
+/// 		<Paper class="d-flex flex-column">{"Your child content here"}</Paper>
+/// 	}
+/// }
+/// ```
+///
+/// Apply elevetation
+///
+/// Elevation applies a box shadow to the Paper component.
+/// Valid ranges range from 0 ro 25.
+/// ```rust
+/// use webui::*;
+///
+/// fn page() -> Html {
+/// 	html! {
+/// 		<Paper elevation={10}>{"Your child content here"}</Paper>
+/// 	}
+/// }
+/// ```
 #[function_component(Paper)]
 pub fn paper(props: &PaperProps) -> Html {
     let classes = &mut Classes::new();
