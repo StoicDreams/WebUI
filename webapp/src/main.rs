@@ -1,5 +1,5 @@
 use feedback::feedback_button_info;
-use webui::AppConfig;
+use webui::*;
 
 mod components;
 mod feedback;
@@ -24,5 +24,6 @@ fn setup_app_config() -> AppConfig {
     .set_drawer_toggle_header_left(nav_menu::nav_menu_info())
     .set_drawer_toggle_header_middle(feedback_button_info())
     .set_header_strip_bar(header_strip_bar::header_strip_bar)
+    .set_user_info_panel(|| html! {"Guest"})
     .build()
 }

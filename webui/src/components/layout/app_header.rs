@@ -18,9 +18,7 @@ pub(crate) fn app_footer() -> Html {
             <h1 class="flex-grow">{ app_config.app_name.clone() }</h1>
             <AppDrawerButton info={top_drawer_info.clone()} />
             {app_config.header_strip_bar.unwrap_or(empty_html)()}
-            <Paper class="d-flex justify-right">
-                {"Guest"}
-            </Paper>
+            {app_config.user_info_panel.unwrap_or(empty_html)()}
             <AppDrawerButton info={right_drawer_info.clone()} />
         </header>
     }
