@@ -24,6 +24,6 @@ fn setup_app_config() -> AppConfig {
     .set_drawer_toggle_header_left(nav_menu::nav_menu_info())
     .set_drawer_toggle_header_middle(feedback_button_info())
     .set_header_strip_bar(header_strip_bar::header_strip_bar)
-    .set_user_info_panel(|| html! {"Guest"})
+    .set_user_info_panel(info_panel::info_panel)
     .build()
 }

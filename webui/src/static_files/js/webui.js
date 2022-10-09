@@ -45,6 +45,19 @@
 		return false;
 	}
 	const styles = document.createElement('style');
+	function set_body_class(winWidth) {
+		// Flag general width by class
+		let w = winWidth > 3800 ? 'w-4k'
+			: winWidth > 3400 ? 'w-wqhd'
+			: winWidth > 2500 ? 'w-qhd'
+			: winWidth > 1900 ? 'w-fhd'
+			: winWidth > 1500 ? 'w-hdp'
+			: winWidth > 1300 ? 'w-hd'
+			: winWidth > 500 ? 'w-tab'
+			: 'w-mob'
+			;
+		document.body.className = `${w}`;
+	}
 	async function applyDynamicStyleRules() {
 		let w = window;
 		let h = await getEl('#app > header', 1) || {clientHeight: 0};
@@ -60,6 +73,7 @@
 	--footer-height: ${f.clientHeight}px;
 }
 `;
+		set_body_class(w.innerWidth);
 	}
 	function handlResize(ev) {
 		applyDynamicStyleRules();
