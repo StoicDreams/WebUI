@@ -11,7 +11,8 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
         || html! {<i class="fa-solid fa-bars"></i>},
         nav_menu_render,
     )
-    .hide_title()
+    .hide_header()
+    .hide_footer()
     .set_drawer(Direction::Left)
     .build()
 }

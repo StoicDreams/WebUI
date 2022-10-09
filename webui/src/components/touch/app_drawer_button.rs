@@ -1,5 +1,4 @@
 use crate::yew::Context;
-use crate::AppDrawerOptions;
 use crate::{
     agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
     html, Children, Component, Direction, Dispatched, Dispatcher, DrawerToggleInfo, Html,

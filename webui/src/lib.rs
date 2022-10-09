@@ -44,15 +44,17 @@ use components::layout::app::start_webui_app;
 /// use webui::AppConfig;
 ///
 /// fn main() {
-///     let app_config: AppConfig = AppConfig {
-///         app_name: "Web UI".to_owned(),
-///         company_name: "Sample Company".to_owned(),
-///         company_home_url: "https://www.stoicdreams.com".to_owned(),
-///         domain: "StoicDreams.com".to_owned(),
-///         hide_powered_by: false,
-///         body_html: page_routes::body_html,
-///         header_left_drawer_toggle: Option::Some(nav_menu::nav_menu_info()),
-///     };
+///     let app_config = AppConfig::new(
+///            "Web UI Demo & Documentation".to_owned(),
+///            "Stoic Dreams".to_owned(),
+///            "https://www.stoicdreams.com".to_owned(),
+///             "StoicDreams.com".to_owned(),
+///             )
+///             .set_header_logo_src("Logo.svg".to_owned())
+///             .set_nav_routing(nav_menu::get_nav_routing())
+///             .set_drawer_toggle_header_left(nav_menu::nav_menu_info())
+///             .set_drawer_toggle_header_middle(feedback_button_info())
+///             .build();
 ///     webui::start_app(app_config);
 /// }
 /// ```

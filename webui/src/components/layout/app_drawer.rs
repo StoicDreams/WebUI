@@ -96,7 +96,8 @@ impl Component for AppDrawer {
             if self.is_open { "open" } else { "closed" }
         );
         let content = self.content.clone().get_display();
-        let show_title = !self.content.hide_title;
+        let show_header = !self.content.hide_header;
+        let show_footer = !self.content.hide_footer;
         let show_close_x = !self.content.hide_close_x;
         let drawer_cover = ctx.props().drawer.to_owned();
         let drawer_placement = ctx.props().drawer.to_owned();
@@ -125,7 +126,7 @@ impl Component for AppDrawer {
                     }
                 )}>
                     <div class="drawer-content">
-                        {if show_title {
+                        {if show_header {
                             html! {
                                 <header>
                                     {title_standard!(
@@ -156,8 +157,13 @@ impl Component for AppDrawer {
                                 </header>
                             }
                         }else{html!{}}}
-
                         {content()}
+                        {if show_footer {
+                            html! {
+                                <footer>
+                                </footer>
+                            }
+                        } else { html! {} }}
                     </div>
                 </div>
             </aside>

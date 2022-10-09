@@ -7,13 +7,15 @@ use std::collections::HashSet;
 pub struct AppDrawerOptions {
     pub(crate) title: String,
     pub(crate) display_ref: usize,
-    pub(crate) hide_title: bool,
+    pub(crate) hide_header: bool,
+    pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
 }
 pub struct AppDrawerOptionsBuilder {
     title: String,
     display_ref: usize,
-    hide_title: bool,
+    hide_header: bool,
+    hide_footer: bool,
     hide_close_x: bool,
 }
 
@@ -22,7 +24,8 @@ impl AppDrawerOptionsBuilder {
         AppDrawerOptions {
             title: self.title,
             display_ref: self.display_ref,
-            hide_title: self.hide_title,
+            hide_header: self.hide_header,
+            hide_footer: self.hide_footer,
             hide_close_x: self.hide_close_x,
         }
     }
@@ -30,8 +33,12 @@ impl AppDrawerOptionsBuilder {
         self.hide_close_x = true;
         self
     }
-    pub fn hide_title(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
-        self.hide_title = true;
+    pub fn hide_header(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
+        self.hide_header = true;
+        self
+    }
+    pub fn hide_footer(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
+        self.hide_footer = true;
         self
     }
 }
@@ -41,7 +48,8 @@ impl AppDrawerOptions {
         AppDrawerOptionsBuilder {
             title,
             display_ref: display as usize,
-            hide_title: false,
+            hide_header: false,
+            hide_footer: false,
             hide_close_x: false,
         }
     }
