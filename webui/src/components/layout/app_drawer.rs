@@ -125,32 +125,36 @@ impl Component for AppDrawer {
                     }
                 )}>
                     <div class="drawer-content">
-
                         {if show_title {
-                            {title_standard!(
-                                html!{
-                                    <>
-                                        <Paper>{"Give us your feedback!"}</Paper>
-                                        <span class="flex-grow" />
-                                        {if show_close_x {
-                                            html! {
-                                                <button class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={ctx.link().callback(move |_|
-                                                    {
-                                                        match drawer_close_x {
-                                                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None)),
-                                                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(None)),
-                                                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(None)),
-                                                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None)),
-                                                        }
+                            html! {
+                                <header>
+                                    {title_standard!(
+                                        html!{
+                                            <>
+                                                <Paper>{"Give us your feedback!"}</Paper>
+                                                <span class="flex-grow" />
+                                            </>
+                                        }
+                                    )}
+                                    <span class="flex-grow" />
+                                    {if show_close_x {
+                                        html! {
+                                            <button class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={ctx.link().callback(move |_|
+                                                {
+                                                    match drawer_close_x {
+                                                        Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None)),
+                                                        Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(None)),
+                                                        Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(None)),
+                                                        Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None)),
                                                     }
-                                                )}>
-                                                    <i class="fa-solid fa-times" />
-                                                </button>
-                                            }
-                                        } else {html!{}}}
-                                    </>
-                                }
-                            )}
+                                                }
+                                            )}>
+                                                <i class="fa-solid fa-times" />
+                                            </button>
+                                        }
+                                    } else {html!{}}}
+                                </header>
+                            }
                         }else{html!{}}}
 
                         {content()}

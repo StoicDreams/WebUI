@@ -123,7 +123,6 @@ header {
 	gap: var(--padding);
 	background-color: var(--color-title);
 	color: var(--color-title-offset);
-	padding: var(--padding);
 }
 h1, h2, h3, h4, h5 , h6 {
 	font-size: var(--typography-size);
@@ -151,6 +150,9 @@ button {
 	outline: none;
 }
 /* Layout Styles */
+#app > header {
+	padding: var(--padding);
+}
 #app > footer {
 	display: flex;
 	position: absolute;
@@ -374,10 +376,10 @@ aside.app-drawer.left {
 .d-inlineblock { display: inline-block; }
 .d-inlineflex { display: inline-flex; }
 .d-inlineflexbox { display: inline-flexbox; }
-.main > .d-flex:not(.flex-column):not(.flex-columnreverse) > *:not([width]) {
+main > .d-flex:not(.flex-column):not(.flex-columnreverse) > *:not([width]) {
 	flex: 100 1 400px;
 }
-.main > .d-flex > *[width] {
+main > .d-flex > *[width] {
 	flex: 1 0 auto;
 }
 .flex-row { flex-direction: row; }
