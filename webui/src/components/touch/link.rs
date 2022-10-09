@@ -11,6 +11,8 @@ pub struct NavLinkProps {
     #[prop_or_default]
     pub title: String,
     #[prop_or_default]
+    pub icon: String,
+    #[prop_or_default]
     pub onclick: Option<fn(ev: MouseEvent)>,
 }
 
@@ -37,6 +39,11 @@ pub fn link(props: &NavLinkProps) -> Html {
             title={title}
             class={props.class.to_owned()}
             onclick={onclick}>
+            {if !props.icon.is_empty() {
+                html! {<i class={props.icon.to_string()} />}
+            } else {
+                html! {}
+            }}
             {for props.children.iter()}
         </a>
     }

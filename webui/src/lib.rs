@@ -37,6 +37,10 @@ pub use yew_agent::*;
 
 use components::layout::app::start_webui_app;
 
+pub fn empty_html() -> Html {
+    html! {}
+}
+
 /// Initializer to run in app main() to start website
 ///
 /// example

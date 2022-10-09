@@ -1,4 +1,4 @@
-use crate::{function_component, html, use_context, AppConfig, AppDrawerButton, Paper};
+use crate::*;
 
 /// App footer component
 #[function_component(AppHeader)]
@@ -17,6 +17,7 @@ pub(crate) fn app_footer() -> Html {
                 />
             <h1 class="flex-grow">{ app_config.app_name.clone() }</h1>
             <AppDrawerButton info={top_drawer_info.clone()} />
+            {app_config.header_strip_bar.unwrap_or(empty_html)()}
             <Paper class="d-flex justify-right">
                 {"Guest"}
             </Paper>

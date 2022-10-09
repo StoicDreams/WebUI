@@ -92,15 +92,15 @@ impl Component for AppDrawerButton {
                         html! {
                             <button type="button" title={drawer_info.title} class={props.class.to_owned()}
                                 onclick={setup_onclick}>
+                                <span class="btn toggle elevation-1">{(drawer_info.display)()}</span>
                                 {match &self.logo_src {
                                     Some(logo) => {
                                         html! {
-                                            <img src={logo.to_string()} title={self.logo_title.to_owned()} />
+                                            <img class="pl-1" src={logo.to_string()} title={self.logo_title.to_owned()} />
                                         }
                                     },
                                     None => html! {}
                                 }}
-                                <span class="btn toggle elevation-1">{(drawer_info.display)()}</span>
                                 {for ctx.props().children.iter()}
                             </button>
                         }

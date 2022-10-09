@@ -1,9 +1,12 @@
 use feedback::feedback_button_info;
 use webui::AppConfig;
 
+mod components;
 mod feedback;
 mod nav_menu;
-pub(crate) mod pages;
+mod pages;
+
+pub use crate::components::*;
 
 fn main() {
     webui::start_app(setup_app_config());
@@ -20,5 +23,6 @@ fn setup_app_config() -> AppConfig {
     .set_nav_routing(nav_menu::get_nav_routing())
     .set_drawer_toggle_header_left(nav_menu::nav_menu_info())
     .set_drawer_toggle_header_middle(feedback_button_info())
+    .set_header_strip_bar(header_strip_bar::header_strip_bar)
     .build()
 }
