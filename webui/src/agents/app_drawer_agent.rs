@@ -10,6 +10,9 @@ pub struct AppDrawerOptions {
     pub(crate) hide_header: bool,
     pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
+    pub(crate) hide_cancel: bool,
+    pub(crate) on_confirm: Option<usize>,
+    pub(crate) confirm_display: String,
 }
 pub struct AppDrawerOptionsBuilder {
     title: String,
@@ -17,6 +20,9 @@ pub struct AppDrawerOptionsBuilder {
     hide_header: bool,
     hide_footer: bool,
     hide_close_x: bool,
+    hide_cancel: bool,
+    on_confirm: Option<fn() -> bool>,
+    confirm_display: String,
 }
 
 impl AppDrawerOptionsBuilder {
@@ -27,18 +33,33 @@ impl AppDrawerOptionsBuilder {
             hide_header: self.hide_header,
             hide_footer: self.hide_footer,
             hide_close_x: self.hide_close_x,
+            hide_cancel: self.hide_cancel,
+            on_confirm: match self.on_confirm {
+                Some(method) => Some(method as usize),
+                None => None,
+            },
+            confirm_display: self.confirm_display.to_string(),
         }
     }
-    pub fn hide_close_x(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
+    pub fn hide_close_x(self: &mut Self) -> &mut Self {
         self.hide_close_x = true;
         self
     }
-    pub fn hide_header(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
+    pub fn hide_header(self: &mut Self) -> &mut Self {
         self.hide_header = true;
         self
     }
-    pub fn hide_footer(self: &mut Self) -> &mut AppDrawerOptionsBuilder {
+    pub fn hide_footer(self: &mut Self) -> &mut Self {
         self.hide_footer = true;
+        self
+    }
+    pub(crate) fn hide_cancel(self: &mut Self) -> &mut Self {
+        self.hide_cancel = true;
+        self
+    }
+    pub fn set_on_confirm(self: &mut Self, display: String, on_confirm: fn() -> bool) -> &mut Self {
+        self.on_confirm = Some(on_confirm);
+        self.confirm_display = display;
         self
     }
 }
@@ -51,9 +72,13 @@ impl AppDrawerOptions {
             hide_header: false,
             hide_footer: false,
             hide_close_x: false,
+            hide_cancel: false,
+            confirm_display: "Confirm".to_string(),
+            on_confirm: None,
         }
     }
-    pub(crate) fn get_display(self: Self) -> fn() -> Html {
+
+    pub(crate) fn get_display(self: &Self) -> fn() -> Html {
         let content: fn() -> Html = if self.display_ref > 0 {
             let fnptr = self.display_ref as *const ();
             unsafe { std::mem::transmute(fnptr) }
@@ -61,6 +86,21 @@ impl AppDrawerOptions {
             || html!("")
         };
         content
+    }
+
+    pub(crate) fn get_on_confirm(self: &Self) -> fn() -> bool {
+        match self.on_confirm {
+            Some(value) => {
+                let content: fn() -> bool = if value > 0 {
+                    let fnptr = value as *const ();
+                    unsafe { std::mem::transmute(fnptr) }
+                } else {
+                    || true
+                };
+                content
+            }
+            None => || true,
+        }
     }
 }
 

@@ -124,6 +124,24 @@ header {
 	background-color: var(--color-title);
 	color: var(--color-title-offset);
 }
+footer {
+	position: relative;
+	background-color: inherit;
+}
+footer::before {
+	content:" ";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--color-shade);
+	z-index: 0;
+}
+footer > * {
+	z-index: 1;
+}
 h1, h2, h3, h4, h5 , h6 {
 	font-size: var(--typography-size);
 	margin: 0;
@@ -166,9 +184,9 @@ button {
 	align-items: center;
 	justify-content: center;
 	gap: var(--padding);
-	background-color: var(--color-shade);
 	padding: calc(var(--padding) * 0.5) calc(var(--padding) * 1.5);
 }
+
 
 /* Helper Classes */
 header > .logo {
@@ -212,9 +230,9 @@ aside.app-drawer.left {
 	height: 100%;
 	right: 100%;
 }
-.app-drawer > .page-cover {
+.app-drawer .page-cover {
 	display: block;
-	position: absolute;
+	position: fixed;
 	top:0;
 	left:0;
 	width:100%;
@@ -222,6 +240,9 @@ aside.app-drawer.left {
 	background-color: var(--color-shade);
 	backdrop-filter: var(--backdrop-blur);
 	-webkit-backdrop-filter: var(--backdrop-blur);
+}
+.app-drawer:not(.open) .page-cover {
+	display:none;
 }
 .app-drawer > .drawer-placement {
 	display: block;
@@ -354,6 +375,7 @@ a.btn:active,
 	border-radius: var(--corners);
 	min-height: 2em;
 	user-select: text;
+	-webkit-user-select: text;
 }
 .btn:disabled {
 	cursor: not-allowed;

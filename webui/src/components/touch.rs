@@ -1,3 +1,6 @@
+/// Module for buttons
+pub mod button;
+
 /// Module for external links
 pub mod link;
 

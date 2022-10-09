@@ -11,6 +11,9 @@ pub struct DrawerToggleInfo {
     pub(crate) hide_header: bool,
     pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
+    pub(crate) hide_cancel: bool,
+    pub(crate) on_confirm: Option<fn() -> bool>,
+    pub(crate) confirm_display: String,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -23,6 +26,9 @@ pub struct DrawerToggleInfoBuilder {
     hide_header: bool,
     hide_footer: bool,
     hide_close_x: bool,
+    hide_cancel: bool,
+    on_confirm: Option<fn() -> bool>,
+    confirm_display: String,
 }
 
 impl DrawerToggleInfo {
@@ -40,6 +46,9 @@ impl DrawerToggleInfo {
             hide_header: false,
             hide_footer: false,
             hide_close_x: false,
+            hide_cancel: false,
+            on_confirm: None,
+            confirm_display: String::default(),
         }
     }
     pub(crate) fn get_options(self: &Self) -> AppDrawerOptions {
@@ -49,6 +58,19 @@ impl DrawerToggleInfo {
             builder.hide_header();
         } else if self.hide_close_x {
             builder.hide_close_x();
+        }
+        if self.hide_footer {
+            builder.hide_footer();
+        } else {
+            if self.hide_cancel {
+                builder.hide_cancel();
+            }
+            match self.on_confirm {
+                Some(on_confirm) => {
+                    builder.set_on_confirm(self.confirm_display.to_string(), on_confirm);
+                }
+                None => (),
+            }
         }
 
         builder.build()
@@ -66,6 +88,9 @@ impl DrawerToggleInfoBuilder {
             hide_header: self.hide_header,
             hide_footer: self.hide_footer,
             hide_close_x: self.hide_close_x,
+            hide_cancel: self.hide_cancel,
+            on_confirm: self.on_confirm,
+            confirm_display: self.confirm_display.to_string(),
         }
     }
     pub fn set_button_class(self: &mut Self, class: String) -> &mut Self {
@@ -84,6 +109,20 @@ impl DrawerToggleInfoBuilder {
 
     pub fn hide_footer(self: &mut Self) -> &mut Self {
         self.hide_footer = true;
+        self
+    }
+
+    pub fn hide_cancel_button(self: &mut Self) -> &mut Self {
+        self.hide_cancel = true;
+        self
+    }
+
+    /// Set the confirmation display text and handler handler
+    ///
+    /// This button will display on the right side of the drawer footer
+    pub fn set_on_confirm(self: &mut Self, display: String, on_confirm: fn() -> bool) -> &mut Self {
+        self.on_confirm = Some(on_confirm);
+        self.confirm_display = display;
         self
     }
 }

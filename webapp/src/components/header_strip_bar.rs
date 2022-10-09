@@ -10,6 +10,10 @@ pub(crate) fn header_strip_bar() -> Html {
                     title="Sponser us to help support development"
                     href="https://github.com/sponsors/StoicDreams">
                 </Link>
+                <Link class="btn theme-inherit pl-1 pr-1" icon="fa-brands fa-discord"
+                    title="Link to Stoic Dreams Discord server"
+                    href="https://discord.com/channels/972856291909332993/1025781071608037466">
+                </Link>
                 <Link class="btn theme-inherit pl-1 pr-1" icon="fa-brands fa-facebook"
                     title="Link to Stoic Dreams on Facebook"
                     href="https://www.facebook.com/stoicdreams">

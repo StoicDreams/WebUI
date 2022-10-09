@@ -1,4 +1,4 @@
-use webui::{html, Direction, DrawerToggleInfo, Html, Paper};
+use webui::*;
 
 pub fn feedback_button_info() -> DrawerToggleInfo {
     DrawerToggleInfo::new(
@@ -7,7 +7,13 @@ pub fn feedback_button_info() -> DrawerToggleInfo {
         get_render,
     )
     .set_drawer(Direction::Top)
+    .set_on_confirm("Send Feedback".to_string(), handle_confirm)
     .build()
+}
+
+fn handle_confirm() -> bool {
+    jslog!("Feedback confirmed!");
+    true
 }
 
 pub(crate) fn get_render() -> Html {

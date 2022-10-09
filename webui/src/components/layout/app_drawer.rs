@@ -18,6 +18,32 @@ pub(crate) struct AppDrawer {
     app_drawer_agent: Box<dyn Bridge<AppDrawerAgent>>,
     is_open: bool,
     content: AppDrawerOptions,
+    click_handler: ClickHandler,
+}
+
+/// Clonable struct to pass needed methods and data to click events
+#[derive(Clone)]
+struct ClickHandler {
+    drawer: Direction,
+}
+
+impl ClickHandler {
+    fn get_message(self: &Self) -> AppDrawerReceiverMessage {
+        match self.drawer {
+            Direction::Top => {
+                AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None))
+            }
+            Direction::Right => AppDrawerReceiverMessage::AppDrawerMessage(
+                AppDrawerRequest::ToggleRightDrawer(None),
+            ),
+            Direction::Bottom => AppDrawerReceiverMessage::AppDrawerMessage(
+                AppDrawerRequest::ToggleBottomDrawer(None),
+            ),
+            Direction::Left => {
+                AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None))
+            }
+        }
+    }
 }
 
 impl AppDrawer {
@@ -41,6 +67,8 @@ impl Component for AppDrawer {
     type Properties = AppDrawerProps;
 
     fn create(ctx: &yew::Context<Self>) -> Self {
+        let link = ctx.link();
+        let test: &crate::html::Scope<AppDrawer> = link;
         Self {
             app_drawer_agent: AppDrawerAgent::bridge(
                 ctx.link()
@@ -48,6 +76,9 @@ impl Component for AppDrawer {
             ),
             is_open: false,
             content: AppDrawerOptions::new("Loading...".to_owned(), || html! {}).build(),
+            click_handler: ClickHandler {
+                drawer: ctx.props().drawer.to_owned(),
+            },
         }
     }
 
@@ -95,36 +126,30 @@ impl Component for AppDrawer {
             props.class.to_owned().unwrap_or_default(),
             if self.is_open { "open" } else { "closed" }
         );
-        let content = self.content.clone().get_display();
+        let content = self.content.get_display();
         let show_header = !self.content.hide_header;
         let show_footer = !self.content.hide_footer;
         let show_close_x = !self.content.hide_close_x;
-        let drawer_cover = ctx.props().drawer.to_owned();
-        let drawer_placement = ctx.props().drawer.to_owned();
-        let drawer_close_x = ctx.props().drawer.to_owned();
+        let show_close = !self.content.hide_cancel;
+        let drawer = ctx.props().drawer.to_owned();
+        let cancel_button_display = "Cancel";
+        let show_confirm = match self.content.on_confirm {
+            Some(_) => true,
+            None => false,
+        };
+        let confirm_display = self.content.confirm_display.to_owned();
+        let confirm_onclick = self.content.get_on_confirm();
+
+        let cover_click = self.click_handler.to_owned();
+        let close_x_click = self.click_handler.to_owned();
+        let close_click = self.click_handler.to_owned();
+        let confirm_click = self.click_handler.to_owned();
+
         html! {
             <aside class={class}>
-                <div class="page-cover" onclick={ctx.link().callback(move |_|
-                    {
-                        match drawer_cover {
-                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None)),
-                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(None)),
-                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(None)),
-                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None)),
-                        }
-                    }
-                )}>
-                </div>
-                <div class="drawer-placement" onclick={ctx.link().callback(move |_|
-                    {
-                        match drawer_placement {
-                            Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None)),
-                            Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(None)),
-                            Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(None)),
-                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None)),
-                        }
-                    }
-                )}>
+                <div class="drawer-placement">
+                    <div class="page-cover" onclick={ctx.link().callback(move |_|cover_click.get_message())}>
+                    </div>
                     <div class="drawer-content">
                         {if show_header {
                             html! {
@@ -140,16 +165,7 @@ impl Component for AppDrawer {
                                     <span class="flex-grow" />
                                     {if show_close_x {
                                         html! {
-                                            <button class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={ctx.link().callback(move |_|
-                                                {
-                                                    match drawer_close_x {
-                                                        Direction::Top => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None)),
-                                                        Direction::Right => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleRightDrawer(None)),
-                                                        Direction::Bottom => return AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleBottomDrawer(None)),
-                                                        Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None)),
-                                                    }
-                                                }
-                                            )}>
+                                            <button class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={ctx.link().callback(move |_|close_x_click.get_message())}>
                                                 <i class="fa-solid fa-times" />
                                             </button>
                                         }
@@ -157,10 +173,34 @@ impl Component for AppDrawer {
                                 </header>
                             }
                         }else{html!{}}}
-                        {content()}
+                        <Paper class="flex-grow">
+                            {content()}
+                        </Paper>
                         {if show_footer {
                             html! {
-                                <footer>
+                                <footer class="pa-1 d-flex flex-row">
+                                    {if show_close {
+                                        html! {
+                                            <Button class="btn theme-warning" onclick={ctx.link().callback(move |_|close_click.get_message())}>
+                                                {cancel_button_display}
+                                            </Button>
+                                        }
+                                    } else {empty_html()}}
+                                    {if show_confirm {
+                                        html! {
+                                            <>
+                                                <span class="flex-grow" />
+                                                <Button class="btn theme-success" onclick={ctx.link().callback(move |_|{
+                                                    if !confirm_onclick() {
+                                                        return AppDrawerReceiverMessage::None;
+                                                    }
+                                                    confirm_click.get_message()
+                                                })}>
+                                                    {confirm_display}
+                                                </Button>
+                                            </>
+                                        }
+                                    } else {empty_html()}}
                                 </footer>
                             }
                         } else { html! {} }}
