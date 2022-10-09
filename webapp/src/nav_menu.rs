@@ -11,6 +11,7 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
         || html! {<i class="fa-solid fa-bars"></i>},
         nav_menu_render,
     )
+    .set_button_class("btn toggle theme-inherit".to_string())
     .hide_header()
     .hide_footer()
     .set_drawer(Direction::Left)

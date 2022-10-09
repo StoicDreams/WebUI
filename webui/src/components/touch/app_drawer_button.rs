@@ -84,15 +84,15 @@ impl Component for AppDrawerButton {
                 });
             onclick
         };
-
         html! {
             <>
                 {match self.drawer_info.clone() {
                     Some(drawer_info) => {
+                        let btn_class = if drawer_info.class.is_empty() {"btn toggle elevation-1".to_string()} else {drawer_info.class.to_string()};
                         html! {
-                            <button type="button" title={drawer_info.title} class={props.class.to_owned()}
+                            <button type="button" title={drawer_info.title} class={props.class.to_string()}
                                 onclick={setup_onclick}>
-                                <span class="btn toggle elevation-1">{(drawer_info.display)()}</span>
+                                <span class={btn_class}>{(drawer_info.display)()}</span>
                                 {match &self.logo_src {
                                     Some(logo) => {
                                         html! {

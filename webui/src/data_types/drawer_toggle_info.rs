@@ -68,17 +68,21 @@ impl DrawerToggleInfoBuilder {
             hide_close_x: self.hide_close_x,
         }
     }
-    pub fn set_drawer(self: &mut Self, drawer: Direction) -> &mut DrawerToggleInfoBuilder {
+    pub fn set_button_class(self: &mut Self, class: String) -> &mut Self {
+        self.class = class;
+        self
+    }
+    pub fn set_drawer(self: &mut Self, drawer: Direction) -> &mut Self {
         self.drawer = drawer;
         self
     }
 
-    pub fn hide_header(self: &mut Self) -> &mut DrawerToggleInfoBuilder {
+    pub fn hide_header(self: &mut Self) -> &mut Self {
         self.hide_header = true;
         self
     }
 
-    pub fn hide_footer(self: &mut Self) -> &mut DrawerToggleInfoBuilder {
+    pub fn hide_footer(self: &mut Self) -> &mut Self {
         self.hide_footer = true;
         self
     }
