@@ -534,7 +534,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.1.57"
+version = "0.1.58"
 dependencies = [
  "webui",
  "yew",
@@ -542,7 +542,7 @@ dependencies = [
 
 [[package]]
 name = "webui"
-version = "0.1.57"
+version = "0.1.58"
 dependencies = [
  "js-sys",
  "serde",

@@ -20,7 +20,15 @@ pub(crate) fn get_render() -> Html {
     html! {
         <>
             <Paper class="pa-1">
-                <p>{"Coming soon"}</p>
+                {paragraphs!(
+                {html!{
+                    <>
+                        {"You can also come "}
+                        <Link title="Web UI at Stoic Dreams Discord server" href="https://discord.com/channels/972856291909332993/1025781071608037466">{"chat with us on the Stoic Dreams discord server."}</Link>
+                    </>
+                }},
+                "Coming Soon!"
+                )}
             </Paper>
         </>
     }
