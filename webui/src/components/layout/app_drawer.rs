@@ -150,7 +150,7 @@ impl Component for AppDrawer {
                 <div class="drawer-placement">
                     <div class="page-cover" onclick={ctx.link().callback(move |_|cover_click.get_message())}>
                     </div>
-                    <div class="drawer-content">
+                    <div class="drawer-content elevation-20">
                         {if show_header {
                             html! {
                                 <header>
