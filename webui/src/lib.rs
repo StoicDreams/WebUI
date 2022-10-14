@@ -33,20 +33,23 @@ pub use crate::components::touch::link::Link;
 pub use crate::components::touch::navlink::NavLink;
 pub use crate::data_types::app_config::AppConfig;
 pub use crate::data_types::direction::Direction;
-pub use crate::data_types::errors::*;
 pub use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
+pub use crate::data_types::errors::*;
 pub use crate::data_types::nav_route::*;
 pub use crate::data_types::roles;
 pub use crate::macros::titles::*;
 pub use crate::macros::*;
+pub use async_std;
+pub use async_std::prelude::*;
+pub use serde;
+pub use serde_json;
+pub use wasm_bindgen::JsCast;
+pub use web_sys;
 pub use yew;
 pub use yew::prelude::*;
 pub use yew_agent;
 pub use yew_agent::*;
-pub use web_sys;
-pub use wasm_bindgen::JsCast;
-pub use serde;
-pub use serde_json;
+pub use yew_hooks;
 pub use yew_hooks::prelude::*;
 
 use components::layout::app::start_webui_app;
@@ -59,7 +62,7 @@ pub fn empty_html() -> Html {
 ///
 /// example
 /// ```rust,ignore
-/// use webui::AppConfig;
+/// use webui::*;
 ///
 /// fn main() {
 ///     let app_config = AppConfig::new(

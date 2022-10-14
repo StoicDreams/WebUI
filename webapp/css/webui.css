@@ -373,6 +373,10 @@ aside.app-drawer.left {
 	background-color: var(--color-active);
 	color: var(--color-active-offset);
 }
+.auto_message_box {
+	flex-grow: 1;
+	background-color: var(--color-shade);
+}
 .auto_message_box,
 .auto_message_box > pre,
 .auto_message_box > pre > code {
@@ -382,7 +386,6 @@ aside.app-drawer.left {
 .auto_message_box code  {
 	min-height: 4em;
 	color: transparent;
-	background-color: var(--color-shade);
 }
 .auto_message_box code::after {
 	content: "
@@ -394,6 +397,7 @@ aside.app-drawer.left {
 	resize: none;
 	background-color: transparent;
 	color: inherit;
+	overflow: hidden;
 }
 .auto_message_box > pre,
 .auto_message_box > pre > code,
@@ -415,6 +419,9 @@ aside.app-drawer.left {
 .auto_message_box > pre > code,
 .auto_message_box > pre + textarea {
 	padding: var(--padding);
+	white-space: pre-line;
+	word-wrap: break-word;
+	word-break: break-all;
 }
 
 
@@ -501,6 +508,10 @@ main > .d-flex > *[width] {
 .justify-left { justify-content: left; }
 .justify-center { justify-content: center; }
 .justify-right { justify-content: right; }
+
+.h-fill { min-height: 100%; }
+.w-fill { min-width: 100%; }
+.overflow-auto { overflow: auto; }
 
 .pa-0 { padding: 0; }
 .pa-a { padding: auto; }

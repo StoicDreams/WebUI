@@ -11,8 +11,6 @@ pub struct InputMessageProps {
     #[prop_or_default]
     pub class: String,
     #[prop_or_default]
-    pub field_class: String,
-    #[prop_or_default]
     pub style: String,
     #[prop_or_default]
     pub cache_id: Option<String>,
@@ -33,36 +31,30 @@ pub fn input_message(props: &InputMessageProps) -> Html {
     }
     let inputref = props.value.clone();
     let oninput = {
-        Callback::from(move |ev:InputEvent| {
-            match ev.target() {
-                Some(target) => {
-                    let value = target.unchecked_into::<HtmlTextAreaElement>().value();
-                    jslog!("input: {:?}", value);
-                    inputref.set(value);
-                    },
-                None => ()
+        Callback::from(move |ev: InputEvent| match ev.target() {
+            Some(target) => {
+                let value = target.unchecked_into::<HtmlTextAreaElement>().value();
+                inputref.set(value);
             }
+            None => (),
         })
     };
     let changeref = props.value.clone();
-    let onchange_handler = props.onchange.unwrap_or(|_:String|());
+    let onchange_handler = props.onchange.unwrap_or(|_: String| ());
     let onchange = {
-        Callback::from(move |ev:Event| {
-            match ev.target() {
-                Some(target) => {
-                    let value = target.unchecked_into::<HtmlTextAreaElement>().value();
-                    jslog!("change: {:?}", value);
-                    changeref.set(value.to_string());
-                    onchange_handler(value.to_string());
-                },
-                None => ()
+        Callback::from(move |ev: Event| match ev.target() {
+            Some(target) => {
+                let value = target.unchecked_into::<HtmlTextAreaElement>().value();
+                changeref.set(value.to_string());
+                onchange_handler(value.to_string());
             }
+            None => (),
         })
     };
-	html! {
+    html! {
         <InputField id={my_id.to_owned()}
             name={props.name.to_owned()}
-            class={props.field_class.to_owned()}
+            class={classes.to_string()}
             >
             <div class="auto_message_box">
                 <pre><code>{props.value.to_string()}</code></pre>
@@ -73,6 +65,5 @@ pub fn input_message(props: &InputMessageProps) -> Html {
                     >{props.value}</textarea>
             </div>
         </InputField>
-	}
+    }
 }
-

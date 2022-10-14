@@ -25,10 +25,10 @@ pub fn input_message(props: &InputFieldProps) -> Html {
     if !props.class.is_empty() {
         classes.push(&props.class);
     }
-	html! {
+    html! {
         <div class={classes.to_owned()}>
             <label for={my_id}>{props.name.to_string()}</label>
             {for props.children.iter()}
         </div>
-	}
+    }
 }

@@ -11,8 +11,6 @@ pub struct InputTextProps {
     #[prop_or_default]
     pub class: String,
     #[prop_or_default]
-    pub field_class: String,
-    #[prop_or_default]
     pub style: String,
     #[prop_or_default]
     pub cache_id: Option<String>,
@@ -30,10 +28,10 @@ pub fn input_message(props: &InputTextProps) -> Html {
         classes.push(&props.class);
     }
     let value = use_state(|| props.value.to_string());
-	html! {
+    html! {
         <InputField id={my_id.to_owned()}
             name={props.name.to_owned()}
-            class={props.field_class.to_owned()}
+            class={classes.to_string()}
             >
             <div class="auto_message_box">
                 <code>{value.to_string()}</code>
@@ -44,6 +42,5 @@ pub fn input_message(props: &InputTextProps) -> Html {
                     />
             </div>
         </InputField>
-	}
+    }
 }
-

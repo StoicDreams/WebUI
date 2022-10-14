@@ -173,7 +173,7 @@ impl Component for AppDrawer {
                                 </header>
                             }
                         }else{html!{}}}
-                        <Paper class="flex-grow">
+                        <Paper class="flex-grow d-flex flex-column gap-1 overflow-auto">
                             {content()}
                         </Paper>
                         {if show_footer {
