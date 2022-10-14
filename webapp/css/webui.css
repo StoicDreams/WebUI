@@ -173,6 +173,14 @@ button {
 	border: none;
 	outline: none;
 }
+input[type=text],
+textarea {
+	width: 100%;
+	position: relative;
+}
+textarea {
+	height: 100%;
+}
 /* Layout Styles */
 #app > header {
 	padding: var(--padding);
@@ -193,8 +201,8 @@ button {
 	padding: calc(var(--padding) * 0.5) calc(var(--padding) * 1.5);
 }
 
+/* Component Classes */
 
-/* Helper Classes */
 header > .logo {
 	display: flex;
 	gap: var(--padding);
@@ -365,6 +373,52 @@ aside.app-drawer.left {
 	background-color: var(--color-active);
 	color: var(--color-active-offset);
 }
+.auto_message_box,
+.auto_message_box > pre,
+.auto_message_box > pre > code {
+	display: block;
+	position: relative;
+}
+.auto_message_box code  {
+	min-height: 4em;
+	color: transparent;
+	background-color: var(--color-shade);
+}
+.auto_message_box code::after {
+	content: "
+	
+";
+}
+.auto_message_box > pre + textarea {
+	position: absolute;
+	resize: none;
+	background-color: transparent;
+	color: inherit;
+}
+.auto_message_box > pre,
+.auto_message_box > pre > code,
+.auto_message_box > pre + textarea {
+	display: block;
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	top: 0;
+	left: 0;
+	font-size: var(--typography-size);
+	font-family: var(--typography-family);
+	font-weight: var(--typography-weight);
+	line-height: var(--typography-lineheight);
+	letter-spacing: var(--typography-letterspacing);
+	border: none;
+}
+.auto_message_box > pre > code,
+.auto_message_box > pre + textarea {
+	padding: var(--padding);
+}
+
+
+/* Common Helpers */
 
 a.btn:link,
 a.btn:visited,

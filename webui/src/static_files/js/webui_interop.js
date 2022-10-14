@@ -1,5 +1,33 @@
 'strict'
 
+export function set_title(title) {
+    document.title = title;
+}
+
+export async function webui_fetch(request_json) {
+    let response = {};
+    try {
+        console.log('Fetching', request);
+        let data = JSON.parse(request);
+        let url = data['url'];
+        let method = data['method'] || 'GET';
+        if (!url) { return "Missing URL"; }
+        if (!method) { return "Missing Method"; }
+        let body = data['body'] || '';
+        let response = await fetch(url, {
+            method: method,
+            cache: 'no-cache',
+            redirect: 'manual',
+            body: body
+        });
+        
+
+    } catch (ex) {
+        console.error('WebUI Fetch Exception', ex);
+    }
+    return "";
+}
+
 export function get_path() {
     return get_full_path().split('?')[0].split('#')[0];
 }
@@ -97,6 +125,15 @@ export function get_user_storage_data(key) {
     return memStorage.getItem(key);
 }
 
+const GLOBALDATA = {};
+export function set_global_data(key, data) {
+    GLOBALDATA[key] = data;
+}
+
+export function get_global_data(key) {
+    return GLOBALDATA[key] ?? '';
+}
+
 export function get_uuid() {
     try {
         return crypto.randomUUID();
@@ -107,4 +144,3 @@ export function get_uuid() {
         });
     }
 }
-

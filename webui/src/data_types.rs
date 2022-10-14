@@ -7,6 +7,9 @@ pub mod drawer_toggle_info;
 /// Module holding data types for direction values
 pub mod direction;
 
+/// Module holding custom error types
+pub mod errors;
+
 /// Module holding data types for navigation routing
 pub mod nav_route;
 

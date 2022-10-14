@@ -66,6 +66,7 @@ if($null -ne $version) {
 	ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"' "version = ""$version"""
 	ApplyVersionUpdates .\webapp Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$version"""
 	ApplyVersionUpdates .\webui README.md 'webui = "([0-9\.]+)"' "webui = ""$version"""
+	ApplyVersionUpdates .\webapp service-worker.js 'webui_([0-9\.]+)' "webui_$version"
 } else {
 	Write-Host Current version was not found -ForegroundColor Red
 }

@@ -1,5 +1,7 @@
 use wasm_bindgen::prelude::*;
 
+use crate::FetchRequest;
+
 /// Check if given path matches the current browser path
 pub fn is_current_path(path: String) -> bool {
     get_path().to_lowercase() == path.to_lowercase()
@@ -22,6 +24,13 @@ macro_rules! jslog {
 
 #[wasm_bindgen(module = "/src/static_files/js/webui_interop.js")]
 extern "C" {
+    /// Set the document/page title
+    #[wasm_bindgen]
+    pub fn set_title(title: String);
+
+    /// Interface for accessing javascript fetch method
+    pub(crate) fn webui_fetch(request: String) -> String;
+
     /// Get url page path
     ///
     /// Returned path always starts with forward slash '/'.
@@ -80,4 +89,10 @@ extern "C" {
     /// When session or local storage is enabled, data is also backed up to the appropriate container, and loaded into memory storage on page loads.
     #[wasm_bindgen]
     pub fn get_user_storage_data(key: String) -> String;
+
+    #[wasm_bindgen]
+    pub fn get_global_data(key: String) -> String;
+
+    #[wasm_bindgen]
+    pub fn set_global_data(key: String, value: String);
 }

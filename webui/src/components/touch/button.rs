@@ -32,14 +32,6 @@ pub fn button(props: &ButtonProps) -> Html {
         classes.push(format!("elevation-{}", props.elevation));
     }
 
-    /*
-    let clickoption = props.onclick.to_owned();
-    let onclick = move |ev: MouseEvent| {
-        match clickoption {
-            Some(method) => method(ev),
-            None => (),
-        };
-    };*/
     let onclick = match props.onclick.to_owned() {
         Some(callback) => callback,
         None => Callback::default(),
