@@ -48,13 +48,13 @@ stages:
           PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp/dist'
           ArtifactName: 'drop'
           publishLocation: 'Container'
-      - task: AzureCLI@2
-        displayName: 'Remove Old Files'
-        inputs:
-          azureSubscription: '$(azureSubscription)'
-          scriptType: pscore
-          scriptLocation: inlineScript
-          inlineScript: 'az storage blob delete-batch -s ''$web'' --account-name $(accountName)'
+#      - task: AzureCLI@2
+#        displayName: 'Remove Old Files'
+#        inputs:
+#          azureSubscription: '$(azureSubscription)'
+#          scriptType: pscore
+#          scriptLocation: inlineScript
+#          inlineScript: 'az storage blob delete-batch -s ''$web'' --account-name $(accountName)'
       - task: AzureFileCopy@2
         displayName: 'Copy Files to Azure Blob Storage'
         inputs:
