@@ -1,4 +1,5 @@
 use crate::*;
+use web_sys::HtmlInputElement;
 
 #[derive(Properties, PartialEq)]
 pub struct InputTextProps {
@@ -6,14 +7,17 @@ pub struct InputTextProps {
     pub name: String,
     #[prop_or_default]
     pub key: String,
-    #[prop_or_default]
-    pub value: String,
+    pub value: UseStateHandle<String>,
     #[prop_or_default]
     pub class: String,
+    #[prop_or_default]
+    pub placeholder: String,
     #[prop_or_default]
     pub style: String,
     #[prop_or_default]
     pub cache_id: Option<String>,
+    #[prop_or_default]
+    pub onchange: Option<fn(String)>,
 }
 
 #[function_component(InputText)]
@@ -28,6 +32,33 @@ pub fn input_message(props: &InputTextProps) -> Html {
         classes.push(&props.class);
     }
     let value = use_state(|| props.value.to_string());
+    let inputref = props.value.clone();
+    let oninput = {
+        Callback::from(move |ev: InputEvent| match ev.target() {
+            Some(target) => {
+                let value = target.unchecked_into::<HtmlInputElement>().value();
+                inputref.set(value);
+            }
+            None => (),
+        })
+    };
+    let changeref = props.value.clone();
+    let onchange_handler = props.onchange.unwrap_or(|_: String| ());
+    let onchange = {
+        Callback::from(move |ev: Event| match ev.target() {
+            Some(target) => {
+                let value = target.unchecked_into::<HtmlInputElement>().value();
+                changeref.set(value.to_string());
+                onchange_handler(value.to_string());
+            }
+            None => (),
+        })
+    };
+    let placeholder = if props.placeholder.is_empty() {
+        "Type text here".to_string()
+    } else {
+        props.placeholder.to_string()
+    };
     html! {
         <InputField id={my_id.to_owned()}
             name={props.name.to_owned()}
@@ -39,6 +70,9 @@ pub fn input_message(props: &InputTextProps) -> Html {
                     name={props.key.to_owned()}
                     id={my_id.to_owned()}
                     value={value.to_string()}
+                    {oninput}
+                    {onchange}
+                    {placeholder}
                     />
             </div>
         </InputField>

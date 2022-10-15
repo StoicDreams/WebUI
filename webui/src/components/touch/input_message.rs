@@ -11,6 +11,8 @@ pub struct InputMessageProps {
     #[prop_or_default]
     pub class: String,
     #[prop_or_default]
+    pub placeholder: String,
+    #[prop_or_default]
     pub style: String,
     #[prop_or_default]
     pub cache_id: Option<String>,
@@ -51,6 +53,11 @@ pub fn input_message(props: &InputMessageProps) -> Html {
             None => (),
         })
     };
+    let placeholder = if props.placeholder.is_empty() {
+        "Type text here".to_string()
+    } else {
+        props.placeholder.to_string()
+    };
     html! {
         <InputField id={my_id.to_owned()}
             name={props.name.to_owned()}
@@ -60,8 +67,9 @@ pub fn input_message(props: &InputMessageProps) -> Html {
                 <pre><code>{props.value.to_string()}</code></pre>
                 <textarea name={props.key.to_owned()}
                     id={my_id.to_owned()}
-                    oninput={oninput}
-                    onchange={onchange}
+                    {oninput}
+                    {onchange}
+                    {placeholder}
                     >{props.value}</textarea>
             </div>
         </InputField>

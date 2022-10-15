@@ -63,7 +63,7 @@ if($null -ne $version) {
 	Write-Host Path: "Root Path Start: $rootpath"
 
 	ApplyVersionUpdates .\webui Cargo.toml 'version = "([0-9\.]+)"#sync' "version = ""$version""#sync"
-	ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"' "version = ""$version"""
+	ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"#sync' "version = ""$version""#sync"
 	ApplyVersionUpdates .\webapp Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$version"""
 	ApplyVersionUpdates .\webui README.md 'webui = "([0-9\.]+)"' "webui = ""$version"""
 	ApplyVersionUpdates .\webapp service-worker.js 'webui_([0-9\.]+)' "webui_$version"
