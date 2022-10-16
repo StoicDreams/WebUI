@@ -33,7 +33,7 @@ pub(crate) fn page_home() -> Html {
             </Paper>
             <Paper class="d-flex flex-gap2 pa-2">
                 <Card title="Getting Started"
-                    style="max-width:400px;"
+                    width={500}
                     theme={Theme::Tertiary}
                     avatar="fa-duotone fa-star"
                     elevation={10}>
@@ -57,6 +57,18 @@ pub(crate) fn page_home() -> Html {
                                 {"."}
                             </>
                         }
+                    )}
+                </Card>
+                <Card title="Where is the Documentation?"
+                    width={500}
+                    theme={Theme::Tertiary}
+                    avatar="fa-duotone fa-books"
+                    elevation={10}>
+                    {paragraphs!(
+                        "We expect some may be wondering why we aren't developing documentation within this website in parallel with adding features to the Web UI framework.",
+                        "The answer is quite simple. We are not expecting anybody to be using Web UI at this point, and a lot of the work we are doing is experimental and subject to frequent changes or entire re-writes.",
+                        "So to minimize our overall time spent working on documentation, we are waiting for features to become a bit more finalized.",
+                        "Of course, if you are someone who is interested in getting started with Web UI now then please let us know and we will re-prioritize adding documentation."
                     )}
                 </Card>
             </Paper>

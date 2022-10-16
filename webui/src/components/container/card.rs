@@ -5,6 +5,8 @@ use yew::Html;
 #[derive(Properties, PartialEq)]
 pub struct CardProps {
     #[prop_or_default]
+    pub width: u16,
+    #[prop_or_default]
     pub elevation: u8,
     #[prop_or_default]
     pub children: Children,
@@ -94,18 +96,30 @@ pub fn card(props: &CardProps) -> Html {
     header_classes.push("card-header d-flex flex-row flex-gap align-center");
     header_classes.push(props.theme.to_string());
 
+    let mut styles: Vec<String> = Vec::new();
+    if props.width > 0 {
+        styles.push(format!(
+            "max-width:{}px;min-width:{}px;",
+            props.width,
+            props.width / 2
+        ));
+    }
+    if !props.style.is_empty() {
+        styles.push(props.style.to_string());
+    }
+
     html! {
-        <Paper class={classes.to_string()} style={props.style.to_owned()}>
+        <Paper class={classes.to_string()} style={styles.join(" ")}>
             <Paper class={header_classes.to_string()}>
                 {match props.avatar.to_owned() {
                     Some(avatar) => {
                         if avatar.starts_with("fa-") {
                             html! {
-                                <Avatar class="f4 pa-1" icon={avatar.to_string()} />
+                                <Avatar class="f3 ml-1 pa-1" icon={avatar.to_string()} />
                             }
                         } else {
                             html! {
-                                <Avatar class="pa-1" image={avatar.to_string()} />
+                                <Avatar class="ml-1 pa-1" image={avatar.to_string()} />
                             }
                         }
                     },
@@ -115,7 +129,7 @@ pub fn card(props: &CardProps) -> Html {
                     {match props.title.to_owned() {
                         Some(title) => {
                             html! {
-                                <h2 class="f4 pa-1 d-flex flex-wrap flex-row elevation-0">{title}</h2>
+                                <h2 class="f3 pa-1 d-flex flex-wrap flex-row elevation-0">{title}</h2>
                             }
                         },
                         None => html! {}
