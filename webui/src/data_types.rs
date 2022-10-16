@@ -15,3 +15,6 @@ pub mod nav_route;
 
 /// Constants for default role assignments
 pub mod roles;
+
+/// Module for holding Theme enum
+pub mod theme;
