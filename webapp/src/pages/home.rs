@@ -31,7 +31,7 @@ pub(crate) fn page_home() -> Html {
                 )}
                 </Paper>
             </Paper>
-            <Paper class="d-flex flex-gap2 pa-2">
+            <Paper class="d-flex flex-gap2 flex-wrap pa-2">
                 <Card title="Getting Started"
                     width={500}
                     theme={Theme::Tertiary}
