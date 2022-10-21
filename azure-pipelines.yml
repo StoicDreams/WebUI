@@ -42,12 +42,12 @@ stages:
 
             # Build
             trunk build --release
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Build Artifacts'
-        inputs:
-          PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp/dist'
-          ArtifactName: 'drop'
-          publishLocation: 'Container'
+#      - task: PublishBuildArtifacts@1
+#        displayName: 'Publish Build Artifacts'
+#        inputs:
+#          PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp/dist'
+#          ArtifactName: 'drop'
+#          publishLocation: 'Container'
 #      - task: AzureCLI@2
 #        displayName: 'Remove Old Files'
 #        inputs:
