@@ -10,6 +10,8 @@ pub struct ButtonProps {
     #[prop_or_default]
     pub class: String,
     #[prop_or_default]
+    pub title: String,
+    #[prop_or_default]
     pub style: String,
     //#[prop_or_default]
     //pub onclick: fn(ev:MouseEvent),
@@ -37,7 +39,7 @@ pub fn button(props: &ButtonProps) -> Html {
         None => Callback::default(),
     };
     html! {
-        <button type="button" class={classes.to_owned()} onclick={onclick}>
+        <button type="button" class={classes.to_owned()} title={props.title.to_string()} onclick={onclick}>
             {for props.children.iter()}
         </button>
     }

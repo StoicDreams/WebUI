@@ -49,7 +49,7 @@ pub use serde;
 pub use serde_json;
 pub use wasm_bindgen;
 pub use wasm_bindgen::{prelude::*, JsCast};
-pub use wasm_bindgen_futures::{JsFuture, spawn_local};
+pub use wasm_bindgen_futures::{spawn_local, JsFuture};
 pub use web_sys;
 pub use web_sys::{Request, RequestInit, RequestMode, Response};
 pub use yew;

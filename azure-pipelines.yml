@@ -2,6 +2,9 @@
 trigger:
 - main
 
+variables:
+  appName: 'webapp'
+
 stages:
 - stage: Alpha
   jobs:
@@ -37,15 +40,15 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            # Change directory to webapp
-            cd webapp
+            # Change directory to project folder
+            cd $(appName)
 
             # Build
             trunk build --release
 #      - task: PublishBuildArtifacts@1
 #        displayName: 'Publish Build Artifacts'
 #        inputs:
-#          PathtoPublish: '$(System.DefaultWorkingDirectory)/webapp/dist'
+#          PathtoPublish: '$(System.DefaultWorkingDirectory)/$(appName)/dist'
 #          ArtifactName: 'drop'
 #          publishLocation: 'Container'
 #      - task: AzureCLI@2
@@ -58,7 +61,7 @@ stages:
       - task: AzureFileCopy@2
         displayName: 'Copy Files to Azure Blob Storage'
         inputs:
-          SourcePath: '$(System.DefaultWorkingDirectory)/webapp/dist'
+          SourcePath: '$(System.DefaultWorkingDirectory)/$(appName)/dist'
           azureSubscription: $(azureConnection)
           Destination: AzureBlob
           storage: $(accountName)
@@ -70,8 +73,8 @@ stages:
           scriptType: pscore
           scriptLocation: inlineScript
           inlineScript: |
-            $myloc = "$((Get-Location).ProviderPath)\webapp\dist\"
-            Get-ChildItem "webapp/dist" -Filter "*.wasm" -Recurse -Force | ForEach-Object {
+            $myloc = "$((Get-Location).ProviderPath)\$(appName)\dist\"
+            Get-ChildItem "$(appName)/dist" -Filter "*.wasm" -Recurse -Force | ForEach-Object {
                 $rel_Path = $_.FullName.Replace($myloc, "")
                 az storage blob update -c '$web' -n $rel_Path --account-name $(accountName) --content-type application/wasm
             }

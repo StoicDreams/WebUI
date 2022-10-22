@@ -165,9 +165,9 @@ impl Component for AppDrawer {
                                     <span class="flex-grow" />
                                     {if show_close_x {
                                         html! {
-                                            <button class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={ctx.link().callback(move |_|close_x_click.get_message())}>
+                                            <Button title="close" class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={ctx.link().callback(move |_|close_x_click.get_message())}>
                                                 <i class="fa-solid fa-times" />
-                                            </button>
+                                            </Button>
                                         }
                                     } else {html!{}}}
                                 </header>
@@ -181,7 +181,7 @@ impl Component for AppDrawer {
                                 <footer class="pa-1 d-flex flex-row">
                                     {if show_close {
                                         html! {
-                                            <Button class="btn theme-warning" onclick={ctx.link().callback(move |_|close_click.get_message())}>
+                                            <Button title="cancel" class="btn theme-warning" onclick={ctx.link().callback(move |_|close_click.get_message())}>
                                                 {cancel_button_display}
                                             </Button>
                                         }
