@@ -3,7 +3,7 @@ use webui::{
     NavGroupInfo, NavLinkInfo, NavRoute, Paper,
 };
 
-use crate::pages::{about::page_about, home::page_home};
+use crate::pages::{about::page_about, home::page_home, privacy::page_privacy, terms::page_terms};
 
 pub fn nav_menu_info() -> DrawerToggleInfo {
     DrawerToggleInfo::new(
@@ -23,16 +23,30 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
     nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
         "Home",
         "/",
-        "fa-solid fa-house",
+        "fa-duotone fa-house",
         roles::PUBLIC,
         page_home,
     )));
     nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
         "About",
         "/about",
-        "fa-solid fa-circle-info",
+        "fa-duotone fa-circle-info",
         roles::PUBLIC,
         page_about,
+    )));
+    nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
+        "Terms",
+        "/terms",
+        "fa-duotone fa-handshake",
+        roles::PUBLIC,
+        page_terms,
+    )));
+    nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
+        "Privacy",
+        "/privacy",
+        "fa-duotone fa-shield-exclamation",
+        roles::PUBLIC,
+        page_privacy,
     )));
     nav_routes.to_owned()
 }

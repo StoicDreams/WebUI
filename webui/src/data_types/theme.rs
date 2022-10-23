@@ -1,9 +1,10 @@
-#[derive(PartialEq)]
+#[derive(PartialEq, Default)]
 pub enum Theme {
     Active,
     Background,
     Black,
     White,
+    #[default]
     Primary,
     Secondary,
     Tertiary,

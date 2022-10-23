@@ -8,6 +8,10 @@ mod pages;
 
 pub use crate::components::*;
 
+pub(crate) const COMPANY_PLURAL: &str = "Stoic Dreams'";
+pub(crate) const COMPANY_SINGULAR: &str = "Stoic Dreams";
+pub(crate) const APP_NAME: &str = "Web UI'";
+
 fn main() {
     webui::start_app(setup_app_config());
 }

@@ -109,6 +109,7 @@ main {
 	flex-direction: column;
 	margin: 0;
 	padding: var(--padding);
+	padding-bottom: calc(var(--padding) + var(--footer-height));
 	max-height: 100%;
 	height: calc(var(--window-height) - var(--header-height) - var(--footer-height));
 	overflow: auto;
@@ -423,7 +424,18 @@ aside.app-drawer.left {
 	word-wrap: break-word;
 	word-break: break-all;
 }
-
+blockquote.quote {
+	display: block;
+	margin: var(--padding);
+	padding: var(--padding);
+	border-left: calc(2 * var(--padding)) solid var(--color-primary);
+	box-shadow: var(--elevation-10);
+	box-sizing: border-box;
+}
+ul, ol {
+	margin: 0;
+	padding-inline-start: calc(4 * var(--padding));
+}
 
 /* Common Helpers */
 

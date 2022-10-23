@@ -2,6 +2,7 @@ use webui::*;
 
 /// App home page
 pub(crate) fn page_home() -> Html {
+    set_title("Web UI Demo & Documentation".to_string());
     html! {
         <>
             <Paper class="">
