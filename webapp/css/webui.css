@@ -432,6 +432,46 @@ blockquote.quote {
 	box-shadow: var(--elevation-10);
 	box-sizing: border-box;
 }
+.quote.highlight-theme-white {
+	border-left-color: var(--color-white);
+}
+.quote.highlight-theme-black {
+	border-left-color: var(--color-black);
+}
+.quote.highlight-theme-title {
+	border-left-color: var(--color-title);
+}
+.quote.highlight-theme-primary {
+	border-left-color: var(--color-primary);
+}
+.quote.highlight-theme-secondary {
+	border-left-color: var(--color-secondary);
+}
+.quote.highlight-theme-tertiary {
+	border-left-color: var(--color-tertiary);
+}
+.quote.highlight-theme-info {
+	border-left-color: var(--color-info);
+}
+.quote.highlight-theme-success {
+	border-left-color: var(--color-success);
+}
+.quote.highlight-theme-warning {
+	border-left-color: var(--color-warning);
+}
+.quote.highlight-theme-danger {
+	border-left-color: var(--color-danger);
+}
+.quote.highlight-theme-shade {
+	border-left-color: var(--color-shade);
+}
+.quote.highlight-theme-active {
+	border-left-color: var(--color-active);
+}
+.quote.highlight-theme-button {
+	border-left-color: var(--color-button);
+}
+
 ul, ol {
 	margin: 0;
 	padding-inline-start: calc(4 * var(--padding));
