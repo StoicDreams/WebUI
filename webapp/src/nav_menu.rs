@@ -3,7 +3,7 @@ use webui::{
     NavGroupInfo, NavLinkInfo, NavRoute, Paper,
 };
 
-use crate::pages::{about::page_about, home::page_home, privacy::page_privacy, terms::page_terms};
+use crate::pages::*;
 
 pub fn nav_menu_info() -> DrawerToggleInfo {
     DrawerToggleInfo::new(
@@ -20,34 +20,63 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
 
 pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
     let nav_routes: &mut Vec<NavRoute> = &mut Vec::new();
-    nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
+    nav_routes.push(NavLinkInfo::link(
         "Home",
         "/",
         "fa-duotone fa-house",
         roles::PUBLIC,
         page_home,
-    )));
-    nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
+    ));
+    nav_routes.push(NavGroupInfo::link(
+        "Classes",
+        "fa-duotone fa-file-code",
+        roles::PUBLIC,
+        vec![NavLinkInfo::link(
+            "Themes",
+            "/classes/themes",
+            "fa-duotone fa-palette",
+            roles::PUBLIC,
+            page_classes_themes,
+        )],
+    ));
+    nav_routes.push(NavGroupInfo::link(
+        "Components",
+        "fa-duotone fa-toolbox",
+        roles::PUBLIC,
+        vec![NavGroupInfo::link(
+            "Containers",
+            "fa-duotone fa-box-open-full",
+            roles::PUBLIC,
+            vec![NavLinkInfo::link(
+                "Paper",
+                "/components/containers/paper",
+                "fa-duotone fa-memo",
+                roles::PUBLIC,
+                page_components_containers_paper,
+            )],
+        )],
+    ));
+    nav_routes.push(NavLinkInfo::link(
         "About",
         "/about",
         "fa-duotone fa-circle-info",
         roles::PUBLIC,
         page_about,
-    )));
-    nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
+    ));
+    nav_routes.push(NavLinkInfo::link(
         "Terms",
         "/terms",
         "fa-duotone fa-handshake",
         roles::PUBLIC,
         page_terms,
-    )));
-    nav_routes.push(NavRoute::NavLink(NavLinkInfo::new(
+    ));
+    nav_routes.push(NavLinkInfo::link(
         "Privacy",
         "/privacy",
         "fa-duotone fa-shield-exclamation",
         roles::PUBLIC,
         page_privacy,
-    )));
+    ));
     nav_routes.to_owned()
 }
 

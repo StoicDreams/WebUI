@@ -1,4 +1,4 @@
-use crate::Html;
+use crate::*;
 
 /// Page navigation information
 ///
@@ -51,6 +51,16 @@ impl NavLinkInfo {
             page,
         }
     }
+
+    pub fn link(name: &str, path: &str, icon: &str, role: u32, page: fn() -> Html) -> NavRoute {
+        NavRoute::NavLink(Self {
+            name: name.to_string(),
+            path: path.to_string(),
+            icon: icon.to_string(),
+            role,
+            page,
+        })
+    }
 }
 
 /// Grouping of page navigation
@@ -96,6 +106,15 @@ impl NavGroupInfo {
             role,
             children,
         }
+    }
+
+    pub fn link(name: &str, icon: &str, role: u32, children: Vec<NavRoute>) -> NavRoute {
+        NavRoute::NavGroup(Self {
+            name: name.to_string(),
+            icon: icon.to_string(),
+            role,
+            children,
+        })
     }
 }
 

@@ -21,6 +21,7 @@ fn main() {
     run_ma("git", &["commit", "-m", &args.commit]);
     run_ma("git", &["push", "-u", "origin", "main"]);
     run_ma("cargo", &["publish", "-p", "webui"]);
+    run("pwsh", "./SyncVersionToLocalProjects.ps1");
     run("echo", "Finished Successfully");
 }
 

@@ -466,6 +466,22 @@ a.btn:active,
 	display: block;
 	padding: calc(0.1 * var(--padding));
 }
+.nav-group > section {
+    padding-left: calc(2 * var(--padding));
+}
+.nav-group > section {
+	overflow: hidden;
+	transition: all 300ms ease-in-out;
+}
+.nav-group > section > * {
+	transition: all 300ms ease-in-out;
+	margin-top: -100%;
+}
+.nav-group > .navlink.show + section > * {
+	margin-top: 0;
+}
+.nav-group > .navlink:not(.show) + section {
+}
 .f0 { font-size: calc(var(--typography-size) * 0.8); }
 .f1 { font-size: var(--typography-size); }
 .f2 { font-size: calc(var(--typography-size) * 1.25); }
