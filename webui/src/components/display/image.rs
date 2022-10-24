@@ -10,35 +10,20 @@ pub struct ImageProps {
     #[prop_or_default]
     pub alt: String,
     #[prop_or_default]
-    pub icon: Option<String>,
-    #[prop_or_default]
-    pub image: Option<String>,
+    pub src: String,
     #[prop_or_default]
     pub style: String,
 }
 
-/// Component for displaying an icon or image
+/// Component for displaying an image
 ///
-/// Image or icon typically should have square dimensions.
-///
-/// Basic example displaying Font Awesome icon
+/// Basic example displaying image with classes
 /// ```rust
 /// use webui::*;
 ///
 /// fn page() -> Html {
 /// 	html! {
-/// 		<Image icon="fa-solid fa-acorn" alt="Acorn Icon" />
-/// 	}
-/// }
-/// ```
-///
-/// Add classes
-/// ```rust
-/// use webui::*;
-///
-/// fn page() -> Html {
-/// 	html! {
-/// 		<Image image="Logo.svg" alt="" class="d-flex flex-column" />
+/// 		<Image src="Logo.svg" alt="" class="d-flex flex-column" />
 /// 	}
 /// }
 /// ```
@@ -52,7 +37,7 @@ pub struct ImageProps {
 ///
 /// fn page() -> Html {
 /// 	html! {
-/// 		<Image image="Logo.svg" elevation={10} />
+/// 		<Image src="Logo.svg" elevation={10} />
 /// 	}
 /// }
 /// ```
@@ -71,19 +56,7 @@ pub fn image(props: &ImageProps) -> Html {
 
     html! {
         <Paper class={classes.to_string()} style={props.style.to_owned()}>
-            {match props.icon.to_owned() {
-                Some(class) => html! {
-                    <i {class} alt={props.alt.to_string()} title={props.alt.to_string()} />
-                },
-                None => {
-                    {match props.image.to_owned() {
-                        Some(src) => html! {
-                            <img {src} alt={props.alt.to_string()} title={props.alt.to_string()} />
-                        },
-                        None => html! {}
-                    }}
-                }
-            }}
+            <img src={props.src.to_string()} alt={props.alt.to_string()} title={props.alt.to_string()} />
         </Paper>
     }
 }
