@@ -19,8 +19,6 @@ Get-ChildItem -Path .\webui -Filter *Cargo.toml -Recurse -File | ForEach-Object 
 
 $myloc = Get-Location;
 
-cargo install --path webui;
-
 function UpdateCargo {
 	Param (
 		[string] $projectPath
