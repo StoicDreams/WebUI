@@ -480,8 +480,10 @@ a.btn:active,
 .nav-group > .navlink.show + section > * {
 	margin-top: 0;
 }
-.nav-group > .navlink:not(.show) + section {
+.navlink > span {
+	white-space: nowrap;
 }
+
 .f0 { font-size: calc(var(--typography-size) * 0.8); }
 .f1 { font-size: var(--typography-size); }
 .f2 { font-size: calc(var(--typography-size) * 1.25); }
