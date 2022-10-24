@@ -42,7 +42,7 @@ impl NavLinkInfo {
     ///
     /// let link_info = NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home);
     /// ```
-    pub fn new(name: &str, path: &str, icon: &str, role: u32, page: fn() -> Html) -> NavLinkInfo {
+    pub fn new(name: &str, path: &str, icon: &str, role: u32, page: fn() -> Html) -> Self {
         Self {
             name: name.to_string(),
             path: path.to_string(),
@@ -70,6 +70,33 @@ pub struct NavGroupInfo {
     pub icon: String,
     pub role: u32,
     pub children: Vec<NavRoute>,
+}
+
+impl NavGroupInfo {
+    /// Create a new instance of NavLinkInfo
+    ///
+    /// example
+    /// ```rust
+    /// use webui::*;
+    ///
+    /// fn page_home() -> Html {
+    ///     html! {
+    ///         {"Home Page"}
+    ///     }
+    /// }
+    ///
+    /// let link_info = NavGroupInfo::new("Home", "fa-solid fa-bars", roles::PUBLIC, vec![
+    ///     NavRoute::NavLink(NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home))
+    /// ]);
+    /// ```
+    pub fn new(name: &str, icon: &str, role: u32, children: Vec<NavRoute>) -> Self {
+        Self {
+            name: name.to_string(),
+            icon: icon.to_string(),
+            role,
+            children,
+        }
+    }
 }
 
 /// Enum types for navigation data
