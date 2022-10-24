@@ -27,6 +27,8 @@ function UpdateCargo {
 	Write-Host "Cargo update: $projectDirectory"
 	cd $projectDirectory
 	cargo update
+	cargo build
+	cd (Split-Path $projectPath)
 	webui
 	cd $myloc
 }
