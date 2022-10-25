@@ -55,8 +55,10 @@ function UpdateProjectVersion {
 	}
 	$fileMatches = $content -match $newXML
 	if($fileMatches.Length -eq 1) {
-		#UpdateCargo $projectPath
 		Write-Host "Already up to date - $projectPath - $newXML" -ForegroundColor Cyan
+		if ($updateCargo -eq $true) {
+			UpdateCargo $projectPath
+		}
 		return;
 	}
 	$newContent = $content -replace $rgxTargetXML, $newXML
