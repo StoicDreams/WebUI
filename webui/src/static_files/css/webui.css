@@ -25,6 +25,7 @@
 	--color-button: var(--color-info);
 	--color-button-offset: var(--color-info-offset);
 
+	--readability-line-limit: 66ch;
 	--backdrop-blur: blur(4px);
 	--transition-speed: 180ms;
 	--corners: 3px;
@@ -954,4 +955,7 @@ body.w-wqhd .hide-at-widequadhd {
 }
 body.w-4k .hide-at-4k {
 	display: none;
+}
+.readable-content > * {
+	max-width: var(--readability-line-limit);
 }
