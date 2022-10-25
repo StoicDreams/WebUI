@@ -537,6 +537,7 @@ ul, ol {
 	padding: calc(1.5 * var(--padding));
 	gap: calc(1.5 * var(--padding));
 	flex-wrap: wrap;
+	justify-content: center;
 }
 .side-by-side, .maxcontent-auto, .auto-maxcontent {
     display: grid;
