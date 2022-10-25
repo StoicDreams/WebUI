@@ -4,6 +4,8 @@ pub const CLASSES_SIDE_BY_SIDE: &str = "side-by-side";
 pub const CLASSES_AUTO_MAXCONTENT: &str = "auto-maxcontent";
 pub const CLASSES_MAXCONTENT_AUTO: &str = "maxcontent-auto";
 
+pub const CLASSES_READABLE_CONTENT: &str = "readable-content";
+
 pub const CLASSES_THEME_ACTIVE: &str = "theme-active";
 pub const CLASSES_THEME_BACKGROUND: &str = "theme-background";
 pub const CLASSES_THEME_BLACK: &str = "theme-black";
