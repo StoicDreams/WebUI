@@ -76,7 +76,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.1.81"
+webui = "0.1.82"
 ```
 
 Install webui executable - this will be used to build your boilerplate static files.

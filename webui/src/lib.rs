@@ -30,6 +30,7 @@ pub use crate::components::container::card::Card;
 pub use crate::components::container::list::List;
 pub use crate::components::container::paper::Paper;
 pub use crate::components::container::quote::Quote;
+pub use crate::components::container::side_image::SideImage;
 pub use crate::components::display::avatar::Avatar;
 pub use crate::components::display::image::Image;
 pub use crate::components::display::nav_display::NavDisplay;
