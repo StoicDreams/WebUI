@@ -2,6 +2,7 @@
 Clear-Host;
 
 $version = $null
+$versionminor = $null
 $vmajor = 0
 $vminor = 0
 $vpatch = 0
@@ -13,7 +14,8 @@ Get-ChildItem -Path .\webui -Filter *Cargo.toml -Recurse -File | ForEach-Object 
 		$vmajor = [int]$result.Matches[0].Groups[1].Value
 		$vminor = [int]$result.Matches[0].Groups[2].Value
 		$vpatch = [int]$result.Matches[0].Groups[3].Value
-		$version = "$vmajor.$vminor.$($vpatch + 1)"
+		$version = "$vmajor.$vminor.$vpatch"
+		$versionminor = "$vmajor.$vminor"
 	}
 }
 
@@ -38,7 +40,8 @@ function UpdateProjectVersion {
 		[string] $projectPath,
 		[string] $version,
 		[string] $rgxTargetXML,
-		[string] $newXML
+		[string] $newXML,
+		[bool] $updateCargo
 	)
 
 	if(!(Test-Path -Path $projectPath)) {
@@ -59,7 +62,9 @@ function UpdateProjectVersion {
 	$newContent = $content -replace $rgxTargetXML, $newXML
 	$newContent | Set-Content -Path $projectPath
 	Write-Host "Updated - $projectPath" -ForegroundColor Green
-	UpdateCargo $projectPath
+	if ($updateCargo -eq $true) {
+		UpdateCargo $projectPath
+	}
 }
 
 
@@ -68,10 +73,11 @@ function ApplyVersionUpdates {
 		[string] $path,
 		[string] $filter,
 		[string] $rgxTargetXML,
-		[string] $newXML
+		[string] $newXML,
+		[bool] $updateCargo
 	)
 	Get-ChildItem -Path $path -Filter $filter -Recurse -File -Force | ForEach-Object {
-		UpdateProjectVersion $_.FullName $version $rgxTargetXML $newXML
+		UpdateProjectVersion $_.FullName $version $rgxTargetXML $newXML $updateCargo
 	}
 }
 
@@ -81,7 +87,8 @@ if($null -ne $version) {
 	$rootpath = $rootpath.ToString().ToLower()
 	Write-Host Path: "Root Path Start: $rootpath"
 
-	ApplyVersionUpdates ..\ Cargo.toml 'version = "([0-9\.]+)"#webuisync' "version = ""$version""#webuisync"
+	ApplyVersionUpdates ..\ Cargo.toml 'version = "([0-9\.]+)"#webuisync' "version = ""$version""#webuisync" $false
+	ApplyVersionUpdates ..\ Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$versionminor""" $true
 } else {
 	Write-Host Current version was not found -ForegroundColor Red
 }
