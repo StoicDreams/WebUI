@@ -1,12 +1,15 @@
+/// Macro for classes
+pub mod classes;
+
 /// Macro for splitting up arguments into list items
 ///
 /// <li>text segment</li>
 pub mod list_items;
 
-/// Methods for splitting up arguments into paragraphs
+/// Macros for splitting up arguments into paragraphs
 ///
 /// <p>text segment</p>
 pub mod paragraphs;
 
-/// Methods for displaying section titles
+/// Macros for displaying section titles
 pub mod titles;
