@@ -1,8 +1,16 @@
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone, Debug, PartialEq, Default)]
 pub enum Direction {
     Top,
+    #[default]
     Right,
     Bottom,
+    Left,
+}
+
+#[derive(Clone, Debug, PartialEq, Default)]
+pub enum LeftOrRight {
+    #[default]
+    Right,
     Left,
 }
 
@@ -13,6 +21,15 @@ impl std::fmt::Display for Direction {
             Direction::Right => write!(f, "right"),
             Direction::Bottom => write!(f, "bottom"),
             Direction::Left => write!(f, "left"),
+        }
+    }
+}
+
+impl std::fmt::Display for LeftOrRight {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            LeftOrRight::Right => write!(f, "right"),
+            LeftOrRight::Left => write!(f, "left"),
         }
     }
 }

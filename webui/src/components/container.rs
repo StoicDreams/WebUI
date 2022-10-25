@@ -9,3 +9,6 @@ pub mod paper;
 
 /// Module for Quote displays
 pub mod quote;
+
+/// Module for side-by-side page section with 1 side being an image
+pub mod side_image;
