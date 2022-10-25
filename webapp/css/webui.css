@@ -477,8 +477,8 @@ blockquote.quote {
 .quote.highlight-theme-button {
 	border-left-color: var(--color-button);
 }
-.quote > cite:before 
-.quote.highlight-theme-primary > cite:before {
+.quote > cite:before {
+	content: "— ";
     color: var(--color-primary);
 }
 .quote.highlight-theme-white > cite:before {
@@ -489,6 +489,9 @@ blockquote.quote {
 }
 .quote.highlight-theme-title > cite:before {
     color: var(--color-title);
+}
+.quote.highlight-theme-primary > cite:before {
+    color: var(--color-primary);
 }
 .quote.highlight-theme-secondary > cite:before {
     color: var(--color-secondary);
