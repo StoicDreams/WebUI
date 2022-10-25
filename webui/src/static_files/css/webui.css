@@ -480,9 +480,15 @@ ul, ol {
 
 /* Common Helpers */
 
-.standard-page-segment {
-	padding: calc(3 * var(--padding));
+.page-segment-standard {
+	padding: calc(1.5 * var(--padding));
 	margin: var(--padding);
+}
+.page-segment-cards {
+	display: flex;
+	padding: calc(1.5 * var(--padding));
+	gap: calc(1.5 * var(--padding));
+	flex-wrap: wrap;
 }
 .side-by-side, .maxcontent-auto, .auto-maxcontent {
     display: grid;

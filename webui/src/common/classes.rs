@@ -1,4 +1,5 @@
-pub const CLASSES_PAGE_SECTION: &str = "standard-page-segment";
+pub const CLASSES_PAGE_SECTION: &str = "page-segment-standard";
+pub const CLASSES_CARD_CONTAINER: &str = "page-segment-cards";
 
 pub const CLASSES_SIDE_BY_SIDE: &str = "side-by-side";
 pub const CLASSES_AUTO_MAXCONTENT: &str = "auto-maxcontent";
