@@ -433,6 +433,11 @@ blockquote.quote {
 	box-shadow: var(--elevation-10);
 	box-sizing: border-box;
 }
+.quote > cite {
+    margin: 0 0 0 auto;
+    display: block;
+    width: max-content;
+}
 .quote.highlight-theme-white {
 	border-left-color: var(--color-white);
 }
@@ -471,6 +476,46 @@ blockquote.quote {
 }
 .quote.highlight-theme-button {
 	border-left-color: var(--color-button);
+}
+.quote > cite:before 
+.quote.highlight-theme-primary > cite:before {
+    color: var(--color-primary);
+}
+.quote.highlight-theme-white > cite:before {
+    color: var(--color-white);
+}
+.quote.highlight-theme-black > cite:before {
+    color: var(--color-black);
+}
+.quote.highlight-theme-title > cite:before {
+    color: var(--color-title);
+}
+.quote.highlight-theme-secondary > cite:before {
+    color: var(--color-secondary);
+}
+.quote.highlight-theme-tertiary > cite:before {
+    color: var(--color-tertiary);
+}
+.quote.highlight-theme-info > cite:before {
+    color: var(--color-info);
+}
+.quote.highlight-theme-success > cite:before {
+    color: var(--color-success);
+}
+.quote.highlight-theme-warning > cite:before {
+    color: var(--color-warning);
+}
+.quote.highlight-theme-danger > cite:before {
+    color: var(--color-danger);
+}
+.quote.highlight-theme-shade > cite:before {
+    color: var(--color-shade);
+}
+.quote.highlight-theme-active > cite:before {
+    color: var(--color-active);
+}
+.quote.highlight-theme-button > cite:before {
+    color: var(--color-button);
 }
 
 ul, ol {
