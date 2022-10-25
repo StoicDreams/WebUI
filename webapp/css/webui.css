@@ -550,6 +550,15 @@ a.btn:active,
 	cursor: not-allowed;
 }
 
+.avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.avatar > img {
+	height: 1.7em;
+}
+
 .nav-group,
 .nav-link {
 	display: block;

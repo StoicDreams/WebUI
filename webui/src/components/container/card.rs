@@ -17,6 +17,10 @@ pub struct CardProps {
     #[prop_or_default]
     pub avatar: Option<String>,
     #[prop_or_default]
+    pub link: Option<String>,
+    #[prop_or_default]
+    pub link_title: String,
+    #[prop_or_default]
     pub title: Option<String>,
     #[prop_or_default]
     pub header: Option<fn() -> Html>,
@@ -125,7 +129,7 @@ pub fn card(props: &CardProps) -> Html {
                     },
                     None => html! {}
                 }}
-                <Paper class="card-title d-flex flex-column flex-gap">
+                <Paper class="card-title d-flex flex-column flex-grow flex-gap">
                     {match props.title.to_owned() {
                         Some(title) => {
                             html! {
@@ -143,6 +147,16 @@ pub fn card(props: &CardProps) -> Html {
                         None => html! {}
                     }}
                 </Paper>
+                {match props.link.to_owned() {
+                    Some(link) => {
+                        html!(
+                            <Link href={link} class="f3 pr-3" title={props.link_title.to_owned()}>
+                                <i class="fa-solid fa-external-link" />
+                            </Link>
+                        )
+                    },
+                    None => html!{}
+                }}
             </Paper>
             <Paper class="card-body d-flex flex-column flex-gap pa-1">
                 { for props.children.iter() }
