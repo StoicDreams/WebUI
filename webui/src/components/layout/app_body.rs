@@ -50,7 +50,11 @@ impl Component for AppBody {
 
 fn page_not_found() -> Html {
     html! {
-        {"Page Not Found"}
+        <SideImage image_pos={LeftOrRight::Right} src="https://cdn.myfi.ws/v/Vecteezy/404-error-illustration-exclusive-design-inspiration.svg">
+            {paragraphs!(
+                "The page you are looking for could not be found."
+            )}
+        </SideImage>
     }
 }
 

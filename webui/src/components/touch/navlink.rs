@@ -60,34 +60,30 @@ impl Component for NavLink {
 
     fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
         match msg {
-            AppStateReceiverMessage::AppStateMessage(request) => {
-                let to_send = request.clone();
-                match request {
-                    AppStateRequest::PathUpdate(path) => {
-                        if ctx.props().to.to_lowercase() == path.to_lowercase() {
-                            if self.is_active {
-                                return false;
-                            }
-                            self.is_active = true;
-                            self.app_state_agent.send(to_send.to_owned());
-                            self.app_drawer_agent
-                                .send(AppDrawerRequest::ToggleTopDrawer(None));
-                            self.app_drawer_agent
-                                .send(AppDrawerRequest::ToggleRightDrawer(None));
-                            self.app_drawer_agent
-                                .send(AppDrawerRequest::ToggleBottomDrawer(None));
-                            self.app_drawer_agent
-                                .send(AppDrawerRequest::ToggleLeftDrawer(None));
-                            return true;
-                        }
+            AppStateReceiverMessage::AppStateMessage(request) => match request {
+                AppStateRequest::PathUpdate(path) => {
+                    if ctx.props().to.to_lowercase() == path.to_lowercase() {
                         if self.is_active {
-                            self.is_active = false;
-                            return true;
+                            return false;
                         }
-                        return false;
+                        self.is_active = true;
+                        self.app_drawer_agent
+                            .send(AppDrawerRequest::ToggleTopDrawer(None));
+                        self.app_drawer_agent
+                            .send(AppDrawerRequest::ToggleRightDrawer(None));
+                        self.app_drawer_agent
+                            .send(AppDrawerRequest::ToggleBottomDrawer(None));
+                        self.app_drawer_agent
+                            .send(AppDrawerRequest::ToggleLeftDrawer(None));
+                        return true;
                     }
+                    if self.is_active {
+                        self.is_active = false;
+                        return true;
+                    }
+                    return false;
                 }
-            }
+            },
             AppStateReceiverMessage::None => (),
         }
         false
@@ -109,6 +105,8 @@ impl Component for NavLink {
         let onclick = {
             let path = props.to.to_owned();
             ctx.link().callback(move |_| {
+                let mut app_state_agent = AppStateAgent::dispatcher();
+                app_state_agent.send(AppStateRequest::PathUpdate(path.to_string()));
                 AppStateReceiverMessage::AppStateMessage(AppStateRequest::PathUpdate(
                     path.to_string(),
                 ))

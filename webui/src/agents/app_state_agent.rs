@@ -12,6 +12,7 @@ pub enum AppStateReceiverMessage {
     None,
 }
 
+#[derive(Clone)]
 pub struct AppStateAgent {
     link: AgentLink<AppStateAgent>,
     subscribers: HashSet<HandlerId>,

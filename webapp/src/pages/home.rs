@@ -5,9 +5,9 @@ pub(crate) fn page_home() -> Html {
     set_title("Web UI Demo & Documentation".to_string());
     html! {
         <>
-            <Paper class="">
-                {title_secondary!("Welcome to the Web UI documentation and demo website")}
-                <Paper class="pa-3">
+            {title_secondary!("Welcome to the Web UI documentation and demo website")}
+            <SideImage image_pos={LeftOrRight::Right} src="https://cdn.myfi.ws/v/Vecteezy/cartoon-style-cloud-storage-data-processing-message.svg">
+                <Paper>
                 {paragraphs!(
                     "We are very excited to be sharing this tool with you, as well as our journey into the world of Rust development.",
                     "One of our last major projects at Stoic Dreams was working on a UI framework utilizing the C# Blazor framework, which allows for C# code and Razor pages to be compiled to webassembly, thus allowing for C# native libraries and code to be used for developing front-end web applications.",
@@ -18,20 +18,31 @@ pub(crate) fn page_home() -> Html {
                             <Link title="Blazor UI documentation and website demo" href="https://blazorui.stoicdreams.com">{"Blazor UI project"}</Link>
                             {" to see for yourself the differences between it and what we're accomplishing here."}
                         </>
-                    },
+                    }
+                )}
+                </Paper>
+            </SideImage>
+            <SideImage image_pos={LeftOrRight::Left} src="https://cdn.myfi.ws/v/Vecteezy/online-big-data-courses-illustration-exclusive-design.svg">
+                <Paper>
+                {paragraphs!(
                     "But then we were introduced to Rust. A language that has the power of C and C++ languages, but removes many of the pitfalls. A language with thread and memory safety built in, and no garbage collection. Something we hate about C#.",
                     "And doing more research into the language, we found that it has a robust and rapidly growing community of developers that are passionate about the language and the power and safety it provides us.",
-                    "Then as we're digging more into the language we discover it has documentation and testing systems built into the language, that make it much easier to self document code in a manner that is easily consumable, as well as much easier to manage testing, such as the ability to write tests as part of the documentation so they serve as both an example for other developers, as well as a unit test to verify your code is working - which also assures your documentation stays up to date as you make changes.",
+                    "Then as we're digging more into the language we discover it has documentation and testing systems built into the language, that make it much easier to self document code in a manner that is easily consumable, as well as much easier to manage testing, such as the ability to write tests as part of the documentation so they serve as both an example for other developers, as well as a unit test to verify your code is working - which also assures your documentation stays up to date as you make changes."
+                )}
+                </Paper>
+            </SideImage>
+            <SideImage image_pos={LeftOrRight::Right} src="https://cdn.myfi.ws/v/Vecteezy/filling-completed-not-completed-marking-important-dates-and.svg">
+                <Paper>
+                {paragraphs!(
                     "So then after much consideration and evaluation, we made the decision to jump in and commit to Rust, re-writing all of our C# projects to be powered by Rust.",
                     "And so far we are very glad we made this decision.",
                     "We have fallen in love with Rust, and for a very simple reason. It's the most productive language we've ever used.",
                     "What do we mean by this? Well, Rust is fast. Super fast. And it makes us very fast to develop and update features.",
                     "And since Rust is so strict about compilation errors, this means that most bugs are caught by the compiler, giving us immediate feedback on not only the problem, but many times helpful solutions to fix the problem.",
-                    "This feedback loop being so short, means problems are identified and resolved in much shorter cycles. Which then translates to us being able to create software that works much faster."
-
+                    "This feedback loop being so short, means problems are identified and resolved in much shorter cycles. Which then translates to us being able to create software that works in faster iteration cycles."
                 )}
                 </Paper>
-            </Paper>
+            </SideImage>
             <Paper class="d-flex flex-gap2 flex-wrap pa-2">
                 <Card title="Getting Started"
                     width={500}
@@ -71,6 +82,34 @@ pub(crate) fn page_home() -> Html {
                         "So to minimize our overall time spent working on documentation, we are waiting for features to become a bit more finalized.",
                         "Of course, if you are someone who is interested in getting started with Web UI now then please let us know and we will re-prioritize adding documentation."
                     )}
+                    <List>
+                        {list_items!(
+                            {html!(
+                                <>
+                                {"GitHub: "}
+                                <Link href="https://github.com/StoicDreams/RustWebUI">
+                                    {"Web UI open-source web development framework."}
+                                </Link>
+                                </>
+                            )},
+                            {html!(
+                                <>
+                                {"Rust WebUI Docs: "}
+                                <Link href="https://docs.rs/webui">
+                                    {"Developer documentation for Web UI."}
+                                </Link>
+                                </>
+                            )},
+                            {html!(
+                                <>
+                                {"Crates.io: "}
+                                <Link href="https://crates.io/crates/webui">
+                                    {"Crate information for Web UI."}
+                                </Link>
+                                </>
+                            )}
+                        )}
+                    </List>
                 </Card>
             </Paper>
         </>

@@ -30,9 +30,16 @@ pub fn link(props: &NavLinkProps) -> Html {
         props.title.to_owned()
     };
     let clickoption = props.onclick.to_owned();
-    let onclick = move |ev: MouseEvent| match clickoption {
-        Some(method) => method(ev),
-        None => (),
+    let mypath = props.href.to_string();
+    let onclick = move |ev: MouseEvent| {
+        match clickoption {
+            Some(method) => method(ev),
+            None => (),
+        };
+        if mypath.starts_with("/") {
+            let mut app_state_agent = AppStateAgent::dispatcher();
+            app_state_agent.send(AppStateRequest::PathUpdate("/home".to_string()))
+        }
     };
     html! {
         <a href={props.href.to_owned()}

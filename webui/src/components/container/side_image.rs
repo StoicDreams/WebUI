@@ -34,9 +34,7 @@ pub fn side_image(props: &SideImageProps) -> Html {
         Some(class) => {
             classes.push(class);
         }
-        None => {
-            classes.push(CLASSES_PAGE_SECTION);
-        }
+        None => {}
     };
     match &props.content_class {
         Some(class) => {

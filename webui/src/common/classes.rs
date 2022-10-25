@@ -1,4 +1,4 @@
-pub const CLASSES_PAGE_SECTION: &str = "pa-3 ma-1";
+pub const CLASSES_PAGE_SECTION: &str = "standard-page-segment";
 
 pub const CLASSES_SIDE_BY_SIDE: &str = "side-by-side";
 pub const CLASSES_AUTO_MAXCONTENT: &str = "auto-maxcontent";
