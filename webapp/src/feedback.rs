@@ -1,6 +1,6 @@
-use std::{collections::HashMap, time::Duration};
+use std::collections::HashMap;
 
-use webui::{async_std::task, *};
+use webui::{web_sys::HtmlTextAreaElement, *};
 
 pub fn feedback_button_info() -> DrawerToggleInfo {
     DrawerToggleInfo::new(
@@ -59,9 +59,16 @@ pub(crate) fn get_render() -> Html {
             .unwrap_or_default()
             .to_string()
     });
-    let display = feedback.to_string();
-    let onchange: fn(String) = |value| {
-        _ = GlobalData::set_data("feedback".to_string(), value);
+    let onchange = {
+        let feedback = feedback.clone();
+        Callback::from(move |ev: Event| match ev.target() {
+            Some(target) => {
+                let value = target.unchecked_into::<HtmlTextAreaElement>().value();
+                feedback.set(value.to_string());
+                _ = GlobalData::set_data("feedback".to_string(), value);
+            }
+            None => (),
+        })
     };
     html! {
         <>
@@ -74,7 +81,7 @@ pub(crate) fn get_render() -> Html {
                     </>
                 }}
                 )}
-                <InputMessage class="flex-grow d-flex flex-column" name="Feedback" value={feedback} onchange={onchange} />
+                <InputMessage class="flex-grow d-flex flex-column" name="Feedback" value={feedback.clone()} onchange={onchange} />
             </Paper>
         </>
     }

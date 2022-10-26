@@ -386,15 +386,19 @@ aside.app-drawer.left {
 	position: relative;
 }
 .auto_message_box code  {
-	min-height: 4em;
+	min-height: 1.8em;
 	color: transparent;
 }
-.auto_message_box code::after {
+.auto_message_box:not(.single-line) code  {
+	min-height: 4em;
+}
+.auto_message_box:not(.single-line) code::after {
 	content: "
 	
 ";
 }
-.auto_message_box > pre + textarea {
+.auto_message_box > pre + textarea,
+.auto_message_box > pre + input[type=text]  {
 	position: absolute;
 	resize: none;
 	background-color: transparent;
@@ -403,7 +407,8 @@ aside.app-drawer.left {
 }
 .auto_message_box > pre,
 .auto_message_box > pre > code,
-.auto_message_box > pre + textarea {
+.auto_message_box > pre + textarea,
+.auto_message_box > pre + input[type=text] {
 	display: block;
 	width: 100%;
 	height: 100%;
@@ -419,9 +424,13 @@ aside.app-drawer.left {
 	border: none;
 }
 .auto_message_box > pre > code,
-.auto_message_box > pre + textarea {
+.auto_message_box > pre + textarea,
+.auto_message_box > pre + input[type=text] {
 	padding: var(--padding);
 	white-space: pre-line;
+}
+.auto_message_box:not(.single-line) > pre > code,
+.auto_message_box > pre + textarea {
 	word-wrap: break-word;
 	word-break: break-all;
 }

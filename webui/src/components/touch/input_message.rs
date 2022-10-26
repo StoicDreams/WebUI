@@ -17,7 +17,7 @@ pub struct InputMessageProps {
     #[prop_or_default]
     pub cache_id: Option<String>,
     #[prop_or_default]
-    pub onchange: Option<fn(String)>,
+    pub onchange: Option<Callback<Event>>,
 }
 
 #[function_component(InputMessage)]
@@ -42,13 +42,13 @@ pub fn input_message(props: &InputMessageProps) -> Html {
         })
     };
     let changeref = props.value.clone();
-    let onchange_handler = props.onchange.unwrap_or(|_: String| ());
+    let onchange_handler = props.onchange.clone().unwrap_or(Callback::from(|_| ()));
     let onchange = {
         Callback::from(move |ev: Event| match ev.target() {
             Some(target) => {
                 let value = target.unchecked_into::<HtmlTextAreaElement>().value();
                 changeref.set(value.to_string());
-                onchange_handler(value.to_string());
+                onchange_handler.emit(ev.clone());
             }
             None => (),
         })
