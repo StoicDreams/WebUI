@@ -6,6 +6,8 @@ pub const CLASSES_AUTO_MAXCONTENT: &str = "auto-maxcontent";
 pub const CLASSES_MAXCONTENT_AUTO: &str = "maxcontent-auto";
 
 pub const CLASSES_READABLE_CONTENT: &str = "readable-content";
+pub const CLASSES_FLEX_READABLE_CENTERED: &str =
+    "d-flex flex-column justify-center align-center readable-content";
 
 pub const CLASSES_THEME_ACTIVE: &str = "theme-active";
 pub const CLASSES_THEME_BACKGROUND: &str = "theme-background";
