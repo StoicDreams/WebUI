@@ -13,6 +13,10 @@ impl<T> TableColumns<T> {
             cell,
         }
     }
+    pub fn align(self: &mut Self, align: LeftCenterRight) -> &mut Self {
+        self.align = align;
+        self
+    }
 }
 
 pub struct Table<T> {
