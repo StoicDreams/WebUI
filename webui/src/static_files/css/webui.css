@@ -530,6 +530,142 @@ blockquote.quote {
     color: var(--color-button);
 }
 
+table {
+	border: 0px solid var(--color-primary);
+	border-collapse: collapse;
+}
+table th {
+	background-color: var(--color-primary);
+	color: var(--color-primary-offset);
+}
+table th,
+table td {
+	border: 0px solid var(--color-primary);
+	padding: var(--padding);
+}
+table.bordered,
+table.bordered th,
+table.bordered td {
+	border-width: 1px;
+}
+table.table-theme-white,
+table.table-theme-white th,
+table.table-theme-white td {
+	border-color: var(--color-white);
+}
+table.table-theme-white th {
+	background-color: var(--color-white);
+	color: var(--color-black);
+}
+table.table-theme-black,
+table.table-theme-black th,
+table.table-theme-black td {
+	border-color: var(--color-black);
+}
+table.table-theme-black th {
+	background-color: var(--color-black);
+	color: var(--color-white);
+}
+table.table-theme-title,
+table.table-theme-title th,
+table.table-theme-title td {
+	border-color: var(--color-title);
+}
+table.table-theme-title th {
+	background-color: var(--color-title);
+	color: var(--color-title-offset);
+}
+table.table-theme-primary,
+table.table-theme-primary th,
+table.table-theme-primary td {
+	border-color: var(--color-primary);
+}
+table.table-theme-primary th {
+	background-color: var(--color-primary);
+	color: var(--color-primary-offset);
+}
+table.table-theme-secondary,
+table.table-theme-secondary th,
+table.table-theme-secondary td {
+	border-color: var(--color-secondary);
+}
+table.table-theme-secondary th {
+	background-color: var(--color-secondary);
+	color: var(--color-secondary-offset);
+}
+table.table-theme-tertiary,
+table.table-theme-tertiary th,
+table.table-theme-tertiary td {
+	border-color: var(--color-tertiary);
+}
+table.table-theme-tertiary th {
+	background-color: var(--color-tertiary);
+	color: var(--color-tertiary-offset);
+}
+table.table-theme-info,
+table.table-theme-info th,
+table.table-theme-info td {
+	border-color: var(--color-info);
+}
+table.table-theme-info th {
+	background-color: var(--color-info);
+	color: var(--color-info-offset);
+}
+table.table-theme-success,
+table.table-theme-success th,
+table.table-theme-success td {
+	border-color: var(--color-success);
+}
+table.table-theme-success th {
+	background-color: var(--color-success);
+	color: var(--color-success-offset);
+}
+table.table-theme-warning,
+table.table-theme-warning th,
+table.table-theme-warning td {
+	border-color: var(--color-warning);
+}
+table.table-theme-warning th {
+	background-color: var(--color-warning);
+	color: var(--color-warning-offset);
+}
+table.table-theme-danger,
+table.table-theme-danger th,
+table.table-theme-danger td {
+	border-color: var(--color-danger);
+}
+table.table-theme-danger th {
+	background-color: var(--color-danger);
+	color: var(--color-danger-offset);
+}
+table.table-theme-shade,
+table.table-theme-shade th,
+table.table-theme-shade td {
+	border-color: var(--color-shade);
+}
+table.table-theme-shade th {
+	background-color: var(--color-shade);
+	color: var(--color-shade-offset);
+}
+table.table-theme-active,
+table.table-theme-active th,
+table.table-theme-active td {
+	border-color: var(--color-active);
+}
+table.table-theme-active th {
+	background-color: var(--color-active);
+	color: var(--color-active-offset);
+}
+table.table-theme-button,
+table.table-theme-button th,
+table.table-theme-button td {
+	border-color: var(--color-button);
+}
+table.table-theme-button th {
+	background-color: var(--color-button);
+	color: var(--color-button-offset);
+}
+
 ul, ol {
 	margin: 0;
 	padding-inline-start: calc(4 * var(--padding));

@@ -6,3 +6,6 @@ pub mod image;
 
 /// Module for navigation display components.
 pub mod nav_display;
+
+/// Module for table displays
+pub mod table;

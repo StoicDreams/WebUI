@@ -20,13 +20,7 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
 
 pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
     let nav_routes = vec![
-        NavLinkInfo::link(
-            "Home",
-            "/",
-            "fa-duotone fa-house",
-            roles::PUBLIC,
-            page_home,
-        ),
+        NavLinkInfo::link("Home", "/", "fa-duotone fa-house", roles::PUBLIC, page_home),
         NavGroupInfo::link(
             "Classes",
             "fa-duotone fa-file-code",
@@ -88,7 +82,7 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
             "fa-duotone fa-shield-exclamation",
             roles::PUBLIC,
             page_privacy,
-        )
+        ),
     ];
     nav_routes.to_owned()
 }

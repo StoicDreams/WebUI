@@ -14,6 +14,14 @@ pub enum LeftOrRight {
     Left,
 }
 
+#[derive(Clone, Debug, PartialEq, Default)]
+pub enum LeftCenterRight {
+    #[default]
+    Left,
+    Center,
+    Right,
+}
+
 impl std::fmt::Display for Direction {
     fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
         match self {
