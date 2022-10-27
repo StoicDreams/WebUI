@@ -67,9 +67,13 @@ impl<T> Table<T> {
                 </thead>
                 <tbody>
                     {data.iter().map(move |data| {
-                        self.columns.iter().map(|column| {
-                            html!{<td class={format!("{}", column.align)}>{(column.cell)(data)}</td>}
-                        }).collect::<Html>()
+                        html!{
+                            <tr>
+                            {self.columns.iter().map(|column| {
+                                html!{<td class={format!("{}", column.align)}>{(column.cell)(data)}</td>}
+                            }).collect::<Html>()}
+                            </tr>
+                        }
                     }).collect::<Html>()}
                 </tbody>
             </table>
