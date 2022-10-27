@@ -41,3 +41,13 @@ impl std::fmt::Display for LeftOrRight {
         }
     }
 }
+
+impl std::fmt::Display for LeftCenterRight {
+    fn fmt(&self, f: &mut std::fmt::Formatter) -> std::fmt::Result {
+        match self {
+            LeftCenterRight::Right => write!(f, "right"),
+            LeftCenterRight::Center => write!(f, "center"),
+            LeftCenterRight::Left => write!(f, "left"),
+        }
+    }
+}

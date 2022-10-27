@@ -2,14 +2,14 @@ use crate::*;
 
 pub struct TableColumns<T> {
     name: String,
-    align: LeftOrRight,
+    align: LeftCenterRight,
     cell: fn(&T) -> Html,
 }
 impl<T> TableColumns<T> {
     pub fn new(name: String, cell: fn(&T) -> Html) -> Self {
         Self {
             name,
-            align: LeftOrRight::Left,
+            align: LeftCenterRight::Left,
             cell,
         }
     }
@@ -53,14 +53,14 @@ impl<T> Table<T> {
                 <thead>
                     <tr>
                         {self.columns.iter().map(|column| {
-                            html!{<th>{column.name.to_string()}</th>}
+                            html!{<th class={format!("{}", column.align)}>{column.name.to_string()}</th>}
                         }).collect::<Html>()}
                     </tr>
                 </thead>
                 <tbody>
                     {data.iter().map(move |data| {
                         self.columns.iter().map(|column| {
-                            html!{<td>{(column.cell)(data)}</td>}
+                            html!{<td class={format!("{}", column.align)}>{(column.cell)(data)}</td>}
                         }).collect::<Html>()
                     }).collect::<Html>()}
                 </tbody>

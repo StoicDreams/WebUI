@@ -665,7 +665,18 @@ table.table-theme-button th {
 	background-color: var(--color-button);
 	color: var(--color-button-offset);
 }
-
+table th.left,
+table td.left {
+	text-align: left;
+}
+table th.center,
+table td.center {
+	text-align: center;
+}
+table th.right,
+table td.right {
+	text-align: right;
+}
 ul, ol {
 	margin: 0;
 	padding-inline-start: calc(4 * var(--padding));
