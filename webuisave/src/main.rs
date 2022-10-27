@@ -10,19 +10,24 @@ struct Args {
     major: bool,
     #[arg(long)]
     minor: bool,
+    #[arg(short, long)]
+    publish: bool,
 }
 
 fn main() {
     let args = Args::parse();
     copy_static_files();
-    let version_args = &mut Vec::new();
-    version_args.push("./IncrementVersion.ps1");
-    if args.major {
-        version_args.push("-major");
-    } else if args.minor {
-        version_args.push("-minor");
+
+    if args.publish {
+        let version_args = &mut Vec::new();
+        version_args.push("./IncrementVersion.ps1");
+        if args.major {
+            version_args.push("-major");
+        } else if args.minor {
+            version_args.push("-minor");
+        }
+        run_ma("pwsh", &version_args);
     }
-    run_ma("pwsh", &version_args);
     run("cargo", "fmt");
     run("cargo", "update");
     run("cargo", "build");
@@ -31,7 +36,9 @@ fn main() {
     run_ma("git", &["add", "-A"]);
     run_ma("git", &["commit", "-m", &args.commit]);
     run_ma("git", &["push", "-u", "origin", "main"]);
-    run_ma("cargo", &["publish", "-p", "webui"]);
+    if args.publish {
+        run_ma("cargo", &["publish", "-p", "webui"]);
+    }
     run("pwsh", "./SyncVersionToLocalProjects.ps1");
     run("echo", "Finished Successfully");
 }

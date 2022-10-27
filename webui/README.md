@@ -77,6 +77,8 @@ edition = "2021"
 
 [dependencies]
 webui = "0.3.18"
+# Use the direct GitHub reference if you want bleeding edge updates
+# webui = { git = "https://github.com/StoicDreams/RustWebUI", branch = "main" }
 ```
 
 Install webui executable - this will be used to build your boilerplate static files.
