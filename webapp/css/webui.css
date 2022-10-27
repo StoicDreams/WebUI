@@ -780,7 +780,7 @@ a.btn:active,
 	transition: all 300ms ease-in-out;
 	margin-top: -100%;
 }
-.nav-group > .navlink.show + section > * {
+.nav-group > .navlink.show ~ section > * {
 	margin-top: 0;
 }
 .navlink > span {
