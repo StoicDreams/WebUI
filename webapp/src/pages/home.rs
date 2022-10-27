@@ -1,3 +1,4 @@
+use crate::*;
 use webui::*;
 
 /// App home page
@@ -112,6 +113,7 @@ pub(crate) fn page_home() -> Html {
                     </List>
                 </Card>
             </Paper>
+            <JasperLink display="Content on this website was created with the help of Jasper.ai." />
         </>
     }
 }

@@ -6,6 +6,7 @@ mod feedback;
 mod nav_menu;
 mod pages;
 
+pub use crate::components::jasper_link::*;
 pub use crate::components::*;
 
 pub(crate) const COMPANY_PLURAL: &str = "Stoic Dreams'";
