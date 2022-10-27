@@ -1,6 +1,7 @@
 [workspace]
 
 members = [
+	"pushwebapp",
     "webui",
 	"webuisave",
 	"webapp",
