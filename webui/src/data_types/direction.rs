@@ -1,4 +1,4 @@
-#[derive(Clone, Debug, PartialEq, Default)]
+#[derive(Clone, Copy, Debug, PartialEq, Default)]
 pub enum Direction {
     Top,
     #[default]
@@ -7,14 +7,14 @@ pub enum Direction {
     Left,
 }
 
-#[derive(Clone, Debug, PartialEq, Default)]
+#[derive(Clone, Copy, Debug, PartialEq, Default)]
 pub enum LeftOrRight {
     #[default]
     Right,
     Left,
 }
 
-#[derive(Clone, Debug, PartialEq, Default)]
+#[derive(Clone, Copy, Debug, PartialEq, Default)]
 pub enum LeftCenterRight {
     #[default]
     Left,

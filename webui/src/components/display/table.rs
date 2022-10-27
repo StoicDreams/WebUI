@@ -17,6 +17,9 @@ impl<T> TableColumns<T> {
         self.align = align;
         self
     }
+    pub fn immutable(self: Self) -> Self {
+        self
+    }
 }
 
 pub struct Table<T> {
