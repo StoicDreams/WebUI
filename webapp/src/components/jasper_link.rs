@@ -12,18 +12,15 @@ pub fn jasper_link(props: &JasperLinkProps) -> Html {
     html!(
         <>
             <Paper class="ma-3" />
-            <Paper class="d-flex flex-row align-center justify-center mt-a mb-5">
-                <Quote class="ml-a mr-a pa-3" color={Theme::Success} elevation={ELEVATION_STANDARD}>
+            <Paper class="mt-a mb-5">
+                <Quote class="pa-3" color={Theme::Success} elevation={ELEVATION_STANDARD}>
                     {match props.display.to_owned() {
                         Some(display) => html!(display),
                         None => html!({"Content on this page was created with the help of Jasper.ai."})
                     }}
                     {" "}
                     <Link href="https://jasper.ai/unlimited?fpr=stoicdreams">
-                        {match props.display.to_owned() {
-                            Some(display) => html!(display),
-                            None => html!({"Visit Jasper.ai to learn more about this awesome AI tool."})
-                        }}
+                        {"Visit Jasper.ai to learn more about this awesome AI tool."}
                     </Link>
                 </Quote>
             </Paper>
