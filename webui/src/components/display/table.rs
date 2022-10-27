@@ -13,12 +13,13 @@ impl<T> TableColumns<T> {
             cell,
         }
     }
-    pub fn align(self: &mut Self, align: LeftCenterRight) -> &mut Self {
+    pub fn align(self: &mut Self, align: LeftCenterRight) -> TableColumns<T> {
         self.align = align;
-        self
-    }
-    pub fn immutable(self: Self) -> Self {
-        self
+        Self {
+            name: self.name.to_string(),
+            align,
+            cell: self.cell,
+        }
     }
 }
 
