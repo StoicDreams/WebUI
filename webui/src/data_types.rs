@@ -10,6 +10,9 @@ pub mod direction;
 /// Module holding custom error types
 pub mod errors;
 
+/// Format methods
+pub mod format;
+
 /// Module holding data types for navigation routing
 pub mod nav_route;
 
