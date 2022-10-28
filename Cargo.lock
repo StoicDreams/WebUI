@@ -959,7 +959,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "pushwebapp"
+name = "pushrust"
 version = "0.1.0"
 dependencies = [
  "clap",

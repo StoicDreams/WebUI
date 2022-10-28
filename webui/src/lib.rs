@@ -43,7 +43,7 @@ pub use crate::components::touch::input_message::InputMessage;
 pub use crate::components::touch::input_text::InputText;
 pub use crate::components::touch::link::Link;
 pub use crate::components::touch::navlink::NavLink;
-pub use crate::data_types::app_config::AppConfig;
+pub use crate::data_types::app_config::*;
 pub use crate::data_types::direction::*;
 pub use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
 pub use crate::data_types::errors::*;
