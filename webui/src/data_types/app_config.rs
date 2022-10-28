@@ -6,21 +6,21 @@ use crate::*;
 /// This is required to be created on app startup and passed into webui::start_app(app_config)
 #[derive(Clone, Debug, PartialEq)]
 pub struct AppConfig {
-    pub(crate) app_name: String,
-    pub(crate) company_name: String,
-    pub(crate) company_home_url: String,
-    pub(crate) domain: String,
-    pub(crate) header_logo_src: Option<String>,
-    pub(crate) hide_powered_by: bool,
-    pub(crate) nav_routing: Vec<NavRoute>,
-    pub(crate) header_left_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) header_right_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) header_top_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) footer_left_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) footer_right_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) header_strip_bar: Option<fn() -> Html>,
-    pub(crate) user_info_panel: Option<fn() -> Html>,
+    pub app_name: String,
+    pub company_name: String,
+    pub company_home_url: String,
+    pub domain: String,
+    pub header_logo_src: Option<String>,
+    pub hide_powered_by: bool,
+    pub nav_routing: Vec<NavRoute>,
+    pub header_left_drawer_toggle: Option<DrawerToggleInfo>,
+    pub header_right_drawer_toggle: Option<DrawerToggleInfo>,
+    pub header_top_drawer_toggle: Option<DrawerToggleInfo>,
+    pub footer_left_drawer_toggle: Option<DrawerToggleInfo>,
+    pub footer_right_drawer_toggle: Option<DrawerToggleInfo>,
+    pub footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
+    pub header_strip_bar: Option<fn() -> Html>,
+    pub user_info_panel: Option<fn() -> Html>,
 }
 
 /// Struct holding App/Website configuration details.
