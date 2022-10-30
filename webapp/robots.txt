@@ -3,3 +3,5 @@ Allow: /nogooglebot/
 
 User-agent: *
 Allow: /
+
+Sitemap: http://webui.stoicdreams.com/sitemap.xml

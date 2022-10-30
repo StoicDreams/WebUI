@@ -1,5 +1,6 @@
 use clap::Parser;
 use std::fs;
+use std::path::Path;
 use std::process::Command;
 
 #[derive(Parser, Debug)]
@@ -14,10 +15,26 @@ fn main() {
     run("cargo", "update");
     run("cargo", "build");
     run("cargo", "test");
+    build_sitemap();
     run_ma("git", &["add", "-A"]);
     run_ma("git", &["commit", "-m", &args.commit]);
     run_ma("git", &["push", "-u", "origin", "main"]);
     run("echo", "Finished Successfully");
+}
+
+fn build_sitemap() {
+    let sitemap_file = Path::new("./PowerShell/BuildSiteMap.ps1");
+    if !sitemap_file.exists() {
+        println!("Missing Sitemap Builder - expected file PowerShell/BuildSiteMap.ps1");
+        return;
+    }
+    let nav_file = Path::new("./webapp/src/nav_menu.rs");
+    if !nav_file.exists() {
+        println!("Missing Nav Menu File - expected file webapp/src/nav_menu.rs");
+        return;
+    }
+    println!("Running Sitemap Builder");
+    run("pwsh", sitemap_file.as_os_str().to_str().unwrap());
 }
 
 fn run(command: &str, commandarg: &str) {
