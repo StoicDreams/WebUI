@@ -44,6 +44,9 @@ fn nav_display_group(routes: &Vec<NavRoute>) -> Html {
 fn display_nav_route(route: &NavRoute) -> Html {
     match route {
         NavRoute::NavGroup(group_info) => {
+            if group_info.role != 0 {
+                return html! {};
+            }
             return html! {
                 <Paper class="nav-group">
                     <DisplayNavGroupToggle group_info={group_info.to_owned()} />
@@ -52,6 +55,9 @@ fn display_nav_route(route: &NavRoute) -> Html {
             };
         }
         NavRoute::NavLink(link_info) => {
+            if link_info.role != 0 {
+                return html! {};
+            }
             return html! {
                 <Paper class="nav-link">
                     <NavLink to={link_info.path.to_string()}>
