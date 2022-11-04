@@ -67,7 +67,6 @@ fn get_page_content(routes: Vec<NavRoute>, page: &str) -> fn() -> Html {
 }
 
 fn get_page(routes: Vec<NavRoute>, page: &str) -> Option<NavLinkInfo> {
-    jslog!("Debug url:{}", page);
     for route in routes {
         match route {
             NavRoute::NavLink(link_info) => {

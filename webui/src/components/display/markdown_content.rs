@@ -8,55 +8,38 @@ use crate::*;
 #[derive(Properties, PartialEq)]
 pub struct MarkdownContentProps {
     #[prop_or_default]
-    pub elevation: u8,
-    #[prop_or_default]
-    pub class: String,
-    #[prop_or_default]
     pub href: Option<String>,
     #[prop_or_default]
     pub markdown: Option<String>,
-    #[prop_or_default]
-    pub style: String,
 }
 
 /// Component for loading and displaying site content from markdown files
 ///
-/// Basic example displaying with classes
+/// Basic example displaying from url
 /// ```rust
 /// use webui::*;
 ///
 /// fn page() -> Html {
 /// 	html! {
-/// 		<MarkdownContent href="/d/en-us/example.md" class="d-flex flex-column" />
+/// 		<MarkdownContent href="/d/en-us/example.md"/>
 /// 	}
 /// }
 /// ```
 ///
 /// Apply elevetation
 ///
-/// Elevation applies a box shadow to the Image component.
-/// Valid ranges range from 0 ro 25.
+/// Basic example displaying from passed in value
 /// ```rust
 /// use webui::*;
 ///
 /// fn page() -> Html {
 /// 	html! {
-/// 		<MarkdownContent markdown="# Hello World" elevation={10} />
+/// 		<MarkdownContent markdown="# Hello World" />
 /// 	}
 /// }
 /// ```
 #[function_component(MarkdownContent)]
 pub fn site_content(props: &MarkdownContentProps) -> Html {
-    let classes = &mut Classes::new();
-
-    if !props.class.is_empty() {
-        classes.push(&props.class);
-    }
-
-    if props.elevation > 0 {
-        classes.push(format!("elevation-{}", props.elevation));
-    }
-
     let is_loaded = use_state(|| false);
     let markdown = use_state(|| String::from(""));
     match props.markdown.to_owned() {
@@ -96,9 +79,7 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
 
     jslog!("Display Markdown Content");
     html! {
-        <Paper class={classes.to_string()} style={props.style.to_owned()}>
-            {display}
-        </Paper>
+        {display}
     }
 }
 
@@ -129,11 +110,11 @@ fn render_lines(lines: &Vec<&str>) -> Html {
             },
         }
     }
-    segments.reverse();
+    //segments.reverse();
     jslog!("Lines:{}", segments.len());
     html!(
         <>
-            {render_children(segments)}
+            {render_start(segments)}
                 // segments.iter().map(|segment|{
             //         html!({segment()})
             //     }).collect::<Html>()
@@ -172,15 +153,68 @@ fn render_segment_getter(line: &str, lines: &mut Iter<&str>) -> impl Fn() -> VNo
     }
 }
 
+fn render_start(lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+    let mut is_running = true;
+    html!(
+        {lines.iter().map(|(line, line_type)| {
+            let mut lines = lines.to_owned();
+            let line = line.to_owned();
+            let line_type = line_type.to_owned();
+            html!(
+                <>
+                    {match line_type {
+                        MarkdownSegments::EndSection => {
+                            jslog!("End Section");
+                            html!()
+                        },
+                        MarkdownSegments::Title(level) => {
+                            match level {
+                                1 => html!(title_primary!(line)),
+                                2 => html!(title_secondary!(line)),
+                                _ => html!(title_tertiary!(line)),
+                            }
+                        },
+                        MarkdownSegments::Paragraph => {
+                            html!(<p>{render_line(&line)}</p>)
+                        },
+                        MarkdownSegments::PageSection(class, style) => {
+                            let class = classes!(CLASSES_PAGE_SECTION, class);
+                            html!(<Paper class={class.to_string()} style={style.to_owned()}>
+                                {render_start(&mut lines)}
+                            </Paper>)
+                        },
+                        MarkdownSegments::SideImage(src, image_pos, class, style) => {
+                            let image_pos = match image_pos.as_str() {
+                                "right" => LeftOrRight::Right,
+                                _ => LeftOrRight::Left,
+                            };
+                            html!(<SideImage {image_pos} class={class.to_owned()} src={src.to_owned()} style={style.to_owned()}>
+                                {render_start(&mut lines)}
+                            </SideImage>)
+                        },
+                        MarkdownSegments::Paper(class, style) => {
+                            html!(<Paper class={class.to_owned()} style={style.to_owned()}>
+                                {render_start(&mut lines)}
+                            </Paper>)
+                        },
+                    }}
+                </>
+            )
+        }).collect::<Html>()}
+    )
+}
+
 fn render_children(lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
     let mut is_running = true;
     let line = lines.pop();
     match line {
         Some((line, line_type)) => {
+            jslog!("Render Children:{};{:?}", line, line_type);
             html!(
                 <>
                     {match line_type {
                         MarkdownSegments::EndSection => {
+                            jslog!("End Section");
                             html!()
                         },
                         MarkdownSegments::Title(level) => {
@@ -314,11 +348,8 @@ fn get_line_type(line: &str) -> (String, MarkdownSegments) {
         let sectionType = sections.next().unwrap_or("paper").to_lowercase();
         let sections = sections.to_owned().collect::<Vec<&str>>();
         let line = sections.join(" ");
-        jslog!("Line:{}", line);
         let mut sections = line.split("\" \"").to_owned();
-        jslog!("{:?}", sections.to_owned().collect::<Vec<&str>>());
         let mut test = sections.to_owned();
-        jslog!("Class:{};Styles:{}", test.next().unwrap_or_default(), test.next().unwrap_or_default());
         return (line.to_owned(), match sectionType.as_str() {
             "section" => MarkdownSegments::PageSection(
                 next(&mut sections),
