@@ -11,6 +11,7 @@ pub use crate::components::container::quote::Quote;
 pub use crate::components::container::side_image::SideImage;
 pub use crate::components::display::avatar::Avatar;
 pub use crate::components::display::image::Image;
+pub use crate::components::display::markdown_content::*;
 pub use crate::components::display::nav_display::NavDisplay;
 pub use crate::components::display::table::*;
 pub use crate::components::layout::app_contexts::Agents;

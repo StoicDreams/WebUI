@@ -36,6 +36,14 @@ export function get_full_path() {
     return location.href.substring(location.origin.length);
 }
 
+export function get_host() {
+    return location.host;
+}
+
+export function get_origin() {
+    return location.origin;
+}
+
 export function log(message) {
     console.log(message);
 }

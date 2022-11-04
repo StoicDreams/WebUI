@@ -6,6 +6,7 @@ pub(crate) fn page_home() -> Html {
     set_title("Web UI Demo & Documentation".to_string());
     html! {
         <>
+            <MarkdownContent href="/d/en-US/home.md" />
             {title_secondary!("Welcome to the Web UI documentation and demo website")}
             <SideImage image_pos={LeftOrRight::Right} src="https://cdn.myfi.ws/v/Vecteezy/cartoon-style-cloud-storage-data-processing-message.svg">
                 <Paper>

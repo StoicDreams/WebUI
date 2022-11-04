@@ -4,6 +4,9 @@ pub mod avatar;
 /// Module for Image components
 pub mod image;
 
+/// Module for MarkdownContent components
+pub mod markdown_content;
+
 /// Module for navigation display components.
 pub mod nav_display;
 

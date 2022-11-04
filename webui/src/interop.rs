@@ -38,6 +38,14 @@ extern "C" {
     #[wasm_bindgen]
     pub fn get_path() -> String;
 
+    /// Get host from window
+    #[wasm_bindgen]
+    pub fn get_host() -> String;
+
+    /// Get origin from window
+    #[wasm_bindgen]
+    pub fn get_origin() -> String;
+
     /// Get url page path with query data
     ///
     /// Returned path always starts with forward slash '/'.

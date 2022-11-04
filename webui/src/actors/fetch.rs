@@ -4,6 +4,7 @@ use reqwest::*;
 #[derive(Debug, serde::Serialize)]
 pub enum FetchMethod {
     Get,
+    Patch(String),
     Post(String),
     Put(String),
     Delete,
@@ -13,6 +14,7 @@ impl FetchMethod {
     pub fn to_http_method(&self) -> String {
         match self {
             FetchMethod::Get => "GET".to_string(),
+            FetchMethod::Patch(_) => "PATCH".to_string(),
             FetchMethod::Post(_) => "POST".to_string(),
             FetchMethod::Put(_) => "PUT".to_string(),
             FetchMethod::Delete => "DELETE".to_string(),
@@ -50,6 +52,12 @@ impl FetchResponse {
     pub fn get_result(self: &Self) -> Option<String> {
         self.result.to_owned()
     }
+    pub fn ok(status: u16, body: String) -> Self {
+        FetchResponse { 
+            status,
+            result: Some(body)
+        }
+    }
     pub fn error() -> Self {
         FetchResponse {
             status: 500,
@@ -69,24 +77,54 @@ trait Block {
 
 impl<F, T> Block for F where F: futures::Future<Output = T> {}
 
+fn build_url(url: &str) -> String {
+    if url.is_empty() { return url.to_string(); }
+    if url.starts_with("http") { return url.to_string(); }
+    if url.starts_with("/") { return format!("{}{}", interop::get_origin(), url); }
+    format!("{}/{}", interop::get_full_path(), url)
+}
+
 pub async fn fetch(request: FetchRequest) -> FetchResponse {
-    jslog!("Fetch: {:?}", request);
     let client = reqwest::Client::builder()
         .default_headers(request.headers)
         .build();
+    let url = build_url(&request.url);
     match client {
         Ok(client) => match request.method {
             FetchMethod::Get => {
-                let result = client.get(request.url).send().await;
-                FetchResponse::error()
+                let result = client.get(url).send().await;
+                handle_result(result).await
+            }
+            FetchMethod::Patch(data) => {
+                let result = client.patch(url).body(data).send().await;
+                handle_result(result).await
             }
             FetchMethod::Post(data) => {
-                let result = client.post(request.url).body(data).send().await;
-                FetchResponse::error()
+                let result = client.post(url).body(data).send().await;
+                handle_result(result).await
             }
-            FetchMethod::Put(data) => FetchResponse::error(),
-            FetchMethod::Delete => FetchResponse::error(),
+            FetchMethod::Put(data) => {
+                let result = client.put(url).body(data).send().await;
+                handle_result(result).await
+            },
+            FetchMethod::Delete => {
+                let result = client.delete(url).send().await;
+                handle_result(result).await
+            },
         },
         Err(error) => FetchResponse::error(),
+    }
+}
+
+async fn handle_result(result: reqwest::Result<reqwest::Response>) -> FetchResponse {
+    match result {
+        Ok(response) => {
+            let status = response.status().as_u16();
+            let body = response.text().await.unwrap_or_default();
+            FetchResponse::ok(status, body)
+        },
+        Err(err) => {
+            FetchResponse::error()
+        }
     }
 }
