@@ -1,4 +1,4 @@
-## Welcome to the Web UI documentation and demo website
+# Welcome to the Web UI documentation and demo website
 
 ```SideImage "right" "https://cdn.myfi.ws/v/Vecteezy/cartoon-style-cloud-storage-data-processing-message.svg"
 We are very excited to be sharing this tool with you, as well as our journey into the world of Rust development.

@@ -27,10 +27,10 @@ attempt to decompile or reverse engineer any software contained on {COMPANY_PLUR
 remove any copyright or other proprietary notations from the materials;
 
 or transfer the materials to another person or "mirror" the materials on any other server.
-````
+```
 
 This license shall automatically terminate if you violate any of these restrictions and may be terminated by {COMPANY_SINGULAR} at any time. Upon terminating your viewing of these materials or upon the termination of this license, you must destroy any downloaded materials in your possession whether in electronic or printed format.
-```
+````
 
 ## 4. Disclaimer
 
