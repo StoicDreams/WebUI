@@ -252,7 +252,7 @@ fn render_line_content(
             MarkdownSegments::PageSection(class, style) => {
                 *index += 1;
                 let class = classes!(CLASSES_PAGE_SECTION, class);
-                html!(<Paper class={class.to_string()} style={style.to_owned()}>
+                html!(<Paper class={class.to_string()} style={style.to_owned()} elevation={ELEVATION_STANDARD}>
                     {render_children(index, lines)}
                 </Paper>)
             },
