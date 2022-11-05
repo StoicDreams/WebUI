@@ -183,6 +183,12 @@ textarea {
 textarea {
 	height: 100%;
 }
+svg {
+	transition-property: all;
+	transition-duration: 600ms;
+	transition-timing-function: ease-in-out;
+}
+
 /* Layout Styles */
 #app > header {
 	padding: var(--padding);
@@ -434,7 +440,8 @@ aside.app-drawer.left {
 	word-wrap: break-word;
 	word-break: break-all;
 }
-blockquote.quote {
+blockquote,
+.quote {
 	display: block;
 	margin: var(--padding);
 	padding: var(--padding);

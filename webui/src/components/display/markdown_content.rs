@@ -94,12 +94,8 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
     }
 
     let mut markdown = match &props.tags {
-        Some(tags) => {
-            replace_tags(&(*markdown).clone(), tags)
-        },
-        None => {
-            (*markdown).clone()
-        },
+        Some(tags) => replace_tags(&(*markdown).clone(), tags),
+        None => (*markdown).clone(),
     };
     let display = markdown_to_html(&markdown);
 
@@ -114,8 +110,8 @@ fn replace_tags(markdown: &str, tags: &HashMap<String, String>) -> String {
         match tags.get(tag) {
             Some(value) => {
                 markdown = markdown.replace(&format!("{{{}}}", tag), value.as_str());
-            },
-            None => ()
+            }
+            None => (),
         }
     }
     markdown
@@ -444,72 +440,77 @@ fn render_line_segment(segment: &str) -> Html {
     if segment.contains("**") {
         let subs = segment.split("**");
         let mut is_strong = true;
-        return html!(
-            {subs.map(|sub| {
+        return html!({
+            subs.map(|sub| {
                 is_strong = !is_strong;
                 if is_strong {
                     html!(<strong>{render_line_segment(sub)}</strong>)
                 } else {
-                    html!({render_line_segment(sub)})
+                    html!({ render_line_segment(sub) })
                 }
-            }).collect::<Html>()}
-        )
+            })
+            .collect::<Html>()
+        });
     }
     if segment.contains("==") {
         let subs = segment.split("==");
         let mut is_highlight = true;
-        return html!(
-            {subs.map(|sub| {
+        return html!({
+            subs.map(|sub| {
                 is_highlight = !is_highlight;
                 if is_highlight {
                     html!(<mark>{render_line_segment(sub)}</mark>)
                 } else {
-                    html!({render_line_segment(sub)})
+                    html!({ render_line_segment(sub) })
                 }
-            }).collect::<Html>()}
-        )
+            })
+            .collect::<Html>()
+        });
     }
     if segment.contains("*") {
         let subs = segment.split("*");
         let mut is_ital = true;
-        return html!(
-            {subs.map(|sub| {
+        return html!({
+            subs.map(|sub| {
                 is_ital = !is_ital;
                 if is_ital {
                     html!(<i>{render_line_segment(sub)}</i>)
                 } else {
-                    html!({render_line_segment(sub)})
+                    html!({ render_line_segment(sub) })
                 }
-            }).collect::<Html>()}
-        )
+            })
+            .collect::<Html>()
+        });
     }
     if segment.contains("~") {
         let subs = segment.split("~");
         let mut is_subscript = true;
-        return html!(
-            {subs.map(|sub| {
+        return html!({
+            subs.map(|sub| {
                 is_subscript = !is_subscript;
                 if is_subscript {
                     html!(<sub>{render_line_segment(sub)}</sub>)
                 } else {
-                    html!({render_line_segment(sub)})
+                    html!({ render_line_segment(sub) })
                 }
-            }).collect::<Html>()}
-        )
+            })
+            .collect::<Html>()
+        });
     }
     if segment.contains("^") {
         let subs = segment.split("^");
         let mut is_super = true;
-        return html!(
-            {subs.map(|sub| {
+        return html!({
+            subs.map(|sub| {
                 is_super = !is_super;
                 if is_super {
                     html!(<sup>{render_line_segment(sub)}</sup>)
                 } else {
-                    html!({render_line_segment(sub)})
+                    html!({ render_line_segment(sub) })
                 }
-            }).collect::<Html>()}
-        )
+            })
+            .collect::<Html>()
+        });
     }
     html!({ segment })
 }
@@ -568,17 +569,15 @@ fn get_line_type(line: &str) -> (String, MarkdownSegments) {
                     next(&mut sections),
                 ),
                 "list" => MarkdownSegments::List(!next(&mut sections).is_empty()),
-                "quote" => {
-                    MarkdownSegments::Quote(
-                        next(&mut sections),
-                        next(&mut sections),
-                        next(&mut sections),
-                        next(&mut sections),
-                    )
-                },
+                "quote" => MarkdownSegments::Quote(
+                    next(&mut sections),
+                    next(&mut sections),
+                    next(&mut sections),
+                    next(&mut sections),
+                ),
                 "section" => {
                     MarkdownSegments::PageSection(next(&mut sections), next(&mut sections))
-                },
+                }
                 "sideimage" => MarkdownSegments::SideImage(
                     next(&mut sections),
                     next(&mut sections),
