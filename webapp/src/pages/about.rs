@@ -7,12 +7,6 @@ pub(crate) fn page_about() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/about.md" />
-            {title_secondary!(html!{"About Stoic Dreams"})}
-            <Paper class="pa-3">
-                {paragraphs!(
-                    "Stoic Dreams is a software development studio with a focus on delivering tools and best practices to make software development easier and faster with the highest quality possible."
-                )}
-            </Paper>
         </>
     }
 }

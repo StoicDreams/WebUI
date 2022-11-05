@@ -9,6 +9,8 @@ pub struct MarkdownContentProps {
     pub href: Option<String>,
     #[prop_or_default]
     pub markdown: Option<String>,
+    #[prop_or_default]
+    pub tags: Option<HashMap<String, String>>,
 }
 
 /// Component for loading and displaying site content from markdown files
@@ -91,11 +93,32 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
         }
     }
 
-    let display = markdown_to_html(&*markdown);
+    let mut markdown = match &props.tags {
+        Some(tags) => {
+            replace_tags(&(*markdown).clone(), tags)
+        },
+        None => {
+            (*markdown).clone()
+        },
+    };
+    let display = markdown_to_html(&markdown);
 
     html! {
         {display}
     }
+}
+
+fn replace_tags(markdown: &str, tags: &HashMap<String, String>) -> String {
+    let mut markdown = String::from(markdown);
+    for tag in tags.keys() {
+        match tags.get(tag) {
+            Some(value) => {
+                markdown = markdown.replace(&format!("{{{}}}", tag), value.as_str());
+            },
+            None => ()
+        }
+    }
+    markdown
 }
 
 pub fn markdown_to_html(markdown: &str) -> Html {
@@ -124,7 +147,7 @@ fn render_lines(lines: &Vec<&str>) -> Html {
             }
         }
     }
-    let mut index = 0u32;
+    let mut index = 1u32;
     html!({ render_children(&mut index, segments) })
 }
 
@@ -140,17 +163,29 @@ fn render_children(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>)
                 if counter < *index || !is_running {
                     return html!();
                 }
-                *index += 1;
+                // *index += 1;
                 let mut lines = sec.to_owned();
                 let (line, line_type) = tuple;
-                if line.is_empty() {
-                    return html!();
+                jslog!("RC:LINE:{}-{}-{:?}-{}", *index, counter, line_type, line);
+                match line_type {
+                    MarkdownSegments::EndSection => {
+                        *index += 1;
+                        is_running = false;
+                        html!()
+                    },
+                    _ => {
+                        if line.is_empty() {
+                            *index += 1;
+                            return html!();
+                        }
+
+                        html!(
+                            <>
+                                {render_line_content(&mut is_running, line, line_type, index, &mut lines)}
+                            </>
+                        )
+                    }
                 }
-                html!(
-                    <>
-                        {render_line_content(&mut is_running, line, line_type, index, &mut lines)}
-                    </>
-                )
             })
             .collect::<Html>()
     })
@@ -165,20 +200,33 @@ fn render_list(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> 
             .iter_mut()
             .map(|tuple| {
                 counter += 1;
+                // jslog!("RL:{}-{}-{}-{:?}", *index, counter, is_running, tuple);
                 if counter < *index || !is_running {
+                    // jslog!("RL:BAD");
                     return html!();
                 }
-                *index += 1;
+                // jslog!("RL:GOOD");
+                // *index += 1;
                 let mut lines = sec.to_owned();
                 let (line, line_type) = tuple;
-                if line.is_empty() {
-                    return html!();
+                match line_type {
+                    MarkdownSegments::EndSection => {
+                        *index += 1;
+                        is_running = false;
+                        html!()
+                    },
+                    _ => {
+                        if line.is_empty() {
+                            *index += 1;
+                            return html!();
+                        }
+                        html!(
+                            <li>
+                                {render_line_content(&mut is_running, line, line_type, index, &mut lines)}
+                            </li>
+                        )
+                    }
                 }
-                html!(
-                    <li>
-                        {render_line_content(&mut is_running, line, line_type, index, &mut lines)}
-                    </li>
-                )
             })
             .collect::<Html>()
     })
@@ -195,10 +243,12 @@ fn render_line_content(
         <>
         {match line_type {
             MarkdownSegments::EndSection => {
+                *index += 1;
                 *is_running = false;
                 html!()
             },
             MarkdownSegments::Title(level) => {
+                *index += 1;
                 match level {
                     1 => html!(title_primary!(line)),
                     2 => html!(title_secondary!(line)),
@@ -206,6 +256,7 @@ fn render_line_content(
                 }
             },
             MarkdownSegments::Paragraph => {
+                *index += 1;
                 html!(<p>{render_line(&line)}</p>)
             },
             MarkdownSegments::PageSection(class, style) => {
@@ -231,8 +282,16 @@ fn render_line_content(
                     {render_children(index, lines)}
                 </Paper>)
             },
+            MarkdownSegments::Quote(theme, cite, class, style) => {
+                *index += 1;
+                let theme = get_theme(theme.as_str());
+                html!(<Quote color={theme} cite={cite.to_string()} class={class.to_owned()} style={style.to_owned()}>
+                    {render_children(index, lines)}
+                </Quote>)
+            },
             MarkdownSegments::List(is_ordered) => {
                 *index += 1;
+                // jslog!("RC:LIST:{}-{}", *index, line);
                 html!(<List>
                     {render_list(index, lines)}
                 </List>)
@@ -246,21 +305,7 @@ fn render_line_content(
             },
             MarkdownSegments::Card(title, width, theme, avatar, link) => {
                 *index += 1;
-                let theme = match theme.as_str() {
-                    "active" => Theme::Active,
-                    "background" => Theme::Background,
-                    "black" => Theme::Black,
-                    "white" => Theme::White,
-                    "secondary" => Theme::Secondary,
-                    "tertiary" => Theme::Tertiary,
-                    "info" => Theme::Info,
-                    "success" => Theme::Success,
-                    "warning" => Theme::Warning,
-                    "danger" => Theme::Danger,
-                    "title" => Theme::Title,
-                    "inherit" => Theme::None,
-                    _ => Theme::Primary,
-                };
+                let theme = get_theme(theme.as_str());
                 html!(<Card title={title.to_owned()}
                     width={*width}
                     theme={theme}
@@ -274,6 +319,24 @@ fn render_line_content(
         }}
         </>
     )
+}
+
+fn get_theme(theme: &str) -> Theme {
+    match theme {
+        "active" => Theme::Active,
+        "background" => Theme::Background,
+        "black" => Theme::Black,
+        "white" => Theme::White,
+        "secondary" => Theme::Secondary,
+        "tertiary" => Theme::Tertiary,
+        "info" => Theme::Info,
+        "success" => Theme::Success,
+        "warning" => Theme::Warning,
+        "danger" => Theme::Danger,
+        "title" => Theme::Title,
+        "inherit" => Theme::None,
+        _ => Theme::Primary,
+    }
 }
 
 const PTN_NON_START_BRACKET: &str = r"([^\[]*)";
@@ -442,9 +505,17 @@ fn get_line_type(line: &str) -> (String, MarkdownSegments) {
                     next(&mut sections),
                 ),
                 "list" => MarkdownSegments::List(!next(&mut sections).is_empty()),
+                "quote" => {
+                    MarkdownSegments::Quote(
+                        next(&mut sections),
+                        next(&mut sections),
+                        next(&mut sections),
+                        next(&mut sections),
+                    )
+                },
                 "section" => {
                     MarkdownSegments::PageSection(next(&mut sections), next(&mut sections))
-                }
+                },
                 "sideimage" => MarkdownSegments::SideImage(
                     next(&mut sections),
                     next(&mut sections),
@@ -468,13 +539,14 @@ fn next(sections: &mut Split<&str>) -> String {
 
 #[derive(Clone, Debug)]
 enum MarkdownSegments {
-    Title(u8),
-    PageSection(String, String),
-    Paragraph,
-    SideImage(String, String, String, String),
-    Paper(String, String),
     Cards(String, String),
     Card(String, u16, String, String, String),
-    List(bool),
     EndSection,
+    List(bool),
+    PageSection(String, String),
+    Paper(String, String),
+    Quote(String, String, String, String),
+    Paragraph,
+    SideImage(String, String, String, String),
+    Title(u8),
 }
