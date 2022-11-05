@@ -107,14 +107,10 @@ fn render_lines(lines: &Vec<&str>) -> Html {
         }
     }
     let mut index = 0u32;
-    html!(
-        <>
-            {render_start(&mut index, segments)}
-        </>
-    )
+    html!({render_children(&mut index, segments)})
 }
 
-fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+fn render_children(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
     let mut is_running = true;
     let mut sec = lines.to_owned();
     let mut counter = 0u32;
@@ -127,10 +123,13 @@ fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) ->
             *index += 1;
             let mut lines = sec.to_owned();
             let (line, line_type) = tuple;
-            if line.is_empty() { return html!(); }
+            if line.is_empty() { 
+                jslog!("RC:Is Empty:{:?}", line_type);
+                return html!(); 
+            }
             html!(
                 <>
-                    {render_line_type(&mut is_running, line, line_type, index, &mut lines)}
+                    {render_line_content(&mut is_running, line, line_type, index, &mut lines)}
                 </>
             )
         }).collect::<Html>()}
@@ -150,17 +149,20 @@ fn render_list(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> 
             *index += 1;
             let mut lines = sec.to_owned();
             let (line, line_type) = tuple;
-            if line.is_empty() { return html!(); }
+            if line.is_empty() {
+                jslog!("RL:Is Empty:{:?}", line_type);
+                return html!();
+            }
             html!(
                 <li>
-                    {render_line_type(&mut is_running, line, line_type, index, &mut lines)}
+                    {render_line_content(&mut is_running, line, line_type, index, &mut lines)}
                 </li>
             )
         }).collect::<Html>()}
     )
 }
 
-fn render_line_type(is_running: &mut bool, line: &str, line_type: &MarkdownSegments, index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+fn render_line_content(is_running: &mut bool, line: &str, line_type: &MarkdownSegments, index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
     html!(
         <>
         {match line_type {
@@ -182,7 +184,7 @@ fn render_line_type(is_running: &mut bool, line: &str, line_type: &MarkdownSegme
                 *index += 1;
                 let class = classes!(CLASSES_PAGE_SECTION, class);
                 html!(<Paper class={class.to_string()} style={style.to_owned()}>
-                    {render_start(index, lines)}
+                    {render_children(index, lines)}
                 </Paper>)
             },
             MarkdownSegments::SideImage(image_pos, src, class, style) => {
@@ -192,13 +194,13 @@ fn render_line_type(is_running: &mut bool, line: &str, line_type: &MarkdownSegme
                     _ => LeftOrRight::Left,
                 };
                 html!(<SideImage {image_pos} class={class.to_owned()} src={src.to_owned()} style={style.to_owned()}>
-                    <Paper>{render_start(index, lines)}</Paper>
+                    <Paper>{render_children(index, lines)}</Paper>
                 </SideImage>)
             },
             MarkdownSegments::Paper(class, style) => {
                 *index += 1;
                 html!(<Paper class={class.to_owned()} style={style.to_owned()}>
-                    {render_start(index, lines)}
+                    {render_children(index, lines)}
                 </Paper>)
             },
             MarkdownSegments::List(is_ordered) => {
@@ -212,7 +214,7 @@ fn render_line_type(is_running: &mut bool, line: &str, line_type: &MarkdownSegme
                 jslog!("Display Cards");
                 let class = classes!(CLASSES_CARD_CONTAINER, class);
                 html!(<Paper class={class.to_string()} style={style.to_owned()}>
-                    {render_start(index, lines)}
+                    {render_children(index, lines)}
                 </Paper>)
             },
             MarkdownSegments::Card(title, width, theme, avatar, link) => {
@@ -239,7 +241,7 @@ fn render_line_type(is_running: &mut bool, line: &str, line_type: &MarkdownSegme
                     link={link.to_owned()}
                     elevation={ELEVATION_STANDARD}
                     >
-                    {render_start(index, lines)}
+                    {render_children(index, lines)}
                 </Card>)
             },
         }}
