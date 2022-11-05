@@ -1,6 +1,4 @@
-use yew::virtual_dom::VNode;
-use core::slice::Iter;
-use std::{io::repeat, str::Split, collections::{VecDeque, HashMap}, cmp::Ordering};
+use std::{str::Split, collections::HashMap, cmp::Ordering};
 
 use crate::*;
 
@@ -132,48 +130,120 @@ fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) ->
             if line.is_empty() { return html!(); }
             html!(
                 <>
-                    {match line_type {
-                        MarkdownSegments::EndSection => {
-                            is_running = false;
-                            html!()
-                        },
-                        MarkdownSegments::Title(level) => {
-                            match level {
-                                1 => html!(title_primary!(line)),
-                                2 => html!(title_secondary!(line)),
-                                _ => html!(title_tertiary!(line)),
-                            }
-                        },
-                        MarkdownSegments::Paragraph => {
-                            html!(<p>{render_line(&line)}</p>)
-                        },
-                        MarkdownSegments::PageSection(class, style) => {
-                            *index += 1;
-                            let class = classes!(CLASSES_PAGE_SECTION, class);
-                            html!(<Paper class={class.to_string()} style={style.to_owned()}>
-                                {render_start(index, &mut lines)}
-                            </Paper>)
-                        },
-                        MarkdownSegments::SideImage(image_pos, src, class, style) => {
-                            *index += 1;
-                            let image_pos = match image_pos.as_str() {
-                                "right" => LeftOrRight::Right,
-                                _ => LeftOrRight::Left,
-                            };
-                            html!(<SideImage {image_pos} class={class.to_owned()} src={src.to_owned()} style={style.to_owned()}>
-                                {render_start(index, &mut lines)}
-                            </SideImage>)
-                        },
-                        MarkdownSegments::Paper(class, style) => {
-                            *index += 1;
-                            html!(<Paper class={class.to_owned()} style={style.to_owned()}>
-                                {render_start(index, &mut lines)}
-                            </Paper>)
-                        },
-                    }}
+                    {render_line_type(&mut is_running, line, line_type, index, &mut lines)}
                 </>
             )
         }).collect::<Html>()}
+    )
+}
+
+fn render_list(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+    let mut is_running = true;
+    let mut sec = lines.to_owned();
+    let mut counter = 0u32;
+    html!(
+        {lines.iter_mut().map(|tuple| {
+            counter += 1;
+            if counter < *index || !is_running {
+                return html!();
+            }
+            *index += 1;
+            let mut lines = sec.to_owned();
+            let (line, line_type) = tuple;
+            if line.is_empty() { return html!(); }
+            html!(
+                <li>
+                    {render_line_type(&mut is_running, line, line_type, index, &mut lines)}
+                </li>
+            )
+        }).collect::<Html>()}
+    )
+}
+
+fn render_line_type(is_running: &mut bool, line: &str, line_type: &MarkdownSegments, index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+    html!(
+        <>
+        {match line_type {
+            MarkdownSegments::EndSection => {
+                *is_running = false;
+                html!()
+            },
+            MarkdownSegments::Title(level) => {
+                match level {
+                    1 => html!(title_primary!(line)),
+                    2 => html!(title_secondary!(line)),
+                    _ => html!(title_tertiary!(line)),
+                }
+            },
+            MarkdownSegments::Paragraph => {
+                html!(<p>{render_line(&line)}</p>)
+            },
+            MarkdownSegments::PageSection(class, style) => {
+                *index += 1;
+                let class = classes!(CLASSES_PAGE_SECTION, class);
+                html!(<Paper class={class.to_string()} style={style.to_owned()}>
+                    {render_start(index, lines)}
+                </Paper>)
+            },
+            MarkdownSegments::SideImage(image_pos, src, class, style) => {
+                *index += 1;
+                let image_pos = match image_pos.as_str() {
+                    "right" => LeftOrRight::Right,
+                    _ => LeftOrRight::Left,
+                };
+                html!(<SideImage {image_pos} class={class.to_owned()} src={src.to_owned()} style={style.to_owned()}>
+                    <Paper>{render_start(index, lines)}</Paper>
+                </SideImage>)
+            },
+            MarkdownSegments::Paper(class, style) => {
+                *index += 1;
+                html!(<Paper class={class.to_owned()} style={style.to_owned()}>
+                    {render_start(index, lines)}
+                </Paper>)
+            },
+            MarkdownSegments::List(is_ordered) => {
+                *index += 1;
+                html!(<List>
+                    {render_list(index, lines)}
+                </List>)
+            },
+            MarkdownSegments::Cards(class, style) => {
+                *index += 1;
+                jslog!("Display Cards");
+                let class = classes!(CLASSES_CARD_CONTAINER, class);
+                html!(<Paper class={class.to_string()} style={style.to_owned()}>
+                    {render_start(index, lines)}
+                </Paper>)
+            },
+            MarkdownSegments::Card(title, width, theme, avatar, link) => {
+                *index += 1;
+                let theme = match theme.as_str() {
+                    "active" => Theme::Active,
+                    "background" => Theme::Background,
+                    "black" => Theme::Black,
+                    "white" => Theme::White,
+                    "secondary" => Theme::Secondary,
+                    "tertiary" => Theme::Tertiary,
+                    "info" => Theme::Info,
+                    "success" => Theme::Success,
+                    "warning" => Theme::Warning,
+                    "danger" => Theme::Danger,
+                    "title" => Theme::Title,
+                    "inherit" => Theme::None,
+                    _ => Theme::Primary,
+                };
+                html!(<Card title={title.to_owned()}
+                    width={*width}
+                    theme={theme}
+                    avatar={avatar.to_owned()}
+                    link={link.to_owned()}
+                    elevation={ELEVATION_STANDARD}
+                    >
+                    {render_start(index, lines)}
+                </Card>)
+            },
+        }}
+        </>
     )
 }
 
@@ -195,31 +265,23 @@ fn render_line(line: &str) -> Html {
     
     let mut segments_map = HashMap::<usize, &str>::new();
 
-    jslog!("Render Line:{:?}", line);
     let mut zero_end = 0;
     _ = line_segments.map(|segment| {
-        jslog!("Outer Segment:{:?}", segment);
         _ = segment.iter().map(|segment| {
-            // jslog!("Inner Segment:{:?}", segment);
             match segment {
                 Some(cap) => {
-                    // jslog!("Cap:{:?}", cap);
                     let start = cap.start();
                     let end = cap.end();
                     let text = cap.as_str();
                     if text.is_empty() { return; }
                     if !segments_map.contains_key(&start) {
-                        jslog!("Inserting: {}-{}-{}-{}", start, end, zero_end, text);
                         segments_map.insert(start, text);
                         if start == 0 && (zero_end == 0 || end < zero_end) {
                             zero_end = end;
                         }
                     } else if start == 0 && end < zero_end {
-                        jslog!("Replacing: {}-{}-{}-{}", start, end, zero_end, text);
                         segments_map.remove(&start);
                         segments_map.insert(start, text);
-                    } else {
-                        jslog!("Skipping: {}-{}-{}-{}", start, end, zero_end, text);
                     }
                 },
                 None => ()
@@ -275,7 +337,6 @@ fn render_line_segment(segment: &str) -> Html {
             }
         };
     }
-    jslog!("Render Line Segment: `{}`", segment);
     html!({segment})
 }
 
@@ -312,12 +373,27 @@ fn get_line_type(line: &str) -> (String, MarkdownSegments) {
         while line.starts_with("`") { line.replace_range(0..1, ""); }
         if line.is_empty() { return (line, MarkdownSegments::EndSection); }
         let mut sections = line.split(" ");
-        let sectionType = sections.next().unwrap_or("paper").to_lowercase();
+        let section_type = sections.next().unwrap_or("paper").to_lowercase();
         let sections = sections.to_owned().collect::<Vec<&str>>();
         let line = sections.join(" ");
         let mut sections = line.split("\" \"").to_owned();
         let mut test = sections.to_owned();
-        return (line.to_owned(), match sectionType.as_str() {
+        jslog!("SectionType: {}", section_type.as_str());
+        return (section_type.to_string(), match section_type.as_str() {
+            "cards" => MarkdownSegments::Cards(
+                next(&mut sections),
+                next(&mut sections),
+            ),
+            "card" => MarkdownSegments::Card(
+                next(&mut sections),
+                u16::from_str(&next(&mut sections)).unwrap_or(800u16),
+                next(&mut sections),
+                next(&mut sections),
+                next(&mut sections),
+            ),
+            "list" => MarkdownSegments::List(
+                !next(&mut sections).is_empty(),
+            ),
             "section" => MarkdownSegments::PageSection(
                 next(&mut sections),
                 next(&mut sections),
@@ -349,5 +425,8 @@ enum MarkdownSegments {
     Paragraph,
     SideImage(String, String, String, String),
     Paper(String, String),
+    Cards(String, String),
+    Card(String, u16, String, String, String),
+    List(bool),
     EndSection,
 }

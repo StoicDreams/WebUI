@@ -149,11 +149,15 @@ pub fn card(props: &CardProps) -> Html {
                 </Paper>
                 {match props.link.to_owned() {
                     Some(link) => {
-                        html!(
-                            <Link href={link} class="f3 pr-3" title={props.link_title.to_owned()}>
-                                <i class="fa-solid fa-external-link" />
-                            </Link>
-                        )
+                        if !link.is_empty() {
+                            html!(
+                                <Link href={link} class="f3 pr-3" title={props.link_title.to_owned()}>
+                                    <i class="fa-solid fa-external-link" />
+                                </Link>
+                            )
+                        } else {
+                            html!()
+                        }
                     },
                     None => html!{}
                 }}
