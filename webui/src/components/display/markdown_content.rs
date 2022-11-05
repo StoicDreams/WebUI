@@ -163,10 +163,8 @@ fn render_children(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>)
                 if counter < *index || !is_running {
                     return html!();
                 }
-                // *index += 1;
                 let mut lines = sec.to_owned();
                 let (line, line_type) = tuple;
-                jslog!("RC:LINE:{}-{}-{:?}-{}", *index, counter, line_type, line);
                 match line_type {
                     MarkdownSegments::EndSection => {
                         *index += 1;
@@ -200,13 +198,9 @@ fn render_list(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> 
             .iter_mut()
             .map(|tuple| {
                 counter += 1;
-                // jslog!("RL:{}-{}-{}-{:?}", *index, counter, is_running, tuple);
                 if counter < *index || !is_running {
-                    // jslog!("RL:BAD");
                     return html!();
                 }
-                // jslog!("RL:GOOD");
-                // *index += 1;
                 let mut lines = sec.to_owned();
                 let (line, line_type) = tuple;
                 match line_type {
@@ -291,7 +285,6 @@ fn render_line_content(
             },
             MarkdownSegments::List(is_ordered) => {
                 *index += 1;
-                // jslog!("RC:LIST:{}-{}", *index, line);
                 html!(<List>
                     {render_list(index, lines)}
                 </List>)
@@ -439,7 +432,7 @@ fn render_line_segment(segment: &str) -> Html {
                 let title = map.get("title").unwrap_or(&"");
                 html!(
                     <Link href={url.to_string()} title={title.to_string()}>
-                        {display}
+                        {render_line_segment(display)}
                     </Link>
                 )
             }
@@ -447,6 +440,76 @@ fn render_line_segment(segment: &str) -> Html {
                 html!({ "ANCHOR PARSE FAILED" })
             }
         };
+    }
+    if segment.contains("**") {
+        let subs = segment.split("**");
+        let mut is_strong = true;
+        return html!(
+            {subs.map(|sub| {
+                is_strong = !is_strong;
+                if is_strong {
+                    html!(<strong>{render_line_segment(sub)}</strong>)
+                } else {
+                    html!({render_line_segment(sub)})
+                }
+            }).collect::<Html>()}
+        )
+    }
+    if segment.contains("==") {
+        let subs = segment.split("==");
+        let mut is_highlight = true;
+        return html!(
+            {subs.map(|sub| {
+                is_highlight = !is_highlight;
+                if is_highlight {
+                    html!(<mark>{render_line_segment(sub)}</mark>)
+                } else {
+                    html!({render_line_segment(sub)})
+                }
+            }).collect::<Html>()}
+        )
+    }
+    if segment.contains("*") {
+        let subs = segment.split("*");
+        let mut is_ital = true;
+        return html!(
+            {subs.map(|sub| {
+                is_ital = !is_ital;
+                if is_ital {
+                    html!(<i>{render_line_segment(sub)}</i>)
+                } else {
+                    html!({render_line_segment(sub)})
+                }
+            }).collect::<Html>()}
+        )
+    }
+    if segment.contains("~") {
+        let subs = segment.split("~");
+        let mut is_subscript = true;
+        return html!(
+            {subs.map(|sub| {
+                is_subscript = !is_subscript;
+                if is_subscript {
+                    html!(<sub>{render_line_segment(sub)}</sub>)
+                } else {
+                    html!({render_line_segment(sub)})
+                }
+            }).collect::<Html>()}
+        )
+    }
+    if segment.contains("^") {
+        let subs = segment.split("^");
+        let mut is_super = true;
+        return html!(
+            {subs.map(|sub| {
+                is_super = !is_super;
+                if is_super {
+                    html!(<sup>{render_line_segment(sub)}</sup>)
+                } else {
+                    html!({render_line_segment(sub)})
+                }
+            }).collect::<Html>()}
+        )
     }
     html!({ segment })
 }
