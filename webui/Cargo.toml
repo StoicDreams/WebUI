@@ -28,5 +28,6 @@ uuid = "1.2"
 rust_decimal = "1.26"
 rust_decimal_macros = "1.26"
 reqwest = "0.11"
+regex = "1"
 futures = "0.3"
 async-std = {version = "1.12", features = ["attributes"] }

@@ -1,6 +1,6 @@
 use yew::virtual_dom::VNode;
 use core::slice::Iter;
-use std::{str::Split, collections::VecDeque};
+use std::{io::repeat, str::Split, collections::{VecDeque, HashMap}, cmp::Ordering};
 
 use crate::*;
 
@@ -154,7 +154,7 @@ fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) ->
                                 {render_start(index, &mut lines)}
                             </Paper>)
                         },
-                        MarkdownSegments::SideImage(src, image_pos, class, style) => {
+                        MarkdownSegments::SideImage(image_pos, src, class, style) => {
                             *index += 1;
                             let image_pos = match image_pos.as_str() {
                                 "right" => LeftOrRight::Right,
@@ -177,12 +177,106 @@ fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) ->
     )
 }
 
+const PTN_NON_START_BRACKET: &str = r"([^\[]*)";
+const PTN_ANCHOR: &str = r"(\[[^\]]+\]\([^\)]+\))";
+
 fn render_line(line: &str) -> Html {
+    let line_pattern = Regex::new(
+        &format!("{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?",
+        PTN_NON_START_BRACKET, PTN_ANCHOR,
+        PTN_NON_START_BRACKET, PTN_ANCHOR,
+        PTN_NON_START_BRACKET, PTN_ANCHOR,
+        PTN_NON_START_BRACKET, PTN_ANCHOR,
+        PTN_NON_START_BRACKET, PTN_ANCHOR,
+        PTN_NON_START_BRACKET, PTN_ANCHOR,
+        PTN_NON_START_BRACKET,
+    )).unwrap();
+    let line_segments = line_pattern.captures_iter(line);
+    
+    let mut segments_map = HashMap::<usize, &str>::new();
+
+    jslog!("Render Line:{:?}", line);
+    let mut zero_end = 0;
+    _ = line_segments.map(|segment| {
+        jslog!("Outer Segment:{:?}", segment);
+        _ = segment.iter().map(|segment| {
+            // jslog!("Inner Segment:{:?}", segment);
+            match segment {
+                Some(cap) => {
+                    // jslog!("Cap:{:?}", cap);
+                    let start = cap.start();
+                    let end = cap.end();
+                    let text = cap.as_str();
+                    if text.is_empty() { return; }
+                    if !segments_map.contains_key(&start) {
+                        jslog!("Inserting: {}-{}-{}-{}", start, end, zero_end, text);
+                        segments_map.insert(start, text);
+                        if start == 0 && (zero_end == 0 || end < zero_end) {
+                            zero_end = end;
+                        }
+                    } else if start == 0 && end < zero_end {
+                        jslog!("Replacing: {}-{}-{}-{}", start, end, zero_end, text);
+                        segments_map.remove(&start);
+                        segments_map.insert(start, text);
+                    } else {
+                        jslog!("Skipping: {}-{}-{}-{}", start, end, zero_end, text);
+                    }
+                },
+                None => ()
+            };
+            ()
+        }).collect::<()>();
+        ()
+    }).collect::<()>();
+
+    let mut segments_list = Vec::new();
+    for key in segments_map.keys() {
+        segments_list.push((key, segments_map[key]))
+    }
+
+    segments_list.sort_unstable_by(|a, b| {
+        if a.0 < b.0 { Ordering::Less }
+        else if b.0 < a.0 { Ordering::Greater }
+        else { Ordering::Equal }
+    });
+    
     html!(
         <>
-            {format!("{}", line)}
+            {segments_list.iter().map(|segment| {
+                html!({render_line_segment(segment.1)})
+            }).collect::<Html>()}
         </>
     )
+}
+
+const PTN_ANCHOR_SEGMENTS: &str = r#"\[(?P<display>[^\]]+)\]\((?P<url>[^ \)]+) ?"?(?P<title>[^"]*)"?\)"#;
+fn render_line_segment(segment: &str) -> Html {
+    let line_pattern = Regex::new(&format!("^{}$", PTN_ANCHOR)).unwrap();
+    if line_pattern.is_match(segment) {
+        let anchor_pattern = Regex::new(&format!("{}", PTN_ANCHOR_SEGMENTS)).unwrap();
+        return match anchor_pattern.captures(segment) {
+            Some(caps) => {
+                let map: HashMap<&str, &str> = anchor_pattern
+                    .capture_names()
+                    .flatten()
+                    .filter_map(|n| Some((n, caps.name(n)?.as_str())))
+                    .collect();
+                let display = map.get("display").unwrap_or(&"");
+                let url = map.get("url").unwrap_or(&"");
+                let title = map.get("title").unwrap_or(&"");
+                html!(
+                    <Link href={url.to_string()} title={title.to_string()}>
+                        {display}
+                    </Link>
+                )
+            },
+            None => {
+                html!({"ANCHOR PARSE FAILED"})
+            }
+        };
+    }
+    jslog!("Render Line Segment: `{}`", segment);
+    html!({segment})
 }
 
 fn get_line_type(line: &str) -> (String, MarkdownSegments) {
