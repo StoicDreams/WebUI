@@ -112,9 +112,10 @@ fn render_lines(lines: &Vec<&str>) -> Html {
     }
     //segments.reverse();
     jslog!("Lines:{}", segments.len());
+    let mut index = 0u32;
     html!(
         <>
-            {render_start(segments)}
+            {render_start(&mut index, segments)}
                 // segments.iter().map(|segment|{
             //         html!({segment()})
             //     }).collect::<Html>()
@@ -136,7 +137,7 @@ fn render_lines(lines: &Vec<&str>) -> Html {
     )
 }
 
-fn render_segment_getter(line: &str, lines: &mut Iter<&str>) -> impl Fn() -> VNode {
+fn render_segment_getter(index: &mut u32, line: &str, lines: &mut Iter<&str>) -> impl Fn() -> VNode {
     let line = line.to_owned();
     let lines = lines.to_owned();
     let (line, line_type) = get_line_type(&line);
@@ -153,21 +154,32 @@ fn render_segment_getter(line: &str, lines: &mut Iter<&str>) -> impl Fn() -> VNo
     }
 }
 
-fn render_start(lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
     let mut is_running = true;
+    let mut sec = lines.to_owned();
+    jslog!("Render Start:{}", *index);
+    let mut counter = 0u32;
     html!(
-        {lines.iter().map(|(line, line_type)| {
-            let mut lines = lines.to_owned();
-            let line = line.to_owned();
-            let line_type = line_type.to_owned();
+        {lines.iter_mut().map(|tuple| {
+            counter += 1;
+            if counter < *index {
+                jslog!("RS:SKIP:{};{}", counter, *index);
+                return html!();
+            }
+            *index += 1;
+            let mut lines = sec.to_owned();
+            let (line, line_type) = tuple;
+            if line.is_empty() { return html!(); }
+            jslog!("RS:LINE:{}:{};{:?};{}", counter, *index, line_type, line);
             html!(
                 <>
                     {match line_type {
                         MarkdownSegments::EndSection => {
-                            jslog!("End Section");
+                            jslog!("RS:End Section");
                             html!()
                         },
                         MarkdownSegments::Title(level) => {
+                            jslog!("RS:Title");
                             match level {
                                 1 => html!(title_primary!(line)),
                                 2 => html!(title_secondary!(line)),
@@ -175,26 +187,30 @@ fn render_start(lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
                             }
                         },
                         MarkdownSegments::Paragraph => {
+                            jslog!("RS:Paragraph");
                             html!(<p>{render_line(&line)}</p>)
                         },
                         MarkdownSegments::PageSection(class, style) => {
+                            jslog!("RS:Page Section");
                             let class = classes!(CLASSES_PAGE_SECTION, class);
                             html!(<Paper class={class.to_string()} style={style.to_owned()}>
-                                {render_start(&mut lines)}
+                                {render_start(index, &mut lines)}
                             </Paper>)
                         },
                         MarkdownSegments::SideImage(src, image_pos, class, style) => {
+                            jslog!("RS:Side Image");
                             let image_pos = match image_pos.as_str() {
                                 "right" => LeftOrRight::Right,
                                 _ => LeftOrRight::Left,
                             };
                             html!(<SideImage {image_pos} class={class.to_owned()} src={src.to_owned()} style={style.to_owned()}>
-                                {render_start(&mut lines)}
+                                {render_start(index, &mut lines)}
                             </SideImage>)
                         },
                         MarkdownSegments::Paper(class, style) => {
+                            jslog!("RS:Paper");
                             html!(<Paper class={class.to_owned()} style={style.to_owned()}>
-                                {render_start(&mut lines)}
+                                {render_start(index, &mut lines)}
                             </Paper>)
                         },
                     }}
@@ -204,20 +220,29 @@ fn render_start(lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
     )
 }
 
-fn render_children(lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+fn render_children(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
     let mut is_running = true;
-    let line = lines.pop();
+    *index += 1;
+    let mut iter = lines.iter();
+    let mut line = iter.next();
+    let mut counter = 1u32;
+    while counter < *index {
+        counter += 1;
+        line = iter.next();
+    }
     match line {
         Some((line, line_type)) => {
-            jslog!("Render Children:{};{:?}", line, line_type);
+            if line.is_empty() { return html!(); }
+            jslog!("RC:LINE:{}:{};{:?};{}", counter, lines.len(), line_type, line);
             html!(
                 <>
                     {match line_type {
                         MarkdownSegments::EndSection => {
-                            jslog!("End Section");
+                            jslog!("RC:End Section");
                             html!()
                         },
                         MarkdownSegments::Title(level) => {
+                            jslog!("RC:Title");
                             match level {
                                 1 => html!(title_primary!(line)),
                                 2 => html!(title_secondary!(line)),
@@ -225,33 +250,42 @@ fn render_children(lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
                             }
                         },
                         MarkdownSegments::Paragraph => {
+                            jslog!("RC:Paragraph");
                             html!(<p>{render_line(&line)}</p>)
                         },
                         MarkdownSegments::PageSection(class, style) => {
+                            jslog!("RC:Page Section");
                             let class = classes!(CLASSES_PAGE_SECTION, class);
-                            html!(<Paper class={class.to_string()} {style}>
-                                {render_children(lines)}
+                            html!(<Paper class={class.to_string()} style={style.to_owned()}>
+                                <div class="theme-info" />
+                                {render_start(index, lines)}
+                                <div class="theme-success" />
                             </Paper>)
                         },
                         MarkdownSegments::SideImage(src, image_pos, class, style) => {
+                            jslog!("RC:Side Image");
                             let image_pos = match image_pos.as_str() {
                                 "right" => LeftOrRight::Right,
                                 _ => LeftOrRight::Left,
                             };
-                            html!(<SideImage {image_pos} {class} src={src} {style}>
-                                {render_children(lines)}
+                            html!(<SideImage {image_pos} class={class.to_owned()} src={src.to_owned()} style={style.to_owned()}>
+                                {render_start(index, lines)}
                             </SideImage>)
                         },
                         MarkdownSegments::Paper(class, style) => {
-                            html!(<Paper {class} {style}>
-                                {render_children(lines)}
+                            jslog!("RC:Paper");
+                            html!(<Paper class={class.to_owned()} style={style.to_owned()}>
+                                {render_start(index, lines)}
                             </Paper>)
                         },
                     }}
                 </>
             )
         },
-        None => html!()
+        None => {
+            jslog!("RC:None");
+            html!()
+        }
     }
 }
 
@@ -352,6 +386,12 @@ fn get_line_type(line: &str) -> (String, MarkdownSegments) {
         let mut test = sections.to_owned();
         return (line.to_owned(), match sectionType.as_str() {
             "section" => MarkdownSegments::PageSection(
+                next(&mut sections),
+                next(&mut sections),
+            ),
+            "sideimage" => MarkdownSegments::SideImage(
+                next(&mut sections),
+                next(&mut sections),
                 next(&mut sections),
                 next(&mut sections),
             ),
