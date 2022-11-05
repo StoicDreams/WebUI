@@ -123,7 +123,7 @@ fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) ->
     html!(
         {lines.iter_mut().map(|tuple| {
             counter += 1;
-            if counter < *index {
+            if counter < *index || !is_running {
                 return html!();
             }
             *index += 1;
@@ -134,6 +134,7 @@ fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) ->
                 <>
                     {match line_type {
                         MarkdownSegments::EndSection => {
+                            is_running = false;
                             html!()
                         },
                         MarkdownSegments::Title(level) => {
@@ -147,12 +148,14 @@ fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) ->
                             html!(<p>{render_line(&line)}</p>)
                         },
                         MarkdownSegments::PageSection(class, style) => {
+                            *index += 1;
                             let class = classes!(CLASSES_PAGE_SECTION, class);
                             html!(<Paper class={class.to_string()} style={style.to_owned()}>
                                 {render_start(index, &mut lines)}
                             </Paper>)
                         },
                         MarkdownSegments::SideImage(src, image_pos, class, style) => {
+                            *index += 1;
                             let image_pos = match image_pos.as_str() {
                                 "right" => LeftOrRight::Right,
                                 _ => LeftOrRight::Left,
@@ -162,6 +165,7 @@ fn render_start(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) ->
                             </SideImage>)
                         },
                         MarkdownSegments::Paper(class, style) => {
+                            *index += 1;
                             html!(<Paper class={class.to_owned()} style={style.to_owned()}>
                                 {render_start(index, &mut lines)}
                             </Paper>)
