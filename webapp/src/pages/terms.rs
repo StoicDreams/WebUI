@@ -6,6 +6,7 @@ pub(crate) fn page_terms() -> Html {
     set_title(format!("{} Terms & Conditions", COMPANY_SINGULAR));
     html! {
         <>
+            <MarkdownContent href="/d/en-US/terms.md" />
             {title_secondary!(html!{format!("{} Terms & Conditions", COMPANY_SINGULAR)})}
             {title_tertiary!("1. Terms")}
             <Paper class={CLASSES_PAGE_SECTION} elevation={ELEVATION_STANDARD}>

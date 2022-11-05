@@ -53,9 +53,9 @@ impl FetchResponse {
         self.result.to_owned()
     }
     pub fn ok(status: u16, body: String) -> Self {
-        FetchResponse { 
+        FetchResponse {
             status,
-            result: Some(body)
+            result: Some(body),
         }
     }
     pub fn error() -> Self {
@@ -78,9 +78,15 @@ trait Block {
 impl<F, T> Block for F where F: futures::Future<Output = T> {}
 
 fn build_url(url: &str) -> String {
-    if url.is_empty() { return url.to_string(); }
-    if url.starts_with("http") { return url.to_string(); }
-    if url.starts_with("/") { return format!("{}{}", interop::get_origin(), url); }
+    if url.is_empty() {
+        return url.to_string();
+    }
+    if url.starts_with("http") {
+        return url.to_string();
+    }
+    if url.starts_with("/") {
+        return format!("{}{}", interop::get_origin(), url);
+    }
     format!("{}/{}", interop::get_full_path(), url)
 }
 
@@ -106,11 +112,11 @@ pub async fn fetch(request: FetchRequest) -> FetchResponse {
             FetchMethod::Put(data) => {
                 let result = client.put(url).body(data).send().await;
                 handle_result(result).await
-            },
+            }
             FetchMethod::Delete => {
                 let result = client.delete(url).send().await;
                 handle_result(result).await
-            },
+            }
         },
         Err(error) => FetchResponse::error(),
     }
@@ -122,9 +128,7 @@ async fn handle_result(result: reqwest::Result<reqwest::Response>) -> FetchRespo
             let status = response.status().as_u16();
             let body = response.text().await.unwrap_or_default();
             FetchResponse::ok(status, body)
-        },
-        Err(err) => {
-            FetchResponse::error()
         }
+        Err(err) => FetchResponse::error(),
     }
 }

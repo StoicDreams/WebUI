@@ -6,6 +6,7 @@ pub(crate) fn page_privacy() -> Html {
     set_title(format!("{} Privacy Policy", COMPANY_SINGULAR));
     html! {
         <>
+            <MarkdownContent href="/d/en-US/privacy.md" />
             {title_secondary!(html!{"Stoic Dreams Privacy Policy"})}
             <Quote color={Theme::Primary}>
                 {paragraphs!(

@@ -6,6 +6,7 @@ pub(crate) fn page_about() -> Html {
     set_title(format!("About {}", COMPANY_SINGULAR));
     html! {
         <>
+            <MarkdownContent href="/d/en-US/about.md" />
             {title_secondary!(html!{"About Stoic Dreams"})}
             <Paper class="pa-3">
                 {paragraphs!(

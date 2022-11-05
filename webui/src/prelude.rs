@@ -35,8 +35,8 @@ pub use crate::macros::titles::*;
 pub use crate::macros::*;
 
 pub use async_std::prelude::*;
+pub use regex::*;
 pub use rust_decimal::prelude::*;
 pub use wasm_bindgen::{prelude::*, JsCast};
 pub use yew::prelude::*;
 pub use yew_hooks::prelude::*;
-pub use regex::*;
