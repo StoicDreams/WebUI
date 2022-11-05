@@ -1,6 +1,6 @@
 ## Welcome to the Web UI documentation and demo website
 
-```section "theme-success" "color:red"
+```section "theme-success" "color:orange"
 We are very excited to be sharing this tool with you, as well as our journey into the world of Rust development.
 
 One of our last major projects at Stoic Dreams was working on a UI framework utilizing the C# Blazor framework, which allows for C# code and Razor pages to be compiled to webassembly, thus allowing for C# native libraries and code to be used for developing front-end web applications.
