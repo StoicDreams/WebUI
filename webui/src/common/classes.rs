@@ -40,3 +40,22 @@ pub const CLASSES_HIDE_AT_FULLHD: &str = "hide-at-fullhd";
 pub const CLASSES_HIDE_AT_QUADHD: &str = "hide-at-quadhd";
 pub const CLASSES_HIDE_AT_WIDEQUADHD: &str = "hide-at-widequadhd";
 pub const CLASSES_HIDE_AT_4K: &str = "hide-at-4k";
+
+#[cfg(test)]
+mod tests {
+    use crate::prelude::*;
+
+    pub(crate) fn hello_world() -> Html {
+        html! (
+            <Paper class={CLASSES_PAGE_SECTION}>
+                {"Hello World"}
+            </Paper>
+        )
+    }
+
+    #[test]
+    fn test_hello_world() {
+        _ = hello_world();
+        assert!(true);
+    }
+}

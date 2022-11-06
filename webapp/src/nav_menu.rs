@@ -25,13 +25,29 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
             "Classes",
             "fa-duotone fa-file-code",
             roles::PUBLIC,
-            vec![NavLinkInfo::link(
-                "Themes",
-                "/classes/themes",
-                "fa-duotone fa-palette",
-                roles::PUBLIC,
-                page_classes_themes,
-            )],
+            vec![
+                NavLinkInfo::link(
+                    "Helpers",
+                    "/classes/helpers",
+                    "fa-brands fa-css3",
+                    roles::PUBLIC,
+                    page_classes_helpers,
+                ),
+                NavLinkInfo::link(
+                    "Themes",
+                    "/classes/themes",
+                    "fa-duotone fa-palette",
+                    roles::PUBLIC,
+                    page_classes_themes,
+                ),
+                NavLinkInfo::link(
+                    "Variables",
+                    "/classes/variables",
+                    "fa-brands fa-rust",
+                    roles::PUBLIC,
+                    page_classes_variables,
+                ),
+            ],
         ),
         NavGroupInfo::link(
             "Components",
