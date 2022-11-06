@@ -8,48 +8,6 @@ Each theme consists of a background color and foreground color (e.g. text), whic
 Each theme applies the applicable color to the background with its offset value for the font (foreground) color.
 ```
 
-## Color Settings
-
-````sidebyside
-```paper
-```section
-Set your own color values for your Web UI app by adding and customizing this css code snippet to your site's css file.
-```
-```quote "info" "" "mt-3"
-**Note:** You should not update the webui.css file that contains the default settings, unless you plan to never run the `webui` auto updater that applies the latest updates.
-```
-```
-```css
-:root {
-	--color-black: #101010FF;
-	--color-white: #FFFFFFFF;
-	--site-background-color: #333333FF;
-	--site-background-offset: var(--color-white);
-	--color-title: #b13b3bFF;
-	--color-title-offset: var(--color-white);
-	--color-primary: #9e091aFF;
-	--color-primary-offset: var(--color-white);
-	--color-secondary: #2e54ffFF;
-	--color-secondary-offset: var(--color-white);
-	--color-tertiary: #7d0b77FF;
-	--color-tertiary-offset: var(--color-white);
-	--color-info: #2196f3FF;
-	--color-info-offset: var(--color-white);
-	--color-success: #1c970eFF;
-	--color-success-offset: var(--color-white);
-	--color-warning: rgb(191, 84, 31);
-	--color-warning-offset: var(--color-white);
-	--color-danger: rgb(183, 5, 5);
-	--color-danger-offset: var(--color-white);
-	--color-shade: rgba(125,125,125,0.2);
-	--color-active: var(--color-info);
-	--color-active-offset: var(--color-info-offset);
-	--color-button: var(--color-info);
-	--color-button-offset: var(--color-info-offset);
-}
-```
-````
-
 ## Theme Classes
 
 ```section
@@ -274,5 +232,47 @@ Example class theme-white
 <Paper class="theme-white ma-5 pa-5" elevation={ELEVATION_STANDARD}>
 	{"Example class theme-white"}
 </Paper>
+```
+````
+
+## Color Settings
+
+````sidebyside
+```paper
+```section
+Set your own color values for your Web UI app by adding and customizing this css code snippet to your site's css file.
+```
+```quote "info" "" "mt-3"
+**Note:** You should not update the webui.css file that contains the default settings, unless you plan to never run the `webui` auto updater that applies the latest updates.
+```
+```
+```css
+:root {
+	--color-black: #101010FF;
+	--color-white: #FFFFFFFF;
+	--site-background-color: #333333FF;
+	--site-background-offset: var(--color-white);
+	--color-title: #b13b3bFF;
+	--color-title-offset: var(--color-white);
+	--color-primary: #9e091aFF;
+	--color-primary-offset: var(--color-white);
+	--color-secondary: #2e54ffFF;
+	--color-secondary-offset: var(--color-white);
+	--color-tertiary: #7d0b77FF;
+	--color-tertiary-offset: var(--color-white);
+	--color-info: #2196f3FF;
+	--color-info-offset: var(--color-white);
+	--color-success: #1c970eFF;
+	--color-success-offset: var(--color-white);
+	--color-warning: rgb(191, 84, 31);
+	--color-warning-offset: var(--color-white);
+	--color-danger: rgb(183, 5, 5);
+	--color-danger-offset: var(--color-white);
+	--color-shade: rgba(125,125,125,0.2);
+	--color-active: var(--color-info);
+	--color-active-offset: var(--color-info-offset);
+	--color-button: var(--color-info);
+	--color-button-offset: var(--color-info-offset);
+}
 ```
 ````

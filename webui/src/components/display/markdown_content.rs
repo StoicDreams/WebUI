@@ -47,7 +47,7 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
     let href = props.href.to_owned().unwrap_or_default();
     if *is_loaded && *cached_href != href {
         is_loaded.set(false);
-        return html!();
+        return html!(<Loading size={LOADING_SIZE_LARGE} />);
     }
     match props.markdown.to_owned() {
         Some(md) => {
@@ -57,7 +57,7 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
     };
     if !*is_loaded || (*markdown).is_empty() {
         if *is_loading {
-            return html!();
+            return html!(<Loading size={LOADING_SIZE_LARGE} />);
         }
         match props.href.to_owned() {
             Some(href) => {
@@ -66,7 +66,7 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
                 if *cached_href != href {
                     cached_href.set(href.to_owned());
                 }
-                async_std::task::block_on(async move {
+                wasm_bindgen_futures::spawn_local(async move {
                     let response = fetch(FetchRequest::new(href, FetchMethod::Get)).await;
                     if !response.is_ok() {
                         md.set(String::from("Failed to load content."));
@@ -87,7 +87,7 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
                         }
                     }
                 });
-                return html!();
+                return html!(<Loading size={LOADING_SIZE_LARGE} />);
             }
             None => {}
         }
@@ -97,6 +97,10 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
         Some(tags) => replace_tags(&(*markdown).clone(), tags),
         None => (*markdown).clone(),
     };
+
+    if markdown.is_empty() {
+        return html!(<Loading size={LOADING_SIZE_LARGE} />);
+    }
     let display = markdown_to_html(&markdown);
 
     html! {

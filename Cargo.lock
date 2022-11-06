@@ -1501,7 +1501,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.3.20"
+version = "0.3.21"
 dependencies = [
  "webui",
  "yew",
@@ -1509,7 +1509,7 @@ dependencies = [
 
 [[package]]
 name = "webui"
-version = "0.3.20"
+version = "0.3.21"
 dependencies = [
  "async-std",
  "futures",
