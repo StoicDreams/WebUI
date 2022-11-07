@@ -66,7 +66,8 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
     let is_loaded = use_state(|| false);
     let is_loading = use_state(|| false);
     let cached_href = use_state(|| String::default());
-    let markdown = use_state(|| String::default());
+    // let markdown = use_state(|| String::default());
+    let markdown = use_state(|| Vec::<(String, MarkdownSegments)>::new());
     let href = props.href.to_owned().unwrap_or_default();
     if *is_loaded && *cached_href != href {
         is_loaded.set(false);
@@ -74,7 +75,11 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
     }
     match props.markdown.to_owned() {
         Some(md) => {
-            markdown.set(md);
+            let md = match &props.tags {
+                Some(tags) => replace_tags(&md.clone(), tags),
+                None => md.clone(),
+            };
+            markdown.set(parse_markdown(&md));
         }
         None => {}
     };
@@ -89,10 +94,11 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
                 if *cached_href != href {
                     cached_href.set(href.to_owned());
                 }
+                let tags = props.tags.clone();
                 wasm_bindgen_futures::spawn_local(async move {
                     let response = fetch(FetchRequest::new(href, FetchMethod::Get)).await;
                     if !response.is_ok() {
-                        md.set(String::from("Failed to load content."));
+                        md.set(parse_markdown("Failed to load content."));
                         is_loaded.set(true);
                         is_loading.set(false);
                         return;
@@ -100,17 +106,22 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
                     match response.get_result() {
                         Some(body) => {
                             if body.starts_with("<!DOCTYPE") {
-                                md.set(String::from("Content is invalid type."));
+                                md.set(parse_markdown("Content is invalid type."));
                                 is_loaded.set(true);
                                 is_loading.set(false);
                                 return;
                             }
-                            md.set(body);
+                            let body = match &tags {
+                                Some(tags) => replace_tags(&body.clone(), tags),
+                                None => body.clone(),
+                            };
+                            md.set(parse_markdown(&body));
                             is_loaded.set(true);
                             is_loading.set(false);
                         }
                         None => {
-                            md.set(String::from("Failed to load content body."));
+                            md.set(parse_markdown("Failed to load content body."));
+
                             is_loaded.set(true);
                             is_loading.set(false);
                         }
@@ -122,30 +133,28 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
         }
     }
 
-    let mut markdown = match &props.tags {
-        Some(tags) => replace_tags(&(*markdown).clone(), tags),
-        None => (*markdown).clone(),
-    };
-
-    if markdown.is_empty() {
+    if (*markdown).is_empty() {
         return html!(<Loading size={LOADING_SIZE_LARGE} />);
     }
-    let display = markdown_to_html(&markdown);
 
     html! {
-        {display}
+        {start_render_children(&*markdown)}
     }
 }
 
-
 pub fn markdown_to_html(markdown: &str) -> Html {
-    let mut lines = Vec::new();
-    for line in markdown.lines() {
-        lines.push(line);
-    }
+    let markdown = parse_markdown(markdown);
     html!(
         <>
-            {render_lines(&lines)}
+            {start_render_children(&markdown)}
         </>
     )
+}
+
+fn parse_markdown(markdown: &str) -> Vec<(String, MarkdownSegments)> {
+    let mut lines = Vec::new();
+    for line in markdown.lines() {
+        lines.push(get_line_type(line));
+    }
+    lines.to_owned()
 }

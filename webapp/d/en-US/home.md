@@ -47,14 +47,13 @@ We will be updating this website to provide full documentation, but for now you 
 ```
 
 ```card "Where is the Documentation" "500" "tertiary" "fa-duotone fa-books"
-We expect some may be wondering why we aren't developing documentation within this website in parallel with adding features to the Web UI framework.
+We expect you may be wondering where this website doesn't contain much documentation. And if you look into the source code you will see more publicly accessible features and components that aren't documented here.
 
-The answer is quite simple. We are not expecting anybody to be using Web UI at this point, and a lot of the work we are doing is experimental and subject to frequent changes or entire re-writes.
+The reason is quite simple. Web UI is very early in development, and a lot of the work we are doing is experimental and subject to frequent changes or entire re-writes or removal.
 
-So to minimize our overall time spent working on documentation, we are waiting for features to become a bit more finalized.
+For this reason, we have decided to only document features and components once we feel they are ready to be used.
 
-Of course, if you are someone who is interested in getting started with Web UI now then please let us know and we will re-prioritize adding documentation.
-
+Of course, this doesn't mean we won't still drastically change a feature or component if it's documented. But expect that if we do change a documented feature or component, that the associated documentation will be updated with the change.
 ```list
 GitHub: [Web UI open-source web development framework.](https://github.com/StoicDreams/RustWebUI)
 

@@ -8,24 +8,6 @@ pub(super) fn render_raw_line(line: &str) -> Html {
     html!({ line })
 }
 
-pub(super) fn render_lines(lines: &Vec<&str>) -> Html {
-    let mut finished = false;
-    let mut lines = lines.iter();
-    let segments = &mut Vec::new();
-    while !finished {
-        match lines.next() {
-            Some(line) => {
-                segments.push(get_line_type(&line));
-            }
-            None => {
-                finished = true;
-            }
-        }
-    }
-    let mut index = 1u32;
-    html!({ render_children(&mut index, segments) })
-}
-
 pub(super) fn render_line(line: &str) -> Html {
     let line_pattern = Regex::new(&format!(
         "{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?",

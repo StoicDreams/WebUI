@@ -1,12 +1,17 @@
 use super::*;
 
-pub(super) fn render_children(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+pub(super) fn start_render_children(markdown: &Vec<(String, MarkdownSegments)>) -> Html {
+    let mut index = 1u32;
+    html!({ render_children(&mut index, markdown) })
+}
+
+pub(super) fn render_children(index: &mut u32, lines: &Vec<(String, MarkdownSegments)>) -> Html {
     let mut is_running = true;
-    let mut sec = lines.to_owned();
+    let sec = lines.to_owned();
     let mut counter = 0u32;
     html!({
         lines
-            .iter_mut()
+            .iter()
             .map(|tuple| {
                 counter += 1;
                 if counter < *index || !is_running {
