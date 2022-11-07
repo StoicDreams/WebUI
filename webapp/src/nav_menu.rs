@@ -53,18 +53,22 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
             "Components",
             "fa-duotone fa-toolbox",
             roles::PUBLIC,
-            vec![NavGroupInfo::link(
-                "Containers",
-                "fa-duotone fa-box-open-full",
-                roles::PUBLIC,
-                vec![NavLinkInfo::link(
-                    "Paper",
-                    "/components/containers/paper",
-                    "fa-duotone fa-memo",
+            vec![
+                NavLinkInfo::link(
+                    "Containers",
+                    "/components/containers",
+                    "fa-duotone fa-box-open-full",
                     roles::PUBLIC,
-                    page_components_containers_paper,
-                )],
-            )],
+                    page_components_containers,
+                ),
+                NavLinkInfo::link(
+                    "Display",
+                    "/components/display",
+                    "fa-duotone fa-photo-film",
+                    roles::PUBLIC,
+                    page_components_display,
+                ),
+            ],
         ),
         NavGroupInfo::link(
             "Blogs",

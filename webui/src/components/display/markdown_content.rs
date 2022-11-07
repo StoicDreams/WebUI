@@ -76,6 +76,12 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
                     }
                     match response.get_result() {
                         Some(body) => {
+                            if body.starts_with("<!DOCTYPE") {
+                                md.set(String::from("Content is invalid type."));
+                                is_loaded.set(true);
+                                is_loading.set(false);
+                                return;
+                            }
                             md.set(body);
                             is_loaded.set(true);
                             is_loading.set(false);
@@ -268,9 +274,9 @@ fn render_line_content(
             MarkdownSegments::Cards(class, style) => {
                 *index += 1;
                 let class = classes!(CLASSES_CARD_CONTAINER, class);
-                html!(<Paper class={class.to_string()} style={style.to_owned()}>
+                html!(<Cards class={class.to_string()} style={style.to_owned()}>
                     {render_children(index, lines)}
-                </Paper>)
+                </Cards>)
             },
             MarkdownSegments::Card(title, width, theme, avatar, link) => {
                 *index += 1;
@@ -298,9 +304,9 @@ fn render_line_content(
                 *is_running = false;
                 html!()
             },
-            MarkdownSegments::List(is_ordered) => {
+            MarkdownSegments::List(is_ordered, class, style) => {
                 *index += 1;
-                html!(<List is_ordered={*is_ordered}>
+                html!(<List is_ordered={*is_ordered} class={class.to_owned()} style={style.to_owned()}>
                     {render_list(index, lines)}
                 </List>)
             },
@@ -330,7 +336,7 @@ fn render_line_content(
             },
             MarkdownSegments::SideBySide(class, style) => {
                 *index += 1;
-                let class = classes!(CLASSES_SIDE_BY_SIDE, class);
+                let class = classes!(CLASSES_SIDE_BY_SIDE, "gap-2", class);
                 html!(<Paper class={class.to_string()} style={style.to_owned()} elevation={ELEVATION_STANDARD}>
                     {render_children(index, lines)}
                 </Paper>)
@@ -635,7 +641,11 @@ fn get_line_type(line: &str) -> (String, MarkdownSegments) {
                     next(&mut sections),
                     next(&mut sections),
                 ),
-                "list" => MarkdownSegments::List(!next(&mut sections).is_empty()),
+                "list" => MarkdownSegments::List(
+                    !next(&mut sections).is_empty(),
+                    next(&mut sections),
+                    next(&mut sections),
+                ),
                 "quote" => MarkdownSegments::Quote(
                     next(&mut sections),
                     next(&mut sections),
@@ -676,7 +686,7 @@ enum MarkdownSegments {
     Card(String, u16, String, String, String),
     Code(String, String, String),
     EndSection,
-    List(bool),
+    List(bool, String, String),
     PageSection(String, String),
     Paper(String, String),
     Quote(String, String, String, String),

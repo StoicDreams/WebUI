@@ -117,7 +117,9 @@ pub fn card(props: &CardProps) -> Html {
             <Paper class={header_classes.to_string()}>
                 {match props.avatar.to_owned() {
                     Some(avatar) => {
-                        if avatar.starts_with("fa-") {
+                        if avatar.is_empty() {
+                            html!()
+                        } else if avatar.starts_with("fa-") {
                             html! {
                                 <Avatar class="f3 ml-1 pa-1" icon={avatar.to_string()} />
                             }
@@ -175,6 +177,40 @@ pub fn card(props: &CardProps) -> Html {
                 },
                 None => html! {}
             }}
+        </Paper>
+    }
+}
+
+/// Properties for Paper component
+#[derive(Properties, PartialEq)]
+pub struct CardsProps {
+    #[prop_or_default]
+    pub elevation: u8,
+    #[prop_or_default]
+    pub children: Children,
+    #[prop_or_default]
+    pub class: String,
+    #[prop_or_default]
+    pub style: String,
+}
+
+#[function_component(Cards)]
+pub fn cards(props: &CardsProps) -> Html {
+    let classes = &mut Classes::new();
+    classes.push("card");
+
+    if props.elevation > 0 {
+        classes.push(format!("elevation-{}", props.elevation));
+    }
+
+    if !props.class.is_empty() {
+        classes.push(&props.class);
+    }
+    let style = props.style.to_owned();
+
+    html! {
+        <Paper class={classes.to_string()} {style}>
+            { for props.children.iter() }
         </Paper>
     }
 }
