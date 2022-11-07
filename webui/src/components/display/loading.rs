@@ -17,7 +17,7 @@ pub struct LoadingProps {
     pub style: String,
 }
 
-#[derive(Default, Debug, PartialEq)]
+#[derive(Default, Clone, Debug, PartialEq)]
 pub enum LoadingVariant {
     #[default]
     Circle,

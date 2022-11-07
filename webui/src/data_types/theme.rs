@@ -1,4 +1,4 @@
-#[derive(PartialEq, Default)]
+#[derive(PartialEq, Default, Debug, Clone)]
 pub enum Theme {
     Active,
     Background,
