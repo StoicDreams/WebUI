@@ -11,18 +11,16 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    run("cd", "webapp");
-    run("webui", "");
-    run("cd", "..");
-    run("cargo", "fmt");
-    run("cargo", "update");
-    run("cargo", "build");
-    run("cargo", "test");
+    rc("webui", Some("webapp"));
+    run("cargo", "fmt", None);
+    run("cargo", "update", None);
+    run("cargo", "build", None);
+    run("cargo", "test", None);
     build_sitemap();
-    run_ma("git", &["add", "-A"]);
-    run_ma("git", &["commit", "-m", &args.commit]);
-    run_ma("git", &["push", "-u", "origin", "main"]);
-    run("echo", "Finished Successfully");
+    run_ma("git", &["add", "-A"], None);
+    run_ma("git", &["commit", "-m", &args.commit], None);
+    run_ma("git", &["push", "-u", "origin", "main"], None);
+    run("echo", "Finished Successfully", None);
 }
 
 fn build_sitemap() {
@@ -37,19 +35,29 @@ fn build_sitemap() {
         return;
     }
     println!("Running Sitemap Builder");
-    run("pwsh", sitemap_file.as_os_str().to_str().unwrap());
+    run("pwsh", sitemap_file.as_os_str().to_str().unwrap(), None);
 }
 
-fn run(command: &str, commandarg: &str) {
-    run_ma(command, &[commandarg]);
+fn rc(command: &str, directory: Option<&str>) {
+    run_ma(command, &[], directory);
 }
 
-fn run_ma(command: &str, commandargs: &[&str]) {
+fn run(command: &str, commandarg: &str, directory: Option<&str>) {
+    run_ma(command, &[commandarg], directory);
+}
+
+fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
     println!("Running Command: {} {:?}", command, commandargs);
-    let output = Command::new(command)
-        .args(commandargs)
-        .output()
-        .expect("BAD");
+    let mut com = Command::new(command);
+    let com = com.args(commandargs);
+    match directory {
+        Some(directory) => {
+            com.current_dir(directory);
+            ()
+        }
+        None => (),
+    };
+    let output = com.output().expect("BAD");
 
     if !output.status.success() {
         let s = String::from_utf8_lossy(&output.stderr);
