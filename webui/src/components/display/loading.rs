@@ -15,6 +15,10 @@ pub struct LoadingProps {
     pub class: String,
     #[prop_or_default]
     pub style: String,
+    #[prop_or_default]
+    pub percent: Option<u8>,
+    #[prop_or_default]
+    pub offset: Option<u8>,
 }
 
 #[derive(Default, Clone, Debug, PartialEq)]
@@ -46,10 +50,10 @@ pub fn loading(props: &LoadingProps) -> Html {
         props.class
     );
     let parent_styles = props.style.to_owned();
-    let class = match props.variant {
-        LoadingVariant::Bar => classes!("loading bar d-block", format!("theme-{}", color)),
+    let mut class = match props.variant {
+        LoadingVariant::Bar => classes!("loading bar", format!("theme-{}", color)),
         LoadingVariant::StripedBar => {
-            classes!("loading bar striped d-block", format!("theme-{}", color))
+            classes!("loading bar striped", format!("theme-{}", color))
         }
         LoadingVariant::Circle => classes!("loading circle", format!("color-{}", color)),
     };
@@ -60,13 +64,37 @@ pub fn loading(props: &LoadingProps) -> Html {
             "width:{size}px;height:{size}px;max-width:{size}px;max-height:{size}px;"
         )),
     };
+    let mut style_offset = String::default();
+    let mut style_percent = String::default();
+    match props.percent {
+        Some(percent) => match props.variant {
+            LoadingVariant::Circle => {
+                let percent = f32::from(percent) / 100f32 * 138f32;
+                style_percent = format!("stroke-dasharray: {percent}px,138px;");
+            }
+            _ => {
+                style_percent = format!("width:{percent}%;");
+                match props.offset {
+                    Some(offset) => {
+                        style_offset = format!("width:{offset}%;");
+                    }
+                    None => (),
+                }
+            }
+        },
+        None => {
+            class.push("indeterminate");
+        }
+    }
+
     html!(
         <Paper class={parent_class.to_string()} style={parent_styles}>
             <Paper class={class.to_string()} style={styles}>
                 {match props.variant {
                     LoadingVariant::Bar | LoadingVariant::StripedBar => html!(
                         <>
-                            <div/>
+                            <div style={style_offset} />
+                            <div style={style_percent} />
                             <div/>
                         </>
                     ),
@@ -76,13 +104,7 @@ pub fn loading(props: &LoadingProps) -> Html {
                         let stroke = props.stroke.to_string();
                         html!(
                             <svg class="circle-svg" viewBox={format!("{radius} {radius} {width} {width}")}>
-                                <defs>
-                                <linearGradient id="circleGradiant">
-                                    <stop offset="0%" stop-color="green" />
-                                    <stop offset="100%" stop-color="white" />
-                                </linearGradient>
-                                </defs>
-                                <circle cx={width.to_owned()} cy={width} r={radius} fill="none" stroke-width={stroke} stoke-linecap="round"></circle>
+                                <circle style={style_percent} cx={width.to_owned()} cy={width} r={radius} fill="none" stroke-width={stroke} stoke-linecap="round"></circle>
                             </svg>
                         )
                     },

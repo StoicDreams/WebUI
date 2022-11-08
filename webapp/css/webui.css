@@ -108,6 +108,7 @@ html, body, #app {
 main, header, footer, iframe,
 aside, section, div {
 	display: block;
+	contain: content;
 }
 
 main {
@@ -119,6 +120,7 @@ main {
 	max-height: 100%;
 	height: calc(var(--window-height) - var(--header-height) - var(--footer-height));
 	overflow: auto;
+	contain: content;
 }
 main * {
 	white-space: pre-wrap;
@@ -134,10 +136,12 @@ header {
 	background-color: var(--color-title);
 	color: var(--color-title-offset);
 	box-shadow: 0px 4px 12px 1px rgba(0,0,0,0.4);
+	contain: content;
 }
 footer {
 	position: relative;
 	background-color: inherit;
+	contain: content;
 }
 footer::before {
 	content:" ";
@@ -746,45 +750,70 @@ blockquote,
 	max-height: 100%;
 }
 .loading.bar {
-	display: block;
+	display: flex;
+	flex-direction: row;
 	position: relative;
 	height: auto;
-    animation: linear-striped-loading 10s linear infinite;
 	overflow: hidden;
+	box-sizing: border-box;
 }
-.loading.bar::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    display: block;
-	background-color: #00000088;
-}
-.loading.bar > div {
-	top: 0;
-	left: 0;
-	width: auto;
-	bottom: 0;
-	position: absolute;
-	transition: transform .2s linear;
-	transform-origin: left;
-}
-.loading.bar > :first-child {
-	background-color: inherit;
-	animation: horizontal-keyframes-indeterminate1 3.0s cubic-bezier(.65,.815,.735,.395) infinite;
-}
-.loading.bar > :last-child {
-	background-color: inherit;
-	animation: horizontal-keyframes-indeterminate2 3.0s cubic-bezier(.165,.84,.44,1) 1.8s infinite;
-}
-.loading.bar.striped > div {
+.loading.bar.striped {
     background-image: linear-gradient(135deg,rgba(255,255,255,.25) 25%,transparent 0,transparent 50%,rgba(255,255,255,.25) 0,rgba(255,255,255,.25) 75%,transparent 0,transparent);
     background-size: 2rem 2rem;
+    animation: linear-striped-loading 90s linear infinite;
+}
+.loading.bar > div {
+	height: 102%;
+	width: auto;
+	position: relative;
+	transition-property: width;
+	transition-duration: 100ms;
+	transform-origin: left;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+.loading.bar > :nth-child(1) {
+	background-color: inherit;
+	background-image: none;
+	width: 0%;
+} 
+.loading.bar > :nth-child(2) {
+	background: transparent;
+	width: 0%;
+}
+.loading.bar > :nth-child(3) {
+	background-color: inherit;
+	background-image: none;
+	flex-grow: 1;
+}
+.loading.bar > :nth-child(1)::before,
+.loading.bar > :nth-child(3)::before {
+	content: " ";
+	display: block;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: #44444488;
+}
+.loading.bar.indeterminate > div {
+	transition-duration: 0s;
+}
+.loading.bar.striped.indeterminate {
+    animation: 50s 0s linear infinite reverse linear-striped-loading;
+}
+.loading.bar.indeterminate > :nth-child(1) {
+	animation: 2.6s 0s cubic-bezier(.65,.815,.735,.395) infinite forwards horizontal-keyframes-indeterminate1;
+}
+.loading.bar.indeterminate > :nth-child(2) {
+	animation: 2.6s 0s cubic-bezier(.65,.815,.735,.395) infinite forwards horizontal-keyframes-indeterminate2;
+}
+.loading.bar.striped > div {
     background-repeat: repeat;
 }
 .loading.circle {
+	padding: var(--padding);
+}
+.loading.indeterminate.circle {
     animation: keyframes-circular-rotate 2s linear infinite;
 }
 .loading.circle svg {
@@ -795,10 +824,13 @@ blockquote,
     transition-timing-function: linear;
 }
 .loading circle {
-	animation: keyframes-circular-dash 2s ease-in-out infinite;
-	stroke-dasharray: 80px,200px;
+	stroke-dasharray: 0px,138px;
     stroke-dashoffset: 0;
 	stroke: currentColor;
+}
+.loading.indeterminate circle {
+	stroke-dasharray: 80px,138px;
+	animation: 2s ease-in-out infinite keyframes-circular-dash;
 }
 /* Common Helpers */
 
@@ -878,8 +910,15 @@ a.btn:active,
 	align-items: center;
 	justify-content: center;
 }
-.avatar > img {
+header .avatar > img {
 	height: 1.7em;
+}
+p > .avatar:not(:only-child) {
+	display: inline-flex;
+	height: 1.0em;
+}
+p > .avatar:not(:only-child) > img {
+	height: 1.0em;
 }
 
 .nav-group,
@@ -1612,71 +1651,39 @@ body.w-4k .hide-at-4k {
 }
 
 @keyframes horizontal-keyframes-indeterminate1 {
-	0% {
-		left: -35%;
-		right: 100%;
-	}
-
-	60% {
-		left: 100%;
-		right: -90%;
-	}
-
-	100% {
-		left: 100%;
-		right: -90%;
-	}
+	0% { width: 0%; }
+	25% { width: 40%; }
+	50% { width: 100%; }
+	51% { width: 0%; }
+	75% { width: 20%; }
+	100% { width: 100%; }
 }
 
 @-webkit-keyframes horizontal-keyframes-indeterminate1 {
-	0% {
-		left: -35%;
-		right: 100%;
-	}
-
-	60% {
-		left: 100%;
-		right: -90%;
-	}
-
-	100% {
-		left: 100%;
-		right: -90%;
-	}
+	0% { width: 0%; }
+	25% { width: 40%; }
+	50% { width: 100%; }
+	51% { width: 0%; }
+	75% { width: 20%; }
+	100% { width: 100%; }
 }
 
 @keyframes horizontal-keyframes-indeterminate2 {
-	0% {
-		left: -200%;
-		right: 100%;
-	}
-
-	60% {
-		left: 107%;
-		right: -8%;
-	}
-
-	100% {
-		left: 107%;
-		right: -8%;
-	}
+	0% { width: 0%; }
+	25% { width: 50%; }
+	50% { width: 0%; }
+	51% { width: 0%; }
+	75% { width: 80%; }
+	100% { width: 0%; }
 }
 
 @-webkit-keyframes horizontal-keyframes-indeterminate2 {
-	0% {
-		left: -200%;
-		right: 100%;
-	}
-
-	60% {
-		left: 107%;
-		right: -8%;
-	}
-
-	100% {
-		left: 107%;
-		right: -8%;
-	}
+	0% { width: 0%; }
+	25% { width: 50%; }
+	50% { width: 0%; }
+	51% { width: 0%; }
+	75% { width: 80%; }
+	100% { width: 0%; }
 }
 
 @keyframes horizontal-keyframes-buffer {
@@ -1821,7 +1828,7 @@ body.w-4k .hide-at-4k {
 	}
 
 	100% {
-		background-position: 300px 0;
+		background-position: 100rem 0;
 	}
 }
 
@@ -1831,6 +1838,6 @@ body.w-4k .hide-at-4k {
 	}
 
 	100% {
-		background-position: 300px 0;
+		background-position: 100rem 0;
 	}
 }

@@ -1,13 +1,13 @@
-use std::{cmp::Ordering, collections::HashMap};
 use crate::*;
+use std::{cmp::Ordering, collections::HashMap};
 
 mod children;
 mod code_segments;
 mod helpers;
-mod lines;
 mod line_content;
 mod line_segments;
 mod line_types;
+mod lines;
 mod list;
 mod markdown_segments;
 mod table;
@@ -16,14 +16,14 @@ mod tags;
 use children::*;
 use code_segments::*;
 use helpers::*;
-use lines::*;
 use line_content::*;
 use line_segments::*;
 use line_types::*;
+use lines::*;
 use list::*;
 use markdown_segments::*;
-use tags::*;
 use table::*;
+use tags::*;
 
 /// Properties for Image component
 #[derive(Properties, PartialEq)]
@@ -66,7 +66,6 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
     let is_loaded = use_state(|| false);
     let is_loading = use_state(|| false);
     let cached_href = use_state(|| String::default());
-    // let markdown = use_state(|| String::default());
     let markdown = use_state(|| Vec::<(String, MarkdownSegments)>::new());
     let href = props.href.to_owned().unwrap_or_default();
     if *is_loaded && *cached_href != href {

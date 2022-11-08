@@ -63,8 +63,11 @@ pub fn paper(props: &PaperProps) -> Html {
         classes.push(&props.class);
     }
 
+    let class = classes.clone();
+    let style = props.style.to_owned();
+
     html! {
-        <section class={classes.clone()} style={props.style.to_owned()}>
+        <section {class} {style}>
             { for props.children.iter() }
         </section>
     }

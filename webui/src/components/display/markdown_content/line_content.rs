@@ -1,6 +1,6 @@
-use std::collections::HashMap;
-use crate::*;
 use super::*;
+use crate::*;
+use std::collections::HashMap;
 
 pub(super) fn render_line_content(
     is_running: &mut bool,
@@ -12,13 +12,12 @@ pub(super) fn render_line_content(
     html!(
         <>
         {match line_type {
-            MarkdownSegments::Avatar(img_icon, class, style) => {
+            MarkdownSegments::AutoMaxContent(class, style) => {
                 *index += 1;
-                let image = if img_icon.starts_with("fa-") { None } else { Some(img_icon.to_string()) };
-                let icon = if img_icon.starts_with("fa-") { Some(img_icon.to_string()) } else { None };
-                let class = classes!(CLASSES_CARD_CONTAINER, class).to_string();
-                let style = style.to_string();
-                html!(<Avatar {image} {icon} {class} {style} />)
+                let class = classes!(CLASSES_AUTO_MAXCONTENT, "gap-2", class);
+                html!(<Paper class={class.to_string()} style={style.to_owned()} elevation={ELEVATION_STANDARD}>
+                    {render_children(index, lines)}
+                </Paper>)
             },
             MarkdownSegments::Cards(class, style) => {
                 *index += 1;
@@ -54,13 +53,6 @@ pub(super) fn render_line_content(
                 *is_running = false;
                 html!()
             },
-            MarkdownSegments::Image(src, class, style) => {
-                *index += 1;
-                let src = src.to_string();
-                let class = classes!(CLASSES_CARD_CONTAINER, class).to_string();
-                let style = style.to_string();
-                html!(<Image {src} {class} {style} />)
-            },
             MarkdownSegments::List(is_ordered, class, style) => {
                 *index += 1;
                 html!(<List is_ordered={*is_ordered} class={class.to_owned()} style={style.to_owned()}>
@@ -74,15 +66,18 @@ pub(super) fn render_line_content(
                 let size = size.to_owned();
                 let class = classes!(CLASSES_CARD_CONTAINER, class).to_string();
                 let style = style.to_string();
-                html!(<Loading {variant} {color} {size} {class} {style} />)
-            },
-            MarkdownSegments::Markdown => {
-                *index += 1;
                 html!(
-                    <>
-                        {render_children(index, lines)}
-                    </>
+                    <Paper>
+                        <Loading {variant} {color} {size} {class} {style} />
+                    </Paper>
                 )
+            },
+            MarkdownSegments::MaxContentAuto(class, style) => {
+                *index += 1;
+                let class = classes!(CLASSES_MAXCONTENT_AUTO, "gap-2", class);
+                html!(<Paper class={class.to_string()} style={style.to_owned()} elevation={ELEVATION_STANDARD}>
+                    {render_children(index, lines)}
+                </Paper>)
             },
             MarkdownSegments::PageSection(class, style) => {
                 *index += 1;

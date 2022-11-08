@@ -1,9 +1,43 @@
-use std::collections::HashMap;
 use super::*;
+use std::collections::HashMap;
 
+const PTN_ANCHOR: &str = r"\[[^\]]+\]\([^\)]+\)";
 const PTN_ANCHOR_SEGMENTS: &str =
     r#"\[(?P<display>[^\]]+)\]\((?P<url>[^ \)]+) ?"?(?P<title>[^"]*)"?\)"#;
+const PTN_AVATAR: &str = r"!\[[^\]]*\]\([^\)]+\)";
+const PTN_AVATAR_SEGMENTS: &str = r#"!\[?(?P<alt>[^\]]+)\]\((?P<url>[^\)]+)\)"#;
 pub(super) fn render_line_segment(segment: &str) -> Html {
+    let line_pattern = Regex::new(&format!("^{}$", PTN_AVATAR)).unwrap();
+    if line_pattern.is_match(segment) {
+        let anchor_pattern = Regex::new(&format!("{}", PTN_AVATAR_SEGMENTS)).unwrap();
+        return match anchor_pattern.captures(segment) {
+            Some(caps) => {
+                let map: HashMap<&str, &str> = anchor_pattern
+                    .capture_names()
+                    .flatten()
+                    .filter_map(|n| Some((n, caps.name(n)?.as_str())))
+                    .collect();
+                let alt = map.get("alt").unwrap_or(&"").to_string();
+                let url = map.get("url").unwrap_or(&"").to_string();
+                let icon = if url.starts_with("fa-") {
+                    Some(url.to_owned())
+                } else {
+                    None
+                };
+                let image = if url.starts_with("fa-") {
+                    None
+                } else {
+                    Some(url.to_owned())
+                };
+                html!(
+                    <Avatar {icon} {image} {alt} />
+                )
+            }
+            None => {
+                html!({ "ANCHOR PARSE FAILED" })
+            }
+        };
+    }
     let line_pattern = Regex::new(&format!("^{}$", PTN_ANCHOR)).unwrap();
     if line_pattern.is_match(segment) {
         let anchor_pattern = Regex::new(&format!("{}", PTN_ANCHOR_SEGMENTS)).unwrap();
@@ -118,5 +152,5 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
             .collect::<Html>()
         });
     }
-    html!({ segment })
+    html!(<span>{ segment }</span>)
 }

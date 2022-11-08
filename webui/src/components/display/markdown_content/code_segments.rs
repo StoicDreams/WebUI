@@ -1,6 +1,9 @@
 use super::*;
 
-pub(super) fn render_code_segments(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+pub(super) fn render_code_segments(
+    index: &mut u32,
+    lines: &mut Vec<(String, MarkdownSegments)>,
+) -> Html {
     let mut is_running = true;
     let mut sec = lines.to_owned();
     let mut counter = 0u32;

@@ -1,34 +1,19 @@
 use std::collections::HashMap;
+
 use super::*;
 
-pub(super) const PTN_NON_START_BRACKET: &str = r"([^\[]*)";
-pub(super) const PTN_ANCHOR: &str = r"(\[[^\]]+\]\([^\)]+\))";
+const PTN_AVATAR: &str = r"(!?\[[^\]]*\]\([^\)]+\))";
 
 pub(super) fn render_raw_line(line: &str) -> Html {
     html!({ line })
 }
 
 pub(super) fn render_line(line: &str) -> Html {
-    let line_pattern = Regex::new(&format!(
-        "{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?{}?",
-        PTN_NON_START_BRACKET,
-        PTN_ANCHOR,
-        PTN_NON_START_BRACKET,
-        PTN_ANCHOR,
-        PTN_NON_START_BRACKET,
-        PTN_ANCHOR,
-        PTN_NON_START_BRACKET,
-        PTN_ANCHOR,
-        PTN_NON_START_BRACKET,
-        PTN_ANCHOR,
-        PTN_NON_START_BRACKET,
-        PTN_ANCHOR,
-        PTN_NON_START_BRACKET,
-    ))
-    .unwrap();
+    // jslog!("Line==={}", line);
+    let line_pattern = Regex::new(&format!("{}", PTN_AVATAR,)).unwrap();
     let line_segments = line_pattern.captures_iter(line);
 
-    let mut segments_map = HashMap::<usize, &str>::new();
+    let mut segments_map = HashMap::<usize, (usize, &str)>::new();
 
     let mut zero_end = 0;
     _ = line_segments
@@ -45,13 +30,13 @@ pub(super) fn render_line(line: &str) -> Html {
                                 return;
                             }
                             if !segments_map.contains_key(&start) {
-                                segments_map.insert(start, text);
+                                segments_map.insert(start, (end, text));
                                 if start == 0 && (zero_end == 0 || end < zero_end) {
                                     zero_end = end;
                                 }
                             } else if start == 0 && end < zero_end {
                                 segments_map.remove(&start);
-                                segments_map.insert(start, text);
+                                segments_map.insert(start, (end, text));
                             }
                         }
                         None => (),
@@ -78,10 +63,27 @@ pub(super) fn render_line(line: &str) -> Html {
         }
     });
 
+    let mut segments = Vec::new();
+    let mut next = 0usize;
+    for segment in segments_list {
+        if *segment.0 > next {
+            let slice = line[next..*segment.0].to_string();
+            jslog!("next:{};`{}`", next, slice);
+            segments.push(slice);
+        }
+        jslog!("segment:{};{:?}", next, segment);
+        segments.push(segment.1 .1.to_string());
+        next = segment.1 .0;
+    }
+    if next < line.len() {
+        let slice = line[next..line.len()].to_string();
+        segments.push(slice);
+    }
+
     html!(
         <>
-            {segments_list.iter().map(|segment| {
-                html!({render_line_segment(segment.1)})
+            {segments.iter().map(|segment| {
+                html!({render_line_segment(segment)})
             }).collect::<Html>()}
         </>
     )
