@@ -1,5 +1,4 @@
 use super::*;
-use crate::*;
 use std::collections::HashMap;
 
 pub(super) fn render_line_content(
@@ -7,7 +6,7 @@ pub(super) fn render_line_content(
     line: &str,
     line_type: &MarkdownSegments,
     index: &mut u32,
-    lines: &mut Vec<(String, MarkdownSegments)>,
+    lines: &mut Vec<(String, String, MarkdownSegments)>,
 ) -> Html {
     html!(
         <>
@@ -59,16 +58,17 @@ pub(super) fn render_line_content(
                     {render_list(index, lines)}
                 </List>)
             },
-            MarkdownSegments::Loading(variant, color, size, class, style) => {
+            MarkdownSegments::Loading(variant, color, size, percent, class, style) => {
                 *index += 1;
                 let variant = variant.to_owned();
                 let color = color.to_owned();
                 let size = size.to_owned();
                 let class = classes!(CLASSES_CARD_CONTAINER, class).to_string();
                 let style = style.to_string();
+                let percent = percent.to_owned();
                 html!(
                     <Paper>
-                        <Loading {variant} {color} {size} {class} {style} />
+                        <Loading {variant} {color} {percent} {size} {class} {style} />
                     </Paper>
                 )
             },

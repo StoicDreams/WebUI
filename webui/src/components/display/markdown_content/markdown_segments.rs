@@ -7,7 +7,7 @@ pub(super) enum MarkdownSegments {
     Card(String, u16, String, String, String),
     Code(String, String, String),
     EndSection,
-    Loading(LoadingVariant, Theme, u16, String, String),
+    Loading(LoadingVariant, Theme, u16, Option<u8>, String, String),
     List(bool, String, String),
     MaxContentAuto(String, String),
     PageSection(String, String),

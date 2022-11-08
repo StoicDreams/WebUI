@@ -70,6 +70,73 @@ You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-
 ## Loading
 
 ```section
+Loading display components can be used to display a loading circle or loading bar.
+
+```
+
+````sidebyside
+```paper
+```cards
+>loading "circle" "info" "32" "10"
+>loading "circle" "info" "32" "20"
+>loading "circle" "info" "32" "30"
+>loading "circle" "info" "32" "40"
+>loading "circle" "info" "32" "50"
+>loading "circle" "info" "32" "60"
+>loading "circle" "info" "32" "70"
+>loading "circle" "info" "32" "80"
+>loading "circle" "info" "32" "90"
+>loading "circle" "info" "32" "100"
+```
+>loading "bar" "info" "8" "0"
+>loading "bar" "info" "8" "10"
+>loading "bar" "info" "8" "20"
+>loading "bar" "info" "8" "30"
+>loading "bar" "info" "8" "40"
+>loading "bar" "info" "8" "50"
+>loading "bar" "info" "8" "60"
+>loading "bar" "info" "8" "70"
+>loading "bar" "info" "8" "80"
+>loading "bar" "info" "8" "90"
+>loading "bar" "info" "8" "100"
+>loading "striped" "success" "8" "0"
+>loading "striped" "success" "8" "10"
+>loading "striped" "success" "8" "20"
+>loading "striped" "success" "8" "30"
+>loading "striped" "success" "8" "40"
+>loading "striped" "success" "8" "50"
+>loading "striped" "success" "8" "60"
+>loading "striped" "success" "8" "70"
+>loading "striped" "success" "8" "80"
+>loading "striped" "success" "8" "90"
+>loading "striped" "success" "8" "100"
+```
+```rust
+<Cards>
+	<Paper>
+		<Loading variant={LoadingVariant::Circle} color={Theme::Info} size={LOADING_SIZE_MEDIUM} percent={10}>
+	</Paper>
+	<Paper>
+		<Loading variant={LoadingVariant::Circle} color={Theme::Info} size={LOADING_SIZE_MEDIUM} percent={20}>
+	</Paper>
+	...
+</Cards>
+<Paper>
+	<Loading variant={LoadingVariant::Bar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={0}>
+</Paper>
+<Paper>
+	<Loading variant={LoadingVariant::Bar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={10}>
+</Paper>
+...
+<Paper>
+	<Loading variant={LoadingVariant::StripedBar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={20}>
+</Paper>
+...
+```
+````
+
+```section
+Not setting a percent will default to an indeterminate loading display.
 ```
 
 ````sidebyside
@@ -186,17 +253,60 @@ LOADING_SIZE_XLARGE
 ## MarkdownContent
 
 ```section
+This display component supports building and displaying content from a markdown source.
 
+This component is very early in development and does not support all markdown syntax. Likewise, the purpose of this component is not to display markdown directly translated to html as is traditionally done, but rather to translate markdown to Web UI components.
 ```
 
-````sidebyside
+`````sidebyside
 
 ```paper
+
+```automax "gap-2"
+```paper "elevation-10"
+automax left
 ```
-```rust
+```paper "elevation-10"
+automax right
+```
 ```
 
+```cards
+```card "Title"
+A card with a title
+```
+```card "Hello World" "200"
+Another Card with a max width
+```
+```card "Hello World" "200" "secondary"
+Another Card with a theme
+```
+```card "Hello World" "200" "tertiary" "fa-solid fa-acorn"
+Another Card with an Avatar
+```
+```card "Hello World" "300" "info" "fa-solid fa-acorn" "/"
+Another Card With a Link
+```
+```
+
+```
+
+````rust
+```automax "gap-2"
+```paper "elevation-10"
+automax left
+``` 
+```paper "elevation-10"
+automax right
+``` 
+``` 
+
+```sidebyside
+``` 
+
 ````
+
+`````
 
 ## Table
 

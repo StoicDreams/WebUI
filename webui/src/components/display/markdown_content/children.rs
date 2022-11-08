@@ -1,11 +1,14 @@
 use super::*;
 
-pub(super) fn start_render_children(markdown: &Vec<(String, MarkdownSegments)>) -> Html {
+pub(super) fn start_render_children(markdown: &Vec<(String, String, MarkdownSegments)>) -> Html {
     let mut index = 1u32;
     html!({ render_children(&mut index, markdown) })
 }
 
-pub(super) fn render_children(index: &mut u32, lines: &Vec<(String, MarkdownSegments)>) -> Html {
+pub(super) fn render_children(
+    index: &mut u32,
+    lines: &Vec<(String, String, MarkdownSegments)>,
+) -> Html {
     let mut is_running = true;
     let sec = lines.to_owned();
     let mut counter = 0u32;
@@ -18,7 +21,7 @@ pub(super) fn render_children(index: &mut u32, lines: &Vec<(String, MarkdownSegm
                     return html!();
                 }
                 let mut lines = sec.to_owned();
-                let (line, line_type) = tuple;
+                let (raw_line, line, line_type) = tuple;
                 match line_type {
                     MarkdownSegments::EndSection => {
                         *index += 1;

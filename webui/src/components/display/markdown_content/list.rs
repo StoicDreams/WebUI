@@ -1,6 +1,9 @@
 use super::*;
 
-pub(super) fn render_list(index: &mut u32, lines: &mut Vec<(String, MarkdownSegments)>) -> Html {
+pub(super) fn render_list(
+    index: &mut u32,
+    lines: &mut Vec<(String, String, MarkdownSegments)>,
+) -> Html {
     let mut is_running = true;
     let mut sec = lines.to_owned();
     let mut counter = 0u32;
@@ -13,7 +16,7 @@ pub(super) fn render_list(index: &mut u32, lines: &mut Vec<(String, MarkdownSegm
                     return html!();
                 }
                 let mut lines = sec.to_owned();
-                let (line, line_type) = tuple;
+                let (raw_line, line, line_type) = tuple;
                 match line_type {
                     MarkdownSegments::EndSection => {
                         *index += 1;

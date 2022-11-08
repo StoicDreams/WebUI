@@ -108,7 +108,6 @@ html, body, #app {
 main, header, footer, iframe,
 aside, section, div {
 	display: block;
-	contain: content;
 }
 
 main {
@@ -120,7 +119,6 @@ main {
 	max-height: 100%;
 	height: calc(var(--window-height) - var(--header-height) - var(--footer-height));
 	overflow: auto;
-	contain: content;
 }
 main * {
 	white-space: pre-wrap;
@@ -136,12 +134,10 @@ header {
 	background-color: var(--color-title);
 	color: var(--color-title-offset);
 	box-shadow: 0px 4px 12px 1px rgba(0,0,0,0.4);
-	contain: content;
 }
 footer {
 	position: relative;
 	background-color: inherit;
-	contain: content;
 }
 footer::before {
 	content:" ";

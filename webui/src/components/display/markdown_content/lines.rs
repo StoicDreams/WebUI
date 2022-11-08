@@ -5,11 +5,10 @@ use super::*;
 const PTN_AVATAR: &str = r"(!?\[[^\]]*\]\([^\)]+\))";
 
 pub(super) fn render_raw_line(line: &str) -> Html {
-    html!({ line })
+    html!({ line.trim_end() })
 }
 
 pub(super) fn render_line(line: &str) -> Html {
-    // jslog!("Line==={}", line);
     let line_pattern = Regex::new(&format!("{}", PTN_AVATAR,)).unwrap();
     let line_segments = line_pattern.captures_iter(line);
 
@@ -68,10 +67,8 @@ pub(super) fn render_line(line: &str) -> Html {
     for segment in segments_list {
         if *segment.0 > next {
             let slice = line[next..*segment.0].to_string();
-            jslog!("next:{};`{}`", next, slice);
             segments.push(slice);
         }
-        jslog!("segment:{};{:?}", next, segment);
         segments.push(segment.1 .1.to_string());
         next = segment.1 .0;
     }

@@ -2,7 +2,7 @@ use super::*;
 
 pub(super) fn render_code_segments(
     index: &mut u32,
-    lines: &mut Vec<(String, MarkdownSegments)>,
+    lines: &mut Vec<(String, String, MarkdownSegments)>,
 ) -> Html {
     let mut is_running = true;
     let mut sec = lines.to_owned();
@@ -16,7 +16,7 @@ pub(super) fn render_code_segments(
                     return html!();
                 }
                 let mut lines = sec.to_owned();
-                let (line, line_type) = tuple;
+                let (raw_line, line, line_type) = tuple;
                 *index += 1;
                 match line_type {
                     MarkdownSegments::EndSection => {
@@ -24,7 +24,7 @@ pub(super) fn render_code_segments(
                         html!()
                     }
                     _ => {
-                        html!(<p>{render_raw_line(line)}</p>)
+                        html!(<p>{render_raw_line(raw_line)}</p>)
                     }
                 }
             })

@@ -66,7 +66,7 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
     let is_loaded = use_state(|| false);
     let is_loading = use_state(|| false);
     let cached_href = use_state(|| String::default());
-    let markdown = use_state(|| Vec::<(String, MarkdownSegments)>::new());
+    let markdown = use_state(|| Vec::<(String, String, MarkdownSegments)>::new());
     let href = props.href.to_owned().unwrap_or_default();
     if *is_loaded && *cached_href != href {
         is_loaded.set(false);
@@ -150,7 +150,7 @@ pub fn markdown_to_html(markdown: &str) -> Html {
     )
 }
 
-fn parse_markdown(markdown: &str) -> Vec<(String, MarkdownSegments)> {
+fn parse_markdown(markdown: &str) -> Vec<(String, String, MarkdownSegments)> {
     let mut lines = Vec::new();
     for line in markdown.lines() {
         lines.push(get_line_type(line));

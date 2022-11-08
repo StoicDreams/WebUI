@@ -1,5 +1,13 @@
 use super::*;
 
+pub(super) fn get_option(value: &str) -> Option<&str> {
+    if value.is_empty() {
+        None
+    } else {
+        Some(value)
+    }
+}
+
 pub(super) fn get_u8(value: &str) -> u8 {
     u8::from_str(value).unwrap_or(0)
 }

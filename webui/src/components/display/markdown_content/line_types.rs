@@ -1,8 +1,9 @@
 use super::*;
 use std::str::Split;
 
-pub(super) fn get_line_type(line: &str) -> (String, MarkdownSegments) {
+pub(super) fn get_line_type(line: &str) -> (String, String, MarkdownSegments) {
     let mut line = line.to_owned();
+    let raw_line = line.to_string();
     if line.starts_with(">loading") {
         line.replace_range(0..1, "");
         let mut sections = line.split(" ");
@@ -10,11 +11,16 @@ pub(super) fn get_line_type(line: &str) -> (String, MarkdownSegments) {
         let binding = get_binding(sections);
         let mut sections = binding.split("\" \"");
         return (
+            raw_line,
             section_type,
             MarkdownSegments::Loading(
                 get_loading_variant(&vnext(&mut sections)),
                 get_theme(&vnext(&mut sections)),
                 get_u16(&vnext(&mut sections)),
+                match get_option(&vnext(&mut sections)) {
+                    Some(value) => Some(get_u8(value)),
+                    None => None,
+                },
                 vnext(&mut sections),
                 vnext(&mut sections),
             ),
@@ -22,43 +28,44 @@ pub(super) fn get_line_type(line: &str) -> (String, MarkdownSegments) {
     }
     if line.starts_with("###### ") {
         line.replace_range(0..7, "");
-        return (line, MarkdownSegments::Title(6));
+        return (raw_line, line, MarkdownSegments::Title(6));
     }
     if line.starts_with("##### ") {
         line.replace_range(0..6, "");
-        return (line, MarkdownSegments::Title(5));
+        return (raw_line, line, MarkdownSegments::Title(5));
     }
     if line.starts_with("#### ") {
         line.replace_range(0..5, "");
-        return (line, MarkdownSegments::Title(4));
+        return (raw_line, line, MarkdownSegments::Title(4));
     }
     if line.starts_with("### ") {
         line.replace_range(0..4, "");
-        return (line, MarkdownSegments::Title(3));
+        return (raw_line, line, MarkdownSegments::Title(3));
     }
     if line.starts_with("## ") {
         line.replace_range(0..3, "");
-        return (line, MarkdownSegments::Title(2));
+        return (raw_line, line, MarkdownSegments::Title(2));
     }
     if line.starts_with("# ") {
         line.replace_range(0..2, "");
-        return (line, MarkdownSegments::Title(1));
+        return (raw_line, line, MarkdownSegments::Title(1));
     }
     if line.eq("```") {
-        return (line, MarkdownSegments::EndSection);
+        return (raw_line, line, MarkdownSegments::EndSection);
     }
     if line.starts_with("```") {
         while line.starts_with("`") {
             line.replace_range(0..1, "");
         }
         if line.is_empty() {
-            return (line, MarkdownSegments::EndSection);
+            return (raw_line, line, MarkdownSegments::EndSection);
         }
         let mut sections = line.split(" ");
         let section_type = get_section_type(&mut sections);
         let binding = get_binding(sections);
         let mut sections = binding.split("\" \"");
         return (
+            raw_line,
             section_type.to_string(),
             match section_type.as_str() {
                 "automax" | "automaxcontent" => {
@@ -105,7 +112,7 @@ pub(super) fn get_line_type(line: &str) -> (String, MarkdownSegments) {
             },
         );
     }
-    (line, MarkdownSegments::Paragraph)
+    (raw_line, line, MarkdownSegments::Paragraph)
 }
 
 fn get_binding(sections: Split<&str>) -> String {
