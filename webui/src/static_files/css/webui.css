@@ -631,6 +631,9 @@ aside.app-drawer.left {
 	letter-spacing: var(--typography-letterspacing);
 	border: none;
 }
+.auto_message_box > pre {
+	position: absolute;
+}
 .auto_message_box > pre > code,
 .auto_message_box > pre + textarea,
 .auto_message_box > pre + input[type=text] {
@@ -641,6 +644,7 @@ aside.app-drawer.left {
 .auto_message_box > pre + textarea {
 	word-wrap: break-word;
 	word-break: break-all;
+	z-index: 1;
 }
 blockquote,
 .quote {

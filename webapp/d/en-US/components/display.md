@@ -256,11 +256,13 @@ LOADING_SIZE_XLARGE
 This display component supports building and displaying content from a markdown source.
 
 This component is very early in development and does not support all markdown syntax. Likewise, the purpose of this component is not to display markdown directly translated to html as is traditionally done, but rather to translate markdown to Web UI components.
+
+Generally, the container based components will 
 ```
 
-`````sidebyside
+``````sidebyside
 
-```paper
+````paper
 
 ```automax "gap-2"
 ```paper "elevation-10"
@@ -289,9 +291,83 @@ Another Card With a Link
 ```
 ```
 
+```sidebyside
+```list
+one
+two
+three
+```
+```list "text here flags ordered list"
+one
+two
+three
+```
 ```
 
+```maxauto "gap-2"
+```paper "elevation-10"
+maxauto left
+```
+```paper "elevation-10"
+maxauto right
+```
+```
+
+```quote
+A standard non-cited quote
+```
+```quote "info"
+Add a theme
+```
+```quote "primary" "Some Author"
+Add a cite
+```
+```quote "secondary" "Some Author"
+Using the secondary theme
+```
+```quote "tertiary" "Some Author"
+Using the tertiary theme
+```
+```quote "title" "Some Author"
+Using the title theme
+```
+```quote "active" "Some Author"
+Using the active theme
+```
+```quote "info" "Some Author"
+Using the info theme
+```
+```quote "success" "Some Author"
+Using the success theme
+```
+```quote "warning" "Some Author"
+Using the warning theme
+```
+```quote "danger" "Some Author"
+Using the danger theme
+```
+```quote "black" "Some Author"
+Using the black theme
+```
+```quote "white" "Some Author"
+Using the white theme
+```
+
+````
+
+`````paper
 ````rust
+pub(crate) fn page_components_display() -> Html {
+    set_title("Display Components".to_string());
+    html! {
+        <>
+            <MarkdownContent href="/d/en-US/components/display.md" />
+        </>
+    }
+}
+````
+
+````markdown
 ```automax "gap-2"
 ```paper "elevation-10"
 automax left
@@ -301,12 +377,64 @@ automax right
 ``` 
 ``` 
 
+```cards
+```card "Title"
+A card with a title
+``` 
+```card "Hello World" "200"
+Another Card with a max width
+``` 
+```card "Hello World" "200" "secondary"
+Another Card with a theme
+``` 
+```card "Hello World" "200" "tertiary" "fa-solid fa-acorn"
+Another Card with an Avatar
+``` 
+```card "Hello World" "300" "info" "fa-solid fa-acorn" "/"
+Another Card With a Link
+``` 
+``` 
+
+```sidebyside
+```list
+one
+two
+three
+``` 
+```list "text here flags ordered list"
+one
+two
+three
+``` 
+``` 
+
+```maxauto "gap-2"
+```paper "elevation-10"
+maxauto left
+``` 
+```paper "elevation-10"
+maxauto right
+``` 
+``` 
+
+```quote
+A standard non-cited quote
+``` 
+```quote "info"
+Add a theme
+``` 
+```quote "warning" "Some Author"
+Add a cite
+``` 
+... 
+
 ```sidebyside
 ``` 
 
 ````
 
 `````
+``````
 
 ## Table
 
