@@ -11,6 +11,9 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
+    run("cd", "webapp");
+    run("webui", "");
+    run("cd", "..");
     run("cargo", "fmt");
     run("cargo", "update");
     run("cargo", "build");
