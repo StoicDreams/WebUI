@@ -12,7 +12,7 @@ pub(crate) fn app_footer() -> Html {
         <header>
             <AppDrawerButton info={left_drawer_info.clone()}
                 class="logo"
-                logosrc="Logo.svg"
+                logosrc="/Logo.svg"
                 logotitle={format!("{} Logo", app_config.company_name.to_owned())}
                 />
             <h1 class="flex-grow">{ app_config.app_name.clone() }</h1>

@@ -1,0 +1,3 @@
+[[hooks]]
+stage = "post_build"
+command = "webapp_post_build"

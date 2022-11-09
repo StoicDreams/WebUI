@@ -37,4 +37,4 @@ function buildSitemap
 }
 
 
-$urls | buildSitemap | Out-File webapp/sitemap.xml -Encoding ascii
+$urls | buildSitemap | Out-File webapp/root_files/sitemap.xml -Encoding ascii

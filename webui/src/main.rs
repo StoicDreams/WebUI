@@ -17,8 +17,8 @@ fn main() {
     starter_files::add_file("js/webui.js", WEBUIJS);
     starter_files::add_file("css/webui.css", CSS);
     starter_files::add_file_if_missing("index.html", INDEX);
-    starter_files::add_file_if_missing("app.webmanifest", MANIFEST);
-    starter_files::add_file_if_missing("Logo.svg", LOGO);
-    starter_files::add_file_if_missing("robots.txt", ROBOTS);
-    starter_files::add_file_if_missing("service-worker.js", SERVICEWORKER);
+    starter_files::add_file_if_missing("root_files/app.webmanifest", MANIFEST);
+    starter_files::add_file_if_missing("root_files/Logo.svg", LOGO);
+    starter_files::add_file_if_missing("root_files/robots.txt", ROBOTS);
+    starter_files::add_file_if_missing("root_files/service-worker.js", SERVICEWORKER);
 }
