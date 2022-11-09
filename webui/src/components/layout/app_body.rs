@@ -43,18 +43,13 @@ impl Component for AppBody {
             .context::<AppConfig>(Callback::noop())
             .expect("no app config found");
         let path = self.current_path.to_owned();
-        if self.flip {
-            html! {
-                <main id="m1">
+        let page_el = format!("page_{}", path.replace("-", "_").replace("/", "__"));
+        html! {
+            <main>
+                <@{page_el}>
                     {(get_page_content(app_config.nav_routing, &path))()}
-                </main>
-            }
-        } else {
-            html! {
-                <main id="m2">
-                    {(get_page_content(app_config.nav_routing, &path))()}
-                </main>
-            }
+                </@>
+            </main>
         }
     }
 }
