@@ -198,12 +198,9 @@ svg {
 	overflow: visible;
 }
 
-pre {
-	position: relative;
-}
 pre,
-pre + textarea,
-pre + input {
+.auto_message_box {
+	position: relative;
 	background-color: var(--color-black);
 	color: var(--color-white);
 }
@@ -589,7 +586,6 @@ aside.app-drawer.left {
 }
 .auto_message_box {
 	flex-grow: 1;
-	background-color: var(--color-shade);
 }
 .auto_message_box,
 .auto_message_box > pre,
