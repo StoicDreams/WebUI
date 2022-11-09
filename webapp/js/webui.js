@@ -99,6 +99,12 @@
 			return false;
 		});
 		setupWatchers();
+		setTimeout(()=> {
+			el.className = 'page transition in';
+			setTimeout(() => {
+				el.className = '';
+			}, 100);
+		}, 100);
 	});
 })();
 

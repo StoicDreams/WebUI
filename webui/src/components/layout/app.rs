@@ -29,7 +29,7 @@ impl Component for App {
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
         html! {
-            <div id="app">
+            <div id="app" class="page transition out">
                 <AppContexts app_config={props.config.clone()}>
                     <AppHeader />
                     <AppBody />
