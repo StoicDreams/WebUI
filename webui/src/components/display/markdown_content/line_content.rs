@@ -26,7 +26,7 @@ pub(super) fn render_line_content(
                     {render_children(index, lines)}
                 </Cards>)
             },
-            MarkdownSegments::Card(title, width, theme, avatar, link) => {
+            MarkdownSegments::Card(title, width, theme, avatar, link, link_title) => {
                 *index += 1;
                 let theme = get_theme(theme.as_str());
                 html!(<Card title={title.to_owned()}
@@ -34,6 +34,7 @@ pub(super) fn render_line_content(
                     theme={theme}
                     avatar={avatar.to_owned()}
                     link={link.to_owned()}
+                    link_title={link_title.to_owned()}
                     elevation={ELEVATION_STANDARD}
                     >
                     {render_children(index, lines)}

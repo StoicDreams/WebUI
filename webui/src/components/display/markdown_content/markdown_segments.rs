@@ -4,7 +4,7 @@ use super::*;
 pub(super) enum MarkdownSegments {
     AutoMaxContent(String, String),
     Cards(String, String),
-    Card(String, u16, String, String, String),
+    Card(String, u16, String, String, String, String),
     Code(String, String, String),
     EndSection,
     Loading(LoadingVariant, Theme, u16, Option<u8>, String, String),

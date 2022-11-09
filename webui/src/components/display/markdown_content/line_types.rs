@@ -78,6 +78,7 @@ pub(super) fn get_line_type(line: &str) -> (String, String, MarkdownSegments) {
                     vnext(&mut sections),
                     vnext(&mut sections),
                     vnext(&mut sections),
+                    vnext(&mut sections),
                 ),
                 "list" => MarkdownSegments::List(
                     !vnext(&mut sections).is_empty(),
