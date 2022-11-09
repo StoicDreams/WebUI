@@ -28,6 +28,16 @@ extern "C" {
     #[wasm_bindgen]
     pub fn set_title(title: &str);
 
+    /// Push path to url
+    #[wasm_bindgen]
+    pub fn push_state(path: &str);
+
+    /// Set page transition duration
+    ///
+    /// Expecting value in milliseconds from 1 to 1000
+    #[wasm_bindgen]
+    pub fn set_page_transition_duration(value: u16);
+
     /// Get url page path
     ///
     /// Returned path always starts with forward slash '/'.
@@ -42,10 +52,6 @@ extern "C" {
     /// Get origin from window
     #[wasm_bindgen]
     pub fn get_origin() -> String;
-
-    /// Push path to url
-    #[wasm_bindgen]
-    pub fn push_state(path: &str);
 
     /// Get url page path with query data
     ///

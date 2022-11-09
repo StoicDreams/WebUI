@@ -105,6 +105,7 @@ impl Component for NavLink {
         let onclick = {
             let path = props.to.to_owned();
             ctx.link().callback(move |_| {
+                push_state(&path);
                 let mut app_state_agent = AppStateAgent::dispatcher();
                 app_state_agent.send(AppStateRequest::PathUpdate(path.to_string()));
                 AppStateReceiverMessage::AppStateMessage(AppStateRequest::PathUpdate(

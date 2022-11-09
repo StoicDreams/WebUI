@@ -27,6 +27,7 @@
 	--color-button: var(--color-info);
 	--color-button-offset: var(--color-info-offset);
 
+	--main-transition: 200ms;
 	--readability-line-limit: 66ch;
 	--backdrop-blur: blur(4px);
 	--transition-speed: 180ms;
@@ -119,6 +120,8 @@ main {
 	max-height: 100%;
 	height: calc(var(--window-height) - var(--header-height) - var(--footer-height));
 	overflow: auto;
+	transition-property: all;
+	transition-duration: var(--main-transition);
 }
 main * {
 	white-space: pre-wrap;
@@ -410,6 +413,17 @@ ul, ol {
 	justify-content: center;
 	gap: var(--padding);
 	padding: calc(var(--padding) * 0.5) calc(var(--padding) * 1.5);
+}
+#app.page.transition * {
+	pointer-events: none;
+}
+#app.page.transition.out main {
+	transform: scale(0.8) translateY(-10%);
+	opacity: 0;
+}
+#app.page.transition.in main {
+	transform: scale(1.1) translateY(1%);
+	opacity: 1;
 }
 
 /* Component Classes */
