@@ -970,7 +970,7 @@ p > .avatar:not(:only-child) > img {
 .d-inlineblock { display: inline-block; }
 .d-inlineflex { display: inline-flex; }
 .d-inlineflexbox { display: inline-flexbox; }
-main > .d-flex:not(.flex-column):not(.flex-columnreverse) > *:not([width]) {
+main > .d-flex:not(.flex-column):not(.flex-columnreverse) > *:not([width]):not(:only-child) {
 	flex: 100 1 400px;
 }
 main > .d-flex > *[width] {
