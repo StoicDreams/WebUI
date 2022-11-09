@@ -84,6 +84,28 @@ impl AppConfig {
             user_info_panel: None,
         }
     }
+    pub fn get_nav_from_path(&self, path: &str) -> Option<NavLinkInfo> {
+        get_nav_from_list(path, &self.nav_routing)
+    }
+}
+
+fn get_nav_from_list(path: &str, list: &Vec<NavRoute>) -> Option<NavLinkInfo> {
+    for nav in list.iter() {
+        match nav {
+            NavRoute::NavGroup(group) => match get_nav_from_list(path, &group.children) {
+                Some(link) => {
+                    return Some(link.to_owned());
+                }
+                None => (),
+            },
+            NavRoute::NavLink(link) => {
+                if path.to_lowercase() == link.path.to_lowercase() {
+                    return Some(link.to_owned());
+                }
+            }
+        }
+    }
+    None
 }
 
 impl AppConfigBuilder {

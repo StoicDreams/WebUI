@@ -37,6 +37,7 @@ pub fn link(props: &NavLinkProps) -> Html {
             None => (),
         };
         if mypath.starts_with("/") {
+            push_state(&mypath);
             let mut app_state_agent = AppStateAgent::dispatcher();
             app_state_agent.send(AppStateRequest::PathUpdate(mypath.to_string()))
         }

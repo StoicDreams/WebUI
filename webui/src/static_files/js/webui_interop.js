@@ -4,28 +4,8 @@ export function set_title(title) {
     document.title = title;
 }
 
-export async function webui_fetch(request_json) {
-    let response = {};
-    try {
-        console.log('Fetching', request);
-        let data = JSON.parse(request);
-        let url = data['url'];
-        let method = data['method'] || 'GET';
-        if (!url) { return "Missing URL"; }
-        if (!method) { return "Missing Method"; }
-        let body = data['body'] || '';
-        let response = await fetch(url, {
-            method: method,
-            cache: 'no-cache',
-            redirect: 'manual',
-            body: body
-        });
-        
-
-    } catch (ex) {
-        console.error('WebUI Fetch Exception', ex);
-    }
-    return "";
+export function push_state(path) {
+    history.pushState(null, null, path);
 }
 
 export function get_path() {

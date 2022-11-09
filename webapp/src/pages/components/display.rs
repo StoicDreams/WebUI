@@ -1,11 +1,12 @@
-use webui::*;
+use crate::*;
 
 /// App home page
 pub(crate) fn page_components_display() -> Html {
-    set_title("Display Components".to_string());
+    set_title("Display Components");
     html! {
         <>
             <MarkdownContent href="/d/en-US/components/display.md" />
+            <Next url="/about" />
         </>
     }
 }

@@ -4,7 +4,7 @@ use crate::*;
 
 /// App page body component - page specific content is rendered here
 pub(crate) fn page_privacy() -> Html {
-    set_title(format!("{} Privacy Policy", COMPANY_SINGULAR));
+    set_title(format!("{} Privacy Policy", COMPANY_SINGULAR).as_str());
     let mut tags = HashMap::<String, String>::new();
     tags.insert(
         String::from("COMPANY_SINGULAR"),
@@ -14,7 +14,7 @@ pub(crate) fn page_privacy() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/privacy.md" {tags} />
-            <JasperLink display="Content on this website was created with the help of Jasper.ai." />
+            <Next url="/terms" />
         </>
     }
 }

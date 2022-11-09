@@ -24,11 +24,15 @@
 		let i = 0;
 		while(el && i++ < 10) {
 			if (el[key]) { return el; }
-			el = el.parentElement;
+			el = el.parentNode;
 		}
 		return undefined;
 	}
 	function handleNav(target) {
+		if (!target.parentNode) {
+			// WebUI Already removed from DOM
+			return true;
+		}
 		let anchor = getMatchByKey(target, 'href');
 		if (!anchor) {return false;}
 		// Disabling local navigation which will be handled by PWA webasembly processing

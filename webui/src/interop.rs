@@ -26,10 +26,7 @@ macro_rules! jslog {
 extern "C" {
     /// Set the document/page title
     #[wasm_bindgen]
-    pub fn set_title(title: String);
-
-    /// Interface for accessing javascript fetch method
-    pub(crate) fn webui_fetch(request: String) -> String;
+    pub fn set_title(title: &str);
 
     /// Get url page path
     ///
@@ -45,6 +42,10 @@ extern "C" {
     /// Get origin from window
     #[wasm_bindgen]
     pub fn get_origin() -> String;
+
+    /// Push path to url
+    #[wasm_bindgen]
+    pub fn push_state(path: &str);
 
     /// Get url page path with query data
     ///

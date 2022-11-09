@@ -29,7 +29,7 @@ What do we mean by this? Well, Rust is fast. Super fast. And it makes us very fa
 
 And since Rust is so strict about compilation errors, this means that most bugs are caught by the compiler, giving us immediate feedback on not only the problem, but many times helpful solutions to fix the problem.
 
-This feedback loop being so short, means problems are identified and resolved in much shorter cycles. Which then translates to us being able to create software that works in faster iteration cycles."
+This feedback loop being so short, means problems are identified and resolved in much shorter cycles. Which then translates to us being able to create software that works in faster iteration cycles.
 ```
 
 ````cards

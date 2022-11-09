@@ -11,12 +11,11 @@ pub struct JasperLinkProps {
 pub fn jasper_link(props: &JasperLinkProps) -> Html {
     html!(
         <>
-            <Paper class="ma-3" />
             <Paper class="mt-a mb-5">
                 <Quote class="pa-3" color={Theme::Success} elevation={ELEVATION_STANDARD}>
                     {match props.display.to_owned() {
                         Some(display) => html!(display),
-                        None => html!({"Content on this page was created with the help of Jasper.ai."})
+                        None => html!({"Content on this website was created with the help of Jasper.ai."})
                     }}
                     {" "}
                     <Link href="https://jasper.ai/unlimited?fpr=stoicdreams">
