@@ -910,6 +910,10 @@ a.btn:active,
 	align-items: center;
 	justify-content: center;
 }
+.avatar > img {
+	max-height: 100%;
+	max-width: 100%;
+}
 header .avatar > img {
 	height: 1.7em;
 }
@@ -919,6 +923,10 @@ p > .avatar:not(:only-child) {
 }
 p > .avatar:not(:only-child) > img {
 	height: 1.0em;
+}
+.card-header > .avatar {
+	width: 38px;
+	height: 38px;
 }
 
 .nav-group,
