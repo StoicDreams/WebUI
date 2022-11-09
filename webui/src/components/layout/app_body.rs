@@ -43,7 +43,7 @@ impl Component for AppBody {
             .context::<AppConfig>(Callback::noop())
             .expect("no app config found");
         let path = self.current_path.to_owned();
-        let page_el = format!("page_{}", path.replace("-", "_").replace("/", "__"));
+        let page_el = format!("page{}", path.replace("-", "_").replace("/", "__"));
         html! {
             <main>
                 <@{page_el}>
