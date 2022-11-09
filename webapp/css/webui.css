@@ -200,6 +200,10 @@ svg {
 
 pre {
 	position: relative;
+}
+pre,
+pre + textarea,
+pre + input {
 	background-color: var(--color-black);
 	color: var(--color-white);
 }
