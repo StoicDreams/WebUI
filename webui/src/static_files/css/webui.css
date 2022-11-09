@@ -1201,7 +1201,6 @@ main > .d-flex > *[width] {
 .ml-n9 { margin-top: calc(-9 * var(--padding)); }
 .ml-n10 { margin-top: calc(-10 * var(--padding)); }
 
-.elevation-0 { box-shadow: var(--elevation-0); }
 .elevation-1 { box-shadow: var(--elevation-1); }
 .elevation-2 { box-shadow: var(--elevation-2); }
 .elevation-3 { box-shadow: var(--elevation-3); }
@@ -1228,6 +1227,7 @@ main > .d-flex > *[width] {
 .elevation-23 { box-shadow: var(--elevation-23); }
 .elevation-24 { box-shadow: var(--elevation-24); }
 .elevation-25 { box-shadow: var(--elevation-25); }
+.elevation-0 { box-shadow: var(--elevation-0); }
 
 .elevation-n1 { box-shadow: inset var(--elevation-1); }
 .elevation-n2 { box-shadow: inset var(--elevation-2); }
