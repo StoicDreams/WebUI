@@ -3,6 +3,7 @@ use crate::*;
 pub(crate) struct AppBody {
     app_state_agent: Box<dyn Bridge<AppStateAgent>>,
     current_path: String,
+    flip: bool,
 }
 
 impl Component for AppBody {
@@ -16,6 +17,7 @@ impl Component for AppBody {
                     .callback(AppStateReceiverMessage::AppStateMessage),
             ),
             current_path: interop::get_path().to_lowercase(),
+            flip: false,
         }
     }
 
@@ -26,6 +28,7 @@ impl Component for AppBody {
                     if path.to_lowercase() == self.current_path {
                         return false;
                     }
+                    self.flip = !self.flip;
                     self.current_path = path.to_lowercase();
                     return true;
                 }
@@ -40,10 +43,18 @@ impl Component for AppBody {
             .context::<AppConfig>(Callback::noop())
             .expect("no app config found");
         let path = self.current_path.to_owned();
-        html! {
-            <main>
-                {(get_page_content(app_config.nav_routing, &path))()}
-            </main>
+        if self.flip {
+            html! {
+                <main id="m1">
+                    {(get_page_content(app_config.nav_routing, &path))()}
+                </main>
+            }
+        } else {
+            html! {
+                <main id="m2">
+                    {(get_page_content(app_config.nav_routing, &path))()}
+                </main>
+            }
         }
     }
 }
