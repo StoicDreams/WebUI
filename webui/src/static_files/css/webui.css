@@ -942,7 +942,21 @@ p > .avatar:not(:only-child) > img {
 	width: 38px;
 	height: 38px;
 }
-
+main .avatar,
+main img {
+	transition-duration: 300ms;
+}
+#app.page.transition.out main .avatar,
+#app.page.transition.out main img {
+	transition-duration: 10ms;
+	transform: scale(0);
+	opacity: 0;
+}
+#app.page.transition.in main .avatar,
+#app.page.transition.in main img {
+	transform: scale(1.03);
+	opacity: 1;
+}
 .nav-group,
 .nav-link {
 	display: block;
