@@ -36,6 +36,12 @@ stages:
           script: |
             cargo install trunk
       - task: PowerShell@2
+        displayName: 'Install Post Build'
+        inputs:
+          targetType: 'inline'
+          script: |
+            cargo install webapp_post_build --git https://github.com/StoicDreams/RustWebUI
+      - task: PowerShell@2
         displayName: 'Build Web App'
         inputs:
           targetType: 'inline'
