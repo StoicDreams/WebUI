@@ -103,8 +103,8 @@
 			el.className = 'page transition in';
 			setTimeout(() => {
 				el.className = '';
-			}, 100);
-		}, 100);
+			}, 300);
+		}, 200);
 	});
 })();
 
