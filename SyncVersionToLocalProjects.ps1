@@ -35,6 +35,18 @@ function UpdateCargo {
 	cd $myloc
 }
 
+function UpdateWebUI {
+	Param (
+		[string] $projectPath
+	)
+	$projectDirectory = Split-Path (Split-Path $projectPath)
+	Write-Host "WebUI update: $projectDirectory"
+	cd $projectDirectory
+	cd (Split-Path $projectPath)
+	webui
+	cd $myloc
+}
+
 function UpdateProjectVersion {
 	Param (
 		[string] $projectPath,
@@ -58,6 +70,8 @@ function UpdateProjectVersion {
 		Write-Host "Already up to date - $projectPath - $newXML" -ForegroundColor Cyan
 		if ($updateCargo -eq $true) {
 			UpdateCargo $projectPath
+		} else {
+			UpdateWebUI $projectPath
 		}
 		return;
 	}
@@ -66,6 +80,8 @@ function UpdateProjectVersion {
 	Write-Host "Updated - $projectPath" -ForegroundColor Green
 	if ($updateCargo -eq $true) {
 		UpdateCargo $projectPath
+	} else {
+		UpdateWebUI $projectPath
 	}
 }
 
