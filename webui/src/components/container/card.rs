@@ -197,7 +197,7 @@ pub struct CardsProps {
 #[function_component(Cards)]
 pub fn cards(props: &CardsProps) -> Html {
     let classes = &mut Classes::new();
-    classes.push("card");
+    classes.push("cards page-segment-cards");
 
     if props.elevation > 0 {
         classes.push(format!("elevation-{}", props.elevation));
