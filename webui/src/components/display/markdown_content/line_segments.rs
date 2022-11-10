@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 const PTN_ANCHOR: &str = r"\[[^\]]+\]\([^\)]+\)";
 const PTN_ANCHOR_SEGMENTS: &str =
-    r#"\[(?P<display>[^\]]+)\]\((?P<url>[^ \)]+) ?"?(?P<title>[^"]*)"?\)"#;
+    r#"\[(?P<display>[^\]]+)\]\((?P<url>[^"\)]+)"?(?P<title>[^"]*)"?\)"#;
 const PTN_AVATAR: &str = r"!\[[^\]]*\]\([^\)]+\)";
 const PTN_AVATAR_SEGMENTS: &str = r#"!\[?(?P<alt>[^\]]+)\]\((?P<url>[^\)]+)\)"#;
 pub(super) fn render_line_segment(segment: &str) -> Html {
@@ -18,7 +18,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
                     .filter_map(|n| Some((n, caps.name(n)?.as_str())))
                     .collect();
                 let alt = map.get("alt").unwrap_or(&"").to_string();
-                let url = map.get("url").unwrap_or(&"").to_string();
+                let url = map.get("url").unwrap_or(&"").trim().to_string();
                 let icon = if url.starts_with("fa-") {
                     Some(url.to_owned())
                 } else {
