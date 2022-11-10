@@ -96,7 +96,7 @@
 				ev.stopPropagation();
 				return false;
 			}
-			return false;
+			return true;
 		});
 		setupWatchers();
 		setTimeout(()=> {
