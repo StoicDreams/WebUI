@@ -1,13 +1,13 @@
 use crate::*;
 
 #[derive(Properties, PartialEq)]
-pub(crate) struct NextProps {
+pub(crate) struct NextPageProps {
     pub display: Option<String>,
     pub url: String,
 }
 
-#[function_component(Next)]
-pub(crate) fn next(props: &NextProps) -> Html {
+#[function_component(NextPage)]
+pub(crate) fn next_page(props: &NextPageProps) -> Html {
     let display = match props.display.to_owned() {
         Some(display) => display,
         None => {

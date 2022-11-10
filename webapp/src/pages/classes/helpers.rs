@@ -5,7 +5,7 @@ pub(crate) fn page_classes_helpers() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/classes/helpers.md" />
-            <Next url="/classes/themes" />
+            <NextPage url="/classes/themes" />
         </>
     }
 }

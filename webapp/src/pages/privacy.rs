@@ -14,7 +14,7 @@ pub(crate) fn page_privacy() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/privacy.md" {tags} />
-            <Next url="/terms" />
+            <NextPage url="/terms" />
         </>
     }
 }

@@ -6,7 +6,7 @@ pub(crate) fn page_about() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/about.md" />
-            <Next url="/" />
+            <NextPage url="/" />
         </>
     }
 }

@@ -5,7 +5,7 @@ pub mod header_strip_bar;
 pub mod info_panel;
 
 /// Module for Next button display
-pub mod next;
+pub mod next_page;
 
 /// Module for jasper.ai link
 pub mod jasper_link;

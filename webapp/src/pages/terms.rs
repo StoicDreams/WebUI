@@ -14,7 +14,7 @@ pub(crate) fn page_terms() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/terms.md" {tags} />
-            <Next url="/privacy" />
+            <NextPage url="/privacy" />
         </>
     }
 }

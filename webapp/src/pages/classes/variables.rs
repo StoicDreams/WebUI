@@ -5,7 +5,7 @@ pub(crate) fn page_classes_variables() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/classes/variables.md" />
-            <Next url="/components/containers" />
+            <NextPage url="/components/containers" />
         </>
     }
 }

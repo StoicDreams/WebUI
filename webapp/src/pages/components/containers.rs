@@ -6,7 +6,7 @@ pub(crate) fn page_components_containers() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/components/containers.md" />
-            <Next url="/components/display" />
+            <NextPage url="/components/display" />
         </>
     }
 }

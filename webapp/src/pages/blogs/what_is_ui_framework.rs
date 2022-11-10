@@ -6,7 +6,7 @@ pub(crate) fn page_blogs_what_is_ui_framework() -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/blogs/what_is_ui_framework.md" />
-            <Next url="/" />
+            <NextPage url="/" />
         </>
     }
 }
