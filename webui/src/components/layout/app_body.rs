@@ -46,7 +46,7 @@ impl Component for AppBody {
         let page_el = format!("page{}", path.replace("-", "_").replace("/", "__"));
         html! {
             <main>
-                <@{page_el}>
+                <@{page_el} class="paper">
                     {(get_page_content(app_config.nav_routing, &path))()}
                 </@>
             </main>
