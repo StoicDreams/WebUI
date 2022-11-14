@@ -115,8 +115,7 @@ main {
 	display: flex;
 	flex-direction: column;
 	margin: 0;
-	padding: var(--padding);
-	padding-bottom: calc(var(--padding) + var(--footer-height));
+	padding: 0;
 	max-height: 100%;
 	height: calc(var(--window-height) - var(--header-height) - var(--footer-height));
 	overflow: hidden;
@@ -127,6 +126,8 @@ main > .paper {
 	display: flex;
 	flex-direction: column;
 	margin: 0;
+	padding: var(--padding);
+	padding-bottom: calc(var(--padding) + var(--footer-height));
 	height: 100%;
 	max-height: 100%;
 	width: 100%;

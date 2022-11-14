@@ -8,10 +8,6 @@ edition = "2021"
 [dependencies]
 webui = { path = "../webui" }
 yew = "0.19"
-#js-sys = "0.3"
-#wasm-bindgen = "0.2"
-#wasm-bindgen-futures = "0.4"
-#wasm-logger = "0.2"
 
 [profile.dev]
 opt-level = "s"
