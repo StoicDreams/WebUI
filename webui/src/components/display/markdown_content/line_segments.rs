@@ -177,7 +177,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
 fn get_next_split(segment: &str) -> String {
     let mut next_split = String::new();
     let mut index = segment.len();
-    for item in ["^", "~", "*", "**", "==", "\"", "`"] {
+    for item in ["^", "~", "**", "==", "\"", "`"] {
         match index_of(segment, item) {
             Some(match_index) => {
                 if match_index < index {
