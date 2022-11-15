@@ -169,7 +169,11 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
             })
         }
         _ => {
-            html!(<span>{ segment }</span>)
+            if segment.is_empty() {
+                html!()
+            } else {
+                html!(<span>{ segment }</span>)
+            }
         }
     }
 }
