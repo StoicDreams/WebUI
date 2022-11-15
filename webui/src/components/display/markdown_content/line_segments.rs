@@ -62,6 +62,21 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
             }
         };
     }
+    if segment.contains("\"") {
+        let subs = segment.split("\"");
+        let mut is_code = true;
+        return html!({
+            subs.map(|sub| {
+                is_code = !is_code;
+                if is_code {
+                    html!({ render_raw_line(sub) })
+                } else {
+                    html!({ render_line_segment(sub) })
+                }
+            })
+            .collect::<Html>()
+        });
+    }
     if segment.contains("`") {
         let subs = segment.split("`");
         let mut is_code = true;
