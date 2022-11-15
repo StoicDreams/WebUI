@@ -197,7 +197,13 @@ fn index_of(segment: &str, substring: &str) -> Option<usize> {
         return None;
     }
     match subs.next() {
-        Some(sub) => Some(sub.len()),
+        Some(sub) => {
+            if sub.len() == 0 {
+                None
+            } else {
+                Some(sub.len())
+            }
+        }
         None => None,
     }
 }
