@@ -188,6 +188,17 @@ fn get_next_split(segment: &str) -> String {
             None => (),
         }
     }
+    for item in ["*"] {
+        match index_of(segment, item) {
+            Some(match_index) => {
+                if match_index < index {
+                    index = match_index;
+                    next_split = item.to_string();
+                }
+            }
+            None => (),
+        }
+    }
     next_split
 }
 
@@ -199,9 +210,19 @@ fn index_of(segment: &str, substring: &str) -> Option<usize> {
     match subs.next() {
         Some(sub) => {
             if sub.len() == 0 {
+                ()
+            } else {
+                return Some(sub.len());
+            }
+        }
+        None => return None,
+    }
+    match subs.next() {
+        Some(sub) => {
+            if sub.len() == 0 {
                 None
             } else {
-                Some(sub.len())
+                return Some(0);
             }
         }
         None => None,
