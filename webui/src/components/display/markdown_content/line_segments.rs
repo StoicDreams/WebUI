@@ -1,5 +1,5 @@
 use super::*;
-use std::collections::HashMap;
+use std::{collections::HashMap, ops::Index};
 
 const PTN_ANCHOR: &str = r"\[[^\]]+\]\([^\)]+\)";
 const PTN_ANCHOR_SEGMENTS: &str =
@@ -62,110 +62,142 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
             }
         };
     }
-    if segment.contains("\"") {
-        let subs = segment.split("\"");
-        let mut is_code = true;
-        return html!({
-            subs.map(|sub| {
-                is_code = !is_code;
-                if is_code {
-                    html!({ render_raw_line(sub) })
-                } else {
-                    html!({ render_line_segment(sub) })
-                }
+    match get_next_split(segment).as_str() {
+        "`" => {
+            let subs = segment.split("`");
+            let mut is_code = true;
+            html!({
+                subs.map(|sub| {
+                    is_code = !is_code;
+                    if is_code {
+                        html!(<code>{render_raw_line(sub)}</code>)
+                    } else {
+                        html!({ render_line_segment(sub) })
+                    }
+                })
+                .collect::<Html>()
             })
-            .collect::<Html>()
-        });
-    }
-    if segment.contains("`") {
-        let subs = segment.split("`");
-        let mut is_code = true;
-        return html!({
-            subs.map(|sub| {
-                is_code = !is_code;
-                if is_code {
-                    html!(<code>{render_raw_line(sub)}</code>)
-                } else {
-                    html!({ render_line_segment(sub) })
-                }
+        }
+        "\"" => {
+            let subs = segment.split("\"");
+            let mut is_code = true;
+            html!({
+                subs.map(|sub| {
+                    is_code = !is_code;
+                    if is_code {
+                        html!({ render_raw_line(sub) })
+                    } else {
+                        html!({ render_line_segment(sub) })
+                    }
+                })
+                .collect::<Html>()
             })
-            .collect::<Html>()
-        });
-    }
-    if segment.contains("**") {
-        let subs = segment.split("**");
-        let mut is_strong = true;
-        return html!({
-            subs.map(|sub| {
-                is_strong = !is_strong;
-                if is_strong {
-                    html!(<strong>{render_line_segment(sub)}</strong>)
-                } else {
-                    html!({ render_line_segment(sub) })
-                }
+        }
+        "**" => {
+            let subs = segment.split("**");
+            let mut is_strong = true;
+            html!({
+                subs.map(|sub| {
+                    is_strong = !is_strong;
+                    if is_strong {
+                        html!(<strong>{render_line_segment(sub)}</strong>)
+                    } else {
+                        html!({ render_line_segment(sub) })
+                    }
+                })
+                .collect::<Html>()
             })
-            .collect::<Html>()
-        });
-    }
-    if segment.contains("==") {
-        let subs = segment.split("==");
-        let mut is_highlight = true;
-        return html!({
-            subs.map(|sub| {
-                is_highlight = !is_highlight;
-                if is_highlight {
-                    html!(<mark>{render_line_segment(sub)}</mark>)
-                } else {
-                    html!({ render_line_segment(sub) })
-                }
+        }
+        "==" => {
+            let subs = segment.split("==");
+            let mut is_highlight = true;
+            html!({
+                subs.map(|sub| {
+                    is_highlight = !is_highlight;
+                    if is_highlight {
+                        html!(<mark>{render_line_segment(sub)}</mark>)
+                    } else {
+                        html!({ render_line_segment(sub) })
+                    }
+                })
+                .collect::<Html>()
             })
-            .collect::<Html>()
-        });
-    }
-    if segment.contains("*") {
-        let subs = segment.split("*");
-        let mut is_ital = true;
-        return html!({
-            subs.map(|sub| {
-                is_ital = !is_ital;
-                if is_ital {
-                    html!(<i>{render_line_segment(sub)}</i>)
-                } else {
-                    html!({ render_line_segment(sub) })
-                }
+        }
+        "*" => {
+            let subs = segment.split("*");
+            let mut is_ital = true;
+            html!({
+                subs.map(|sub| {
+                    is_ital = !is_ital;
+                    if is_ital {
+                        html!(<i>{render_line_segment(sub)}</i>)
+                    } else {
+                        html!({ render_line_segment(sub) })
+                    }
+                })
+                .collect::<Html>()
             })
-            .collect::<Html>()
-        });
-    }
-    if segment.contains("~") {
-        let subs = segment.split("~");
-        let mut is_subscript = true;
-        return html!({
-            subs.map(|sub| {
-                is_subscript = !is_subscript;
-                if is_subscript {
-                    html!(<sub>{render_line_segment(sub)}</sub>)
-                } else {
-                    html!({ render_line_segment(sub) })
-                }
+        }
+        "~" => {
+            let subs = segment.split("~");
+            let mut is_subscript = true;
+            html!({
+                subs.map(|sub| {
+                    is_subscript = !is_subscript;
+                    if is_subscript {
+                        html!(<sub>{render_line_segment(sub)}</sub>)
+                    } else {
+                        html!({ render_line_segment(sub) })
+                    }
+                })
+                .collect::<Html>()
             })
-            .collect::<Html>()
-        });
-    }
-    if segment.contains("^") {
-        let subs = segment.split("^");
-        let mut is_super = true;
-        return html!({
-            subs.map(|sub| {
-                is_super = !is_super;
-                if is_super {
-                    html!(<sup>{render_line_segment(sub)}</sup>)
-                } else {
-                    html!({ render_line_segment(sub) })
-                }
+        }
+        "^" => {
+            let subs = segment.split("^");
+            let mut is_super = true;
+            html!({
+                subs.map(|sub| {
+                    is_super = !is_super;
+                    if is_super {
+                        html!(<sup>{render_line_segment(sub)}</sup>)
+                    } else {
+                        html!({ render_line_segment(sub) })
+                    }
+                })
+                .collect::<Html>()
             })
-            .collect::<Html>()
-        });
+        }
+        _ => {
+            html!(<span>{ segment }</span>)
+        }
     }
-    html!(<span>{ segment }</span>)
+}
+
+fn get_next_split(segment: &str) -> String {
+    let mut next_split = String::new();
+    let mut index = segment.len();
+    for item in ["^", "~", "*", "**", "==", "\"", "`"] {
+        match index_of(segment, item) {
+            Some(match_index) => {
+                if match_index < index {
+                    index = match_index;
+                    next_split = item.to_string();
+                }
+            }
+            None => (),
+        }
+    }
+    next_split
+}
+
+fn index_of(segment: &str, substring: &str) -> Option<usize> {
+    let mut subs = segment.clone().split(substring);
+    if subs.clone().count() == 1 {
+        return None;
+    }
+    match subs.next() {
+        Some(sub) => Some(sub.len()),
+        None => None,
+    }
 }
