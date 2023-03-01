@@ -90,10 +90,10 @@ Delete any starter files that need refeshing (index.html, etc) and run `webui`
 webui
 ```
 
-Run `trunk server --open` from your project root to run your site locally.
+Run `trunk server --open` from your UI project root (e.g. `webapp`) to run your site locally.
 
 ```bash
-trunk server --open
+trunk serve --open
 ```
 
 ### Increment Versions after updates
