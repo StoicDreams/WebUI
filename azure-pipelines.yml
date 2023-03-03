@@ -10,8 +10,8 @@ stages:
   jobs:
   - job: CICD
     displayName: 'Build, Test, and Deploy Website'
-    pool:
-      vmImage: 'windows-latest'
+    pool: Default
+    #  vmImage: 'windows-latest'
     steps:
       - task: PowerShell@2
         displayName: 'Set Build Target'
@@ -64,14 +64,15 @@ stages:
 #          scriptType: pscore
 #          scriptLocation: inlineScript
 #          inlineScript: 'az storage blob delete-batch -s ''$web'' --account-name $(accountName)'
-      - task: AzureFileCopy@2
+      - task: AzureCLI@2
         displayName: 'Copy Files to Azure Blob Storage'
         inputs:
-          SourcePath: '$(System.DefaultWorkingDirectory)/$(appName)/dist'
-          azureSubscription: $(azureConnection)
-          Destination: AzureBlob
-          storage: $(accountName)
-          ContainerName: '$web'
+          azureSubscription: '$(azureSubscription)'
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            $Container = '$web'
+            az storage copy -s '$(System.DefaultWorkingDirectory)/$(appName)/dist/*' --destination-account-name $(accountName) --destination-container $Container --recursive
       - task: AzureCLI@2
         displayName: 'Set Correct Content-Type Attributes'
         inputs:
