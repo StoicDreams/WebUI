@@ -10,6 +10,7 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
+    run("echo", &format!("echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\""), None);
     rc("webui", Some("webapp"));
     run("cargo", "fmt", None);
     run("cargo", "update", None);
