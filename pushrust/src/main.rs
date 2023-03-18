@@ -1,7 +1,6 @@
 use clap::Parser;
-use std::fs;
+use powershell_script::PsScriptBuilder;
 use std::path::Path;
-use std::process::Command;
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -18,7 +17,7 @@ fn main() {
     run("cargo", "test", None);
     build_sitemap();
     run_ma("git", &["add", "-A"], None);
-    run_ma("git", &["commit", "-m", &args.commit], None);
+    run_ma("git", &["commit", "-m", &format!("\"{}\"", &args.commit)], None);
     run_ma("git", &["push", "-u", "origin", "main"], None);
     run("echo", "Finished Successfully", None);
 }
@@ -47,22 +46,26 @@ fn run(command: &str, commandarg: &str, directory: Option<&str>) {
 }
 
 fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
-    println!("Running Command: {} {:?}", command, commandargs);
-    let mut com = Command::new(command);
-    let com = com.args(commandargs);
+    let ps = PsScriptBuilder::new()
+        .no_profile(true)
+        .non_interactive(true)
+        .hidden(false)
+        .print_commands(true)
+        .build();
+    let mut script = format!("{} {}", command, commandargs.join(&" "));
     match directory {
         Some(directory) => {
-            com.current_dir(directory);
+            script = format!(
+                "{}
+{}",
+                directory, script
+            );
             ()
         }
         None => (),
     };
-    let output = com.output().expect("BAD");
-
-    if !output.status.success() {
-        let s = String::from_utf8_lossy(&output.stderr);
-        panic!("Failed command {}:\n{}", command, s);
-    }
-
-    println!("{}", String::from_utf8_lossy(&output.stdout));
+    println!("Running Command: {}", script);
+    let output = ps.run(&script).unwrap();
+    let result = output.stdout().unwrap_or_default();
+    println!("Result: {}", result);
 }

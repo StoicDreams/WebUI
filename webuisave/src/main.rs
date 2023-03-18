@@ -45,15 +45,16 @@ fn main() {
 
 /// Copy static files from webapp to webui
 ///
+/// This is for WebUI dev only.
 /// Active dev updates files in webapp.
 /// When saving, we want to copy these files over to their counterpart in webui.
 fn copy_static_files() {
-    fs::copy(
-        "webapp/css/webui.css",
-        "webui/src/static_files/css/webui.css",
-    )
-    .unwrap();
-    fs::copy("webapp/js/webui.js", "webui/src/static_files/js/webui.js").unwrap();
+    let web_app_css = "webapp/css/webui.css";
+    let web_ui_css = "webui/src/static_files/css/webui.css";
+    let web_app_js = "webapp/js/webui.js";
+    let web_ui_js = "webui/src/static_files/js/webui.js";
+    fs::copy(web_app_css, web_ui_css).unwrap();
+    fs::copy(web_app_js, web_ui_js).unwrap();
 }
 
 fn run(command: &str, commandarg: &str) {
