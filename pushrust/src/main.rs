@@ -56,7 +56,7 @@ fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
     match directory {
         Some(directory) => {
             script = format!(
-                "{}
+                "cd {}
 {}",
                 directory, script
             );
