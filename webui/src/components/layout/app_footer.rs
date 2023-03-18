@@ -13,7 +13,7 @@ pub(crate) fn app_footer() -> Html {
             <AppDrawerButton info={left_drawer_info.clone()} />
             <Paper class="flex-grow" />
             <Paper>
-                {format!("© {} {} All Rights Reserved", "2023", app_config.company_name)}
+                {format!("© {} {} All Rights Reserved", "2010-2023", app_config.company_name)}
             </Paper>
             <AppDrawerButton info={bottom_drawer_info.clone()} />
             <Paper class="flex-grow" />
