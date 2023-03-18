@@ -10,7 +10,11 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    run("echo", &format!("echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\""), None);
+    run(
+        "echo",
+        &format!("echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\""),
+        None,
+    );
     rc("webui", Some("webapp"));
     run("cargo", "fmt", None);
     run("cargo", "update", None);
@@ -18,7 +22,11 @@ fn main() {
     run("cargo", "test", None);
     build_sitemap();
     run_ma("git", &["add", "-A"], None);
-    run_ma("git", &["commit", "-m", &format!("\"{}\"", &args.commit)], None);
+    run_ma(
+        "git",
+        &["commit", "-m", &format!("\"{}\"", &args.commit)],
+        None,
+    );
     run_ma("git", &["push", "-u", "origin", "main"], None);
     run("echo", "Finished Successfully", None);
 }

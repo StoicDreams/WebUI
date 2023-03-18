@@ -1,5 +1,7 @@
 # Rust Web UI Workspace - Stoic Dreams
 
+## Version 0.3.25
+
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
 [View on crates.io - crates.io/crates/webui](https://crates.io/crates/webui)
