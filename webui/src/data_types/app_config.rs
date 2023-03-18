@@ -21,6 +21,7 @@ pub struct AppConfig {
     pub footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
     pub header_strip_bar: Option<fn() -> Html>,
     pub user_info_panel: Option<fn() -> Html>,
+    pub copyright_year_start: Option<i16>,
 }
 
 /// Struct holding App/Website configuration details.
@@ -44,6 +45,7 @@ pub struct AppConfigBuilder {
     pub(crate) footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) header_strip_bar: Option<fn() -> Html>,
     pub(crate) user_info_panel: Option<fn() -> Html>,
+    pub(crate) copyright_year_start: Option<i16>,
 }
 impl AppConfig {
     /// Create an AppConfigBuilder instance to build your AppConfig with.
@@ -82,6 +84,7 @@ impl AppConfig {
             footer_bottom_drawer_toggle: None,
             header_strip_bar: None,
             user_info_panel: None,
+            copyright_year_start: None,
         }
     }
     pub fn get_nav_from_path(&self, path: &str) -> Option<NavLinkInfo> {
@@ -129,6 +132,7 @@ impl AppConfigBuilder {
             footer_bottom_drawer_toggle: self.footer_bottom_drawer_toggle.to_owned(),
             header_strip_bar: self.header_strip_bar.to_owned(),
             user_info_panel: self.user_info_panel.to_owned(),
+            copyright_year_start: self.copyright_year_start.to_owned(),
         }
     }
 
@@ -220,6 +224,11 @@ impl AppConfigBuilder {
     /// Set extra content to display in the header, between the middle togle button and the user info panel
     pub fn set_user_info_panel(self: &mut Self, info_panel: fn() -> Html) -> &mut Self {
         self.user_info_panel = Some(info_panel);
+        self
+    }
+    /// Set copyright years
+    pub fn set_copyright_start(self: &mut Self, copyright_start: i16) -> &mut Self {
+        self.copyright_year_start = Some(copyright_start);
         self
     }
 }

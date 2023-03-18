@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.3.25"#sync
+version = "0.3.26"#sync
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 keywords = ["webassembly", "ui"]
@@ -31,3 +31,4 @@ reqwest = "0.11"
 regex = "1"
 futures = "0.3"
 async-std = {version = "1.12", features = ["attributes"] }
+chrono = "0.4"
