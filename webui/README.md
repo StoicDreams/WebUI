@@ -76,7 +76,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.3.23"
+webui = "0.3.24"
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/RustWebUI", branch = "main" }
 ```

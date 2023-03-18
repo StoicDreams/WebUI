@@ -39,7 +39,7 @@ pub fn button(props: &ButtonProps) -> Html {
         None => Callback::default(),
     };
     html! {
-        <button type="button" class={classes.to_owned()} title={props.title.to_string()} onclick={onclick}>
+        <button type="button" class={classes.to_owned()} title={props.title.to_string()} aria-label={props.title.to_string()} onclick={onclick}>
             {for props.children.iter()}
         </button>
     }

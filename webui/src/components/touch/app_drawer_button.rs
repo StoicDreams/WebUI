@@ -90,7 +90,8 @@ impl Component for AppDrawerButton {
                     Some(drawer_info) => {
                         let btn_class = if drawer_info.class.is_empty() {"btn toggle elevation-1".to_string()} else {drawer_info.class.to_string()};
                         html! {
-                            <button type="button" title={drawer_info.title} class={props.class.to_string()}
+                            <button type="button" title={drawer_info.title.to_string()} class={props.class.to_string()}
+                                aria-label={drawer_info.title.to_string()}
                                 onclick={setup_onclick}>
                                 <span class={btn_class}>{(drawer_info.display)()}</span>
                                 {match &self.logo_src {
