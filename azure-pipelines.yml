@@ -10,6 +10,8 @@ stages:
   jobs:
   - job: CICD
     displayName: 'Build, Test, and Deploy Website'
+    workspace:
+      clean: outputs | resources | all
     pool: Default
     #  vmImage: 'windows-latest'
     steps:
