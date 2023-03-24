@@ -1,5 +1,6 @@
 use clap::Parser;
 use std::fs;
+use std::path::Path;
 use std::process::Command;
 
 #[derive(Parser, Debug)]
@@ -32,6 +33,7 @@ fn main() {
     run("cargo", "update");
     run("cargo", "build");
     run("cargo", "test");
+    build_sitemap();
     run_ma("cargo", &["install", "--path", "webui"]);
     run_ma("git", &["add", "-A"]);
     run_ma("git", &["commit", "-m", &args.commit]);
@@ -55,6 +57,21 @@ fn copy_static_files() {
     let web_ui_js = "webui/src/static_files/js/webui.js";
     fs::copy(web_app_css, web_ui_css).unwrap();
     fs::copy(web_app_js, web_ui_js).unwrap();
+}
+
+fn build_sitemap() {
+    let sitemap_file = Path::new("./PowerShell/BuildSiteMap.ps1");
+    if !sitemap_file.exists() {
+        println!("Missing Sitemap Builder - expected file PowerShell/BuildSiteMap.ps1");
+        return;
+    }
+    let nav_file = Path::new("./webapp/src/nav_menu.rs");
+    if !nav_file.exists() {
+        println!("Missing Nav Menu File - expected file webapp/src/nav_menu.rs");
+        return;
+    }
+    println!("Running Sitemap Builder");
+    run("pwsh", sitemap_file.as_os_str().to_str().unwrap());
 }
 
 fn run(command: &str, commandarg: &str) {

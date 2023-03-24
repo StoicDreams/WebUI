@@ -25,7 +25,7 @@ fn handle_confirm() -> bool {
                 Ok(post_body) => {
                     let result = async_std::task::block_on(async move {
                         let response = fetch(FetchRequest::new(
-                            "https://api.myfi.ws/Feedback".to_string(),
+                            "https://feedback.myfi.ws/api/new".to_string(),
                             FetchMethod::Post(post_body.to_string()),
                         ))
                         .await;
