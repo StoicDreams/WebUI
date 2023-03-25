@@ -31,10 +31,6 @@ pub struct DrawerToggleInfoBuilder {
     confirm_display: String,
 }
 
-async fn test() -> bool {
-    false
-}
-
 impl DrawerToggleInfo {
     pub fn new(
         title: String,

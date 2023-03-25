@@ -26,6 +26,8 @@ pub mod interop;
 pub use async_std;
 use components::layout::app::start_webui_app;
 pub use futures;
+use js_sys::Function;
+pub use lazy_static::*;
 pub use prelude::*;
 pub use rust_decimal_macros::*;
 pub use serde;
@@ -41,6 +43,15 @@ pub use yew_hooks;
 
 pub fn empty_html() -> Html {
     html! {}
+}
+
+pub fn get_window() -> web_sys::Window {
+    web_sys::window().unwrap()
+}
+
+pub fn set_timeout(handler: &Function, milliseconds: i32) -> Result<i32, JsValue> {
+    let window = get_window();
+    window.set_timeout_with_callback_and_timeout_and_arguments_0(handler, milliseconds)
 }
 
 /// Initializer to run in app main() to start website

@@ -1,3 +1,5 @@
+use std::rc::Rc;
+
 use crate::*;
 
 /// Properties for app drawer components
@@ -14,9 +16,11 @@ pub(crate) struct AppDrawerState {
     pub content: Option<AppDrawerOptions>,
 }
 
+// #[derive(Clone)]
 pub(crate) struct AppDrawer {
     app_drawer_agent: Box<dyn Bridge<AppDrawerAgent>>,
     is_open: bool,
+    is_transition: bool,
     content: AppDrawerOptions,
     click_handler: ClickHandler,
 }
@@ -47,16 +51,48 @@ impl ClickHandler {
 }
 
 impl AppDrawer {
-    fn toggle_state(&mut self, content_ref: Option<AppDrawerOptions>) {
+    fn set_transition(&mut self, ctx: &yew::Context<Self>, is_open: bool) -> bool {
+        if self.is_open == is_open {
+            return false;
+        }
+        let ctx_tran = ctx
+            .link()
+            .callback(|val: bool| AppDrawerReceiverMessage::SetIsTransition(val));
+        let ctx_open = ctx
+            .link()
+            .callback(|val: bool| AppDrawerReceiverMessage::SetIsOpen(val));
+        ctx_tran.emit(true);
+        set_timeout!(1, move || {
+            ctx_open.emit(is_open);
+        });
+        log(format!("Apply transition"));
+        set_timeout!(300, move || {
+            log(format!("Timeout run"));
+            ctx_tran.emit(false);
+        });
+        // let test = move || {
+        // 	log(format!("Timeout run"));
+        // 	ctx_tran.emit(false);
+        // };
+        // let callback = Closure::wrap(Box::new(test) as Box<dyn FnMut()>);
+        // _ = set_timeout(callback.as_ref().unchecked_ref(), 300);
+        // callback.forget();
+        log(format!("End apply transition"));
+        true
+    }
+
+    fn toggle_state(&mut self, ctx: &yew::Context<Self>, content_ref: Option<AppDrawerOptions>) {
         match content_ref {
             Some(options) => {
-                self.is_open = options.display_ref > 0 && !self.is_open;
+                self.set_transition(ctx, options.display_ref > 0 && !self.is_open);
+                // self.is_open = options.display_ref > 0 && !self.is_open;
                 if options.display_ref > 0 {
                     self.content = options.clone();
                 }
             }
             None => {
-                self.is_open = false;
+                self.set_transition(ctx, false);
+                // self.is_open = false;
             }
         }
     }
@@ -75,6 +111,7 @@ impl Component for AppDrawer {
                     .callback(AppDrawerReceiverMessage::AppDrawerMessage),
             ),
             is_open: false,
+            is_transition: false,
             content: AppDrawerOptions::new("Loading...".to_owned(), || html! {}).build(),
             click_handler: ClickHandler {
                 drawer: ctx.props().drawer.to_owned(),
@@ -83,7 +120,7 @@ impl Component for AppDrawer {
     }
 
     fn update(&mut self, ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
-        let is_open = self.is_open.clone();
+        // let is_open = self.is_open.clone();
         match msg {
             AppDrawerReceiverMessage::AppDrawerMessage(message) => {
                 match message {
@@ -91,28 +128,38 @@ impl Component for AppDrawer {
                         if ctx.props().drawer != Direction::Top {
                             return false;
                         }
-                        self.toggle_state(fnval);
+                        self.toggle_state(ctx, fnval);
                     }
                     AppDrawerRequest::ToggleRightDrawer(fnval) => {
                         if ctx.props().drawer != Direction::Right {
                             return false;
                         }
-                        self.toggle_state(fnval);
+                        self.toggle_state(ctx, fnval);
                     }
                     AppDrawerRequest::ToggleBottomDrawer(fnval) => {
                         if ctx.props().drawer != Direction::Bottom {
                             return false;
                         }
-                        self.toggle_state(fnval);
+                        self.toggle_state(ctx, fnval);
                     }
                     AppDrawerRequest::ToggleLeftDrawer(fnval) => {
                         if ctx.props().drawer != Direction::Left {
                             return false;
                         }
-                        self.toggle_state(fnval);
+                        self.toggle_state(ctx, fnval);
                     }
                 }
-                is_open != self.is_open
+                // self.set_transition(ctx, is_open != self.is_open);
+                // is_open != self.is_open
+                false
+            }
+            AppDrawerReceiverMessage::SetIsOpen(is_open) => {
+                self.is_open = is_open;
+                true
+            }
+            AppDrawerReceiverMessage::SetIsTransition(is_transition) => {
+                self.is_transition = is_transition;
+                true
             }
             AppDrawerReceiverMessage::None => false,
         }
@@ -144,7 +191,12 @@ impl Component for AppDrawer {
         let close_x_click = self.click_handler.to_owned();
         let close_click = self.click_handler.to_owned();
         let confirm_click = self.click_handler.to_owned();
-
+        log(format!("app drawer render"));
+        if !self.is_open && !self.is_transition {
+            return html! {
+                <></>
+            };
+        }
         html! {
             <aside class={class}>
                 <div class="drawer-placement">

@@ -114,6 +114,8 @@ pub enum AppDrawerRequest {
 
 pub enum AppDrawerReceiverMessage {
     AppDrawerMessage(AppDrawerRequest),
+    SetIsOpen(bool),
+    SetIsTransition(bool),
     None,
 }
 

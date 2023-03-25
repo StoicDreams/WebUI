@@ -11,5 +11,8 @@ pub mod list_items;
 /// <p>text segment</p>
 pub mod paragraphs;
 
+/// Macros for syncing between threads and asynchronous processing
+pub mod sync;
+
 /// Macros for displaying section titles
 pub mod titles;

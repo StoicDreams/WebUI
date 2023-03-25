@@ -52,6 +52,8 @@ impl Component for AppDrawerButton {
                 self.app_drawer_agent.send(message);
                 false
             }
+            AppDrawerReceiverMessage::SetIsOpen(_is_open) => false,
+            AppDrawerReceiverMessage::SetIsTransition(_is_transition) => false,
             AppDrawerReceiverMessage::None => false,
         }
     }

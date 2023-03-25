@@ -1,5 +1,6 @@
 pub use crate::actors::fetch::*;
 pub use crate::actors::global_data::*;
+pub use crate::actors::input_state::*;
 pub use crate::agents::app_drawer_agent::*;
 pub use crate::agents::app_state_agent::*;
 pub use crate::common::classes::*;
