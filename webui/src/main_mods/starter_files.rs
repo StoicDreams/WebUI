@@ -10,7 +10,7 @@ pub fn add_file(dest_path: &str, contents: &str) {
         Path::file_name(&dest_path).unwrap().to_str().unwrap()
     );
     fs::create_dir_all(Path::parent(&dest_path).unwrap()).unwrap();
-    fs::write(&dest_path, &contents).unwrap();
+    fs::write(&dest_path, contents).unwrap();
 }
 
 pub fn add_file_if_missing(dest_path: &str, contents: &str) {
@@ -28,5 +28,5 @@ pub fn add_file_if_missing(dest_path: &str, contents: &str) {
         Path::file_name(&dest_path).unwrap().to_str().unwrap()
     );
     fs::create_dir_all(Path::parent(&dest_path).unwrap()).unwrap();
-    fs::write(&dest_path, &contents).unwrap();
+    fs::write(&dest_path, contents).unwrap();
 }

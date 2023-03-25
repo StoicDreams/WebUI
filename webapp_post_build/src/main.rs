@@ -10,7 +10,7 @@ struct Args {
 }
 
 fn main() {
-    let args = Args::parse();
+    let _args = Args::parse();
     println!("Starting WebApp Post Build!");
     copy_root_files_to_dist();
     println!("Finished Web UI Post Build Successfully!");
@@ -65,7 +65,7 @@ fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
     match directory {
         Some(directory) => {
             com.current_dir(directory);
-            ()
+            
         }
         None => (),
     };

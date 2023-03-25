@@ -12,7 +12,7 @@ fn main() {
     let args = Args::parse();
     run(
         "echo",
-        &format!("echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\""),
+        "echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\"",
         None,
     );
     rc("webui", Some("webapp"));
@@ -61,7 +61,7 @@ fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
         .hidden(false)
         .print_commands(true)
         .build();
-    let mut script = format!("{} {}", command, commandargs.join(&" "));
+    let mut script = format!("{} {}", command, commandargs.join(" "));
     match directory {
         Some(directory) => {
             script = format!(
@@ -69,7 +69,7 @@ fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
 {}",
                 directory, script
             );
-            ()
+            
         }
         None => (),
     };

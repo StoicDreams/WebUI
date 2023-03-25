@@ -27,7 +27,7 @@ fn main() {
         } else if args.minor {
             version_args.push("-minor");
         }
-        run_ma("pwsh", &version_args);
+        run_ma("pwsh", version_args);
     }
     run("cargo", "fmt");
     run("cargo", "update");
