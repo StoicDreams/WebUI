@@ -87,7 +87,7 @@ pub(crate) fn get_render() -> Html {
     let mut input_clone = input_state.clone();
     let callback = Closure::wrap(Box::new(move || {
         jslog!("Callback Test");
-        input_clone.set(String::from("Hello"));
+        // input_clone.set(String::from("Hello"));
     }) as Box<dyn FnMut()>);
     // feedback_handler.set(value);
     let onchange = {
