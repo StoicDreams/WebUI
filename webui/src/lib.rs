@@ -2,6 +2,7 @@
 //!
 //! `webui` is a website framework for building webassembly SPA websites quickly and easily.
 //! Development is just getting started, so we do not recommend using at this point for anything more than experimenting.
+use std::cell::Cell;
 
 /// Actors represent intermediaries for processing specific types of requests
 pub mod actors;
@@ -83,5 +84,44 @@ pub fn set_timeout(handler: &Function, milliseconds: i32) -> Result<i32, JsValue
 /// }
 /// ```
 pub fn start_app(app_config: AppConfig) {
+    unsafe {
+        set_app_name(app_config.app_name.to_owned());
+        set_company_name(app_config.company_name.to_owned());
+    }
     start_webui_app(app_config);
+}
+
+thread_local!(static COMPANY_PLURAL: Cell<&'static str> = Cell::new("Company's"));
+thread_local!(static COMPANY_SINGULAR: Cell<&'static str> = Cell::new("Company"));
+thread_local!(static APP_NAME: Cell<&'static str> = Cell::new("Web UI App"));
+
+#[no_mangle]
+unsafe fn set_app_name(value: String) {
+    APP_NAME.with(|a: &Cell<&'static str>| a.set(Box::leak(value.into_boxed_str())));
+}
+#[no_mangle]
+unsafe fn set_company_name(value: String) {
+    let plural = format!(
+        "{}{}",
+        value,
+        if value.chars().last().unwrap() == 's' {
+            "'"
+        } else {
+            "'s"
+        }
+    );
+    COMPANY_PLURAL.with(|a: &Cell<&'static str>| a.set(Box::leak(plural.into_boxed_str())));
+    COMPANY_SINGULAR.with(|a: &Cell<&'static str>| a.set(Box::leak(value.into_boxed_str())));
+}
+
+pub fn get_app_name() -> &'static str {
+    APP_NAME.with(|a| a.get())
+}
+
+pub fn get_company_singular() -> &'static str {
+    COMPANY_SINGULAR.with(|a| a.get())
+}
+
+pub fn get_company_plural() -> &'static str {
+    COMPANY_PLURAL.with(|a| a.get())
 }

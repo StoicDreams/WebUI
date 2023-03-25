@@ -102,18 +102,23 @@ pub(crate) fn get_render() -> Html {
         })
     };
     log(format!("Render:{}", input_state.to_string()));
+    fn show_discord() -> Html {
+        let show_discord = get_company_singular() == "Stoic Dreams";
+        if !show_discord {
+            return html!();
+        }
+        html! {
+            <p>
+                {"You can also come "}
+                <Link title="Web UI at Stoic Dreams Discord server" href="https://discord.com/channels/972856291909332993/1025781071608037466">{"chat with us on the Stoic Dreams discord server."}</Link>
+            </p>
+        }
+    }
     html! {
         <>
             <Paper class="pa-1 flex-grow d-flex flex-column gap-1">
-                {paragraphs!(
-                {html!{
-                    <>
-                        {"You can also come "}
-                        <Link title="Web UI at Stoic Dreams Discord server" href="https://discord.com/channels/972856291909332993/1025781071608037466">{"chat with us on the Stoic Dreams discord server."}</Link>
-                    </>
-                }}
-                )}
-                <InputMessage class="flex-grow d-flex flex-column" key={FEEDBACK_KEY} name="Feedback" value={input_state.clone()} onchange={onchange} />
+                {show_discord()}
+                <InputMessage class="flex-grow d-flex flex-column" name="Feedback" value={input_state.clone()} onchange={onchange} />
             </Paper>
         </>
     }

@@ -15,7 +15,7 @@ Features of this website may requires the use of cookies and other browser stora
 ## 3. Use License
 
 ````section
-Permission is granted to temporarily download one copy of the materials (information or software) on {COMPANY_PLURAL} web sites and software for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
+Permission is granted to temporarily download one copy of the materials (information or software) on {get_company_plural()} web sites and software for personal, non-commercial transitory viewing only. This is the grant of a license, not a transfer of title, and under this license you may not:
 
 ```list
 modify or copy the materials;

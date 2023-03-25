@@ -6,13 +6,9 @@ mod feedback;
 mod nav_menu;
 mod pages;
 
-pub use crate::components::jasper_link::*;
-pub use crate::components::next_page::*;
-pub use crate::components::*;
-
-pub(crate) const COMPANY_PLURAL: &str = "Stoic Dreams'";
-pub(crate) const COMPANY_SINGULAR: &str = "Stoic Dreams";
-pub(crate) const APP_NAME: &str = "Web UI";
+pub(crate) use crate::components::jasper_link::*;
+pub(crate) use crate::components::next_page::*;
+pub(crate) use crate::components::*;
 
 fn main() {
     webui::start_app(setup_app_config());
