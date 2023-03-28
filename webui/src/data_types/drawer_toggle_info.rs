@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// Struct used for defining details for displaying buttons that toggle drawer content.
 #[derive(Clone, Debug, PartialEq)]
@@ -6,6 +6,7 @@ pub struct DrawerToggleInfo {
     pub(crate) display: fn() -> Html,
     pub(crate) title: String,
     pub(crate) class: String,
+    pub(crate) content_class: String,
     pub(crate) drawer: Direction,
     pub(crate) drawer_content: fn() -> Html,
     pub(crate) hide_header: bool,
@@ -21,6 +22,7 @@ pub struct DrawerToggleInfoBuilder {
     display: fn() -> Html,
     title: String,
     class: String,
+    content_class: String,
     drawer: Direction,
     drawer_content: fn() -> Html,
     hide_header: bool,
@@ -33,15 +35,16 @@ pub struct DrawerToggleInfoBuilder {
 
 impl DrawerToggleInfo {
     pub fn new(
-        title: String,
+        title: &str,
         button_display: fn() -> Html,
         drawer_content: fn() -> Html,
     ) -> DrawerToggleInfoBuilder {
         DrawerToggleInfoBuilder {
-            title,
+            title: String::from(title),
             display: button_display,
             drawer_content,
             class: String::default(),
+            content_class: String::default(),
             drawer: Direction::Bottom,
             hide_header: false,
             hide_footer: false,
@@ -51,9 +54,11 @@ impl DrawerToggleInfo {
             confirm_display: String::default(),
         }
     }
-    pub(crate) fn get_options(self: &Self) -> AppDrawerOptions {
+    pub(crate) fn get_options(&self) -> AppDrawerOptions {
         let mut builder: AppDrawerOptionsBuilder =
             AppDrawerOptions::new(self.title.to_owned(), self.drawer_content);
+        builder.set_content_class(&self.content_class);
+        builder.set_drawer(self.drawer);
         if self.hide_header {
             builder.hide_header();
         } else if self.hide_close_x {
@@ -75,14 +80,23 @@ impl DrawerToggleInfo {
 
         builder.build()
     }
+
+    // pub fn open(&self) -> () {
+    //     let option = self.get_options();
+    //     // let message = AppDrawerMessage::ToggleTopDrawer(Some(option));
+    // 	// let app_drawer = use_reducer(AppDrawerAgent::default);
+    // 	// app_drawer.clone().dispatch(AppDrawerRequest::AppDrawerMessage(message));
+    //     // AppDrawerAgent::dispatcher().send(request);
+    // }
 }
 
 impl DrawerToggleInfoBuilder {
-    pub fn build(self: &mut Self) -> DrawerToggleInfo {
+    pub fn build(&mut self) -> DrawerToggleInfo {
         DrawerToggleInfo {
             display: self.display,
             title: self.title.to_string(),
             class: self.class.to_string(),
+            content_class: self.content_class.to_string(),
             drawer: self.drawer.to_owned(),
             drawer_content: self.drawer_content,
             hide_header: self.hide_header,
@@ -93,36 +107,45 @@ impl DrawerToggleInfoBuilder {
             confirm_display: self.confirm_display.to_string(),
         }
     }
-    pub fn set_button_class(self: &mut Self, class: String) -> &mut Self {
-        self.class = class;
+    pub fn set_content_class(&mut self, class: &str) -> &Self {
+        self.content_class = String::from(class);
         self
     }
-    pub fn set_drawer(self: &mut Self, drawer: Direction) -> &mut Self {
+    pub fn set_button_class(&mut self, class: &str) -> &mut Self {
+        self.class = String::from(class);
+        self
+    }
+    pub fn set_drawer(&mut self, drawer: Direction) -> &mut Self {
         self.drawer = drawer;
         self
     }
 
-    pub fn hide_header(self: &mut Self) -> &mut Self {
+    pub fn hide_header(&mut self) -> &mut Self {
         self.hide_header = true;
         self
     }
 
-    pub fn hide_footer(self: &mut Self) -> &mut Self {
+    pub fn hide_footer(&mut self) -> &mut Self {
         self.hide_footer = true;
         self
     }
 
-    pub fn hide_cancel_button(self: &mut Self) -> &mut Self {
+    pub fn hide_cancel_button(&mut self) -> &mut Self {
         self.hide_cancel = true;
+        self
+    }
+
+    pub fn hide_close_x_button(&mut self) -> &mut Self {
+        self.hide_close_x = true;
         self
     }
 
     /// Set the confirmation display text and handler handler
     ///
     /// This button will display on the right side of the drawer footer
-    pub fn set_on_confirm(self: &mut Self, display: String, on_confirm: fn() -> bool) -> &mut Self {
+    pub fn set_on_confirm(&mut self, display: &str, on_confirm: fn() -> bool) -> &mut Self {
         self.on_confirm = Some(on_confirm);
-        self.confirm_display = display;
+        self.confirm_display = String::from(display);
         self
     }
 }

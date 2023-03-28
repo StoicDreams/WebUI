@@ -1,4 +1,4 @@
-use crate::{function_component, html, Classes, Paper, Properties};
+use crate::{function_component, html, Classes, Html, Paper, Properties};
 
 /// Properties for Image component
 #[derive(Properties, PartialEq)]

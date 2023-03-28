@@ -5,7 +5,7 @@ pub(super) fn render_code_segments(
     lines: &mut Vec<(String, String, MarkdownSegments)>,
 ) -> Html {
     let mut is_running = true;
-    let mut sec = lines.to_owned();
+    let sec = lines.to_owned();
     let mut counter = 0u32;
     html!({
         lines
@@ -15,8 +15,8 @@ pub(super) fn render_code_segments(
                 if counter < *index || !is_running {
                     return html!();
                 }
-                let mut lines = sec.to_owned();
-                let (raw_line, line, line_type) = tuple;
+                let _lines = sec.to_owned();
+                let (raw_line, _line, line_type) = tuple;
                 *index += 1;
                 match line_type {
                     MarkdownSegments::EndSection => {

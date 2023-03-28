@@ -46,10 +46,10 @@ pub struct FetchResponse {
 }
 
 impl FetchResponse {
-    pub fn is_ok(self: &Self) -> bool {
+    pub fn is_ok(&self) -> bool {
         self.status >= 200 && self.status < 300
     }
-    pub fn get_result(self: &Self) -> Option<String> {
+    pub fn get_result(&self) -> Option<String> {
         self.result.to_owned()
     }
     pub fn ok(status: u16, body: String) -> Self {
@@ -118,7 +118,7 @@ pub async fn fetch(request: FetchRequest) -> FetchResponse {
                 handle_result(result).await
             }
         },
-        Err(error) => FetchResponse::error(),
+        Err(_error) => FetchResponse::error(),
     }
 }
 
@@ -129,6 +129,6 @@ async fn handle_result(result: reqwest::Result<reqwest::Response>) -> FetchRespo
             let body = response.text().await.unwrap_or_default();
             FetchResponse::ok(status, body)
         }
-        Err(err) => FetchResponse::error(),
+        Err(_err) => FetchResponse::error(),
     }
 }

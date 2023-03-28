@@ -21,7 +21,7 @@ pub(super) fn render_children(
                     return html!();
                 }
                 let mut lines = sec.to_owned();
-                let (raw_line, line, line_type) = tuple;
+                let (_raw_line, line, line_type) = tuple;
                 match line_type {
                     MarkdownSegments::EndSection => {
                         *index += 1;

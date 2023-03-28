@@ -1,8 +1,6 @@
-use std::collections::HashMap;
-
-use std::sync::Mutex;
-
 use crate::*;
+use std::collections::HashMap;
+use std::sync::Mutex;
 
 /// Container for global data persisted to memory only
 ///
@@ -26,7 +24,6 @@ impl GlobalData {
                 match MY_MAP.lock() {
                     Ok(mut table) => {
                         let _ = table.insert(key.to_string(), json.to_owned());
-                        jslog!("Set global data: [{}]{}", key, json);
                     }
                     Err(error) => {
                         jslog!("Error in GlobalData.set_data: {:?}", error);

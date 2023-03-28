@@ -1,7 +1,7 @@
 use chrono::{Datelike, Utc};
 use rust_decimal::prelude::ToPrimitive;
 
-use crate::{function_component, html, use_context, AppConfig, AppDrawerButton, Paper};
+use crate::{function_component, html, use_context, AppConfig, AppDrawerButton, Html, Paper};
 
 /// App footer component
 #[function_component(AppFooter)]
@@ -29,7 +29,7 @@ pub(crate) fn app_footer() -> Html {
             if !app_config.hide_powered_by {
                 <Paper>
                     <sup>{"Powered by "}</sup>
-                    <a title="Web UI version 0.3.29" href="https://webui.stoicdreams.com">{"Web UI"}</a>
+                    <a title="Web UI version 0.4.0" href="https://webui.stoicdreams.com">{"Web UI"}</a>
                 </Paper>
             }
             <AppDrawerButton info={right_drawer_info.clone()} />

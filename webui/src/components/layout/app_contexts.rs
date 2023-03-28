@@ -7,37 +7,21 @@ pub(crate) struct AppContextsProps {
     pub app_config: AppConfig,
 }
 
-#[derive(Clone, PartialEq)]
-pub struct Agents {}
-
-pub(crate) struct AppContexts {
-    agents: Agents,
-}
-
-impl Component for AppContexts {
-    type Message = AppStateReceiverMessage;
-    type Properties = AppContextsProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self { agents: Agents {} }
-    }
-
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        match msg {
-            AppStateReceiverMessage::AppStateMessage(request) => (),
-            AppStateReceiverMessage::None => (),
-        };
-        false
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        html! {
-            <ContextProvider<AppConfig> context={props.app_config.clone()}>
-            <ContextProvider<Agents> context={self.agents.clone()}>
-                { for props.children.iter() }
-            </ContextProvider<Agents>>
-            </ContextProvider<AppConfig>>
-        }
+#[function_component(AppContexts)]
+pub(crate) fn app_contexts(props: &AppContextsProps) -> Html {
+    let app_config = &props.app_config;
+    let navigation = use_state(|| {
+        let path = interop::get_path().to_lowercase();
+        NavigationMessage::PathUpdate(path)
+    });
+    let drawers = use_state(|| DrawerMessage::None);
+    html! {
+        <ContextProvider<AppConfig> context={app_config.clone()}>
+        <ContextProvider<UseStateHandle<NavigationMessage>> context={navigation.clone()}>
+        <ContextProvider<UseStateHandle<DrawerMessage>> context={drawers.clone()}>
+            { for props.children.iter() }
+        </ContextProvider<UseStateHandle<DrawerMessage>>>
+        </ContextProvider<UseStateHandle<NavigationMessage>>>
+        </ContextProvider<AppConfig>>
     }
 }

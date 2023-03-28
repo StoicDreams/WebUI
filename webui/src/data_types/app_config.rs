@@ -115,7 +115,7 @@ impl AppConfigBuilder {
     /// Build into an AppConfig instance
     ///
     /// Run this to finalize your app configuration.
-    pub fn build(self: &mut Self) -> AppConfig {
+    pub fn build(&mut self) -> AppConfig {
         AppConfig {
             app_name: self.app_name.to_string(),
             company_name: self.company_name.to_string(),
@@ -139,29 +139,26 @@ impl AppConfigBuilder {
     /// Set a URL to use for your website logo
     ///
     /// If set, this is displayed in the header on the far left side before any other content.
-    pub fn set_header_logo_src(self: &mut Self, img_src: String) -> &mut Self {
+    pub fn set_header_logo_src(&mut self, img_src: String) -> &mut Self {
         self.header_logo_src = Some(img_src);
         self
     }
     /// Set settings for navigation routing
-    pub fn set_nav_routing(self: &mut Self, nav_routing: Vec<NavRoute>) -> &mut Self {
+    pub fn set_nav_routing(&mut self, nav_routing: Vec<NavRoute>) -> &mut Self {
         self.nav_routing = nav_routing;
         self
     }
     /// Hide the Powered By Web UI link in the footer
     ///
     /// We appreciate you not using this to help spread the word about this framework, but we won't hold it against you if you do.
-    pub fn hide_powered_by(self: &mut Self) -> &mut Self {
+    pub fn hide_powered_by(&mut self) -> &mut Self {
         self.hide_powered_by = true;
         self
     }
     /// Set a handler for a drawer toggle button
     ///
     /// This button will be displayed in the header, as the first item.
-    pub fn set_drawer_toggle_header_left(
-        self: &mut Self,
-        drawer_info: DrawerToggleInfo,
-    ) -> &mut Self {
+    pub fn set_drawer_toggle_header_left(&mut self, drawer_info: DrawerToggleInfo) -> &mut Self {
         self.header_left_drawer_toggle = Some(drawer_info);
         self
     }
@@ -169,65 +166,50 @@ impl AppConfigBuilder {
     ///
     /// This button will be displayed in the header, as the first item in the right side content grouping.
     /// Note: This button can be semi-centered on wider displays by setting builder.set_header_strip_bar(fn->Html) to include a .flex-grow classed element as the first item.
-    pub fn set_drawer_toggle_header_middle(
-        self: &mut Self,
-        drawer_info: DrawerToggleInfo,
-    ) -> &mut Self {
+    pub fn set_drawer_toggle_header_middle(&mut self, drawer_info: DrawerToggleInfo) -> &mut Self {
         self.header_top_drawer_toggle = Some(drawer_info);
         self
     }
     /// Set a handler for a drawer toggle button
     ///
     /// This button will be displayed in the header, as the last item.
-    pub fn set_drawer_toggle_header_right(
-        self: &mut Self,
-        drawer_info: DrawerToggleInfo,
-    ) -> &mut Self {
+    pub fn set_drawer_toggle_header_right(&mut self, drawer_info: DrawerToggleInfo) -> &mut Self {
         self.header_right_drawer_toggle = Some(drawer_info);
         self
     }
     /// Set a handler for a drawer toggle button
     ///
     /// This button will be displayed in the footer, as the first item.
-    pub fn set_drawer_toggle_footer_left(
-        self: &mut Self,
-        drawer_info: DrawerToggleInfo,
-    ) -> &mut Self {
+    pub fn set_drawer_toggle_footer_left(&mut self, drawer_info: DrawerToggleInfo) -> &mut Self {
         self.footer_left_drawer_toggle = Some(drawer_info);
         self
     }
     /// Set a handler for a drawer toggle button
     ///
     /// This button will be displayed in the footer, immediately following the company name display.
-    pub fn set_drawer_toggle_footer_middle(
-        self: &mut Self,
-        drawer_info: DrawerToggleInfo,
-    ) -> &mut Self {
+    pub fn set_drawer_toggle_footer_middle(&mut self, drawer_info: DrawerToggleInfo) -> &mut Self {
         self.footer_bottom_drawer_toggle = Some(drawer_info);
         self
     }
     /// Set a handler for a drawer toggle button
     ///
     /// This button will be displayed in the footer, as the last item.
-    pub fn set_drawer_toggle_footer_right(
-        self: &mut Self,
-        drawer_info: DrawerToggleInfo,
-    ) -> &mut Self {
+    pub fn set_drawer_toggle_footer_right(&mut self, drawer_info: DrawerToggleInfo) -> &mut Self {
         self.footer_right_drawer_toggle = Some(drawer_info);
         self
     }
     /// Set extra content to display in the header, between the middle togle button and the user info panel
-    pub fn set_header_strip_bar(self: &mut Self, strip_bar: fn() -> Html) -> &mut Self {
+    pub fn set_header_strip_bar(&mut self, strip_bar: fn() -> Html) -> &mut Self {
         self.header_strip_bar = Some(strip_bar);
         self
     }
     /// Set extra content to display in the header, between the middle togle button and the user info panel
-    pub fn set_user_info_panel(self: &mut Self, info_panel: fn() -> Html) -> &mut Self {
+    pub fn set_user_info_panel(&mut self, info_panel: fn() -> Html) -> &mut Self {
         self.user_info_panel = Some(info_panel);
         self
     }
     /// Set copyright years
-    pub fn set_copyright_start(self: &mut Self, copyright_start: i16) -> &mut Self {
+    pub fn set_copyright_start(&mut self, copyright_start: i16) -> &mut Self {
         self.copyright_year_start = Some(copyright_start);
         self
     }

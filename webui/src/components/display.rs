@@ -1,6 +1,8 @@
 /// Module for Avatar components
 pub mod avatar;
 
+pub mod dialog;
+
 /// Module for Image components
 pub mod image;
 
@@ -15,3 +17,11 @@ pub mod nav_display;
 
 /// Module for table displays
 pub mod table;
+
+pub use avatar::*;
+pub use dialog::*;
+pub use image::*;
+pub use loading::*;
+pub use markdown_content::*;
+pub use nav_display::*;
+pub use table::*;

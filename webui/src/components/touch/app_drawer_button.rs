@@ -1,12 +1,8 @@
-use crate::yew::Context;
-use crate::{
-    agents::app_drawer_agent::{AppDrawerAgent, AppDrawerReceiverMessage, AppDrawerRequest},
-    html, Children, Component, Direction, Dispatched, Dispatcher, DrawerToggleInfo, Html,
-    MouseEvent, Paper, Properties,
-};
+use crate::*;
+use yew::{use_state, UseStateHandle};
 
 /// Properties for NavLink component
-#[derive(Properties, PartialEq)]
+#[derive(Debug, Properties, PartialEq)]
 pub struct AppDrawerButtonProps {
     pub info: Option<DrawerToggleInfo>,
     #[prop_or_default]
@@ -25,105 +21,65 @@ pub struct AppDrawerButtonProps {
 ///
 /// Left and right app drawers are side panels that pop out with a width dependent on their content.
 /// Top and Bottom app drawers act more like dialogs|modals, sliding out and displaying in the center of the page.
-pub struct AppDrawerButton {
-    app_drawer_agent: Dispatcher<AppDrawerAgent>,
-    drawer_info: Option<DrawerToggleInfo>,
-    logo_src: Option<String>,
-    logo_title: String,
-}
-
-impl Component for AppDrawerButton {
-    type Message = AppDrawerReceiverMessage;
-    type Properties = AppDrawerButtonProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        let props = ctx.props();
-        Self {
-            app_drawer_agent: AppDrawerAgent::dispatcher(),
-            drawer_info: props.info.to_owned(),
-            logo_src: props.logosrc.clone(),
-            logo_title: props.logotitle.clone().unwrap_or("".to_owned()),
-        }
-    }
-
-    fn update(&mut self, _ctx: &Context<Self>, msg: Self::Message) -> bool {
-        match msg {
-            AppDrawerReceiverMessage::AppDrawerMessage(message) => {
-                self.app_drawer_agent.send(message);
-                false
+#[function_component(AppDrawerButton)]
+pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
+    let message_context =
+        use_context::<UseStateHandle<DrawerMessage>>().expect("Context DrawerMessage not found");
+    let logo_src_handle: UseStateHandle<Option<String>> = use_state(|| None);
+    let logo_title_handle: UseStateHandle<String> = use_state(|| String::default());
+    let drawer_info = &props.info;
+    let logo_src = logo_src_handle.deref().to_owned();
+    let logo_title = logo_title_handle.deref().to_owned();
+    let drawer_info_click = drawer_info.clone();
+    let setup_onclick = Callback::from(move |_| {
+        let drawer_info_click = drawer_info_click.clone();
+        match drawer_info_click {
+            Some(info) => {
+                let options = info.get_options();
+                message_context.set(DrawerMessage::ToggleDrawer(options));
             }
-            AppDrawerReceiverMessage::SetIsOpen(_is_open) => false,
-            AppDrawerReceiverMessage::SetIsTransition(_is_transition) => false,
-            AppDrawerReceiverMessage::None => false,
-        }
-    }
-
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let drawer_info = self.drawer_info.clone();
-        let setup_onclick = {
-            let onclick = ctx
-                .link()
-                .callback(move |_: MouseEvent| match drawer_info.clone() {
-                    Some(drawer_info) => {
-                        let message = drawer_info.get_options();
-                        match drawer_info.drawer {
-                            Direction::Top => AppDrawerReceiverMessage::AppDrawerMessage(
-                                AppDrawerRequest::ToggleTopDrawer(Some(message)),
-                            ),
-                            Direction::Right => AppDrawerReceiverMessage::AppDrawerMessage(
-                                AppDrawerRequest::ToggleRightDrawer(Some(message)),
-                            ),
-                            Direction::Bottom => AppDrawerReceiverMessage::AppDrawerMessage(
-                                AppDrawerRequest::ToggleBottomDrawer(Some(message)),
-                            ),
-                            Direction::Left => AppDrawerReceiverMessage::AppDrawerMessage(
-                                AppDrawerRequest::ToggleLeftDrawer(Some(message)),
-                            ),
-                        }
-                    }
-                    None => AppDrawerReceiverMessage::None,
-                });
-            onclick
+            None => (),
         };
-        html! {
-            <>
-                {match self.drawer_info.clone() {
-                    Some(drawer_info) => {
-                        let btn_class = if drawer_info.class.is_empty() {"btn toggle elevation-1".to_string()} else {drawer_info.class.to_string()};
-                        html! {
-                            <button type="button" title={drawer_info.title.to_string()} class={props.class.to_string()}
-                                aria-label={drawer_info.title.to_string()}
-                                onclick={setup_onclick}>
-                                <span class={btn_class}>{(drawer_info.display)()}</span>
-                                {match &self.logo_src {
-                                    Some(logo) => {
-                                        html! {
-                                            <img class="pl-1" src={logo.to_string()} title={self.logo_title.to_owned()} />
-                                        }
-                                    },
-                                    None => html! {}
-                                }}
-                                {for ctx.props().children.iter()}
-                            </button>
-                        }
-                    },
-                    None => html! {
-                        if props.always_show_logo {
-                            {match &self.logo_src {
+    });
+    let children = &props.children;
+    jslog!("App Drawer Button:{:?}", props);
+    html! {
+        <>
+            {match drawer_info.clone() {
+                Some(drawer_info) => {
+                    let btn_class = if drawer_info.class.is_empty() {"btn toggle elevation-1".to_string()} else {drawer_info.class.to_string()};
+                    html! {
+                        <button type="button" title={drawer_info.title.to_string()} class={props.class.to_string()}
+                            aria-label={drawer_info.title.to_string()}
+                            onclick={setup_onclick}>
+                            <span class={btn_class}>{(drawer_info.display)()}</span>
+                            {match &logo_src {
                                 Some(logo) => {
                                     html! {
-                                        <Paper>
-                                            <img src={logo.to_string()} title={self.logo_title.to_owned()} />
-                                        </Paper>
+                                        <img class="pl-1" src={logo.to_string()} title={logo_title.to_owned()} />
                                     }
                                 },
                                 None => html! {}
                             }}
-                        }
+                            {for children.iter()}
+                        </button>
                     }
-                }}
-            </>
-        }
+                },
+                None => html! {
+                    if props.always_show_logo {
+                        {match &logo_src {
+                            Some(logo) => {
+                                html! {
+                                    <Paper>
+                                        <img src={logo.to_string()} title={logo_title.to_owned()} />
+                                    </Paper>
+                                }
+                            },
+                            None => html! {}
+                        }}
+                    }
+                }
+            }}
+        </>
     }
 }

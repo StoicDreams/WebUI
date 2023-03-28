@@ -1,56 +1,73 @@
 use crate::*;
 
-pub(crate) struct AppBody {
-    app_state_agent: Box<dyn Bridge<AppStateAgent>>,
-    current_path: String,
-    flip: bool,
+#[derive(Clone, Debug, PartialEq)]
+enum PageState {
+    Hidden,
+    TransitionIn,
+    TransitionOut,
+    Show,
 }
 
-impl Component for AppBody {
-    type Message = AppStateReceiverMessage;
-    type Properties = ();
-
-    fn create(ctx: &yew::Context<Self>) -> Self {
-        Self {
-            app_state_agent: AppStateAgent::bridge(
-                ctx.link()
-                    .callback(AppStateReceiverMessage::AppStateMessage),
-            ),
-            current_path: interop::get_path().to_lowercase(),
-            flip: false,
-        }
-    }
-
-    fn update(&mut self, _ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
-        match msg {
-            AppStateReceiverMessage::AppStateMessage(message) => match message {
-                AppStateRequest::PathUpdate(path) => {
-                    if path.to_lowercase() == self.current_path {
-                        return false;
-                    }
-                    self.flip = !self.flip;
-                    self.current_path = path.to_lowercase();
-                    return true;
+#[function_component(AppBody)]
+pub(crate) fn app_body() -> Html {
+    let navigation = use_context::<UseStateHandle<NavigationMessage>>()
+        .expect("Context NavigationMessage not found");
+    let app_config = use_context::<AppConfig>().expect("Context AppConfig not found");
+    let page_state = use_state(|| PageState::Show);
+    let nav = navigation.deref().to_owned();
+    let path = use_state(|| interop::get_path().to_lowercase());
+    let _ = match nav {
+        NavigationMessage::PathUpdate(new_path) => {
+            if path.deref().to_owned() != new_path {
+                navigation.set(NavigationMessage::None);
+                if *page_state.deref() == PageState::Show {
+                    let page_state = page_state.clone();
+                    let path = path.clone();
+                    set_timeout!(1, move || {
+                        let page_state = page_state.clone();
+                        let path = path.clone();
+                        let new_path = new_path.clone();
+                        page_state.set(PageState::TransitionOut);
+                        set_timeout!(300, move || {
+                            let page_state = page_state.clone();
+                            let path = path.clone();
+                            let new_path = new_path.clone();
+                            page_state.set(PageState::Hidden);
+                            path.set(String::from(new_path));
+                            set_timeout!(100, move || {
+                                let page_state = page_state.clone();
+                                page_state.set(PageState::TransitionIn);
+                                set_timeout!(300, move || {
+                                    let page_state = page_state.clone();
+                                    page_state.set(PageState::Show);
+                                });
+                            });
+                        });
+                    });
                 }
-            },
-            AppStateReceiverMessage::None => false,
+            }
         }
-    }
-
-    fn view(&self, ctx: &yew::Context<Self>) -> Html {
-        let (app_config, _) = ctx
-            .link()
-            .context::<AppConfig>(Callback::noop())
-            .expect("no app config found");
-        let path = self.current_path.to_owned();
-        let page_el = format!("page{}", path.replace("-", "_").replace("/", "__"));
-        html! {
-            <main>
+        _ => (),
+    };
+    let page_el = format!("page{}", path.replace("-", "_").replace("/", "__"));
+    let main_class = match page_state.deref() {
+        PageState::Hidden => "page hidden",
+        PageState::TransitionIn => "page transition in",
+        PageState::TransitionOut => "page transition out",
+        PageState::Show => "",
+    };
+    jslog!("body path:{}", page_el);
+    html! {
+        <>
+            <main class={main_class}>
                 <@{page_el} class="paper">
                     {(get_page_content(app_config.nav_routing, &path))()}
                 </@>
             </main>
-        }
+            <Paper id="loading" class="d-flex align-center justify-center">
+                <Loading variant={LoadingVariant::Circle} color={Theme::Secondary} size={LOADING_SIZE_LARGE} />
+            </Paper>
+        </>
     }
 }
 

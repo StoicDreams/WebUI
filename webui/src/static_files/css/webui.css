@@ -425,14 +425,40 @@ ul, ol {
 	gap: var(--padding);
 	padding: calc(var(--padding) * 0.5) calc(var(--padding) * 1.5);
 }
-#app.page.transition * {
+main.page.transition * {
 	pointer-events: none;
 }
-#app.page.transition.out main {
+main.page.hidden {
+	transform: scale(0) translateY(-10%);
+	opacity: 0;
+}
+#loading {
+	display:none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 99999;
+	transition-duration: var(--main-transition);
+	opacity: 0;
+}
+main.page.loading + #loading,
+main.page.transition.out + #loading,
+main.page.transition.in + #loading,
+main.page.hidden + #loading {
+	display: flex;
+}
+main.page.loading + #loading,
+main.page.transition.out + #loading,
+main.page.hidden + #loading {
+	opacity: 1;
+}
+main.page.transition.out {
 	transform: scale(0.3) translateY(-10%);
 	opacity: 0;
 }
-#app.page.transition.in main {
+main.page.transition.in {
 	transform: scale(1.03) translateY(1%);
 	opacity: 1;
 }
@@ -559,15 +585,24 @@ aside.app-drawer.left {
 	top: 0;
 	right: 0;
 }
+.app-drawer .drawer-content.auto-size {
+	height: min-content;
+	width: min-content;
+	min-width: 3ch;
+	min-height: 3ch;
+}
 .app-drawer.top > .drawer-placement > .drawer-content,
 .app-drawer.bottom > .drawer-placement > .drawer-content {
 	position: relative;
 	width: max-content;
-	min-width: 50%;
 	max-width: 90%;
 	height: max-content;
-	min-height: 50%;
 	max-height: 90%;
+}
+.app-drawer.top > .drawer-placement > .drawer-content:not(.auto-size),
+.app-drawer.bottom > .drawer-placement > .drawer-content:not(.auto-size) {
+	min-width: 50%;
+	min-height: 50%;
 }
 .app-drawer.top > .drawer-placement > .drawer-content {
 	bottom: 0;
@@ -627,7 +662,7 @@ aside.app-drawer.left {
 }
 .auto_message_box:not(.single-line) code::after {
 	content: "
-	
+
 ";
 }
 .auto_message_box > pre + textarea,
@@ -801,7 +836,7 @@ blockquote,
 	background-color: inherit;
 	background-image: none;
 	width: 0%;
-} 
+}
 .loading.bar > :nth-child(2) {
 	background: transparent;
 	width: 0%;
@@ -957,14 +992,16 @@ main .avatar,
 main img {
 	transition-duration: 300ms;
 }
-#app.page.transition.out main .avatar,
-#app.page.transition.out main img {
+main.page.hidden .avatar,
+main.page.hidden img,
+main.page.transition.out .avatar,
+main.page.transition.out img {
 	transition-duration: 10ms;
 	transform: scale(0);
 	opacity: 0;
 }
-#app.page.transition.in main .avatar,
-#app.page.transition.in main img {
+main.page.transition.in .avatar,
+main.page.transition.in img {
 	transform: scale(1.03);
 	opacity: 1;
 }

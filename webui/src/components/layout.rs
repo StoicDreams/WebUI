@@ -15,3 +15,5 @@ pub(crate) mod app_footer;
 
 /// Module holding app header component
 pub(crate) mod app_header;
+
+pub(crate) use app_drawer::*;

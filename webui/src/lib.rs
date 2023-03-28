@@ -6,8 +6,6 @@ use std::cell::Cell;
 
 /// Actors represent intermediaries for processing specific types of requests
 pub mod actors;
-/// Agents for sending and receiving messages between components.
-pub mod agents;
 /// Helpers for common settings and configurations
 pub mod common;
 /// Components used for managing and rendering html output
@@ -16,6 +14,8 @@ pub mod components;
 pub mod data_types;
 /// Shortcut for all common components
 pub mod prelude;
+/// Modules that hold application states
+pub mod states;
 
 /// Generalized macros
 #[macro_use]
@@ -24,6 +24,7 @@ pub mod macros;
 #[macro_use]
 pub mod interop;
 
+pub use crate::states::*;
 pub use async_std;
 pub use chrono;
 use components::layout::app::start_webui_app;
@@ -32,6 +33,7 @@ pub use js_sys;
 pub use js_sys::Function;
 pub use lazy_static;
 pub use lazy_static::*;
+pub use num_format::*;
 pub use prelude::*;
 pub use regex;
 pub use rust_decimal;
@@ -45,6 +47,8 @@ pub use wasm_logger;
 pub use web_sys;
 pub use web_sys::{Request, RequestInit, RequestMode, Response};
 pub use yew;
+pub use yew::macros::*;
+pub use yew::*;
 pub use yew_agent;
 pub use yew_agent::*;
 pub use yew_hooks;

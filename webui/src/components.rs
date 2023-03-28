@@ -9,3 +9,8 @@ pub(crate) mod layout;
 
 /// Components that involve user interactions
 pub(crate) mod touch;
+
+pub use container::*;
+pub use display::*;
+pub(crate) use layout::*;
+pub use touch::*;

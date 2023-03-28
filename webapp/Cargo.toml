@@ -1,13 +1,13 @@
 [package]
 name = "webapp"
-version = "0.3.29"#sync
+version = "0.4.0"#sync
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 webui = { path = "../webui" }
-yew = "0.19"
+yew = {version = "0.20", features = ["csr"]}
 wasm-bindgen-futures = "0.4"
 
 [profile.dev]

@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// Properties for NavLink component
 #[derive(Properties, PartialEq)]
@@ -18,9 +18,12 @@ pub struct NavLinkProps {
 
 #[function_component(Link)]
 pub fn link(props: &NavLinkProps) -> Html {
+    let navigation = use_context::<UseStateHandle<NavigationMessage>>()
+        .expect("Context NavigationMessage not found");
+    let drawer =
+        use_context::<UseStateHandle<DrawerMessage>>().expect("Context DrawerMessage not found");
     let classes = &mut Classes::new();
     classes.push("navlink");
-
     if !props.class.is_empty() {
         classes.push(&props.class);
     }
@@ -29,18 +32,16 @@ pub fn link(props: &NavLinkProps) -> Html {
     } else {
         props.title.to_owned()
     };
-    let clickoption = props.onclick.to_owned();
     let mypath = props.href.to_string();
-    let onclick = move |ev: MouseEvent| {
-        match clickoption {
-            Some(method) => method(ev),
-            None => (),
-        };
-        if mypath.starts_with("/") {
-            push_state(&mypath);
-            let mut app_state_agent = AppStateAgent::dispatcher();
-            app_state_agent.send(AppStateRequest::PathUpdate(mypath.to_string()))
-        }
+    let onclick = {
+        let mypath = mypath.clone();
+        let navigation = navigation.clone();
+        let mymessage = NavigationMessage::PathUpdate(mypath);
+        Callback::from(move |_| {
+            let mymessage = mymessage.clone();
+            drawer.set(DrawerMessage::Close);
+            navigation.set(mymessage);
+        })
     };
     html! {
         <a href={props.href.to_owned()}

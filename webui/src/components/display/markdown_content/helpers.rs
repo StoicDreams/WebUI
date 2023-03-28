@@ -16,10 +16,12 @@ pub(super) fn get_u16(value: &str) -> u16 {
     u16::from_str(value).unwrap_or(0)
 }
 
+#[allow(dead_code)]
 pub(super) fn get_u32(value: &str) -> u32 {
     u32::from_str(value).unwrap_or(0)
 }
 
+#[allow(dead_code)]
 pub(super) fn get_u64(value: &str) -> u64 {
     u64::from_str(value).unwrap_or(0)
 }

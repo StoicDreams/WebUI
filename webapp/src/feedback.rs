@@ -1,15 +1,16 @@
-use std::{collections::HashMap, rc::Rc};
-use webui::{actors::input_state::use_input_state, web_sys::HtmlTextAreaElement, *};
+use std::collections::HashMap;
+use webui::prelude::*;
+use webui::{actors::input_state::use_input_state, *};
 use yew::functional::use_state;
 
 pub fn feedback_button_info() -> DrawerToggleInfo {
     DrawerToggleInfo::new(
-        "Give us your Feedback!".to_owned(),
+        "Give us your Feedback!",
         || html! {<i class="fa-solid fa-comment" />},
         get_render_wrapper,
     )
     .set_drawer(Direction::Top)
-    .set_on_confirm("Send Feedback".to_string(), handle_confirm)
+    .set_on_confirm("Send Feedback", handle_confirm)
     .build()
 }
 
@@ -17,11 +18,7 @@ const CONFIRM_KEY: &str = "feedback_confirm_result";
 const FEEDBACK_KEY: &str = "feedback";
 
 fn handle_confirm() -> bool {
-    let input_state = use_input_state(FEEDBACK_KEY, || String::default(), Some(Rc::new(|| {})));
-    log(format!(
-        "Handle Confirmation Triggered:{}",
-        input_state.to_string()
-    ));
+    let input_state = use_input_state(FEEDBACK_KEY, || String::default(), None);
     let value = input_state.get();
     if value.is_empty() {
         return true;
@@ -29,25 +26,22 @@ fn handle_confirm() -> bool {
     let post_data = HashMap::from([("Message", value)]);
     match serde_json::to_string(&post_data) {
         Ok(post_body) => {
-            log(format!("Spawning"));
             wasm_bindgen_futures::spawn_local(async move {
                 let response = fetch(FetchRequest::new(
                     "https://feedback.myfi.ws/api/new".to_string(),
                     FetchMethod::Post(post_body.to_string()),
                 ))
                 .await;
-                log(format!("Post Fetch:{}", response.is_ok()));
                 _ = GlobalData::set_data(
                     FEEDBACK_KEY,
                     &format!("Response:{}\n{:?}", response.is_ok(), response),
                 );
                 if response.is_ok() {
                     _ = GlobalData::set_data(FEEDBACK_KEY, "");
+                    // Dialog::alert("Thank You", || html!("Thank you for your feedback!")).open();
                 }
                 let _ = GlobalData::set_data::<bool>(CONFIRM_KEY, response.is_ok());
             });
-            // log(format!("Post Spawn"));
-            // let result = GlobalData::get_data::<bool>(CONFIRM_KEY).unwrap_or(false);
             true
         }
         Err(error) => {
@@ -65,43 +59,14 @@ pub(crate) fn get_render_wrapper() -> Html {
 
 #[function_component(GetRender)]
 pub(crate) fn get_render() -> Html {
-    // let value = GlobalData::get_data::<String>(FEEDBACK_KEY)
-    // 	.unwrap_or_default()
-    // 	.to_string();
-    // let default_value = value.to_owned();
-    // let feedback_handler = use_state(|| { default_value });
-    // let test = use_state(||false);
-
-    // log(format!("Render:{}", test.clone().to_string()));
-    // let test2 = test.clone();
-    // let boxx = Box::new(move ||{
-    // 	test2.set(true);
-    // });
-    let count = use_state(|| 0);
-    let rrr = Rc::new(move || {
-        let increment = *count + 1;
-        count.set(increment);
-        log(format!("rrr:{}", *count));
-    });
-    let input_state = use_input_state(FEEDBACK_KEY, || String::default(), Some(rrr));
-    let mut input_clone = input_state.clone();
-    let callback = Closure::wrap(Box::new(move || {
-        jslog!("Callback Test");
-        // input_clone.set(String::from("Hello"));
-    }) as Box<dyn FnMut()>);
-    // feedback_handler.set(value);
+    let input_state = use_state(|| GlobalData::get_data_or(FEEDBACK_KEY, || String::default()));
+    let value = input_state.deref().to_owned();
     let onchange = {
-        // let input_state = input_state.clone();
         Callback::from(move |value: String| {
-            // let value = target.unchecked_into::<HtmlTextAreaElement>().value();
-            jslog!("Change:{}", value.to_string());
-            _ = set_timeout(callback.as_ref().unchecked_ref(), 1);
-            // input_state.set(value.to_string());
-            // (rrr)();
             _ = GlobalData::set_data(FEEDBACK_KEY, value);
         })
     };
-    log(format!("Render:{}", input_state.to_string()));
+
     fn show_discord() -> Html {
         let show_discord = get_company_singular() == "Stoic Dreams";
         if !show_discord {
@@ -114,6 +79,7 @@ pub(crate) fn get_render() -> Html {
             </p>
         }
     }
+
     html! {
         <>
             <Paper class="pa-1 flex-grow d-flex flex-column gap-1">

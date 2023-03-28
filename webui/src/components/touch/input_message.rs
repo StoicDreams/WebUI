@@ -1,4 +1,3 @@
-use crate::actors::input_state::InputStateHandler;
 use crate::web_sys::HtmlTextAreaElement;
 use crate::*;
 
@@ -8,8 +7,7 @@ pub struct InputMessageProps {
     pub name: String,
     #[prop_or_default]
     pub key: String,
-    // pub value: UseStateHandle<String>,
-    pub value: InputStateHandler<String>,
+    pub value: UseStateHandle<String>,
     #[prop_or_default]
     pub class: String,
     #[prop_or_default]
@@ -33,27 +31,22 @@ pub fn input_message(props: &InputMessageProps) -> Html {
     if !props.class.is_empty() {
         classes.push(&props.class);
     }
+    let count = (*props.value.clone()).len();
     let inputref = props.value.clone();
     let oninput = {
         Callback::from(move |ev: InputEvent| match ev.target() {
             Some(target) => {
                 let value = target.unchecked_into::<HtmlTextAreaElement>().value();
-                // inputref.set(value);
+                inputref.set(value);
             }
             None => (),
         })
     };
-    let changeref = props.value.clone();
     let onchange_handler = props.onchange.clone().unwrap_or(Callback::from(|_| ()));
-    let key = props.key.to_owned();
     let onchange = {
         Callback::from(move |ev: Event| match ev.target() {
             Some(target) => {
                 let value = target.unchecked_into::<HtmlTextAreaElement>().value();
-                // if !key.is_empty() {
-                // 	_ = GlobalData::set_data(&key, value.to_string());
-                // }
-                // changeref.set(value.to_string());
                 onchange_handler.emit(value);
             }
             None => (),
@@ -64,21 +57,29 @@ pub fn input_message(props: &InputMessageProps) -> Html {
     } else {
         props.placeholder.to_string()
     };
-    jslog!("InputMessage Render:{}", props.value.to_string());
+    let pre_value: String = props.value.clone().to_string();
+    let ta_value: String = props.value.clone().to_string();
     html! {
         <InputField id={my_id.to_owned()}
             name={props.name.to_owned()}
             class={classes.to_string()}
             >
             <div class="auto_message_box">
-                <pre><code>{props.value.to_string()}</code></pre>
+                <pre><code>{pre_value}</code></pre>
                 <textarea name={props.name.to_owned()}
                     id={my_id.to_owned()}
+                    value={ta_value}
                     {oninput}
                     {onchange}
                     {placeholder}
-                    >{props.value}</textarea>
+                    />
             </div>
+            <Paper class="d-flex flex-row">
+                <Paper class="flex-grow" />
+                <Paper>
+                    {format!("Count: {}", count.to_formatted_string(&Locale::en))}
+                </Paper>
+            </Paper>
         </InputField>
     }
 }

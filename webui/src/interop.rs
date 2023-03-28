@@ -1,7 +1,5 @@
 use wasm_bindgen::prelude::*;
 
-use crate::FetchRequest;
-
 /// Check if given path matches the current browser path
 pub fn is_current_path(path: String) -> bool {
     get_path().to_lowercase() == path.to_lowercase()

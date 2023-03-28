@@ -1,4 +1,4 @@
-use crate::{function_component, html, Children, Classes, Properties};
+use crate::prelude::*;
 
 /// Properties for Paper component
 #[derive(Properties, PartialEq)]
@@ -11,6 +11,8 @@ pub struct PaperProps {
     pub class: String,
     #[prop_or_default]
     pub style: String,
+    #[prop_or_default]
+    pub id: String,
 }
 
 /// Common container component
@@ -64,10 +66,19 @@ pub fn paper(props: &PaperProps) -> Html {
     }
 
     let class = classes.clone();
-    let style = props.style.to_owned();
+    let style = if props.style.is_empty() {
+        None
+    } else {
+        Some(props.style.to_owned())
+    };
+    let id = if props.id.is_empty() {
+        None
+    } else {
+        Some(props.id.to_owned())
+    };
 
     html! {
-        <section {class} {style}>
+        <section {id} {class} {style}>
             { for props.children.iter() }
         </section>
     }

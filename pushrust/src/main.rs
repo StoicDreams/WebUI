@@ -69,7 +69,6 @@ fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
 {}",
                 directory, script
             );
-            
         }
         None => (),
     };

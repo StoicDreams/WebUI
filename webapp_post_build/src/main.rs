@@ -1,7 +1,6 @@
 use clap::Parser;
 use std::fs;
 use std::path::Path;
-use std::process::Command;
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -50,31 +49,30 @@ fn copy_files_to_dist(directory: &str) {
     }
 }
 
-fn rc(command: &str, directory: Option<&str>) {
-    run_ma(command, &[], directory);
-}
+// fn rc(command: &str, directory: Option<&str>) {
+//     run_ma(command, &[], directory);
+// }
 
-fn run(command: &str, commandarg: &str, directory: Option<&str>) {
-    run_ma(command, &[commandarg], directory);
-}
+// fn run(command: &str, commandarg: &str, directory: Option<&str>) {
+//     run_ma(command, &[commandarg], directory);
+// }
 
-fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
-    println!("Running Command: {} {:?}", command, commandargs);
-    let mut com = Command::new(command);
-    let com = com.args(commandargs);
-    match directory {
-        Some(directory) => {
-            com.current_dir(directory);
-            
-        }
-        None => (),
-    };
-    let output = com.output().expect("BAD");
+// fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
+//     println!("Running Command: {} {:?}", command, commandargs);
+//     let mut com = Command::new(command);
+//     let com = com.args(commandargs);
+//     match directory {
+//         Some(directory) => {
+//             com.current_dir(directory);
+//         }
+//         None => (),
+//     };
+//     let output = com.output().expect("BAD");
 
-    if !output.status.success() {
-        let s = String::from_utf8_lossy(&output.stderr);
-        panic!("Failed command {}:\n{}", command, s);
-    }
+//     if !output.status.success() {
+//         let s = String::from_utf8_lossy(&output.stderr);
+//         panic!("Failed command {}:\n{}", command, s);
+//     }
 
-    println!("{}", String::from_utf8_lossy(&output.stdout));
-}
+//     println!("{}", String::from_utf8_lossy(&output.stdout));
+// }

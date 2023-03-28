@@ -1,6 +1,5 @@
+use crate::GlobalData;
 use std::{fmt::Debug, ops::Deref, rc::Rc};
-
-use crate::{jslog, GlobalData};
 
 pub fn get_input_state<T, F>(key: &str, default_handler: F) -> InputStateHandler<T>
 where
@@ -17,7 +16,7 @@ where
 pub fn use_input_state<T, F>(
     key: &str,
     default_handler: F,
-    change_trigger: Option<Rc<dyn Fn() -> ()>>,
+    change_trigger: Option<Rc<dyn Fn(&T) -> ()>>,
 ) -> InputStateHandler<T>
 where
     T: for<'a> serde::Deserialize<'a>,
@@ -34,7 +33,7 @@ where
     let _ = GlobalData::set_data::<T>(&key, value.clone());
     InputStateHandler {
         key: key.to_string(),
-        change_trigger: change_trigger.unwrap_or(Rc::new(|| {})),
+        change_trigger: change_trigger.unwrap_or(Rc::new(|_| {})),
         value,
     }
 }
@@ -51,7 +50,7 @@ where
 {
     key: String,
     value: T,
-    change_trigger: Rc<dyn Fn() -> ()>,
+    change_trigger: Rc<dyn Fn(&T) -> ()>,
 }
 
 impl<T> PartialEq for InputStateHandler<T>
@@ -76,9 +75,8 @@ where
     T: PartialEq,
 {
     pub fn set(&mut self, value: T) -> () {
-        jslog!("set input state:{:?}", value.clone());
-        let _ = GlobalData::set_data::<T>(&self.key, value);
-        (&self.change_trigger)();
+        let _ = GlobalData::set_data::<T>(&self.key, value.clone());
+        (&self.change_trigger)(&value);
     }
     pub fn get(&self) -> T {
         match GlobalData::get_data(&self.key) {

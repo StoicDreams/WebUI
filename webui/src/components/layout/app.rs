@@ -15,22 +15,25 @@ pub(crate) struct AppProps {
 /// Inner process for starting website
 pub(crate) fn start_webui_app(app_config: AppConfig) {
     let props = AppProps { config: app_config };
-    yew::start_app_with_props::<App>(props);
+    yew::Renderer::<App>::with_props(props).render();
 }
-struct App;
+struct App {}
 
 impl Component for App {
     type Message = ();
     type Properties = AppProps;
 
     fn create(_ctx: &Context<Self>) -> Self {
-        Self
+        Self {}
     }
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
+        jslog!("App Rendered!");
         html! {
             <div id="app" class="page transition out">
-                <AppContexts app_config={props.config.clone()}>
+                <AppContexts
+                    app_config={props.config.clone()}
+                    >
                     <AppHeader />
                     <AppBody />
                     <AppFooter />

@@ -1,4 +1,4 @@
-use crate::{function_component, html, Children, Classes, Properties, Theme};
+use crate::{function_component, html, Children, Classes, Html, Properties, Theme};
 
 /// Properties for Quote component
 #[derive(Properties, PartialEq)]

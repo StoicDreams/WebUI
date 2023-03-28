@@ -12,3 +12,9 @@ pub mod quote;
 
 /// Module for side-by-side page section with 1 side being an image
 pub mod side_image;
+
+pub use card::*;
+pub use list::*;
+pub use paper::*;
+pub use quote::*;
+pub use side_image::*;

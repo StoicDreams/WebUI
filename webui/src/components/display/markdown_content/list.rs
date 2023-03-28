@@ -5,7 +5,7 @@ pub(super) fn render_list(
     lines: &mut Vec<(String, String, MarkdownSegments)>,
 ) -> Html {
     let mut is_running = true;
-    let mut sec = lines.to_owned();
+    let sec = lines.to_owned();
     let mut counter = 0u32;
     html!({
         lines
@@ -16,7 +16,7 @@ pub(super) fn render_list(
                     return html!();
                 }
                 let mut lines = sec.to_owned();
-                let (raw_line, line, line_type) = tuple;
+                let (_raw_line, line, line_type) = tuple;
                 match line_type {
                     MarkdownSegments::EndSection => {
                         *index += 1;

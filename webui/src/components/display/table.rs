@@ -13,7 +13,7 @@ impl<T> TableColumns<T> {
             cell,
         }
     }
-    pub fn align(self: &mut Self, align: LeftCenterRight) -> TableColumns<T> {
+    pub fn align(&mut self, align: LeftCenterRight) -> TableColumns<T> {
         self.align = align;
         Self {
             name: self.name.to_string(),
@@ -39,19 +39,19 @@ impl<T> Table<T> {
             elevation: 0,
         }
     }
-    pub fn add_class(self: &mut Self, class: String) -> &mut Self {
+    pub fn add_class(&mut self, class: String) -> &mut Self {
         self.class.push(class.to_string());
         self
     }
-    pub fn bordered(self: &mut Self) -> &mut Self {
+    pub fn bordered(&mut self) -> &mut Self {
         self.class.push("bordered");
         self
     }
-    pub fn elevation(self: &mut Self, elevation: u8) -> &mut Self {
+    pub fn elevation(&mut self, elevation: u8) -> &mut Self {
         self.elevation = elevation;
         self
     }
-    pub fn render(self: &mut Self, data: Vec<T>) -> Html {
+    pub fn render(&mut self, data: Vec<T>) -> Html {
         if self.elevation > 0 {
             self.class.push(format!("elevation-{}", self.elevation));
         }

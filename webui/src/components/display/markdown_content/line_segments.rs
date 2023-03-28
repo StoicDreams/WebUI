@@ -1,5 +1,5 @@
 use super::*;
-use std::{collections::HashMap, ops::Index};
+use std::collections::HashMap;
 
 const PTN_ANCHOR: &str = r"\[[^\]]+\]\([^\)]+\)";
 const PTN_ANCHOR_SEGMENTS: &str =

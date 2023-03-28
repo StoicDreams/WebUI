@@ -8,15 +8,13 @@ pub(crate) struct NextPageProps {
 
 #[function_component(NextPage)]
 pub(crate) fn next_page(props: &NextPageProps) -> Html {
+    let app_config = use_context::<AppConfig>().expect("no app config found");
     let display = match props.display.to_owned() {
         Some(display) => display,
-        None => {
-            let app_config = use_context::<AppConfig>().expect("no app config found");
-            match app_config.get_nav_from_path(&props.url) {
-                Some(nav) => nav.name,
-                None => "Not Found".to_string(),
-            }
-        }
+        None => match app_config.get_nav_from_path(&props.url) {
+            Some(nav) => nav.name,
+            None => "Not Found".to_string(),
+        },
     };
     let href = props.url.to_owned();
     html!(

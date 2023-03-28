@@ -1,6 +1,121 @@
-use std::rc::Rc;
-
 use crate::*;
+
+#[derive(Clone, Debug, PartialEq, Default)]
+pub struct AppDrawerOptions {
+    pub(crate) drawer: Direction,
+    pub(crate) title: String,
+    pub(crate) display_ref: usize,
+    pub(crate) hide_header: bool,
+    pub(crate) hide_footer: bool,
+    pub(crate) hide_close_x: bool,
+    pub(crate) hide_cancel: bool,
+    pub(crate) on_confirm: Option<usize>,
+    pub(crate) confirm_display: String,
+    pub(crate) content_class: String,
+}
+pub struct AppDrawerOptionsBuilder {
+    drawer: Direction,
+    title: String,
+    display_ref: usize,
+    hide_header: bool,
+    hide_footer: bool,
+    hide_close_x: bool,
+    hide_cancel: bool,
+    on_confirm: Option<fn() -> bool>,
+    confirm_display: String,
+    content_class: String,
+}
+
+impl AppDrawerOptionsBuilder {
+    pub fn build(self: Self) -> AppDrawerOptions {
+        AppDrawerOptions {
+            drawer: self.drawer,
+            title: self.title,
+            display_ref: self.display_ref,
+            hide_header: self.hide_header,
+            hide_footer: self.hide_footer,
+            hide_close_x: self.hide_close_x,
+            hide_cancel: self.hide_cancel,
+            on_confirm: match self.on_confirm {
+                Some(method) => Some(method as usize),
+                None => None,
+            },
+            confirm_display: self.confirm_display.to_string(),
+            content_class: self.content_class.to_string(),
+        }
+    }
+    pub fn set_drawer(&mut self, drawer: Direction) -> &mut Self {
+        self.drawer = drawer;
+        self
+    }
+    pub fn hide_close_x(&mut self) -> &mut Self {
+        self.hide_close_x = true;
+        self
+    }
+    pub fn hide_header(&mut self) -> &mut Self {
+        self.hide_header = true;
+        self
+    }
+    pub fn hide_footer(&mut self) -> &mut Self {
+        self.hide_footer = true;
+        self
+    }
+    pub(crate) fn hide_cancel(&mut self) -> &mut Self {
+        self.hide_cancel = true;
+        self
+    }
+    pub fn set_on_confirm(&mut self, display: String, on_confirm: fn() -> bool) -> &mut Self {
+        self.on_confirm = Some(on_confirm);
+        self.confirm_display = display;
+        self
+    }
+    pub fn set_content_class(&mut self, class: &str) -> &mut Self {
+        self.content_class = String::from(class);
+        self
+    }
+}
+
+impl AppDrawerOptions {
+    pub fn new(title: String, display: fn() -> Html) -> AppDrawerOptionsBuilder {
+        AppDrawerOptionsBuilder {
+            drawer: Direction::Top,
+            title,
+            display_ref: display as usize,
+            hide_header: false,
+            hide_footer: false,
+            hide_close_x: false,
+            hide_cancel: false,
+            confirm_display: "Confirm".to_string(),
+            on_confirm: None,
+            content_class: String::default(),
+        }
+    }
+
+    pub(crate) fn get_display(&self) -> fn() -> Html {
+        let content: fn() -> Html = if self.display_ref > 0 {
+            let fnptr = self.display_ref as *const ();
+            unsafe { std::mem::transmute(fnptr) }
+        } else {
+            || html!("")
+        };
+        content
+    }
+
+    pub(crate) fn get_on_confirm(&self) -> fn() -> bool {
+        match self.on_confirm {
+            Some(value) => {
+                let content: fn() -> bool = if value > 0 {
+                    let fnptr = value as *const ();
+                    unsafe { std::mem::transmute(fnptr) }
+                } else {
+                    || true
+                };
+                content
+            }
+            None => || true,
+        }
+    }
+}
 
 /// Properties for app drawer components
 #[derive(Properties, PartialEq)]
@@ -16,249 +131,159 @@ pub(crate) struct AppDrawerState {
     pub content: Option<AppDrawerOptions>,
 }
 
-// #[derive(Clone)]
-pub(crate) struct AppDrawer {
-    app_drawer_agent: Box<dyn Bridge<AppDrawerAgent>>,
-    is_open: bool,
-    is_transition: bool,
-    content: AppDrawerOptions,
-    click_handler: ClickHandler,
-}
+const TRANSITION_DURATION: i32 = 300;
 
-/// Clonable struct to pass needed methods and data to click events
-#[derive(Clone)]
-struct ClickHandler {
-    drawer: Direction,
-}
-
-impl ClickHandler {
-    fn get_message(self: &Self) -> AppDrawerReceiverMessage {
-        match self.drawer {
-            Direction::Top => {
-                AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleTopDrawer(None))
-            }
-            Direction::Right => AppDrawerReceiverMessage::AppDrawerMessage(
-                AppDrawerRequest::ToggleRightDrawer(None),
-            ),
-            Direction::Bottom => AppDrawerReceiverMessage::AppDrawerMessage(
-                AppDrawerRequest::ToggleBottomDrawer(None),
-            ),
-            Direction::Left => {
-                AppDrawerReceiverMessage::AppDrawerMessage(AppDrawerRequest::ToggleLeftDrawer(None))
-            }
-        }
-    }
-}
-
-impl AppDrawer {
-    fn set_transition(&mut self, ctx: &yew::Context<Self>, is_open: bool) -> bool {
-        if self.is_open == is_open {
-            return false;
-        }
-        let ctx_tran = ctx
-            .link()
-            .callback(|val: bool| AppDrawerReceiverMessage::SetIsTransition(val));
-        let ctx_open = ctx
-            .link()
-            .callback(|val: bool| AppDrawerReceiverMessage::SetIsOpen(val));
-        ctx_tran.emit(true);
-        set_timeout!(1, move || {
-            ctx_open.emit(is_open);
-        });
-        log(format!("Apply transition"));
-        set_timeout!(300, move || {
-            log(format!("Timeout run"));
-            ctx_tran.emit(false);
-        });
-        // let test = move || {
-        // 	log(format!("Timeout run"));
-        // 	ctx_tran.emit(false);
-        // };
-        // let callback = Closure::wrap(Box::new(test) as Box<dyn FnMut()>);
-        // _ = set_timeout(callback.as_ref().unchecked_ref(), 300);
-        // callback.forget();
-        log(format!("End apply transition"));
-        true
-    }
-
-    fn toggle_state(&mut self, ctx: &yew::Context<Self>, content_ref: Option<AppDrawerOptions>) {
-        match content_ref {
-            Some(options) => {
-                self.set_transition(ctx, options.display_ref > 0 && !self.is_open);
-                // self.is_open = options.display_ref > 0 && !self.is_open;
-                if options.display_ref > 0 {
-                    self.content = options.clone();
+#[function_component(AppDrawer)]
+pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
+    let message =
+        use_context::<UseStateHandle<DrawerMessage>>().expect("Context DrawerMessage not found");
+    let is_open_handle = use_state(|| false);
+    let is_transition_handle = use_state(|| false);
+    let content_handle: UseStateHandle<Option<AppDrawerOptions>> = use_state(|| None);
+    match message.deref().to_owned() {
+        DrawerMessage::ToggleDrawer(option) => {
+            if props.drawer == option.drawer {
+                message.set(DrawerMessage::None);
+                let is_open = is_open_handle.deref().to_owned();
+                let is_transition = is_transition_handle.deref().to_owned();
+                if !is_transition {
+                    is_transition_handle.set(true);
+                    let is_open = !is_open;
+                    if is_open {
+                        content_handle.set(Some(option.to_owned()));
+                    }
+                    is_open_handle.set(is_open);
+                    let is_transition_handle = is_transition_handle.clone();
+                    let content_handle = content_handle.clone();
+                    set_timeout!(TRANSITION_DURATION, move || {
+                        is_transition_handle.set(false);
+                        if !is_open {
+                            content_handle.set(None);
+                        }
+                    });
                 }
             }
-            None => {
-                self.set_transition(ctx, false);
-                // self.is_open = false;
+        }
+        DrawerMessage::Close => {
+            let is_open = is_open_handle.deref().to_owned();
+            if is_open {
+                is_open_handle.set(false);
+                is_transition_handle.set(true);
+                let is_transition_handle = is_transition_handle.clone();
+                let content_handle = content_handle.clone();
+                set_timeout!(TRANSITION_DURATION, move || {
+                    is_transition_handle.set(false);
+                    content_handle.set(None);
+                });
             }
         }
+        DrawerMessage::None => (),
     }
-}
-
-impl Component for AppDrawer {
-    type Message = AppDrawerReceiverMessage;
-    type Properties = AppDrawerProps;
-
-    fn create(ctx: &yew::Context<Self>) -> Self {
-        let link = ctx.link();
-        let test: &crate::html::Scope<AppDrawer> = link;
-        Self {
-            app_drawer_agent: AppDrawerAgent::bridge(
-                ctx.link()
-                    .callback(AppDrawerReceiverMessage::AppDrawerMessage),
-            ),
-            is_open: false,
-            is_transition: false,
-            content: AppDrawerOptions::new("Loading...".to_owned(), || html! {}).build(),
-            click_handler: ClickHandler {
-                drawer: ctx.props().drawer.to_owned(),
-            },
-        }
-    }
-
-    fn update(&mut self, ctx: &yew::Context<Self>, msg: Self::Message) -> bool {
-        // let is_open = self.is_open.clone();
-        match msg {
-            AppDrawerReceiverMessage::AppDrawerMessage(message) => {
-                match message {
-                    AppDrawerRequest::ToggleTopDrawer(fnval) => {
-                        if ctx.props().drawer != Direction::Top {
-                            return false;
-                        }
-                        self.toggle_state(ctx, fnval);
-                    }
-                    AppDrawerRequest::ToggleRightDrawer(fnval) => {
-                        if ctx.props().drawer != Direction::Right {
-                            return false;
-                        }
-                        self.toggle_state(ctx, fnval);
-                    }
-                    AppDrawerRequest::ToggleBottomDrawer(fnval) => {
-                        if ctx.props().drawer != Direction::Bottom {
-                            return false;
-                        }
-                        self.toggle_state(ctx, fnval);
-                    }
-                    AppDrawerRequest::ToggleLeftDrawer(fnval) => {
-                        if ctx.props().drawer != Direction::Left {
-                            return false;
-                        }
-                        self.toggle_state(ctx, fnval);
-                    }
-                }
-                // self.set_transition(ctx, is_open != self.is_open);
-                // is_open != self.is_open
-                false
+    match content_handle.deref().to_owned() {
+        Some(content) => {
+            let is_open = is_open_handle.deref().to_owned();
+            let is_transition = is_transition_handle.deref().to_owned();
+            if !is_open && !is_transition {
+                return html! {
+                    <></>
+                };
             }
-            AppDrawerReceiverMessage::SetIsOpen(is_open) => {
-                self.is_open = is_open;
-                true
-            }
-            AppDrawerReceiverMessage::SetIsTransition(is_transition) => {
-                self.is_transition = is_transition;
-                true
-            }
-            AppDrawerReceiverMessage::None => false,
-        }
-    }
-
-    fn view(&self, ctx: &yew::Context<Self>) -> Html {
-        let props = ctx.props();
-        let class = format!(
-            "app-drawer {} {} {}",
-            props.drawer,
-            props.class.to_owned().unwrap_or_default(),
-            if self.is_open { "open" } else { "closed" }
-        );
-        let content = self.content.get_display();
-        let show_header = !self.content.hide_header;
-        let show_footer = !self.content.hide_footer;
-        let show_close_x = !self.content.hide_close_x;
-        let show_close = !self.content.hide_cancel;
-        let drawer = ctx.props().drawer.to_owned();
-        let cancel_button_display = "Cancel";
-        let show_confirm = match self.content.on_confirm {
-            Some(_) => true,
-            None => false,
-        };
-        let confirm_display = self.content.confirm_display.to_owned();
-        let confirm_onclick = self.content.get_on_confirm();
-
-        let cover_click = self.click_handler.to_owned();
-        let close_x_click = self.click_handler.to_owned();
-        let close_click = self.click_handler.to_owned();
-        let confirm_click = self.click_handler.to_owned();
-        log(format!("app drawer render"));
-        if !self.is_open && !self.is_transition {
-            return html! {
-                <></>
+            let class = format!(
+                "app-drawer {} {} {}",
+                props.drawer,
+                props.class.to_owned().unwrap_or_default(),
+                if is_open { "open" } else { "closed" }
+            );
+            let content_class = format!("drawer-content elevation-20 {}", content.content_class);
+            let drawer_body = content.get_display();
+            let show_header = !content.hide_header;
+            let show_footer = !content.hide_footer;
+            let show_close_x = !content.hide_close_x;
+            let show_close = !content.hide_cancel;
+            let cancel_button_display = "Cancel";
+            let show_confirm = match content.on_confirm {
+                Some(_) => true,
+                None => false,
             };
-        }
-        html! {
-            <aside class={class}>
-                <div class="drawer-placement">
-                    <div class="page-cover" onclick={ctx.link().callback(move |_|cover_click.get_message())}>
-                    </div>
-                    <div class="drawer-content elevation-20">
-                        {if show_header {
-                            html! {
-                                <header>
-                                    {title_standard!(
-                                        html!{
-                                            <>
-                                                <Paper>{"Give us your feedback!"}</Paper>
-                                                <span class="flex-grow" />
-                                            </>
-                                        }
-                                    )}
-                                    <span class="flex-grow" />
-                                    {if show_close_x {
-                                        html! {
-                                            <Button title="close" class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={ctx.link().callback(move |_|close_x_click.get_message())}>
-                                                <i class="fa-solid fa-times" />
-                                            </Button>
-                                        }
-                                    } else {html!{}}}
-                                </header>
-                            }
-                        }else{html!{}}}
-                        <Paper class="flex-grow d-flex flex-column gap-1 overflow-auto">
-                            {content()}
-                        </Paper>
-                        {if show_footer {
-                            html! {
-                                <footer class="pa-1 d-flex flex-row">
-                                    {if show_close {
-                                        html! {
-                                            <Button title="cancel" class="btn theme-warning" onclick={ctx.link().callback(move |_|close_click.get_message())}>
-                                                {cancel_button_display}
-                                            </Button>
-                                        }
-                                    } else {empty_html()}}
-                                    {if show_confirm {
-                                        html! {
-                                            <>
-                                                <span class="flex-grow" />
-                                                <Button class="btn theme-success" onclick={ctx.link().callback(move |_|{
-                                                    if !confirm_onclick() {
-                                                        return AppDrawerReceiverMessage::None;
-                                                    }
-                                                    confirm_click.get_message()
-                                                })}>
-                                                    {confirm_display}
+            let confirm_display = content.confirm_display.to_owned();
+            let on_confirm_onclick = content.get_on_confirm();
+            let message_close = message.clone();
+            let content_close = content.clone();
+            let handle_close = Callback::from(move |_| {
+                let content_close = content_close.to_owned();
+                message_close.set(DrawerMessage::ToggleDrawer(content_close));
+            });
+
+            let cover_click = handle_close.to_owned();
+            let close_x_click = handle_close.to_owned();
+            let close_click = handle_close.to_owned();
+            let confirm_click = Callback::from(move |ev| {
+                on_confirm_onclick();
+                handle_close.emit(ev);
+            });
+
+            let title = content.title.to_owned();
+            html! {
+                <aside class={class}>
+                    <div class="drawer-placement">
+                        <div class="page-cover" onclick={cover_click}>
+                        </div>
+                        <div class={content_class}>
+                            {if show_header {
+                                html! {
+                                    <header>
+                                        {title_standard!(
+                                            html!{
+                                                <>
+                                                    <Paper>{title}</Paper>
+                                                    <span class="flex-grow" />
+                                                </>
+                                            }
+                                        )}
+                                        <span class="flex-grow" />
+                                        {if show_close_x {
+                                            html! {
+                                                <Button title="close" class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={close_x_click}>
+                                                    <i class="fa-solid fa-times" />
                                                 </Button>
-                                            </>
-                                        }
-                                    } else {empty_html()}}
-                                </footer>
-                            }
-                        } else { html! {} }}
+                                            }
+                                        } else {html!{}}}
+                                    </header>
+                                }
+                            }else{html!{}}}
+                            <Paper class="flex-grow d-flex flex-column gap-1 overflow-auto">
+                                {drawer_body()}
+                            </Paper>
+                            {if show_footer {
+                                html! {
+                                    <footer class="pa-1 d-flex flex-row">
+                                        {if show_close {
+                                            html! {
+                                                <Button title="cancel" class="btn theme-warning" onclick={close_click}>
+                                                    {cancel_button_display}
+                                                </Button>
+                                            }
+                                        } else {empty_html()}}
+                                        {if show_confirm {
+                                            html! {
+                                                <>
+                                                    <span class="flex-grow" />
+                                                    <Button class="btn theme-success" onclick={confirm_click}>
+                                                        {confirm_display}
+                                                    </Button>
+                                                </>
+                                            }
+                                        } else {empty_html()}}
+                                    </footer>
+                                }
+                            } else { html! {} }}
+                        </div>
                     </div>
-                </div>
-            </aside>
+                </aside>
+            }
+        }
+        None => {
+            html!()
         }
     }
 }

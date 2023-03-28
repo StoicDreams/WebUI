@@ -1,4 +1,4 @@
-use crate::{function_component, html, Children, Classes, Properties};
+use crate::{function_component, html, Children, Classes, Html, Properties};
 
 /// Properties for List component
 #[derive(Properties, PartialEq)]

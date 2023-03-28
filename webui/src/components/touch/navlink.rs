@@ -37,87 +37,38 @@ pub struct NavLinkProps {
 ///     }
 /// }
 /// ```
-pub struct NavLink {
-    app_state_agent: Box<dyn Bridge<AppStateAgent>>,
-    app_drawer_agent: Dispatcher<AppDrawerAgent>,
-    is_active: bool,
-}
+#[function_component(NavLink)]
+pub fn link(props: &NavLinkProps) -> Html {
+    let navigation = use_context::<UseStateHandle<NavigationMessage>>()
+        .expect("Context NavigationMessage not found");
+    let drawer =
+        use_context::<UseStateHandle<DrawerMessage>>().expect("Context DrawerMessage not found");
+    let is_active = use_state(|| false);
+    let classes = &mut Classes::new();
+    classes.push("navlink");
 
-impl Component for NavLink {
-    type Message = AppStateReceiverMessage;
-    type Properties = NavLinkProps;
-
-    fn create(ctx: &Context<Self>) -> Self {
-        Self {
-            app_state_agent: AppStateAgent::bridge(
-                ctx.link()
-                    .callback(AppStateReceiverMessage::AppStateMessage),
-            ),
-            app_drawer_agent: AppDrawerAgent::dispatcher(),
-            is_active: interop::is_current_path(ctx.props().to.to_owned()),
-        }
+    if !props.class.is_empty() {
+        classes.push(&props.class);
     }
 
-    fn update(&mut self, ctx: &Context<Self>, msg: Self::Message) -> bool {
-        match msg {
-            AppStateReceiverMessage::AppStateMessage(request) => match request {
-                AppStateRequest::PathUpdate(path) => {
-                    if ctx.props().to.to_lowercase() == path.to_lowercase() {
-                        if self.is_active {
-                            return false;
-                        }
-                        self.is_active = true;
-                        self.app_drawer_agent
-                            .send(AppDrawerRequest::ToggleTopDrawer(None));
-                        self.app_drawer_agent
-                            .send(AppDrawerRequest::ToggleRightDrawer(None));
-                        self.app_drawer_agent
-                            .send(AppDrawerRequest::ToggleBottomDrawer(None));
-                        self.app_drawer_agent
-                            .send(AppDrawerRequest::ToggleLeftDrawer(None));
-                        return true;
-                    }
-                    if self.is_active {
-                        self.is_active = false;
-                        return true;
-                    }
-                    return false;
-                }
-            },
-            AppStateReceiverMessage::None => (),
-        }
-        false
+    if is_active.deref().to_owned() {
+        classes.push("active".to_owned());
     }
 
-    fn view(&self, ctx: &Context<Self>) -> Html {
-        let props = ctx.props();
-        let classes = &mut Classes::new();
-        classes.push("navlink");
+    let onclick = {
+        let mypath = props.to.to_owned();
+        let navigation = navigation.clone();
+        let mymessage = NavigationMessage::PathUpdate(mypath);
+        Callback::from(move |_| {
+            let mymessage = mymessage.clone();
+            drawer.set(DrawerMessage::Close);
+            navigation.set(mymessage);
+        })
+    };
 
-        if !props.class.is_empty() {
-            classes.push(&props.class);
-        }
-
-        if self.is_active {
-            classes.push("active".to_owned());
-        }
-
-        let onclick = {
-            let path = props.to.to_owned();
-            ctx.link().callback(move |_| {
-                push_state(&path);
-                let mut app_state_agent = AppStateAgent::dispatcher();
-                app_state_agent.send(AppStateRequest::PathUpdate(path.to_string()));
-                AppStateReceiverMessage::AppStateMessage(AppStateRequest::PathUpdate(
-                    path.to_string(),
-                ))
-            })
-        };
-
-        html! {
-            <a href={props.to.to_string()} class={classes.clone()} onclick={onclick}>
-                { for props.children.iter() }
-            </a>
-        }
+    html! {
+        <a href={props.to.to_string()} class={classes.clone()} onclick={onclick}>
+            { for props.children.iter() }
+        </a>
     }
 }

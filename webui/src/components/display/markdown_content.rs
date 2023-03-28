@@ -22,7 +22,6 @@ use line_types::*;
 use lines::*;
 use list::*;
 use markdown_segments::*;
-use table::*;
 use tags::*;
 
 /// Properties for Image component
