@@ -1,8 +1,10 @@
+use std::rc::Rc;
 use crate::prelude::*;
 
+#[derive(Clone)]
 struct PocInfo<'a> {
     id: Uuid,
-    content: Box<dyn Fn() -> Html + 'a>,
+    content: Rc<dyn Fn() -> Html + 'a>,
 }
 
 impl<'a> PocInfo<'a> {
@@ -12,7 +14,7 @@ impl<'a> PocInfo<'a> {
     {
         Self {
             id: newid(),
-            content: Box::new(content),
+            content: Rc::new(content),
         }
     }
 

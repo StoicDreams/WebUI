@@ -1,8 +1,9 @@
 use crate::prelude::*;
 
+#[derive(Clone)]
 struct DynHtml<'a> {
     id: Uuid,
-    content: Box<dyn Fn() -> Html + 'a>,
+    content: Rc<dyn Fn() -> Html + 'a>,
 }
 
 impl<'a> DynHtml<'a> {
