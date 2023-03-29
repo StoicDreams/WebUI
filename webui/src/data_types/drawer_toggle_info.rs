@@ -13,7 +13,7 @@ pub struct DrawerToggleInfo {
     pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
     pub(crate) hide_cancel: bool,
-    pub(crate) on_confirm: Option<fn() -> bool>,
+    pub(crate) on_confirm: Option<fn(Contexts) -> bool>,
     pub(crate) confirm_display: String,
 }
 
@@ -29,7 +29,7 @@ pub struct DrawerToggleInfoBuilder {
     hide_footer: bool,
     hide_close_x: bool,
     hide_cancel: bool,
-    on_confirm: Option<fn() -> bool>,
+    on_confirm: Option<fn(Contexts) -> bool>,
     confirm_display: String,
 }
 
@@ -80,14 +80,6 @@ impl DrawerToggleInfo {
 
         builder.build()
     }
-
-    // pub fn open(&self) -> () {
-    //     let option = self.get_options();
-    //     // let message = AppDrawerMessage::ToggleTopDrawer(Some(option));
-    // 	// let app_drawer = use_reducer(AppDrawerAgent::default);
-    // 	// app_drawer.clone().dispatch(AppDrawerRequest::AppDrawerMessage(message));
-    //     // AppDrawerAgent::dispatcher().send(request);
-    // }
 }
 
 impl DrawerToggleInfoBuilder {
@@ -143,7 +135,7 @@ impl DrawerToggleInfoBuilder {
     /// Set the confirmation display text and handler handler
     ///
     /// This button will display on the right side of the drawer footer
-    pub fn set_on_confirm(&mut self, display: &str, on_confirm: fn() -> bool) -> &mut Self {
+    pub fn set_on_confirm(&mut self, display: &str, on_confirm: fn(Contexts) -> bool) -> &mut Self {
         self.on_confirm = Some(on_confirm);
         self.confirm_display = String::from(display);
         self

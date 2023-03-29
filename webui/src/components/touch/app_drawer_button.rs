@@ -23,8 +23,7 @@ pub struct AppDrawerButtonProps {
 /// Top and Bottom app drawers act more like dialogs|modals, sliding out and displaying in the center of the page.
 #[function_component(AppDrawerButton)]
 pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
-    let message_context =
-        use_context::<UseStateHandle<DrawerMessage>>().expect("Context DrawerMessage not found");
+    let contexts = use_context::<Contexts>().expect("Contexts not found");
     let logo_src_handle: UseStateHandle<Option<String>> = use_state(|| None);
     let logo_title_handle: UseStateHandle<String> = use_state(|| String::default());
     let drawer_info = &props.info;
@@ -36,13 +35,13 @@ pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
         match drawer_info_click {
             Some(info) => {
                 let options = info.get_options();
-                message_context.set(DrawerMessage::ToggleDrawer(options));
+                contexts.drawer.set(DrawerMessage::ToggleDrawer(options));
             }
             None => (),
         };
     });
     let children = &props.children;
-    jslog!("App Drawer Button:{:?}", props);
+
     html! {
         <>
             {match drawer_info.clone() {

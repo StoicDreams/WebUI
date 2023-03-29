@@ -1,3 +1,5 @@
+use yew::suspense::SuspensionResult;
+
 use crate::*;
 
 #[derive(Clone, Debug, PartialEq)]
@@ -10,16 +12,14 @@ enum PageState {
 
 #[function_component(AppBody)]
 pub(crate) fn app_body() -> Html {
-    let navigation = use_context::<UseStateHandle<NavigationMessage>>()
-        .expect("Context NavigationMessage not found");
-    let app_config = use_context::<AppConfig>().expect("Context AppConfig not found");
+    let contexts = use_context::<Contexts>().expect("Contexts not found");
     let page_state = use_state(|| PageState::Show);
-    let nav = navigation.deref().to_owned();
+    let nav = contexts.nav.deref().to_owned();
     let path = use_state(|| interop::get_path().to_lowercase());
     let _ = match nav {
         NavigationMessage::PathUpdate(new_path) => {
             if path.deref().to_owned() != new_path {
-                navigation.set(NavigationMessage::None);
+                contexts.nav.set(NavigationMessage::None);
                 if *page_state.deref() == PageState::Show {
                     let page_state = page_state.clone();
                     let path = path.clone();
@@ -56,12 +56,14 @@ pub(crate) fn app_body() -> Html {
         PageState::TransitionOut => "page transition out",
         PageState::Show => "",
     };
-    jslog!("body path:{}", page_el);
+
+    let routes = contexts.config.nav_routing;
+    let page = path.deref().to_string();
     html! {
         <>
             <main class={main_class}>
                 <@{page_el} class="paper">
-                    {(get_page_content(app_config.nav_routing, &path))()}
+                    <PageContent {routes} {page} />
                 </@>
             </main>
             <Paper id="loading" class="d-flex align-center justify-center">
@@ -71,6 +73,7 @@ pub(crate) fn app_body() -> Html {
     }
 }
 
+#[function_component(PageNotFound)]
 fn page_not_found() -> Html {
     html! {
         <SideImage image_pos={LeftOrRight::Right} src="https://cdn.myfi.ws/v/Vecteezy/404-error-illustration-exclusive-design-inspiration.svg">
@@ -81,15 +84,45 @@ fn page_not_found() -> Html {
     }
 }
 
-fn get_page_content(routes: Vec<NavRoute>, page: &str) -> fn() -> Html {
-    let page = get_page(routes, page);
-    match page {
-        Option::Some(link_info) => link_info.page,
-        Option::None => page_not_found,
+#[derive(Properties, PartialEq)]
+pub struct PageContentProps {
+    pub routes: Vec<NavRoute>,
+    pub page: String,
+}
+
+#[function_component(PageContent)]
+fn page_content(props: &PageContentProps) -> Html {
+    match use_get_page(props.routes.to_owned(), &props.page) {
+        SuspensionResult::Ok(link_info) => {
+            let page = link_info.page;
+            html! {<>{page()}</>}
+        }
+        SuspensionResult::Err(_err) => {
+            jslog!("Get page failed!");
+            html! {<PageNotFound />}
+        }
     }
 }
 
-fn get_page(routes: Vec<NavRoute>, page: &str) -> Option<NavLinkInfo> {
+#[hook]
+fn use_get_page(routes: Vec<NavRoute>, page: &str) -> suspense::SuspensionResult<NavLinkInfo> {
+    match get_page_option(routes, page) {
+        Some(info) => Ok(info),
+        None => {
+            let (s, handle) = suspense::Suspension::new();
+            get_page_failure(move || {
+                handle.resume();
+            });
+            Err(s)
+        }
+    }
+}
+
+fn get_page_failure<F: FnOnce()>(handler: F) {
+    handler();
+}
+
+fn get_page_option(routes: Vec<NavRoute>, page: &str) -> Option<NavLinkInfo> {
     for route in routes {
         match route {
             NavRoute::NavLink(link_info) => {
@@ -101,7 +134,7 @@ fn get_page(routes: Vec<NavRoute>, page: &str) -> Option<NavLinkInfo> {
                 if group_info.children.len() == 0 {
                     continue;
                 }
-                if let Option::Some(link_info) = get_page(group_info.children, page) {
+                if let Option::Some(link_info) = get_page_option(group_info.children, page) {
                     return Option::Some(link_info);
                 }
             }

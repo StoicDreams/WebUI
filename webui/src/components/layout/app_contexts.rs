@@ -15,13 +15,14 @@ pub(crate) fn app_contexts(props: &AppContextsProps) -> Html {
         NavigationMessage::PathUpdate(path)
     });
     let drawers = use_state(|| DrawerMessage::None);
+    let context = Contexts {
+        config: app_config.clone(),
+        nav: navigation.clone(),
+        drawer: drawers.clone(),
+    };
     html! {
-        <ContextProvider<AppConfig> context={app_config.clone()}>
-        <ContextProvider<UseStateHandle<NavigationMessage>> context={navigation.clone()}>
-        <ContextProvider<UseStateHandle<DrawerMessage>> context={drawers.clone()}>
+        <ContextProvider<Contexts> {context}>
             { for props.children.iter() }
-        </ContextProvider<UseStateHandle<DrawerMessage>>>
-        </ContextProvider<UseStateHandle<NavigationMessage>>>
-        </ContextProvider<AppConfig>>
+        </ContextProvider<Contexts>>
     }
 }

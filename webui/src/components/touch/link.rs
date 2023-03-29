@@ -18,10 +18,7 @@ pub struct NavLinkProps {
 
 #[function_component(Link)]
 pub fn link(props: &NavLinkProps) -> Html {
-    let navigation = use_context::<UseStateHandle<NavigationMessage>>()
-        .expect("Context NavigationMessage not found");
-    let drawer =
-        use_context::<UseStateHandle<DrawerMessage>>().expect("Context DrawerMessage not found");
+    let contexts = use_context::<Contexts>().expect("Contexts not found");
     let classes = &mut Classes::new();
     classes.push("navlink");
     if !props.class.is_empty() {
@@ -35,11 +32,11 @@ pub fn link(props: &NavLinkProps) -> Html {
     let mypath = props.href.to_string();
     let onclick = {
         let mypath = mypath.clone();
-        let navigation = navigation.clone();
+        let navigation = contexts.nav.clone();
         let mymessage = NavigationMessage::PathUpdate(mypath);
         Callback::from(move |_| {
             let mymessage = mymessage.clone();
-            drawer.set(DrawerMessage::Close);
+            contexts.drawer.set(DrawerMessage::Close);
             navigation.set(mymessage);
         })
     };

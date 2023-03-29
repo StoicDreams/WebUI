@@ -21,7 +21,7 @@ pub struct AppDrawerOptionsBuilder {
     hide_footer: bool,
     hide_close_x: bool,
     hide_cancel: bool,
-    on_confirm: Option<fn() -> bool>,
+    on_confirm: Option<fn(Contexts) -> bool>,
     confirm_display: String,
     content_class: String,
 }
@@ -64,7 +64,11 @@ impl AppDrawerOptionsBuilder {
         self.hide_cancel = true;
         self
     }
-    pub fn set_on_confirm(&mut self, display: String, on_confirm: fn() -> bool) -> &mut Self {
+    pub fn set_on_confirm(
+        &mut self,
+        display: String,
+        on_confirm: fn(Contexts) -> bool,
+    ) -> &mut Self {
         self.on_confirm = Some(on_confirm);
         self.confirm_display = display;
         self
@@ -101,18 +105,18 @@ impl AppDrawerOptions {
         content
     }
 
-    pub(crate) fn get_on_confirm(&self) -> fn() -> bool {
+    pub(crate) fn get_on_confirm(&self) -> fn(Contexts) -> bool {
         match self.on_confirm {
             Some(value) => {
-                let content: fn() -> bool = if value > 0 {
+                let content: fn(Contexts) -> bool = if value > 0 {
                     let fnptr = value as *const ();
                     unsafe { std::mem::transmute(fnptr) }
                 } else {
-                    || true
+                    |_| true
                 };
                 content
             }
-            None => || true,
+            None => |_| true,
         }
     }
 }
@@ -135,15 +139,14 @@ const TRANSITION_DURATION: i32 = 300;
 
 #[function_component(AppDrawer)]
 pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
-    let message =
-        use_context::<UseStateHandle<DrawerMessage>>().expect("Context DrawerMessage not found");
+    let contexts = use_context::<Contexts>().expect("Contexts not found");
     let is_open_handle = use_state(|| false);
     let is_transition_handle = use_state(|| false);
     let content_handle: UseStateHandle<Option<AppDrawerOptions>> = use_state(|| None);
-    match message.deref().to_owned() {
+    match contexts.drawer.deref().to_owned() {
         DrawerMessage::ToggleDrawer(option) => {
             if props.drawer == option.drawer {
-                message.set(DrawerMessage::None);
+                contexts.drawer.set(DrawerMessage::None);
                 let is_open = is_open_handle.deref().to_owned();
                 let is_transition = is_transition_handle.deref().to_owned();
                 if !is_transition {
@@ -207,18 +210,19 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
             };
             let confirm_display = content.confirm_display.to_owned();
             let on_confirm_onclick = content.get_on_confirm();
-            let message_close = message.clone();
+            let drawer_context = contexts.drawer.clone();
             let content_close = content.clone();
             let handle_close = Callback::from(move |_| {
                 let content_close = content_close.to_owned();
-                message_close.set(DrawerMessage::ToggleDrawer(content_close));
+                drawer_context.set(DrawerMessage::ToggleDrawer(content_close));
             });
 
             let cover_click = handle_close.to_owned();
             let close_x_click = handle_close.to_owned();
             let close_click = handle_close.to_owned();
+            let contexts_click = contexts.to_owned();
             let confirm_click = Callback::from(move |ev| {
-                on_confirm_onclick();
+                on_confirm_onclick(contexts_click.to_owned());
                 handle_close.emit(ev);
             });
 
@@ -231,7 +235,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                         <div class={content_class}>
                             {if show_header {
                                 html! {
-                                    <header>
+                                    <header class="pl-2 pr-2">
                                         {title_standard!(
                                             html!{
                                                 <>
@@ -251,12 +255,12 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                     </header>
                                 }
                             }else{html!{}}}
-                            <Paper class="flex-grow d-flex flex-column gap-1 overflow-auto">
+                            <Paper class="flex-grow d-flex flex-column gap-1 overflow-auto pa-2">
                                 {drawer_body()}
                             </Paper>
                             {if show_footer {
                                 html! {
-                                    <footer class="pa-1 d-flex flex-row">
+                                    <footer class="pa-2 d-flex flex-row">
                                         {if show_close {
                                             html! {
                                                 <Button title="cancel" class="btn theme-warning" onclick={close_click}>

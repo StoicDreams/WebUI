@@ -2181,7 +2181,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "wasm-bindgen-futures",
  "webui",
@@ -2197,7 +2197,7 @@ dependencies = [
 
 [[package]]
 name = "webui"
-version = "0.4.0"
+version = "0.4.1"
 dependencies = [
  "async-std",
  "chrono",

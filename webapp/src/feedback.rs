@@ -17,7 +17,7 @@ pub fn feedback_button_info() -> DrawerToggleInfo {
 const CONFIRM_KEY: &str = "feedback_confirm_result";
 const FEEDBACK_KEY: &str = "feedback";
 
-fn handle_confirm() -> bool {
+fn handle_confirm(contexts: Contexts) -> bool {
     let input_state = use_input_state(FEEDBACK_KEY, || String::default(), None);
     let value = input_state.get();
     if value.is_empty() {
@@ -38,7 +38,11 @@ fn handle_confirm() -> bool {
                 );
                 if response.is_ok() {
                     _ = GlobalData::set_data(FEEDBACK_KEY, "");
-                    // Dialog::alert("Thank You", || html!("Thank you for your feedback!")).open();
+
+                    contexts.drawer.set(
+                        Dialog::alert("Thank you", || html!("Thank you for your feedback!"))
+                            .message(),
+                    );
                 }
                 let _ = GlobalData::set_data::<bool>(CONFIRM_KEY, response.is_ok());
             });
@@ -60,7 +64,6 @@ pub(crate) fn get_render_wrapper() -> Html {
 #[function_component(GetRender)]
 pub(crate) fn get_render() -> Html {
     let input_state = use_state(|| GlobalData::get_data_or(FEEDBACK_KEY, || String::default()));
-    let value = input_state.deref().to_owned();
     let onchange = {
         Callback::from(move |value: String| {
             _ = GlobalData::set_data(FEEDBACK_KEY, value);
@@ -82,7 +85,7 @@ pub(crate) fn get_render() -> Html {
 
     html! {
         <>
-            <Paper class="pa-1 flex-grow d-flex flex-column gap-1">
+            <Paper class="flex-grow d-flex flex-column gap-1">
                 {show_discord()}
                 <InputMessage class="flex-grow d-flex flex-column" name="Feedback" value={input_state.clone()} onchange={onchange} />
             </Paper>

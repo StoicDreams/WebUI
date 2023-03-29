@@ -9,7 +9,7 @@ impl Dialog {
         Dialog {
             info: DrawerToggleInfo::new(title, || html!(), content)
                 .set_drawer(Direction::Top)
-                .set_on_confirm("Confirm", || true)
+                .set_on_confirm("Confirm", |_| true)
                 .to_owned(),
         }
     }
@@ -20,10 +20,13 @@ impl Dialog {
                 .set_drawer(Direction::Top)
                 .hide_cancel_button()
                 .hide_close_x_button()
-                .set_on_confirm("Ok", || true)
+                .set_on_confirm("Ok", |_| true)
                 .set_content_class("auto-size")
                 .to_owned(),
         }
+    }
+    pub fn message(&mut self) -> DrawerMessage {
+        DrawerMessage::ToggleDrawer(self.info.build().get_options())
     }
     // pub fn open(&mut self) -> &Self {
     //     self.info.build().open();
@@ -65,7 +68,7 @@ impl Dialog {
     /// Set the confirmation display text and handler handler
     ///
     /// This button will display on the right side of the drawer footer
-    pub fn set_on_confirm(&mut self, display: &str, on_confirm: fn() -> bool) -> &mut Self {
+    pub fn set_on_confirm(&mut self, display: &str, on_confirm: fn(Contexts) -> bool) -> &mut Self {
         self.info.set_on_confirm(display, on_confirm);
         self
     }
