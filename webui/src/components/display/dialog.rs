@@ -15,7 +15,9 @@ impl Dialog {
     }
     /// Create a new dialog without any close buttons, only a confirmation button.
     pub fn alert(title: &str, content: &dyn Fn() -> Html) -> Self {
-		let test:fn()->Html = ||{html!{<>{"Mock Content"}</>}};
+        let test: fn() -> Html = || {
+            html! {<>{"Mock Content"}</>}
+        };
         Dialog {
             info: DrawerToggleInfo::new(title, || html!(), test)
                 .set_drawer(Direction::Top)

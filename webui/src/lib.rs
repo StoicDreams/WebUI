@@ -12,6 +12,8 @@ pub mod common;
 pub mod components;
 /// Data Types
 pub mod data_types;
+/// Global methods and helpers
+pub mod global;
 /// Shortcut for all common components
 pub mod prelude;
 /// Modules that hold application states
@@ -29,6 +31,7 @@ pub use async_std;
 pub use chrono;
 use components::layout::app::start_webui_app;
 pub use futures;
+pub use global::*;
 pub use js_sys;
 pub use js_sys::Function;
 pub use lazy_static;
@@ -52,19 +55,6 @@ pub use yew::*;
 pub use yew_agent;
 pub use yew_agent::*;
 pub use yew_hooks;
-
-pub fn empty_html() -> Html {
-    html! {}
-}
-
-pub fn get_window() -> web_sys::Window {
-    web_sys::window().unwrap()
-}
-
-pub fn set_timeout(handler: &Function, milliseconds: i32) -> Result<i32, JsValue> {
-    let window = get_window();
-    window.set_timeout_with_callback_and_timeout_and_arguments_0(handler, milliseconds)
-}
 
 /// Initializer to run in app main() to start website
 ///
