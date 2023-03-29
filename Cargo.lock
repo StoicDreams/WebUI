@@ -2243,6 +2243,8 @@ dependencies = [
 name = "webapp"
 version = "0.4.1"
 dependencies = [
+ "serde",
+ "serde_json",
  "wasm-bindgen-futures",
  "webui",
  "yew",

@@ -16,6 +16,25 @@ pub fn feedback_button_info() -> DrawerToggleInfo {
 
 const CONFIRM_KEY: &str = "feedback_confirm_result";
 const FEEDBACK_KEY: &str = "feedback";
+const DEFAULT_THANK_YOU: &str = "Thank you for your feedback!";
+
+#[derive(Debug, serde::Deserialize)]
+struct StandardResponse {
+	message: String,
+}
+
+fn get_response_message(response: &str, backup: &str) -> String {
+	if response.is_empty() { return String::from(backup); }
+	match serde_json::from_str::<StandardResponse>(response) {
+		Ok(result) => return result.message,
+		Err(_) => (),
+	};
+	match serde_json::from_str::<String>(response) {
+		Ok(result) => return result,
+		Err(_) => (),
+	}
+	String::from(response)
+}
 
 fn handle_confirm(contexts: Contexts) -> bool {
     let input_state = use_input_state(FEEDBACK_KEY, || String::default(), None);
@@ -38,11 +57,23 @@ fn handle_confirm(contexts: Contexts) -> bool {
                 );
                 if response.is_ok() {
                     _ = GlobalData::set_data(FEEDBACK_KEY, "");
+					match response.get_result() {
+						Some(result) => {
+							let message = get_response_message(&result, DEFAULT_THANK_YOU);
+							jslog!("Feedback response:{}", message);
+							contexts.drawer.set(
+								Dialog::alert("Thank you", &move|| html!(&message))
+									.message(),
+							);
+						},
+						None => {
+							contexts.drawer.set(
+								Dialog::alert("Thank you", &|| html!(DEFAULT_THANK_YOU))
+									.message(),
+							);
+						}
+					}
 
-                    contexts.drawer.set(
-                        Dialog::alert("Thank you", || html!("Thank you for your feedback!"))
-                            .message(),
-                    );
                 }
                 let _ = GlobalData::set_data::<bool>(CONFIRM_KEY, response.is_ok());
             });

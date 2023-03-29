@@ -14,9 +14,10 @@ impl Dialog {
         }
     }
     /// Create a new dialog without any close buttons, only a confirmation button.
-    pub fn alert(title: &str, content: fn() -> Html) -> Self {
+    pub fn alert(title: &str, content: &dyn Fn() -> Html) -> Self {
+		let test:fn()->Html = ||{html!{<>{"Mock Content"}</>}};
         Dialog {
-            info: DrawerToggleInfo::new(title, || html!(), content)
+            info: DrawerToggleInfo::new(title, || html!(), test)
                 .set_drawer(Direction::Top)
                 .hide_cancel_button()
                 .hide_close_x_button()
