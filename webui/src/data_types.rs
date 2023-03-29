@@ -7,6 +7,9 @@ pub mod drawer_toggle_info;
 /// Module holding data types for direction values
 pub mod direction;
 
+/// Module for DynHtml type
+pub mod dyn_html;
+
 /// Module holding custom error types
 pub mod errors;
 
@@ -22,4 +25,15 @@ pub mod roles;
 /// Module for holding Theme enum
 pub mod theme;
 
+/// Module for POC work
 mod poc;
+
+pub use crate::data_types::app_config::*;
+pub use crate::data_types::direction::*;
+pub use crate::data_types::drawer_toggle_info::*;
+pub use crate::data_types::dyn_html::*;
+pub use crate::data_types::errors::*;
+pub use crate::data_types::format::*;
+pub use crate::data_types::nav_route::*;
+pub use crate::data_types::roles::*;
+pub use crate::data_types::theme::*;

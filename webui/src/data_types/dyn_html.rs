@@ -1,3 +1,4 @@
+// use std::rc::Rc;
 use crate::prelude::*;
 
 #[derive(Clone)]
@@ -13,7 +14,7 @@ impl<'a> DynHtml<'a> {
     {
         Self {
             id: newid(),
-            content: Box::new(content),
+            content: Rc::new(content),
         }
     }
 
