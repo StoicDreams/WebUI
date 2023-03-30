@@ -7,7 +7,7 @@ pub fn feedback_button_info() -> DrawerToggleInfo {
     DrawerToggleInfo::new(
         "Give us your Feedback!",
         || html! {<i class="fa-solid fa-comment" />},
-        get_render_wrapper,
+        DynHtml::new(get_render_wrapper),
     )
     .set_drawer(Direction::Top)
     .set_on_confirm("Send Feedback", handle_confirm)
@@ -62,14 +62,20 @@ fn handle_confirm(contexts: Contexts) -> bool {
                     match response.get_result() {
                         Some(result) => {
                             let message = get_response_message(&result, DEFAULT_THANK_YOU);
-                            jslog!("Feedback response:{}", message);
-                            contexts.drawer.set(
-                                Dialog::alert("Thank you", &move || html!(&message)).message(),
-                            );
-                        }
+							let dyn_html = DynHtml::new(move || {
+								let message = message.clone();
+								html!(
+								<>
+									{message}
+								</>
+							)});
+							let mut dialog = Dialog::alert("Thank you", dyn_html);
+							let message = dialog.message().to_owned();
+                            contexts.drawer.set(message);
+                        },
                         None => {
                             contexts.drawer.set(
-                                Dialog::alert("Thank you", &|| html!(DEFAULT_THANK_YOU)).message(),
+                                Dialog::alert("Thank you", DynHtml::new(|| html!(DEFAULT_THANK_YOU))).message(),
                             );
                         }
                     }

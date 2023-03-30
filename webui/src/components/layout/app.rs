@@ -28,7 +28,6 @@ impl Component for App {
     }
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
-        jslog!("App Rendered!");
         html! {
             <div id="app" class="page transition out">
                 <AppContexts

@@ -8,7 +8,7 @@ pub struct DrawerToggleInfo {
     pub(crate) class: String,
     pub(crate) content_class: String,
     pub(crate) drawer: Direction,
-    pub(crate) drawer_content: fn() -> Html,
+    pub(crate) drawer_content: DynHtml,
     pub(crate) hide_header: bool,
     pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
@@ -24,7 +24,7 @@ pub struct DrawerToggleInfoBuilder {
     class: String,
     content_class: String,
     drawer: Direction,
-    drawer_content: fn() -> Html,
+    drawer_content: DynHtml,
     hide_header: bool,
     hide_footer: bool,
     hide_close_x: bool,
@@ -37,7 +37,7 @@ impl DrawerToggleInfo {
     pub fn new(
         title: &str,
         button_display: fn() -> Html,
-        drawer_content: fn() -> Html,
+        drawer_content: DynHtml,
     ) -> DrawerToggleInfoBuilder {
         DrawerToggleInfoBuilder {
             title: String::from(title),
@@ -56,7 +56,7 @@ impl DrawerToggleInfo {
     }
     pub(crate) fn get_options(&self) -> AppDrawerOptions {
         let mut builder: AppDrawerOptionsBuilder =
-            AppDrawerOptions::new(self.title.to_owned(), self.drawer_content);
+            AppDrawerOptions::new(self.title.to_owned(), self.drawer_content.to_owned());
         builder.set_content_class(&self.content_class);
         builder.set_drawer(self.drawer);
         if self.hide_header {
@@ -90,7 +90,7 @@ impl DrawerToggleInfoBuilder {
             class: self.class.to_string(),
             content_class: self.content_class.to_string(),
             drawer: self.drawer.to_owned(),
-            drawer_content: self.drawer_content,
+            drawer_content: self.drawer_content.to_owned(),
             hide_header: self.hide_header,
             hide_footer: self.hide_footer,
             hide_close_x: self.hide_close_x,

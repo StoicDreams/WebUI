@@ -5,7 +5,7 @@ pub struct Dialog {
     info: DrawerToggleInfoBuilder,
 }
 impl Dialog {
-    pub fn new(title: &str, content: fn() -> Html) -> Self {
+    pub fn new(title: &str, content: DynHtml) -> Self {
         Dialog {
             info: DrawerToggleInfo::new(title, || html!(), content)
                 .set_drawer(Direction::Top)
@@ -14,12 +14,9 @@ impl Dialog {
         }
     }
     /// Create a new dialog without any close buttons, only a confirmation button.
-    pub fn alert(title: &str, content: &dyn Fn() -> Html) -> Self {
-        let test: fn() -> Html = || {
-            html! {<>{"Mock Content"}</>}
-        };
+    pub fn alert(title: &str, content: DynHtml) -> Self {
         Dialog {
-            info: DrawerToggleInfo::new(title, || html!(), test)
+            info: DrawerToggleInfo::new(title, || html!(), content)
                 .set_drawer(Direction::Top)
                 .hide_cancel_button()
                 .hide_close_x_button()
@@ -31,10 +28,6 @@ impl Dialog {
     pub fn message(&mut self) -> DrawerMessage {
         DrawerMessage::ToggleDrawer(self.info.build().get_options())
     }
-    // pub fn open(&mut self) -> &Self {
-    //     self.info.build().open();
-    //     self
-    // }
     pub fn auto_size(&mut self) -> &Self {
         self.info.set_content_class("auto-size");
         self

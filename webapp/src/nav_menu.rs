@@ -6,7 +6,7 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
     DrawerToggleInfo::new(
         "Navigation Menu",
         || html! {<i class="fa-solid fa-bars"></i>},
-        nav_menu_render,
+        DynHtml::new(nav_menu_render),
     )
     .set_button_class("btn toggle theme-inherit")
     .hide_header()

@@ -4,7 +4,7 @@ use crate::*;
 pub struct AppDrawerOptions {
     pub(crate) drawer: Direction,
     pub(crate) title: String,
-    pub(crate) display_ref: usize,
+    pub(crate) display_ref: DynHtml,
     pub(crate) hide_header: bool,
     pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
@@ -16,7 +16,7 @@ pub struct AppDrawerOptions {
 pub struct AppDrawerOptionsBuilder {
     drawer: Direction,
     title: String,
-    display_ref: usize,
+    display_ref: DynHtml,
     hide_header: bool,
     hide_footer: bool,
     hide_close_x: bool,
@@ -80,11 +80,11 @@ impl AppDrawerOptionsBuilder {
 }
 
 impl AppDrawerOptions {
-    pub fn new(title: String, display: fn() -> Html) -> AppDrawerOptionsBuilder {
+    pub fn new(title: String, display: DynHtml) -> AppDrawerOptionsBuilder {
         AppDrawerOptionsBuilder {
             drawer: Direction::Top,
             title,
-            display_ref: display as usize,
+            display_ref: display,
             hide_header: false,
             hide_footer: false,
             hide_close_x: false,
@@ -95,14 +95,8 @@ impl AppDrawerOptions {
         }
     }
 
-    pub(crate) fn get_display(&self) -> fn() -> Html {
-        let content: fn() -> Html = if self.display_ref > 0 {
-            let fnptr = self.display_ref as *const ();
-            unsafe { std::mem::transmute(fnptr) }
-        } else {
-            || html!("")
-        };
-        content
+    pub(crate) fn get_display(&self) -> DynHtml {
+        self.display_ref.to_owned()
     }
 
     pub(crate) fn get_on_confirm(&self) -> fn(Contexts) -> bool {
@@ -256,7 +250,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                 }
                             }else{html!{}}}
                             <Paper class="flex-grow d-flex flex-column gap-1 overflow-auto pa-2">
-                                {drawer_body()}
+                                {drawer_body.run()}
                             </Paper>
                             {if show_footer {
                                 html! {
