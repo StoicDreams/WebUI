@@ -62,20 +62,25 @@ fn handle_confirm(contexts: Contexts) -> bool {
                     match response.get_result() {
                         Some(result) => {
                             let message = get_response_message(&result, DEFAULT_THANK_YOU);
-							let dyn_html = DynHtml::new(move || {
-								let message = message.clone();
-								html!(
-								<>
-									{message}
-								</>
-							)});
-							let mut dialog = Dialog::alert("Thank you", dyn_html);
-							let message = dialog.message().to_owned();
+                            let dyn_html = DynHtml::new(move || {
+                                let message = message.clone();
+                                html!(
+                                    <>
+                                        {message}
+                                    </>
+                                )
+                            });
+                            let mut dialog = Dialog::alert("Thank you", dyn_html);
+                            let message = dialog.message().to_owned();
                             contexts.drawer.set(message);
-                        },
+                        }
                         None => {
                             contexts.drawer.set(
-                                Dialog::alert("Thank you", DynHtml::new(|| html!(DEFAULT_THANK_YOU))).message(),
+                                Dialog::alert(
+                                    "Thank you",
+                                    DynHtml::new(|| html!(DEFAULT_THANK_YOU)),
+                                )
+                                .message(),
                             );
                         }
                     }

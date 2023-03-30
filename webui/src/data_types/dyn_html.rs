@@ -2,7 +2,7 @@
 use crate::prelude::*;
 
 pub trait HtmlRunner {
-	fn run(&self) -> Html;
+    fn run(&self) -> Html;
 }
 
 #[derive(Clone)]
@@ -53,8 +53,6 @@ impl Default for DynHtml {
         }
     }
 }
-
-
 
 #[derive(Clone)]
 pub struct DynHtmlLT<'a> {
