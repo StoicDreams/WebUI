@@ -691,9 +691,7 @@ aside.app-drawer.left {
 	letter-spacing: var(--typography-letterspacing);
 	border: none;
 }
-.auto_message_box > pre {
-	position: absolute;
-}
+
 .auto_message_box > pre > code,
 .auto_message_box > pre + textarea,
 .auto_message_box > pre + input[type=text] {
