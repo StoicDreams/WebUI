@@ -1,14 +1,69 @@
 // use std::rc::Rc;
 use crate::prelude::*;
 
+pub trait HtmlRunner {
+	fn run(&self) -> Html;
+}
+
 #[derive(Clone)]
-struct DynHtml<'a> {
+pub struct DynHtml {
+    id: Uuid,
+    content: Rc<dyn Fn() -> Html>,
+}
+
+impl DynHtml {
+    pub fn new<F>(content: F) -> Self
+    where
+        F: Fn() -> Html + 'static,
+    {
+        Self {
+            id: newid(),
+            content: Rc::new(content),
+        }
+    }
+}
+
+impl HtmlRunner for DynHtml {
+    fn run(&self) -> Html {
+        let unbox = &*self.content.as_ref();
+        html!(<>{unbox()}</>)
+    }
+}
+
+impl PartialEq for DynHtml {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
+    }
+}
+
+impl core::fmt::Debug for DynHtml {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("DynHtml")
+            .field("id", &self.id)
+            .field("content", &"dyn Fn() -> Html")
+            .finish()
+    }
+}
+
+impl Default for DynHtml {
+    fn default() -> Self {
+        Self {
+            id: Default::default(),
+            content: Rc::new(|| html!()),
+        }
+    }
+}
+
+
+
+#[derive(Clone)]
+pub struct DynHtmlLT<'a> {
     id: Uuid,
     content: Rc<dyn Fn() -> Html + 'a>,
 }
 
-impl<'a> DynHtml<'a> {
-    fn new<F>(content: F) -> Self
+impl<'a> DynHtmlLT<'a> {
+    pub fn new<F>(content: F) -> Self
     where
         F: Fn() -> Html + 'a,
     {
@@ -17,25 +72,36 @@ impl<'a> DynHtml<'a> {
             content: Rc::new(content),
         }
     }
+}
 
+impl<'a> HtmlRunner for DynHtmlLT<'a> {
     fn run(&self) -> Html {
         let unbox = &*self.content.as_ref();
         html!(<>{unbox()}</>)
     }
 }
 
-impl<'a> PartialEq for DynHtml<'a> {
+impl<'a> PartialEq for DynHtmlLT<'a> {
     fn eq(&self, other: &Self) -> bool {
         self.id == other.id
     }
 }
 
-impl<'a> core::fmt::Debug for DynHtml<'a> {
+impl<'a> core::fmt::Debug for DynHtmlLT<'a> {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("DynHtml")
+        f.debug_struct("DynHtmlLT")
             .field("id", &self.id)
             .field("content", &"dyn Fn() -> Html")
             .finish()
+    }
+}
+
+impl<'a> Default for DynHtmlLT<'a> {
+    fn default() -> Self {
+        Self {
+            id: Default::default(),
+            content: Rc::new(|| html!()),
+        }
     }
 }
 
@@ -57,34 +123,33 @@ mod tests {
         assert!(true);
     }
 
-	#[derive(Debug, Properties, PartialEq)]
-	struct TestProps<'a> {
-		pub children: Children,
-		pub info: DynHtml<'a>,
-	}
+    #[derive(Debug, Properties, PartialEq)]
+    struct TestProps {
+        pub children: Children,
+        pub info: DynHtml,
+    }
 
-	#[function_component(TestComponent)]
-	fn test_component(props: &TestProps<'static>) -> Html {
-		let content = &props.info;
-		html! {
-			<>
-				{ for props.children.iter() }
-				{content.run()}
-			</>
-		}
-	}
+    #[function_component(TestComponent)]
+    fn test_component(props: &TestProps) -> Html {
+        let content = &props.info;
+        html! {
+            <>
+                { for props.children.iter() }
+                {content.run()}
+            </>
+        }
+    }
 
-	#[function_component(PocApp)]
-	fn test_app() -> Html {
-		// An external variable that we want to pass into a method that builds html
-		let message = "This is an external message!";
-		// A parameter object that we pass in an Html method that can output our external message
-		let info = DynHtml::new(move || html!(message));
-		html! {
-			<TestComponent {info}>
-				{"Hello World!"}
-			</TestComponent>
-		}
-	}
-
+    #[function_component(PocApp)]
+    fn test_app() -> Html {
+        // An external variable that we want to pass into a method that builds html
+        let message = "This is an external message!";
+        // A parameter object that we pass in an Html method that can output our external message
+        let info = DynHtml::new(move || html!(message));
+        html! {
+            <TestComponent {info}>
+                {"Hello World!"}
+            </TestComponent>
+        }
+    }
 }

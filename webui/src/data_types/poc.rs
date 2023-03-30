@@ -1,36 +1,38 @@
-use std::rc::Rc;
 use crate::prelude::*;
+use std::rc::Rc;
 
 #[derive(Clone)]
-struct PocInfo<'a> {
+struct PocInfo {
     id: Uuid,
-    content: Rc<dyn Fn() -> Html + 'a>,
+    content: Rc<dyn Fn() -> Html>,
 }
 
-impl<'a> PocInfo<'a> {
+impl PocInfo {
     fn new<F>(content: F) -> Self
     where
-        F: Fn() -> Html + 'a,
+        F: Fn() -> Html + 'static,
     {
         Self {
             id: newid(),
             content: Rc::new(content),
         }
     }
+}
 
+impl HtmlRunner for PocInfo {
     fn run(&self) -> Html {
         let unbox = &*self.content.as_ref();
         html!(<>{unbox()}</>)
     }
 }
 
-impl<'a> PartialEq for PocInfo<'a> {
+impl PartialEq for PocInfo {
     fn eq(&self, other: &Self) -> bool {
         self.id == other.id
     }
 }
 
-impl<'a> core::fmt::Debug for PocInfo<'a> {
+impl core::fmt::Debug for PocInfo {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("PocInfo")
             .field("id", &self.id)
@@ -40,13 +42,13 @@ impl<'a> core::fmt::Debug for PocInfo<'a> {
 }
 
 #[derive(Debug, Properties, PartialEq)]
-struct PocProps<'a> {
+struct PocProps {
     pub children: Children,
-    pub info: PocInfo<'a>,
+    pub info: PocInfo,
 }
 
 #[function_component(PocComponent)]
-fn poc_component(props: &PocProps<'static>) -> Html {
+fn poc_component(props: &PocProps) -> Html {
     let content = &props.info;
     html! {
         <>
