@@ -602,7 +602,6 @@ aside.app-drawer.left {
 .app-drawer.top > .drawer-placement > .drawer-content:not(.auto-size),
 .app-drawer.bottom > .drawer-placement > .drawer-content:not(.auto-size) {
 	min-width: 50%;
-	min-height: 50%;
 }
 .app-drawer.top > .drawer-placement > .drawer-content {
 	bottom: 0;
@@ -661,9 +660,9 @@ aside.app-drawer.left {
 	min-height: 4em;
 }
 .auto_message_box:not(.single-line) code::after {
-	content: "
-
-";
+	display: block;
+	content: " ";
+	height: 2ch;
 }
 .auto_message_box > pre + textarea,
 .auto_message_box > pre + input[type=text]  {

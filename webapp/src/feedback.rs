@@ -14,7 +14,6 @@ pub fn feedback_button_info() -> DrawerToggleInfo {
     .build()
 }
 
-const CONFIRM_KEY: &str = "feedback_confirm_result";
 const FEEDBACK_KEY: &str = "feedback";
 const DEFAULT_THANK_YOU: &str = "Thank you for your feedback!";
 
@@ -53,10 +52,6 @@ fn handle_confirm(contexts: Contexts) -> bool {
                     FetchMethod::Post(post_body.to_string()),
                 ))
                 .await;
-                _ = GlobalData::set_data(
-                    FEEDBACK_KEY,
-                    &format!("Response:{}\n{:?}", response.is_ok(), response),
-                );
                 if response.is_ok() {
                     _ = GlobalData::set_data(FEEDBACK_KEY, "");
                     match response.get_result() {
@@ -84,8 +79,15 @@ fn handle_confirm(contexts: Contexts) -> bool {
                             );
                         }
                     }
+                } else {
+                    contexts.drawer.set(
+						Dialog::alert(
+							"Feedback Failure",
+							DynHtml::new(|| html!("We're sorry, it looks like our server failed to save your feedback. Please wait a moment and try again.")),
+						)
+						.message(),
+					);
                 }
-                let _ = GlobalData::set_data::<bool>(CONFIRM_KEY, response.is_ok());
             });
             true
         }
