@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// Properties for Loading components
 #[derive(Properties, PartialEq)]
@@ -46,23 +46,27 @@ pub fn loading(props: &LoadingProps) -> Html {
     let size = props.size;
     let color = props.color.to_string().replace("theme-", "");
     let parent_class = classes!(
-        "loading d-flex d-flex align-center justify-center",
+        "loading",
+        "d-flex",
+        "d-flex",
+        "align-center",
+        "justify-center",
         props.class
     );
     let parent_styles = props.style.to_owned();
     let mut class = match props.variant {
-        LoadingVariant::Bar => classes!("loading bar", format!("theme-{}", color)),
+        LoadingVariant::Bar => classes!("loading", "bar", format!("theme-{}", color)),
         LoadingVariant::StripedBar => {
-            classes!("loading bar striped", format!("theme-{}", color))
+            classes!("loading", "bar", "striped", format!("theme-{}", color))
         }
-        LoadingVariant::Circle => classes!("loading circle", format!("color-{}", color)),
+        LoadingVariant::Circle => classes!("loading", "circle", format!("color-{}", color)),
     };
     let styles = match props.variant {
-        LoadingVariant::Bar => String::from(format!("height:{size}px")),
-        LoadingVariant::StripedBar => String::from(format!("height:{size}px")),
-        LoadingVariant::Circle => String::from(format!(
-            "width:{size}px;height:{size}px;max-width:{size}px;max-height:{size}px;"
-        )),
+        LoadingVariant::Bar => format!("height:{size}px"),
+        LoadingVariant::StripedBar => format!("height:{size}px"),
+        LoadingVariant::Circle => {
+            format!("width:{size}px;height:{size}px;max-width:{size}px;max-height:{size}px;")
+        }
     };
     let mut style_offset = String::default();
     let mut style_percent = String::default();
@@ -74,11 +78,8 @@ pub fn loading(props: &LoadingProps) -> Html {
             }
             _ => {
                 style_percent = format!("width:{percent}%;");
-                match props.offset {
-                    Some(offset) => {
-                        style_offset = format!("width:{offset}%;");
-                    }
-                    None => (),
+                if let Some(offset) = props.offset {
+                    style_offset = format!("width:{offset}%;");
                 }
             }
         },

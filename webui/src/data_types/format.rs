@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// Format Decimal with commas and digit limit
 ///
@@ -19,48 +19,44 @@ use crate::*;
 /// assert_eq!("200,000.50", format_decimal(number,2));
 /// ```
 pub fn format_decimal(number: Decimal, digits: u32) -> String {
-    println!("N{}", number.to_string());
+    println!("N{}", number);
     let value = &mut format!("{}", number.round_dp(digits));
     println!("{}  {}", value, digits);
     let split = &mut value.split('.');
     let left = &mut String::new();
-    match split.next() {
-        Some(value) => {
-            let count = &mut (value.len() % 3);
-            let comma_next = &mut false;
-            for ch in value.chars() {
-                if *comma_next {
-                    left.push(',');
-                    *comma_next = false;
-                }
-                left.push(ch);
-                if *count == 1 {
-                    *comma_next = true;
-                    *count = 0;
-                } else if *count == 0 {
-                    *count = 2;
-                } else {
-                    *count = *count - 1;
-                }
+    if let Some(value) = split.next() {
+        let count = &mut (value.len() % 3);
+        let comma_next = &mut false;
+        for ch in value.chars() {
+            if *comma_next {
+                left.push(',');
+                *comma_next = false;
+            }
+            left.push(ch);
+            if *count == 1 {
+                *comma_next = true;
+                *count = 0;
+            } else if *count == 0 {
+                *count = 2;
+            } else {
+                *count -= 1;
             }
         }
-        None => (),
     };
-    if left.len() == 0 {
+    if left.is_empty() {
         left.push('0');
     }
     if digits == 0 {
         return left.to_string();
     }
     let right = &mut String::new();
-    match split.next() {
-        Some(value) => right.push_str(value),
-        None => (),
-    };
+    if let Some(value) = split.next() {
+        right.push_str(value);
+    }
     while right.len() < digits.try_into().unwrap() {
         right.push('0');
     }
-    format!("{}.{}", left, right).to_string()
+    format!("{}.{}", left, right)
 }
 
 /// Format number with commas and digit limit
@@ -89,29 +85,26 @@ where
     println!("{}  {}", value, digits);
     let split = &mut value.split('.');
     let left = &mut String::new();
-    match split.next() {
-        Some(value) => {
-            let count = &mut (value.len() % 3);
-            let comma_next = &mut false;
-            for ch in value.chars() {
-                if *comma_next {
-                    left.push(',');
-                    *comma_next = false;
-                }
-                left.push(ch);
-                if *count == 1 {
-                    *comma_next = true;
-                    *count = 0;
-                } else if *count == 0 {
-                    *count = 2;
-                } else {
-                    *count = *count - 1;
-                }
+    if let Some(value) = split.next() {
+        let count = &mut (value.len() % 3);
+        let comma_next = &mut false;
+        for ch in value.chars() {
+            if *comma_next {
+                left.push(',');
+                *comma_next = false;
+            }
+            left.push(ch);
+            if *count == 1 {
+                *comma_next = true;
+                *count = 0;
+            } else if *count == 0 {
+                *count = 2;
+            } else {
+                *count -= 1;
             }
         }
-        None => (),
     };
-    if left.len() == 0 {
+    if left.is_empty() {
         left.push('0');
     }
     if digits == 0 {
@@ -119,19 +112,16 @@ where
     }
     let right = &mut String::new();
     let udigits: usize = digits.try_into().unwrap();
-    match split.next() {
-        Some(value) => {
-            for ch in value.chars() {
-                if right.len() == udigits {
-                    break;
-                }
-                right.push(ch);
+    if let Some(value) = split.next() {
+        for ch in value.chars() {
+            if right.len() == udigits {
+                break;
             }
+            right.push(ch);
         }
-        None => (),
     };
     while right.len() < udigits {
         right.push('0');
     }
-    format!("{}.{}", left, right).to_string()
+    format!("{}.{}", left, right)
 }

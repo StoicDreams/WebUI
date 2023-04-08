@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// Properties for SideImage components
 #[derive(Properties, PartialEq)]

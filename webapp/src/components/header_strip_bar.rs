@@ -1,4 +1,4 @@
-use webui::*;
+use crate::prelude::*;
 
 pub(crate) fn header_strip_bar() -> Html {
     html! {

@@ -25,7 +25,7 @@ impl DynHtml {
 
 impl HtmlRunner for DynHtml {
     fn run(&self) -> Html {
-        let unbox = &*self.content.as_ref();
+        let unbox = self.content.as_ref();
         html!(<>{unbox()}</>)
     }
 }
@@ -74,7 +74,7 @@ impl<'a> DynHtmlLT<'a> {
 
 impl<'a> HtmlRunner for DynHtmlLT<'a> {
     fn run(&self) -> Html {
-        let unbox = &*self.content.as_ref();
+        let unbox = self.content.as_ref();
         html!(<>{unbox()}</>)
     }
 }
@@ -118,7 +118,6 @@ mod tests {
     #[test]
     fn test_hello_world() {
         _ = hello_world();
-        assert!(true);
     }
 
     #[derive(Debug, Properties, PartialEq)]

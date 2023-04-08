@@ -56,6 +56,5 @@ mod tests {
     #[test]
     fn test_hello_world() {
         _ = hello_world();
-        assert!(true);
     }
 }

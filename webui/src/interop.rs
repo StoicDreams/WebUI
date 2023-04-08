@@ -15,9 +15,9 @@ pub fn is_current_path(path: String) -> bool {
 /// ```
 #[macro_export]
 macro_rules! jslog {
-	( $($x:expr ),* ) => {
-		$crate::interop::log(format!($($x),*));
-	};
+    ( $($x:expr ),* ) => {
+        $crate::interop::log(format!($($x),*));
+    };
 }
 
 #[wasm_bindgen(module = "/src/static_files/js/webui_interop.js")]

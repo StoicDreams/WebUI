@@ -33,18 +33,18 @@ You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-
 
 ```rust
 <Paper class={CLASSES_SIDE_BY_SIDE} elevation={ELEVATION_STANDARD}>
-	<Paper class="ma-10 pa-10">
-		<Avatar image="/Logo.svg" />
-	</Paper>
-	<Paper class="ma-10 pa-10 f10 d-flex align-center">
-		<Avatar icon="fa-solid fa-acorn" />
-	</Paper>
-	<Paper class="ma-10 pa-10">
-		<Avatar image="/Logo.svg" alt="Logo" />
-	</Paper>
-	<Paper class="ma-10 pa-10 f5 d-flex align-center">
-		<Avatar icon="fa-solid fa-acorn" alt="Acorn" />
-	</Paper>
+    <Paper class="ma-10 pa-10">
+        <Avatar image="/Logo.svg" />
+    </Paper>
+    <Paper class="ma-10 pa-10 f10 d-flex align-center">
+        <Avatar icon="fa-solid fa-acorn" />
+    </Paper>
+    <Paper class="ma-10 pa-10">
+        <Avatar image="/Logo.svg" alt="Logo" />
+    </Paper>
+    <Paper class="ma-10 pa-10 f5 d-flex align-center">
+        <Avatar icon="fa-solid fa-acorn" alt="Acorn" />
+    </Paper>
 </Paper>
 ```
 ````
@@ -62,7 +62,7 @@ You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-
 ```
 ```rust
 <Paper class="ma-10 pa-10">
-	<Image src="/Logo.svg" alt="Logo" title="Logo" />
+    <Image src="/Logo.svg" alt="Logo" title="Logo" />
 </Paper>
 ```
 ````
@@ -113,23 +113,23 @@ Loading display components can be used to display a loading circle or loading ba
 ```
 ```rust
 <Cards>
-	<Paper>
-		<Loading variant={LoadingVariant::Circle} color={Theme::Info} size={LOADING_SIZE_MEDIUM} percent={10}>
-	</Paper>
-	<Paper>
-		<Loading variant={LoadingVariant::Circle} color={Theme::Info} size={LOADING_SIZE_MEDIUM} percent={20}>
-	</Paper>
-	...
+    <Paper>
+        <Loading variant={LoadingVariant::Circle} color={Theme::Info} size={LOADING_SIZE_MEDIUM} percent={10}>
+    </Paper>
+    <Paper>
+        <Loading variant={LoadingVariant::Circle} color={Theme::Info} size={LOADING_SIZE_MEDIUM} percent={20}>
+    </Paper>
+    ...
 </Cards>
 <Paper>
-	<Loading variant={LoadingVariant::Bar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={0}>
+    <Loading variant={LoadingVariant::Bar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={0}>
 </Paper>
 <Paper>
-	<Loading variant={LoadingVariant::Bar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={10}>
+    <Loading variant={LoadingVariant::Bar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={10}>
 </Paper>
 ...
 <Paper>
-	<Loading variant={LoadingVariant::StripedBar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={20}>
+    <Loading variant={LoadingVariant::StripedBar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={20}>
 </Paper>
 ...
 ```
@@ -214,37 +214,37 @@ LOADING_SIZE_XLARGE
 ```
 ```rust
 <Cards>
-	<Paper>
-		<Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_MEDIUM}>
-	</Paper>
-	<Paper>
-		<Loading variant={LoadingVariant::Circle} color={Theme::Secondary} size={LOADING_SIZE_MEDIUM}>
-	</Paper>
-	...
+    <Paper>
+        <Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_MEDIUM}>
+    </Paper>
+    <Paper>
+        <Loading variant={LoadingVariant::Circle} color={Theme::Secondary} size={LOADING_SIZE_MEDIUM}>
+    </Paper>
+    ...
 </Cards>
 <Cards>
-	<Paper>
-		<Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_MEDIUM}>
-	</Paper>
-	<Paper>
-		<Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_LARGE}>
-	</Paper>
-	<Paper>
-		<Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_XLARGE}>
-	</Paper>
+    <Paper>
+        <Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_MEDIUM}>
+    </Paper>
+    <Paper>
+        <Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_LARGE}>
+    </Paper>
+    <Paper>
+        <Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_XLARGE}>
+    </Paper>
 </Cards>
 <Paper class={CLASSES_MAXCONTENT_AUTO} elevation={ELEVATION_STANDARD}>
-	<p>{"LOADING_SIZE_TINY"}</p>
-	<Loading variant={LoadingVariant::Bar} color={Theme::Primary} size={LOADING_SIZE_TINY}>
+    <p>{"LOADING_SIZE_TINY"}</p>
+    <Loading variant={LoadingVariant::Bar} color={Theme::Primary} size={LOADING_SIZE_TINY}>
 </Paper>
 <Paper class={CLASSES_MAXCONTENT_AUTO} elevation={ELEVATION_STANDARD}>
-	<p>{"12u16"}</p>
-	<Loading variant={LoadingVariant::Bar} color={Theme::Primary} size={12u16}>
+    <p>{"12u16"}</p>
+    <Loading variant={LoadingVariant::Bar} color={Theme::Primary} size={12u16}>
 </Paper>
 ...
 <Paper class={CLASSES_MAXCONTENT_AUTO} elevation={ELEVATION_STANDARD}>
-	<p>{"LOADING_SIZE_SMALL"}</p>
-	<Loading variant={LoadingVariant::StripedBar} color={Theme::Primary} size={LOADING_SIZE_SMALL}>
+    <p>{"LOADING_SIZE_SMALL"}</p>
+    <Loading variant={LoadingVariant::StripedBar} color={Theme::Primary} size={LOADING_SIZE_SMALL}>
 </Paper>
 ...
 ```
@@ -257,7 +257,7 @@ This display component supports building and displaying content from a markdown 
 
 This component is very early in development and does not support all markdown syntax. Likewise, the purpose of this component is not to display markdown directly translated to html as is traditionally done, but rather to translate markdown to Web UI components.
 
-Generally, the container based components will 
+Generally, the container based components will
 ```
 
 ``````sidebyside
@@ -371,65 +371,65 @@ pub(crate) fn page_components_display() -> Html {
 ```automax "gap-2"
 ```paper "elevation-10"
 automax left
-``` 
+```
 ```paper "elevation-10"
 automax right
-``` 
-``` 
+```
+```
 
 ```cards
 ```card "Title"
 A card with a title
-``` 
+```
 ```card "Hello World" "200"
 Another Card with a max width
-``` 
+```
 ```card "Hello World" "200" "secondary"
 Another Card with a theme
-``` 
+```
 ```card "Hello World" "200" "tertiary" "fa-solid fa-acorn"
 Another Card with an Avatar
-``` 
+```
 ```card "Hello World" "300" "info" "fa-solid fa-acorn" "/"
 Another Card With a Link
-``` 
-``` 
+```
+```
 
 ```sidebyside
 ```list
 one
 two
 three
-``` 
+```
 ```list "text here flags ordered list"
 one
 two
 three
-``` 
-``` 
+```
+```
 
 ```maxauto "gap-2"
 ```paper "elevation-10"
 maxauto left
-``` 
+```
 ```paper "elevation-10"
 maxauto right
-``` 
-``` 
+```
+```
 
 ```quote
 A standard non-cited quote
-``` 
+```
 ```quote "info"
 Add a theme
-``` 
+```
 ```quote "warning" "Some Author"
 Add a cite
-``` 
-... 
+```
+...
 
 ```sidebyside
-``` 
+```
 
 ````
 
@@ -454,41 +454,41 @@ Add a cite
 ```rust
 #[derive(PartialEq)]
 struct table_detail {
-	pub one: String,
-	pub two: String,
+    pub one: String,
+    pub two: String,
 }
 fn example() -> Html {
-	let columns = vec![
-		TableColumns::<workflow_details>::new(
+    let columns = vec![
+        TableColumns::<workflow_details>::new(
             "One".to_string(),
             |data| html! {data.one.to_string()},
         ),
-		TableColumns::<workflow_details>::new(
+        TableColumns::<workflow_details>::new(
             "Two".to_string(),
             |data| html! {data.one.to_string()},
         ),
-	];
-	let data = vec![
-		table_detail {
-			one: String::from("Hello"),
-			two: String::from("World")
-		},
-		table_detail {
-			one: String::from("Foo"),
-			two: String::from("Bar")
-		},
-	];
-	html!(
-		<Paper>
-			{
-				Table::<workflow_details>::new(columns)
-					.add_class("mt-3 mb-3".to_string())
-					.bordered()
-					.elevation(ELEVATION_STANDARD)
-					.render(data)
-			}
-		</Paper>
-	)
+    ];
+    let data = vec![
+        table_detail {
+            one: String::from("Hello"),
+            two: String::from("World")
+        },
+        table_detail {
+            one: String::from("Foo"),
+            two: String::from("Bar")
+        },
+    ];
+    html!(
+        <Paper>
+            {
+                Table::<workflow_details>::new(columns)
+                    .add_class("mt-3 mb-3".to_string())
+                    .bordered()
+                    .elevation(ELEVATION_STANDARD)
+                    .render(data)
+            }
+        </Paper>
+    )
 }
 ```
 

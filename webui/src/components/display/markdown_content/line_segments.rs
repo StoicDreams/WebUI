@@ -9,7 +9,7 @@ const PTN_AVATAR_SEGMENTS: &str = r#"!\[?(?P<alt>[^\]]+)\]\((?P<url>[^\)]+)\)"#;
 pub(super) fn render_line_segment(segment: &str) -> Html {
     let line_pattern = Regex::new(&format!("^{}$", PTN_AVATAR)).unwrap();
     if line_pattern.is_match(segment) {
-        let anchor_pattern = Regex::new(&format!("{}", PTN_AVATAR_SEGMENTS)).unwrap();
+        let anchor_pattern = Regex::new(PTN_AVATAR_SEGMENTS).unwrap();
         return match anchor_pattern.captures(segment) {
             Some(caps) => {
                 let map: HashMap<&str, &str> = anchor_pattern
@@ -27,7 +27,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
                 let image = if url.starts_with("fa-") {
                     None
                 } else {
-                    Some(url.to_owned())
+                    Some(url)
                 };
                 html!(
                     <Avatar {icon} {image} {alt} />
@@ -40,7 +40,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
     }
     let line_pattern = Regex::new(&format!("^{}$", PTN_ANCHOR)).unwrap();
     if line_pattern.is_match(segment) {
-        let anchor_pattern = Regex::new(&format!("{}", PTN_ANCHOR_SEGMENTS)).unwrap();
+        let anchor_pattern = Regex::new(PTN_ANCHOR_SEGMENTS).unwrap();
         return match anchor_pattern.captures(segment) {
             Some(caps) => {
                 let map: HashMap<&str, &str> = anchor_pattern
@@ -64,7 +64,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
     }
     match get_next_split(segment).as_str() {
         "`" => {
-            let subs = segment.split("`");
+            let subs = segment.split('`');
             let mut is_code = true;
             html!({
                 subs.map(|sub| {
@@ -79,7 +79,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
             })
         }
         "\"" => {
-            let subs = segment.split("\"");
+            let subs = segment.split('\"');
             let mut is_code = true;
             html!({
                 subs.map(|sub| {
@@ -124,7 +124,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
             })
         }
         "*" => {
-            let subs = segment.split("*");
+            let subs = segment.split('*');
             let mut is_ital = true;
             html!({
                 subs.map(|sub| {
@@ -139,7 +139,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
             })
         }
         "~" => {
-            let subs = segment.split("~");
+            let subs = segment.split('~');
             let mut is_subscript = true;
             html!({
                 subs.map(|sub| {
@@ -154,7 +154,7 @@ pub(super) fn render_line_segment(segment: &str) -> Html {
             })
         }
         "^" => {
-            let subs = segment.split("^");
+            let subs = segment.split('^');
             let mut is_super = true;
             html!({
                 subs.map(|sub| {
@@ -182,40 +182,32 @@ fn get_next_split(segment: &str) -> String {
     let mut next_split = String::new();
     let mut index = segment.len();
     for item in ["^", "~", "**", "==", "\"", "`"] {
-        match index_of(segment, item) {
-            Some(match_index) => {
-                if match_index < index {
-                    index = match_index;
-                    next_split = item.to_string();
-                }
+        if let Some(match_index) = index_of(segment, item) {
+            if match_index < index {
+                index = match_index;
+                next_split = item.to_string();
             }
-            None => (),
         }
     }
     for item in ["*"] {
-        match index_of(segment, item) {
-            Some(match_index) => {
-                if match_index < index {
-                    index = match_index;
-                    next_split = item.to_string();
-                }
+        if let Some(match_index) = index_of(segment, item) {
+            if match_index < index {
+                index = match_index;
+                next_split = item.to_string();
             }
-            None => (),
         }
     }
     next_split
 }
 
 fn index_of(segment: &str, substring: &str) -> Option<usize> {
-    let mut subs = segment.clone().split(substring);
+    let mut subs = segment.split(substring);
     if subs.clone().count() == 1 {
         return None;
     }
     match subs.next() {
         Some(sub) => {
-            if sub.len() == 0 {
-                ()
-            } else {
+            if !sub.is_empty() {
                 return Some(sub.len());
             }
         }
@@ -223,10 +215,10 @@ fn index_of(segment: &str, substring: &str) -> Option<usize> {
     }
     match subs.next() {
         Some(sub) => {
-            if sub.len() == 0 {
+            if sub.is_empty() {
                 None
             } else {
-                return Some(0);
+                Some(0)
             }
         }
         None => None,

@@ -31,7 +31,7 @@ pub fn link(props: &NavLinkProps) -> Html {
     };
     let mypath = props.href.to_string();
     let onclick = {
-        let mypath = mypath.clone();
+        let mypath = mypath;
         let navigation = contexts.nav.clone();
         let mymessage = NavigationMessage::PathUpdate(mypath);
         Callback::from(move |_| {

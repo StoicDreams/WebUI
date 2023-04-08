@@ -11,42 +11,42 @@ function get_uuid() {
         });
     }
 }
-const currentVersion = location.host.substring(0,9) === 'localhost' ? `${get_uuid()}` : 'webui_0.4.4';
+const currentVersion = location.host.substring(0,9) === 'localhost' ? `${get_uuid()}` : 'webui_0.4.5';
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${currentVersion}`;
 const offlineAssetsInclude = [/\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/];
 const offlineAssetsExclude = [/^service-worker\.js$/];
 
 async function onInstall(event) {
-	console.info(`Service worker: Install ${cacheName}`);
-	self.skipWaiting();
+    console.info(`Service worker: Install ${cacheName}`);
+    self.skipWaiting();
 }
 
 async function onActivate(event) {
-	console.info(`Service worker: Activate ${cacheName}`);
+    console.info(`Service worker: Activate ${cacheName}`);
 
-	// Delete unused caches
-	const cacheKeys = await caches.keys();
-	await Promise.all(cacheKeys
-		.filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
-		.map(key => caches.delete(key)));
+    // Delete unused caches
+    const cacheKeys = await caches.keys();
+    await Promise.all(cacheKeys
+        .filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
+        .map(key => caches.delete(key)));
 }
 
 async function onFetch(event) {
-	let cachedResponse = null;
-	if (allowCache(event.request)) {
-		const cache = await caches.open(cacheName);
-		cachedResponse = await cache.match(event.request);
-	}
+    let cachedResponse = null;
+    if (allowCache(event.request)) {
+        const cache = await caches.open(cacheName);
+        cachedResponse = await cache.match(event.request);
+    }
 
-	return cachedResponse || fetch(event.request);
+    return cachedResponse || fetch(event.request);
 }
 
 function allowCache(request) {
-	// Only allow caching for GET requests
-	if (request.method !== 'GET') { return false; }
-	// Exclude caching for navigation requests to ensure the latest site updates are loaded asap
-	if (request.mode === 'navigate') { return false; }
-	// All other GET requests allow navigation
-	return true;
+    // Only allow caching for GET requests
+    if (request.method !== 'GET') { return false; }
+    // Exclude caching for navigation requests to ensure the latest site updates are loaded asap
+    if (request.mode === 'navigate') { return false; }
+    // All other GET requests allow navigation
+    return true;
 }

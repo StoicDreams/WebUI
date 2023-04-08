@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, Default)]
 pub struct AppDrawerOptions {
@@ -27,7 +27,7 @@ pub struct AppDrawerOptionsBuilder {
 }
 
 impl AppDrawerOptionsBuilder {
-    pub fn build(self: Self) -> AppDrawerOptions {
+    pub fn build(self) -> AppDrawerOptions {
         AppDrawerOptions {
             drawer: self.drawer,
             title: self.title,
@@ -36,12 +36,12 @@ impl AppDrawerOptionsBuilder {
             hide_footer: self.hide_footer,
             hide_close_x: self.hide_close_x,
             hide_cancel: self.hide_cancel,
-            on_confirm: match self.on_confirm {
-                Some(method) => Some(method as usize),
-                None => None,
+            on_confirm: self.on_confirm.map(|method| method as usize),
+            confirm_display: {
+                let confirm_display = &self.confirm_display;
+                confirm_display.to_owned()
             },
-            confirm_display: self.confirm_display.to_string(),
-            content_class: self.content_class.to_string(),
+            content_class: self.content_class,
         }
     }
     pub fn set_drawer(&mut self, drawer: Direction) -> &mut Self {
@@ -80,7 +80,7 @@ impl AppDrawerOptionsBuilder {
 }
 
 impl AppDrawerOptions {
-    pub fn new(title: String, display: DynHtml) -> AppDrawerOptionsBuilder {
+    pub fn builder(title: String, display: DynHtml) -> AppDrawerOptionsBuilder {
         AppDrawerOptionsBuilder {
             drawer: Direction::Top,
             title,
@@ -147,7 +147,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                     is_transition_handle.set(true);
                     let is_open = !is_open;
                     if is_open {
-                        content_handle.set(Some(option.to_owned()));
+                        content_handle.set(Some(option));
                     }
                     is_open_handle.set(is_open);
                     let is_transition_handle = is_transition_handle.clone();
@@ -198,10 +198,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
             let show_close_x = !content.hide_close_x;
             let show_close = !content.hide_cancel;
             let cancel_button_display = "Cancel";
-            let show_confirm = match content.on_confirm {
-                Some(_) => true,
-                None => false,
-            };
+            let show_confirm = content.on_confirm.is_some();
             let confirm_display = content.confirm_display.to_owned();
             let on_confirm_onclick = content.get_on_confirm();
             let drawer_context = contexts.drawer.clone();
@@ -214,13 +211,13 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
             let cover_click = handle_close.to_owned();
             let close_x_click = handle_close.to_owned();
             let close_click = handle_close.to_owned();
-            let contexts_click = contexts.to_owned();
+            let contexts_click = contexts;
             let confirm_click = Callback::from(move |ev| {
                 on_confirm_onclick(contexts_click.to_owned());
                 handle_close.emit(ev);
             });
 
-            let title = content.title.to_owned();
+            let title = content.title;
             html! {
                 <aside class={class}>
                     <div class="drawer-placement">

@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// App home page
 pub(crate) fn page_components_containers() -> Html {

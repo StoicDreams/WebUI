@@ -34,7 +34,7 @@ pub struct DrawerToggleInfoBuilder {
 }
 
 impl DrawerToggleInfo {
-    pub fn new(
+    pub fn builder(
         title: &str,
         button_display: fn() -> Html,
         drawer_content: DynHtml,
@@ -56,7 +56,7 @@ impl DrawerToggleInfo {
     }
     pub(crate) fn get_options(&self) -> AppDrawerOptions {
         let mut builder: AppDrawerOptionsBuilder =
-            AppDrawerOptions::new(self.title.to_owned(), self.drawer_content.to_owned());
+            AppDrawerOptions::builder(self.title.to_owned(), self.drawer_content.to_owned());
         builder.set_content_class(&self.content_class);
         builder.set_drawer(self.drawer);
         if self.hide_header {
@@ -70,11 +70,8 @@ impl DrawerToggleInfo {
             if self.hide_cancel {
                 builder.hide_cancel();
             }
-            match self.on_confirm {
-                Some(on_confirm) => {
-                    builder.set_on_confirm(self.confirm_display.to_string(), on_confirm);
-                }
-                None => (),
+            if let Some(on_confirm) = self.on_confirm {
+                builder.set_on_confirm(self.confirm_display.to_string(), on_confirm);
             }
         }
 

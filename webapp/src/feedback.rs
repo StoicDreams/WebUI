@@ -1,11 +1,9 @@
+use crate::prelude::*;
 use std::borrow::BorrowMut;
 use std::collections::HashMap;
-use webui::prelude::*;
-use webui::{actors::input_state::use_input_state, *};
-use yew::functional::use_state;
 
 pub fn feedback_button_info() -> DrawerToggleInfo {
-    DrawerToggleInfo::new(
+    DrawerToggleInfo::builder(
         "Give us your Feedback!",
         || html! {<i class="fa-solid fa-comment" />},
         DynHtml::new(get_render_wrapper),
@@ -27,19 +25,17 @@ fn get_response_message(response: &str, backup: &str) -> String {
     if response.is_empty() {
         return String::from(backup);
     }
-    match serde_json::from_str::<StandardResponse>(response) {
-        Ok(result) => return result.message,
-        Err(_) => (),
-    };
-    match serde_json::from_str::<String>(response) {
-        Ok(result) => return result,
-        Err(_) => (),
+    if let Ok(result) = serde_json::from_str::<StandardResponse>(response) {
+        return result.message;
+    }
+    if let Ok(result) = serde_json::from_str::<String>(response) {
+        return result;
     }
     String::from(response)
 }
 
 fn handle_confirm(contexts: Contexts) -> bool {
-    let input_state = use_input_state(FEEDBACK_KEY, || String::default(), None);
+    let input_state = use_input_state(FEEDBACK_KEY, String::default, None);
     let value = input_state.get();
     if value.is_empty() {
         return true;
@@ -64,8 +60,7 @@ fn handle_confirm(contexts: Contexts) -> bool {
                                     DynHtml::new(move || html!({ message.clone() })),
                                 )
                                 .borrow_mut()
-                                .message()
-                                .to_owned(),
+                                .message(),
                             );
                         }
                         None => {
@@ -80,12 +75,12 @@ fn handle_confirm(contexts: Contexts) -> bool {
                     }
                 } else {
                     contexts.drawer.set(
-						Dialog::alert(
-							"Feedback Failure",
-							DynHtml::new(|| html!("We're sorry, it looks like our server failed to save your feedback. Please wait a moment and try again.")),
-						)
-						.message(),
-					);
+                        Dialog::alert(
+                            "Feedback Failure",
+                            DynHtml::new(|| html!("We're sorry, it looks like our server failed to save your feedback. Please wait a moment and try again.")),
+                        )
+                        .message(),
+                    );
                 }
             });
             true
@@ -105,7 +100,7 @@ pub(crate) fn get_render_wrapper() -> Html {
 
 #[function_component(GetRender)]
 pub(crate) fn get_render() -> Html {
-    let input_state = use_state(|| GlobalData::get_data_or(FEEDBACK_KEY, || String::default()));
+    let input_state = use_state(|| GlobalData::get_data_or(FEEDBACK_KEY, String::default));
     let onchange = {
         Callback::from(move |value: String| {
             _ = GlobalData::set_data(FEEDBACK_KEY, value);
@@ -129,7 +124,7 @@ pub(crate) fn get_render() -> Html {
         <>
             <Paper class="flex-grow d-flex flex-column gap-1">
                 {show_discord()}
-                <InputMessage class="flex-grow d-flex flex-column" name="Feedback" value={input_state.clone()} onchange={onchange} />
+                <InputMessage class="flex-grow d-flex flex-column" name="Feedback" value={input_state} onchange={onchange} />
             </Paper>
         </>
     }

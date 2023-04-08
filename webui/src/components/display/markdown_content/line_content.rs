@@ -1,5 +1,4 @@
 use super::*;
-use std::collections::HashMap;
 
 pub(super) fn render_line_content(
     is_running: &mut bool,
@@ -95,7 +94,7 @@ pub(super) fn render_line_content(
             },
             MarkdownSegments::Paragraph => {
                 *index += 1;
-                html!(<p>{render_line(&line)}</p>)
+                html!(<p>{render_line(line)}</p>)
             },
             MarkdownSegments::Quote(theme, cite, class, style) => {
                 *index += 1;
@@ -121,8 +120,9 @@ pub(super) fn render_line_content(
                     <Paper>{render_children(index, lines)}</Paper>
                 </SideImage>)
             },
-            MarkdownSegments::Table(columns, class, style) => {
+            MarkdownSegments::Table(_columns, _class, _style) => {
                 *index += 1;
+                /* TODO: Complete me
                 let class = classes!(CLASSES_CARD_CONTAINER, class).to_string();
                 let style = style.to_string();
                 let mut table_columns = Vec::new();
@@ -135,6 +135,7 @@ pub(super) fn render_line_content(
                         },
                     ));
                 }
+                */
                 // let mut data = Vec::new();
                 // data.push(HashMap<String, String>::new());
                 html!(

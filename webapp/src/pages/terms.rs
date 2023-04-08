@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use crate::*;
+use crate::prelude::*;
 
 /// App page body component - page specific content is rendered here
 pub(crate) fn page_terms() -> Html {

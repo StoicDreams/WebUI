@@ -4,7 +4,7 @@ use super::app_drawer::AppDrawer;
 use super::app_footer::AppFooter;
 use super::app_header::AppHeader;
 use crate::data_types::app_config::AppConfig;
-use crate::*;
+use crate::prelude::*;
 
 /// Properties for AppConfig component
 #[derive(Properties, PartialEq)]

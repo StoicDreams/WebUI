@@ -9,3 +9,6 @@ pub mod next_page;
 
 /// Module for jasper.ai link
 pub mod jasper_link;
+
+pub(crate) use jasper_link::*;
+pub(crate) use next_page::*;

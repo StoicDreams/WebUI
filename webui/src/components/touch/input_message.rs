@@ -1,5 +1,5 @@
+use crate::prelude::*;
 use crate::web_sys::HtmlTextAreaElement;
-use crate::*;
 
 #[derive(Properties, PartialEq)]
 pub struct InputMessageProps {
@@ -24,7 +24,7 @@ pub struct InputMessageProps {
 pub fn input_message(props: &InputMessageProps) -> Html {
     let my_id = match &props.cache_id {
         Some(id) => id.to_string(),
-        None => interop::get_uuid().to_owned(),
+        None => interop::get_uuid(),
     };
     let classes = &mut Classes::new();
     classes.push("input-message");
@@ -34,22 +34,20 @@ pub fn input_message(props: &InputMessageProps) -> Html {
     let count = (*props.value.clone()).len();
     let inputref = props.value.clone();
     let oninput = {
-        Callback::from(move |ev: InputEvent| match ev.target() {
-            Some(target) => {
+        Callback::from(move |ev: InputEvent| {
+            if let Some(target) = ev.target() {
                 let value = target.unchecked_into::<HtmlTextAreaElement>().value();
                 inputref.set(value);
             }
-            None => (),
         })
     };
     let onchange_handler = props.onchange.clone().unwrap_or(Callback::from(|_| ()));
     let onchange = {
-        Callback::from(move |ev: Event| match ev.target() {
-            Some(target) => {
+        Callback::from(move |ev: Event| {
+            if let Some(target) = ev.target() {
                 let value = target.unchecked_into::<HtmlTextAreaElement>().value();
                 onchange_handler.emit(value);
             }
-            None => (),
         })
     };
     let placeholder = if props.placeholder.is_empty() {

@@ -1,10 +1,10 @@
 [workspace]
 
 members = [
-	"pushrust",
+    "pushrust",
     "webui",
-	"webuisave",
-	"webapp",
-	"webapp_post_build",
+    "webuisave",
+    "webapp",
+    "webapp_post_build",
 ]
 

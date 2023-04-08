@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 pub(crate) fn page_classes_variables() -> Html {
     set_title("Rust Class Variable Helpers");

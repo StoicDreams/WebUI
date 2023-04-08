@@ -1,5 +1,5 @@
 use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
-use crate::*;
+use crate::prelude::*;
 
 /// Struct holding App/Website configuration details.
 ///
@@ -53,7 +53,7 @@ impl AppConfig {
     /// ```rust
     /// use webui::*;
     ///
-    /// let app_config:AppConfig = AppConfig::new(
+    /// let app_config:AppConfig = AppConfig::builder(
     ///     "App Name".to_string(),
     ///     "Company Name".to_string(),
     ///     "https://company.url".to_string(),
@@ -62,7 +62,7 @@ impl AppConfig {
     /// .set_header_logo_src("Logo.svg".to_owned()).to_owned()
     /// .build();
     /// ```
-    pub fn new(
+    pub fn builder(
         app_name: String,
         company_name: String,
         company_home_url: String,
@@ -92,15 +92,14 @@ impl AppConfig {
     }
 }
 
-fn get_nav_from_list(path: &str, list: &Vec<NavRoute>) -> Option<NavLinkInfo> {
+fn get_nav_from_list(path: &str, list: &[NavRoute]) -> Option<NavLinkInfo> {
     for nav in list.iter() {
         match nav {
-            NavRoute::NavGroup(group) => match get_nav_from_list(path, &group.children) {
-                Some(link) => {
-                    return Some(link.to_owned());
+            NavRoute::NavGroup(group) => {
+                if let Some(link) = get_nav_from_list(path, &group.children) {
+                    return Some(link);
                 }
-                None => (),
-            },
+            }
             NavRoute::NavLink(link) => {
                 if path.to_lowercase() == link.path.to_lowercase() {
                     return Some(link.to_owned());

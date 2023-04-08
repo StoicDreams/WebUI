@@ -1,6 +1,4 @@
-use yew::suspense::SuspensionResult;
-
-use crate::*;
+use crate::prelude::*;
 
 #[derive(Clone, Debug, PartialEq)]
 enum PageState {
@@ -16,40 +14,37 @@ pub(crate) fn app_body() -> Html {
     let page_state = use_state(|| PageState::Show);
     let nav = contexts.nav.deref().to_owned();
     let path = use_state(|| interop::get_path().to_lowercase());
-    let _ = match nav {
-        NavigationMessage::PathUpdate(new_path) => {
-            if path.deref().to_owned() != new_path {
-                contexts.nav.set(NavigationMessage::None);
-                if *page_state.deref() == PageState::Show {
+    if let NavigationMessage::PathUpdate(new_path) = nav {
+        if *path.deref() != new_path {
+            contexts.nav.set(NavigationMessage::None);
+            if *page_state.deref() == PageState::Show {
+                let page_state = page_state.clone();
+                let path = path.clone();
+                set_timeout!(1, move || {
                     let page_state = page_state.clone();
                     let path = path.clone();
-                    set_timeout!(1, move || {
+                    let new_path = new_path.clone();
+                    page_state.set(PageState::TransitionOut);
+                    set_timeout!(300, move || {
                         let page_state = page_state.clone();
                         let path = path.clone();
                         let new_path = new_path.clone();
-                        page_state.set(PageState::TransitionOut);
-                        set_timeout!(300, move || {
+                        page_state.set(PageState::Hidden);
+                        path.set(new_path);
+                        set_timeout!(100, move || {
                             let page_state = page_state.clone();
-                            let path = path.clone();
-                            let new_path = new_path.clone();
-                            page_state.set(PageState::Hidden);
-                            path.set(String::from(new_path));
-                            set_timeout!(100, move || {
+                            page_state.set(PageState::TransitionIn);
+                            set_timeout!(300, move || {
                                 let page_state = page_state.clone();
-                                page_state.set(PageState::TransitionIn);
-                                set_timeout!(300, move || {
-                                    let page_state = page_state.clone();
-                                    page_state.set(PageState::Show);
-                                });
+                                page_state.set(PageState::Show);
                             });
                         });
                     });
-                }
+                });
             }
         }
-        _ => (),
-    };
-    let page_el = format!("page{}", path.replace("-", "_").replace("/", "__"));
+    }
+    let page_el = format!("page{}", path.replace('-', "_").replace('/', "__"));
     let main_class = match page_state.deref() {
         PageState::Hidden => "page hidden",
         PageState::TransitionIn => "page transition in",
@@ -93,11 +88,11 @@ pub struct PageContentProps {
 #[function_component(PageContent)]
 fn page_content(props: &PageContentProps) -> Html {
     match use_get_page(props.routes.to_owned(), &props.page) {
-        SuspensionResult::Ok(link_info) => {
+        yew::suspense::SuspensionResult::Ok(link_info) => {
             let page = link_info.page;
             html! {<>{page()}</>}
         }
-        SuspensionResult::Err(_err) => {
+        yew::suspense::SuspensionResult::Err(_err) => {
             jslog!("Get page failed!");
             html! {<PageNotFound />}
         }
@@ -105,11 +100,11 @@ fn page_content(props: &PageContentProps) -> Html {
 }
 
 #[hook]
-fn use_get_page(routes: Vec<NavRoute>, page: &str) -> suspense::SuspensionResult<NavLinkInfo> {
+fn use_get_page(routes: Vec<NavRoute>, page: &str) -> yew::suspense::SuspensionResult<NavLinkInfo> {
     match get_page_option(routes, page) {
         Some(info) => Ok(info),
         None => {
-            let (s, handle) = suspense::Suspension::new();
+            let (s, handle) = yew::suspense::Suspension::new();
             get_page_failure(move || {
                 handle.resume();
             });
@@ -131,7 +126,7 @@ fn get_page_option(routes: Vec<NavRoute>, page: &str) -> Option<NavLinkInfo> {
                 }
             }
             NavRoute::NavGroup(group_info) => {
-                if group_info.children.len() == 0 {
+                if group_info.children.is_empty() {
                     continue;
                 }
                 if let Option::Some(link_info) = get_page_option(group_info.children, page) {

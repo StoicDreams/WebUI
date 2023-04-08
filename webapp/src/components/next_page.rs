@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub(crate) struct NextPageProps {

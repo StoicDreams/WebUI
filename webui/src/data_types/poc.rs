@@ -21,7 +21,7 @@ impl PocInfo {
 
 impl HtmlRunner for PocInfo {
     fn run(&self) -> Html {
-        let unbox = &*self.content.as_ref();
+        let unbox = self.content.as_ref();
         html!(<>{unbox()}</>)
     }
 }

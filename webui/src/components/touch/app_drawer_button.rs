@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 use yew::{use_state, UseStateHandle};
 
 /// Properties for NavLink component
@@ -25,19 +25,16 @@ pub struct AppDrawerButtonProps {
 pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     let logo_src_handle: UseStateHandle<Option<String>> = use_state(|| None);
-    let logo_title_handle: UseStateHandle<String> = use_state(|| String::default());
+    let logo_title_handle: UseStateHandle<String> = use_state(String::default);
     let drawer_info = &props.info;
     let logo_src = logo_src_handle.deref().to_owned();
     let logo_title = logo_title_handle.deref().to_owned();
     let drawer_info_click = drawer_info.clone();
     let setup_onclick = Callback::from(move |_| {
         let drawer_info_click = drawer_info_click.clone();
-        match drawer_info_click {
-            Some(info) => {
-                let options = info.get_options();
-                contexts.drawer.set(DrawerMessage::ToggleDrawer(options));
-            }
-            None => (),
+        if let Some(info) = drawer_info_click {
+            let options = info.get_options();
+            contexts.drawer.set(DrawerMessage::ToggleDrawer(options));
         };
     });
     let children = &props.children;

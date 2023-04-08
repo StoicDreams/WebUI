@@ -22,9 +22,9 @@ pub struct PaperProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Paper>{"Your child content here"}</Paper>
-/// 	}
+///     html! {
+///         <Paper>{"Your child content here"}</Paper>
+///     }
 /// }
 /// ```
 ///
@@ -33,9 +33,9 @@ pub struct PaperProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Paper class="d-flex flex-column">{"Your child content here"}</Paper>
-/// 	}
+///     html! {
+///         <Paper class="d-flex flex-column">{"Your child content here"}</Paper>
+///     }
 /// }
 /// ```
 ///
@@ -47,9 +47,9 @@ pub struct PaperProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Paper elevation={10}>{"Your child content here"}</Paper>
-/// 	}
+///     html! {
+///         <Paper elevation={10}>{"Your child content here"}</Paper>
+///     }
 /// }
 /// ```
 #[function_component(Paper)]

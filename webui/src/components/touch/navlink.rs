@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// Properties for NavLink component
 #[derive(Properties, PartialEq)]

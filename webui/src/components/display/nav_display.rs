@@ -1,6 +1,6 @@
 use yew::Callback;
 
-use crate::*;
+use crate::prelude::*;
 
 /// Properties for NavDislay component
 #[derive(Properties, PartialEq)]
@@ -29,11 +29,11 @@ pub fn nav_display(props: &NavDisplayProps) -> Html {
     }
 }
 
-fn nav_display_group(routes: &Vec<NavRoute>) -> Html {
+fn nav_display_group(routes: &[NavRoute]) -> Html {
     html! {
         <>
             {
-                routes.into_iter().map(|route| {
+                routes.iter().map(|route| {
                     html!{display_nav_route(route)}
                 }).collect::<Html>()
             }
@@ -47,25 +47,25 @@ fn display_nav_route(route: &NavRoute) -> Html {
             if group_info.role != 0 {
                 return html! {};
             }
-            return html! {
+            html! {
                 <Paper class="nav-group">
                     <DisplayNavGroupToggle group_info={group_info.to_owned()} />
                     {nav_display_group(&group_info.children)}
                 </Paper>
-            };
+            }
         }
         NavRoute::NavLink(link_info) => {
             if link_info.role != 0 {
                 return html! {};
             }
-            return html! {
+            html! {
                 <Paper class="nav-link">
                     <NavLink to={link_info.path.to_string()}>
                         <i class={&link_info.icon} />
                         <span>{link_info.name.to_string()}</span>
                     </NavLink>
                 </Paper>
-            };
+            }
         }
     }
 }
@@ -88,13 +88,13 @@ fn display_nav_group_toggle(props: &DisplayNavGroupToggleProps) -> Html {
     if *show_children {
         classes.push("show");
     }
-    return html! {
+    html! {
         <a {onclick} class={classes.to_string()}>
             <i class={&props.group_info.icon} />
             <span>{props.group_info.name.to_string()}</span>
             {display_caret(*show_children)}
         </a>
-    };
+    }
 }
 
 fn display_caret(is_showing: bool) -> Html {

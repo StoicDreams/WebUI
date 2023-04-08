@@ -10,6 +10,8 @@ pub mod actors;
 pub mod common;
 /// Components used for managing and rendering html output
 pub mod components;
+/// Constants used throughout the application
+pub mod constants;
 /// Data Types
 pub mod data_types;
 /// Global methods and helpers
@@ -26,10 +28,13 @@ pub mod macros;
 #[macro_use]
 pub mod interop;
 
+use components::layout::app::start_webui_app;
+pub use prelude::*;
+
+/*
 pub use crate::states::*;
 pub use async_std;
 pub use chrono;
-use components::layout::app::start_webui_app;
 pub use futures;
 pub use global::*;
 pub use js_sys;
@@ -55,6 +60,7 @@ pub use yew::*;
 pub use yew_agent;
 pub use yew_agent::*;
 pub use yew_hooks;
+*/
 
 /// Initializer to run in app main() to start website
 ///
@@ -63,7 +69,7 @@ pub use yew_hooks;
 /// use webui::*;
 ///
 /// fn main() {
-///     let app_config = AppConfig::new(
+///     let app_config = AppConfig::builder(
 ///            "Web UI Demo & Documentation".to_owned(),
 ///            "Stoic Dreams".to_owned(),
 ///            "https://www.stoicdreams.com".to_owned(),
@@ -95,15 +101,7 @@ unsafe fn set_app_name(value: String) {
 }
 #[no_mangle]
 unsafe fn set_company_name(value: String) {
-    let plural = format!(
-        "{}{}",
-        value,
-        if value.chars().last().unwrap() == 's' {
-            "'"
-        } else {
-            "'s"
-        }
-    );
+    let plural = format!("{}{}", value, if value.ends_with('s') { "'" } else { "'s" });
     COMPANY_PLURAL.with(|a: &Cell<&'static str>| a.set(Box::leak(plural.into_boxed_str())));
     COMPANY_SINGULAR.with(|a: &Cell<&'static str>| a.set(Box::leak(value.into_boxed_str())));
 }

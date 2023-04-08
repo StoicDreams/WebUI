@@ -26,9 +26,9 @@ pub struct AvatarProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Avatar icon="fa-solid fa-acorn" alt="Acorn Icon" />
-/// 	}
+///     html! {
+///         <Avatar icon="fa-solid fa-acorn" alt="Acorn Icon" />
+///     }
 /// }
 /// ```
 ///
@@ -37,9 +37,9 @@ pub struct AvatarProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Avatar image="Logo.svg" alt="" class="d-flex flex-column" />
-/// 	}
+///     html! {
+///         <Avatar image="Logo.svg" alt="" class="d-flex flex-column" />
+///     }
 /// }
 /// ```
 ///
@@ -51,9 +51,9 @@ pub struct AvatarProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Avatar image="Logo.svg" elevation={10} />
-/// 	}
+///     html! {
+///         <Avatar image="Logo.svg" elevation={10} />
+///     }
 /// }
 /// ```
 #[function_component(Avatar)]

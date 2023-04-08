@@ -1,21 +1,18 @@
-use feedback::feedback_button_info;
-use webui::*;
+use crate::prelude::*;
+use webui::prelude::*;
 
 mod components;
 mod feedback;
 mod nav_menu;
 mod pages;
-
-pub(crate) use crate::components::jasper_link::*;
-pub(crate) use crate::components::next_page::*;
-pub(crate) use crate::components::*;
+mod prelude;
 
 fn main() {
     webui::start_app(setup_app_config());
 }
 
 fn setup_app_config() -> AppConfig {
-    AppConfig::new(
+    AppConfig::builder(
         "Web UI Demo & Documentation".to_owned(),
         "Stoic Dreams".to_owned(),
         "https://www.stoicdreams.com".to_owned(),

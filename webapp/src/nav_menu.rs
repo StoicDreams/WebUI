@@ -1,9 +1,9 @@
-use crate::*;
+use crate::prelude::*;
 
 use crate::pages::*;
 
 pub fn nav_menu_info() -> DrawerToggleInfo {
-    DrawerToggleInfo::new(
+    DrawerToggleInfo::builder(
         "Navigation Menu",
         || html! {<i class="fa-solid fa-bars"></i>},
         DynHtml::new(nav_menu_render),
@@ -101,7 +101,7 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
             page_privacy,
         ),
     ];
-    nav_routes.to_owned()
+    nav_routes
 }
 
 fn nav_menu_render() -> Html {

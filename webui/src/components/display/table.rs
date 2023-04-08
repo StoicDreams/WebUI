@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 pub struct TableColumns<T> {
     name: String,
@@ -40,7 +40,7 @@ impl<T> Table<T> {
         }
     }
     pub fn add_class(&mut self, class: String) -> &mut Self {
-        self.class.push(class.to_string());
+        self.class.push(class);
         self
     }
     pub fn bordered(&mut self) -> &mut Self {

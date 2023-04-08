@@ -39,15 +39,15 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 ```
 ```rust
 <Cards>
-	<Card title="Hello" width={300}>
-		{"World"}
-	</Card>
-	<Card title="Foo" width={300}>
-		{"Bar"}
-	</Card>
-	<Card title="Lorem" width={400} color={Theme::Info} avatar="fa-solid fa-acorn" link="https://loremipsum.io/">
-		{"Lorem ipsum dolor..."}
-	</Card>
+    <Card title="Hello" width={300}>
+        {"World"}
+    </Card>
+    <Card title="Foo" width={300}>
+        {"Bar"}
+    </Card>
+    <Card title="Lorem" width={400} color={Theme::Info} avatar="fa-solid fa-acorn" link="https://loremipsum.io/">
+        {"Lorem ipsum dolor..."}
+    </Card>
 </Cards>
 ```
 ````
@@ -73,20 +73,20 @@ Three
 ```
 ```rust
 <Paper class={classes!(CLASSES_SIDE_BY_SIDE, "gap-2")} elevation={ELEVATION_STANDARD}>
-	<List>
-		{list_items!(
-			"One",
-			"Two",
-			"Three",
-		)}
-	</List>
-	<List is_ordered={true} class="pa-2 pl-6 elevation={ELEVATION_STANDARD}>
-		{list_items!(
-			"One",
-			"Two",
-			"Three",
-		)}
-	</List>
+    <List>
+        {list_items!(
+            "One",
+            "Two",
+            "Three",
+        )}
+    </List>
+    <List is_ordered={true} class="pa-2 pl-6 elevation={ELEVATION_STANDARD}>
+        {list_items!(
+            "One",
+            "Two",
+            "Three",
+        )}
+    </List>
 </Paper>
 ```
 ````
@@ -112,15 +112,15 @@ Whenever you find yourself on the side of the majority, it is time to pause and 
 
 ```rust
 <Paper class={classes!(CLASSES_SIDE_BY_SIDE, "gap-2")} elevation={ELEVATION_STANDARD}>
-	<Quote>
-		{"To cite or not to cite?"}
-	</Quote>
-	<Quote cite="Albert Einstein" color={Theme::Success}>
-		{"I have no special talent. I am only passionately curious."}
-	</Quote>
-	<Quote cite="Mark Twain" color={Theme::Warning}>
-		{"Whenever you find yourself on the side of the majority, it is time to pause and reflect."}
-	</Quote>
+    <Quote>
+        {"To cite or not to cite?"}
+    </Quote>
+    <Quote cite="Albert Einstein" color={Theme::Success}>
+        {"I have no special talent. I am only passionately curious."}
+    </Quote>
+    <Quote cite="Mark Twain" color={Theme::Warning}>
+        {"Whenever you find yourself on the side of the majority, it is time to pause and reflect."}
+    </Quote>
 </Paper>
 ```
 ````
@@ -142,10 +142,10 @@ Image on the left.
 ```
 ```rust
 <SideImage image_pos={LeftOrRight::Right} src="/Logo.svg">
-	{"Image on the right."}
+    {"Image on the right."}
 </SideImage>
 <SideImage image_pos={LeftOrRight::Left} src="/Logo.svg">
-	{"Image on the left."}
+    {"Image on the left."}
 </SideImage>
 ```
 ````

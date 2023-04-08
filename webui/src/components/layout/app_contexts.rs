@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// Properties for app drawer components
 #[derive(Properties, PartialEq)]
@@ -17,8 +17,8 @@ pub(crate) fn app_contexts(props: &AppContextsProps) -> Html {
     let drawers = use_state(|| DrawerMessage::None);
     let context = Contexts {
         config: app_config.clone(),
-        nav: navigation.clone(),
-        drawer: drawers.clone(),
+        nav: navigation,
+        drawer: drawers,
     };
     html! {
         <ContextProvider<Contexts> {context}>

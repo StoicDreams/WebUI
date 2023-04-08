@@ -22,9 +22,9 @@ pub struct ImageProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Image src="Logo.svg" alt="" class="d-flex flex-column" />
-/// 	}
+///     html! {
+///         <Image src="Logo.svg" alt="" class="d-flex flex-column" />
+///     }
 /// }
 /// ```
 ///
@@ -36,9 +36,9 @@ pub struct ImageProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Image src="Logo.svg" elevation={10} />
-/// 	}
+///     html! {
+///         <Image src="Logo.svg" elevation={10} />
+///     }
 /// }
 /// ```
 #[function_component(Image)]

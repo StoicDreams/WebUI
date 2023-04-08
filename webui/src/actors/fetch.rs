@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 use reqwest::*;
 
 #[derive(Debug, serde::Serialize)]
@@ -84,7 +84,7 @@ fn build_url(url: &str) -> String {
     if url.starts_with("http") {
         return url.to_string();
     }
-    if url.starts_with("/") {
+    if url.starts_with('/') {
         return format!("{}{}", interop::get_origin(), url);
     }
     format!("{}/{}", interop::get_full_path(), url)

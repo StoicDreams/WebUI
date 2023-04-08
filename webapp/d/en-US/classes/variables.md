@@ -14,11 +14,11 @@ These rust constant variables are available to access common/recommended configu
 use webui::prelude::*;
 
 pub(crate) fn hello_world() -> Html {
-	html!(
-		<Paper class={CLASSES_PAGE_SECTION}>
-			{"Hello World"}
-		</Paper>
-	)
+    html!(
+        <Paper class={CLASSES_PAGE_SECTION}>
+            {"Hello World"}
+        </Paper>
+    )
 }
 ```
 
@@ -45,7 +45,7 @@ Example CLASSES_PAGE_SECTION
 
 ```rust
 <Paper class={CLASSES_PAGE_SECTION} elevation={ELEVATION_STANDARD}>
-	{"Example CLASSES_PAGE_SECTION"}
+    {"Example CLASSES_PAGE_SECTION"}
 </Paper>
 ```
 ````
@@ -137,13 +137,13 @@ Example Card
 
 ```rust
 <Paper class={CLASSES_CARD_CONTAINER} elevation={ELEVATION_STANDARD}>
-	<Paper class="pa-2 elevation={ELEVATION_STANDARD>
-		{"Example Card"}
-	</Paper>
-	<Paper class="pa-2 elevation={ELEVATION_STANDARD>
-		{"Example Card"}
-	</Paper>
-	...
+    <Paper class="pa-2 elevation={ELEVATION_STANDARD>
+        {"Example Card"}
+    </Paper>
+    <Paper class="pa-2 elevation={ELEVATION_STANDARD>
+        {"Example Card"}
+    </Paper>
+    ...
 </Paper>
 ```
 ````
@@ -151,7 +151,7 @@ Example Card
 ### CLASSES_SIDE_BY_SIDE
 
 ```section
-This variable holds the class `side-by-side`, which applies default css styles for a grid container 
+This variable holds the class `side-by-side`, which applies default css styles for a grid container
 with 2 columns.
 ```
 
@@ -170,13 +170,13 @@ Example Right
 ```paper
 ```rust
 <Paper class={CLASSES_SIDE_BY_SIDE} elevation={ELEVATION_STANDARD}>
-	<Paper class="ma-5 pa-5" elevation={ELEVATION_STANDARD}>
-		{"Example Left"}
-	</Paper>
+    <Paper class="ma-5 pa-5" elevation={ELEVATION_STANDARD}>
+        {"Example Left"}
+    </Paper>
 
-	<Paper class="ma-5 pa-5" elevation={ELEVATION_STANDARD}>
-		{"Example Right"}
-	</Paper>
+    <Paper class="ma-5 pa-5" elevation={ELEVATION_STANDARD}>
+        {"Example Right"}
+    </Paper>
 </Paper>
 ```
 ```
@@ -213,11 +213,11 @@ Example No Elevation (default)
 ```paper
 ```rust
 <Paper class="ma-5 pa-5" elevation={ELEVATION_ZERO}>
-	{"Example ELEVATION_ZERO"}
+    {"Example ELEVATION_ZERO"}
 </Paper>
 
 <Paper class="ma-5 pa-5">
-	{"Example No Elevation (default)"}
+    {"Example No Elevation (default)"}
 </Paper>
 ```
 ```
@@ -237,7 +237,7 @@ Example ELEVATION_MIN
 
 ```rust
 <Paper class="ma-5 pa-5" elevation={ELEVATION_MIN}>
-	{"Example ELEVATION_MIN"}
+    {"Example ELEVATION_MIN"}
 </Paper>
 ```
 
@@ -257,7 +257,7 @@ Example ELEVATION_STANDARD
 
 ```rust
 <Paper class="ma-5 pa-5" elevation={ELEVATION_STANDARD}>
-	{"Example ELEVATION_STANDARD"}
+    {"Example ELEVATION_STANDARD"}
 </Paper>
 ```
 
@@ -277,7 +277,7 @@ Example ELEVATION_MAX
 
 ```rust
 <Paper class="ma-5 pa-5" elevation={ELEVATION_MAX}>
-	{"Example ELEVATION_MAX"}
+    {"Example ELEVATION_MAX"}
 </Paper>
 ```
 

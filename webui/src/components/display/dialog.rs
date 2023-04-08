@@ -1,5 +1,4 @@
-use crate::*;
-use yew::Html;
+use crate::prelude::*;
 
 pub struct Dialog {
     info: DrawerToggleInfoBuilder,
@@ -7,7 +6,7 @@ pub struct Dialog {
 impl Dialog {
     pub fn new(title: &str, content: DynHtml) -> Self {
         Dialog {
-            info: DrawerToggleInfo::new(title, || html!(), content)
+            info: DrawerToggleInfo::builder(title, || html!(), content)
                 .set_drawer(Direction::Top)
                 .set_on_confirm("Confirm", |_| true)
                 .to_owned(),
@@ -16,7 +15,7 @@ impl Dialog {
     /// Create a new dialog without any close buttons, only a confirmation button.
     pub fn alert(title: &str, content: DynHtml) -> Self {
         Dialog {
-            info: DrawerToggleInfo::new(title, || html!(), content)
+            info: DrawerToggleInfo::builder(title, || html!(), content)
                 .set_drawer(Direction::Top)
                 .hide_cancel_button()
                 .hide_close_x_button()

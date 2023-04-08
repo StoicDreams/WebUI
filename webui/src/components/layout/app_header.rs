@@ -1,10 +1,10 @@
-use crate::*;
+use crate::prelude::*;
 
 /// App footer component
 #[function_component(AppHeader)]
 pub(crate) fn app_footer() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
-    let app_config = contexts.config.to_owned();
+    let app_config = contexts.config;
     let left_drawer_info = app_config.header_left_drawer_toggle.clone();
     let top_drawer_info = app_config.header_top_drawer_toggle.clone();
     let right_drawer_info = app_config.header_right_drawer_toggle.clone();

@@ -9,22 +9,22 @@ pub const TITLE_CLASSES: &str = "pa-1 f4 d-flex flex-wrap flex-row";
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_standard!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_standard!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_standard {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-title {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-title {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -36,22 +36,22 @@ macro_rules! title_standard {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_active!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_active!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_active {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-active {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-active {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -63,22 +63,22 @@ macro_rules! title_active {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_background!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_background!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_background {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-background {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-background {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -90,22 +90,22 @@ macro_rules! title_background {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_black!("Text for your title")}
-/// 	}
+///     html! {
+///     {title_black!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_black {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-black {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-black {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -117,22 +117,22 @@ macro_rules! title_black {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_white!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_white!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_white {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-white {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-white {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -144,22 +144,22 @@ macro_rules! title_white {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_primary!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_primary!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_primary {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-primary {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-primary {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -171,22 +171,22 @@ macro_rules! title_primary {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_secondary!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_secondary!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_secondary {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-secondary {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-secondary {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -198,22 +198,22 @@ macro_rules! title_secondary {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_tertiary!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_tertiary!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_tertiary {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-tertiary {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-tertiary {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -225,22 +225,22 @@ macro_rules! title_tertiary {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_info!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_info!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_info {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-info {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-info {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -252,22 +252,22 @@ macro_rules! title_info {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_success!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_success!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_success {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-success {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-success {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -279,22 +279,22 @@ macro_rules! title_success {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_warning!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_warning!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_warning {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-warning {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-warning {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }
 
 /// Macro for expanding string arguments into a title
@@ -306,20 +306,20 @@ macro_rules! title_warning {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		{title_danger!("Text for your title")}
-/// 	}
+///     html! {
+///         {title_danger!("Text for your title")}
+///     }
 /// }
 /// ```
 #[macro_export]
 macro_rules! title_danger {
-	( $($x:expr ),* ) => {
-		html! {
-			<h2 class={format!("theme-danger {}", TITLE_CLASSES)}>
-				$(
-					{$x}
-				)*
-			</h2>
-		}
-	};
+    ( $($x:expr ),* ) => {
+        html! {
+            <h2 class={format!("theme-danger {}", TITLE_CLASSES)}>
+                $(
+                    {$x}
+                )*
+            </h2>
+        }
+    };
 }

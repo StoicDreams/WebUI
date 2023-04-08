@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 use yew::Html;
 
 /// Properties for Paper component
@@ -42,9 +42,9 @@ pub struct CardProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Card title="Hello World" avatar="fa-solid fa-acorn">{"Your card body content here"}</Card>
-/// 	}
+///     html! {
+///         <Card title="Hello World" avatar="fa-solid fa-acorn">{"Your card body content here"}</Card>
+///     }
 /// }
 /// ```
 ///
@@ -53,9 +53,9 @@ pub struct CardProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Card title="Hello World" theme={Theme::Primary}>{"Your card body content here"}</Card>
-/// 	}
+///     html! {
+///         <Card title="Hello World" theme={Theme::Primary}>{"Your card body content here"}</Card>
+///     }
 /// }
 /// ```
 ///
@@ -64,9 +64,9 @@ pub struct CardProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Card class="d-flex flex-column">{"Your card body content here"}</Card>
-/// 	}
+///     html! {
+///         <Card class="d-flex flex-column">{"Your card body content here"}</Card>
+///     }
 /// }
 /// ```
 ///
@@ -78,9 +78,9 @@ pub struct CardProps {
 /// use webui::*;
 ///
 /// fn page() -> Html {
-/// 	html! {
-/// 		<Card elevation={10}>{"Your card body content here"}</Card>
-/// 	}
+///     html! {
+///         <Card elevation={10}>{"Your card body content here"}</Card>
+///     }
 /// }
 /// ```
 #[function_component(Card)]
@@ -121,11 +121,11 @@ pub fn card(props: &CardProps) -> Html {
                             html!()
                         } else if avatar.starts_with("fa-") {
                             html! {
-                                <Avatar class="f3 ml-1 pa-1" icon={avatar.to_string()} />
+                                <Avatar class="f3 ml-1 pa-1" icon={avatar} />
                             }
                         } else {
                             html! {
-                                <Avatar class="ml-1 pa-1" image={avatar.to_string()} />
+                                <Avatar class="ml-1 pa-1" image={avatar} />
                             }
                         }
                     },

@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 /// Page navigation information
 ///
@@ -11,9 +11,9 @@ use crate::*;
 /// use webui::*;
 ///
 /// fn page_home() -> Html {
-/// 	html! {
-/// 		{"Home Page"}
-/// 	}
+///     html! {
+///         {"Home Page"}
+///     }
 /// }
 ///
 /// let link_info = NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home);
@@ -35,9 +35,9 @@ impl NavLinkInfo {
     /// use webui::*;
     ///
     /// fn page_home() -> Html {
-    /// 	html! {
-    /// 		{"Home Page"}
-    /// 	}
+    ///     html! {
+    ///         {"Home Page"}
+    ///     }
     /// }
     ///
     /// let link_info = NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home);
@@ -128,15 +128,15 @@ impl NavGroupInfo {
 /// use webui::*;
 ///
 /// fn page_home() -> Html {
-/// 	html! {
-/// 		{"Home Page"}
-/// 	}
+///     html! {
+///         {"Home Page"}
+///     }
 /// }
 ///
 /// fn page_about() -> Html {
-/// 	html! {
-/// 		{"About Page"}
-/// 	}
+///     html! {
+///         {"About Page"}
+///     }
 /// }
 ///
 /// pub(crate) fn get_nav_routing() -> Vec<NavRoute> {

@@ -22,11 +22,11 @@ Example page-segment-standard
 ```
 ```rust
 <Paper class="d-flex align-center justify-center">
-	<Paper class="theme-white">
-		<Paper class="page-segment-standard theme-info">
-			{"Example page-segment-standard"}
-		</Paper>
-	</Paper>
+    <Paper class="theme-white">
+        <Paper class="page-segment-standard theme-info">
+            {"Example page-segment-standard"}
+        </Paper>
+    </Paper>
 </Paper>
 ```
 ````
@@ -102,13 +102,13 @@ Example Card
 ```
 ```rust
 <Paper class="page-segment-cards">
-	<Paper class="elevation-10 pa-3">
-		{"Example Card"}
-	</Paper>
-	<Paper class="elevation-10 pa-3">
-		{"Example Card"}
-	</Paper>
-	...
+    <Paper class="elevation-10 pa-3">
+        {"Example Card"}
+    </Paper>
+    <Paper class="elevation-10 pa-3">
+        {"Example Card"}
+    </Paper>
+    ...
 </Paper>
 ```
 ````
@@ -130,12 +130,12 @@ Example Paper
 ```
 ```rust
 <Paper class="side-by-side gap-4">
-	<Paper class="elevation-10 pa-3">
-		{"Example Paper"}
-	</Paper>
-	<Paper class="elevation-10 pa-3">
-		{"Example Paper"}
-	</Paper>
+    <Paper class="elevation-10 pa-3">
+        {"Example Paper"}
+    </Paper>
+    <Paper class="elevation-10 pa-3">
+        {"Example Paper"}
+    </Paper>
 </Paper>
 ```
 ````
@@ -157,12 +157,12 @@ Example Paper
 ```
 ```rust
 <Paper class="auto-maxcontent gap-4">
-	<Paper class="elevation-10 pa-3">
-		{"Example Paper"}
-	</Paper>
-	<Paper class="elevation-10 pa-3">
-		{"Example Paper"}
-	</Paper>
+    <Paper class="elevation-10 pa-3">
+        {"Example Paper"}
+    </Paper>
+    <Paper class="elevation-10 pa-3">
+        {"Example Paper"}
+    </Paper>
 </Paper>
 ```
 ````
@@ -184,12 +184,12 @@ Example Paper
 ```
 ```rust
 <Paper class="maxcontent-auto gap-4">
-	<Paper class="elevation-10 pa-3">
-		{"Example Paper"}
-	</Paper>
-	<Paper class="elevation-10 pa-3">
-		{"Example Paper"}
-	</Paper>
+    <Paper class="elevation-10 pa-3">
+        {"Example Paper"}
+    </Paper>
+    <Paper class="elevation-10 pa-3">
+        {"Example Paper"}
+    </Paper>
 </Paper>
 ```
 ````
@@ -239,13 +239,13 @@ Example f10
 
 ````rust
 <Paper class="page-section-cards">
-	<Paper class="f0" elevation={ELEVATION_STANDARD}>
-		{"Example f0}
-	</Paper>
-	<Paper class="f1" elevation={ELEVATION_STANDARD}>
-		{"Example f1}
-	</Paper>
-	...
+    <Paper class="f0" elevation={ELEVATION_STANDARD}>
+        {"Example f0}
+    </Paper>
+    <Paper class="f1" elevation={ELEVATION_STANDARD}>
+        {"Example f1}
+    </Paper>
+    ...
 </Paper>
 ````
 `````
@@ -263,7 +263,7 @@ Use `ma-N` and `pa-N` margin and padding variants to set margin and padding for 
 
 ```rust
 <Paper class="ma-3 pa-3" elevation={ELEVATION_STANDARD}>
-	{paragraphs!("Margin and padding helper...")}
+    {paragraphs!("Margin and padding helper...")}
 </Paper>
 ```
 ````
@@ -275,11 +275,10 @@ You can also explicitely set any side by using the applicable side variant for t
 
 ```rust
 <Paper class="ml-1 mr-10 mt-5 mb-4 pa-1 pl-5" elevation={ELEVATION_STANDARD}>
-	{paragraphs!("You can also explicitely...")}
+    {paragraphs!("You can also explicitely...")}
 </Paper>
 ```
 ````
-
 
 ````sidebyside
 ```paper "ma-3 mt-n1 pa-3 elevation-10"
@@ -290,7 +289,7 @@ Negative values can be set for any margin variant by simply prefixing an `n` cha
 
 ```rust
 <Paper class="ma-3 mt-n1 pa-3" elevation={ELEVATION_STANDARD}>
-	{paragraphs!("Margin types also allow...")}
+    {paragraphs!("Margin types also allow...")}
 </Paper>
 ```
 ````

@@ -1,6 +1,6 @@
 use super::*;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, PartialEq)]
 pub(super) enum MarkdownSegments {
     AutoMaxContent(String, String),
     Cards(String, String),

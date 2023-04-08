@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 pub(crate) fn page_classes_helpers() -> Html {
     set_title("Web UI Helper Classes");

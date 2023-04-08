@@ -1,12 +1,13 @@
 use super::*;
 use std::str::Split;
 
+const SECTION_DELIM: &str = " ";
 pub(super) fn get_line_type(line: &str) -> (String, String, MarkdownSegments) {
     let mut line = line.to_owned();
     let raw_line = line.to_string();
     if line.starts_with(">loading") {
-        line.replace_range(0..1, "");
-        let mut sections = line.split(" ");
+        line.replace_range(0..1, EMPTY_STRING);
+        let mut sections = line.split(SECTION_DELIM);
         let section_type = get_section_type(&mut sections);
         let binding = get_binding(sections);
         let mut sections = binding.split("\" \"");
@@ -17,50 +18,47 @@ pub(super) fn get_line_type(line: &str) -> (String, String, MarkdownSegments) {
                 get_loading_variant(&vnext(&mut sections)),
                 get_theme(&vnext(&mut sections)),
                 get_u16(&vnext(&mut sections)),
-                match get_option(&vnext(&mut sections)) {
-                    Some(value) => Some(get_u8(value)),
-                    None => None,
-                },
+                get_option(&vnext(&mut sections)).map(get_u8),
                 vnext(&mut sections),
                 vnext(&mut sections),
             ),
         );
     }
     if line.starts_with("###### ") {
-        line.replace_range(0..7, "");
+        line.replace_range(0..7, EMPTY_STRING);
         return (raw_line, line, MarkdownSegments::Title(6));
     }
     if line.starts_with("##### ") {
-        line.replace_range(0..6, "");
+        line.replace_range(0..6, EMPTY_STRING);
         return (raw_line, line, MarkdownSegments::Title(5));
     }
     if line.starts_with("#### ") {
-        line.replace_range(0..5, "");
+        line.replace_range(0..5, EMPTY_STRING);
         return (raw_line, line, MarkdownSegments::Title(4));
     }
     if line.starts_with("### ") {
-        line.replace_range(0..4, "");
+        line.replace_range(0..4, EMPTY_STRING);
         return (raw_line, line, MarkdownSegments::Title(3));
     }
     if line.starts_with("## ") {
-        line.replace_range(0..3, "");
+        line.replace_range(0..3, EMPTY_STRING);
         return (raw_line, line, MarkdownSegments::Title(2));
     }
     if line.starts_with("# ") {
-        line.replace_range(0..2, "");
+        line.replace_range(0..2, EMPTY_STRING);
         return (raw_line, line, MarkdownSegments::Title(1));
     }
     if line.eq("```") {
         return (raw_line, line, MarkdownSegments::EndSection);
     }
     if line.starts_with("```") {
-        while line.starts_with("`") {
+        while line.starts_with('`') {
             line.replace_range(0..1, "");
         }
         if line.is_empty() {
             return (raw_line, line, MarkdownSegments::EndSection);
         }
-        let mut sections = line.split(" ");
+        let mut sections = line.split(SECTION_DELIM);
         let section_type = get_section_type(&mut sections);
         let binding = get_binding(sections);
         let mut sections = binding.split("\" \"");
@@ -121,14 +119,12 @@ fn get_binding(sections: Split<&str>) -> String {
 }
 
 fn get_section_type(sections: &mut Split<&str>) -> String {
-    let section_type = sections.next().unwrap_or("paper").to_lowercase().to_owned();
-    section_type
+    sections.next().unwrap_or("paper").to_lowercase()
 }
 
 fn vnext(sections: &mut Split<&str>) -> String {
     sections
         .next()
         .unwrap_or_default()
-        .replace("\"", "")
-        .to_string()
+        .replace('\"', EMPTY_STRING)
 }

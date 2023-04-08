@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct InputFieldProps {
@@ -18,7 +18,7 @@ pub struct InputFieldProps {
 pub fn input_message(props: &InputFieldProps) -> Html {
     let my_id = match &props.id {
         Some(id) => id.to_string(),
-        None => interop::get_uuid().to_owned(),
+        None => interop::get_uuid(),
     };
     let classes = &mut Classes::new();
     classes.push("input-field");

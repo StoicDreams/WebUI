@@ -1,4 +1,4 @@
-use crate::*;
+use crate::prelude::*;
 use web_sys::HtmlInputElement;
 
 #[derive(Properties, PartialEq)]
@@ -24,7 +24,7 @@ pub struct InputTextProps {
 pub fn input_message(props: &InputTextProps) -> Html {
     let my_id = match &props.cache_id {
         Some(id) => id.to_string(),
-        None => interop::get_uuid().to_owned(),
+        None => interop::get_uuid(),
     };
     let classes = &mut Classes::new();
     classes.push("input-message");
@@ -33,24 +33,22 @@ pub fn input_message(props: &InputTextProps) -> Html {
     }
     let inputref = props.value.clone();
     let oninput = {
-        Callback::from(move |ev: InputEvent| match ev.target() {
-            Some(target) => {
+        Callback::from(move |ev: InputEvent| {
+            if let Some(target) = ev.target() {
                 let value = target.unchecked_into::<HtmlInputElement>().value();
                 inputref.set(value);
             }
-            None => (),
         })
     };
     let changeref = props.value.clone();
     let onchange_handler = props.onchange.clone().unwrap_or(Callback::from(|_| ()));
     let onchange = {
-        Callback::from(move |ev: Event| match ev.target() {
-            Some(target) => {
+        Callback::from(move |ev: Event| {
+            if let Some(target) = ev.target() {
                 let value = target.unchecked_into::<HtmlInputElement>().value();
-                changeref.set(value.to_string());
-                onchange_handler.emit(ev.clone());
+                changeref.set(value);
+                onchange_handler.emit(ev);
             }
-            None => (),
         })
     };
     let placeholder = if props.placeholder.is_empty() {
