@@ -18,6 +18,8 @@ pub use crate::titles::*;
 pub use crate::*;
 
 // Export dependencies
+pub use async_std;
+pub use chrono;
 pub use futures;
 pub use js_sys;
 pub use lazy_static;

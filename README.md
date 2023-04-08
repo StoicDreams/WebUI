@@ -1,6 +1,6 @@
 # Rust Web UI Workspace - Stoic Dreams
 
-## Version 0.4.5
+## Version 0.4.6
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
