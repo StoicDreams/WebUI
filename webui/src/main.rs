@@ -8,10 +8,6 @@ static LOGO: &str = include_str!("starter_files/Logo.svg");
 static ROBOTS: &str = include_str!("starter_files/robots.txt");
 static SERVICEWORKER: &str = include_str!("starter_files/service-worker.js");
 
-static PRIVACYPAGE: &str = include_str!("starter_files/d/en-US/privacy.md");
-static TERMSPAGE: &str = include_str!("starter_files/d/en-US/terms.md");
-static UCPAGE: &str = include_str!("starter_files/d/en-US/under_construction.md");
-
 static WEBUIINTEROPJS: &str = include_str!("static_files/js/webui_interop.js");
 static WEBUIJS: &str = include_str!("static_files/js/webui.js");
 static CSS: &str = include_str!("static_files/css/webui.css");
@@ -25,10 +21,4 @@ fn main() {
     starter_files::add_file_if_missing("root_files/Logo.svg", LOGO);
     starter_files::add_file_if_missing("root_files/robots.txt", ROBOTS);
     starter_files::add_file_if_missing("root_files/service-worker.js", SERVICEWORKER);
-    #[cfg(feature = "pages")]
-    {
-        starter_files::add_file_if_missing("d/en-US/privacy.md", PRIVACYPAGE);
-        starter_files::add_file_if_missing("d/en-US/terms.md", TERMSPAGE);
-        starter_files::add_file_if_missing("d/en-US/under_construction.md", UCPAGE);
-    }
 }

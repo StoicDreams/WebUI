@@ -60,7 +60,7 @@ These features can be enable using feature flags. Some features are only applica
 
 Flag | Lib | Exe | Detail
 --- | --- | --- | ---
-pages | X | X | Include this flag to include some starter pages that consist of page components and accompanying `.md` files.
+pages | X | | Include this flag to include some starter_page_* components for setting up some initial starter pages on a new website..
 myfi | X | | Include this flag to include components that integrate with [MyFi.ws](https://www.myfi.ws) API services (`*Currently under development`).
 
 ### Start a new Rust project
@@ -87,7 +87,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.5.0"
+webui = "0.5.2"
+# Customize with specific feature flags (pages is included by default)
+# webui = { version = "0.5.2", default-features = false }
+# webui = { version = "0.5.2", features = ["all"] }
+# webui = { version = "0.5.2", features = ["myfi", "pages"] }
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/RustWebUI", branch = "main" }
 ```
@@ -95,7 +99,7 @@ webui = "0.5.0"
 Install webui executable - this will be used to build your boilerplate static files.
 
 > Note: We recommend that you generally set the same feature flags for your `webui` executable that you set for your use of the `webui` library to assure accompanying starter files are included.
-> That said, not all features will include starter files. See the [Features](#features) section above for more information on specific features to use between the `WebUI` executable and library.
+> That said, not all features are shared across the Lib version and Exe versions of `WebUI`. See the [Features](#features) section above for more information on specific features to use between the `WebUI` executable and library.
 
 ```bash
 # default installation, includes starter pages md files.
@@ -110,7 +114,7 @@ cargo install webui --features "pages myfi"
 # install with all features enabled
 cargo install webui --all-features
 
-# exlucde any optional features
+# exlude any optional features
 cargo install webui --no-default-features
 ```
 

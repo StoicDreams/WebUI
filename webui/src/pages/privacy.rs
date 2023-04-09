@@ -6,7 +6,7 @@ pub fn starter_page_privacy() -> Html {
     let tags = get_markdown_tags();
     html! {
         <>
-            <MarkdownContent href="/d/en-US/privacy.md" {tags} />
+            <MarkdownContent href="https://cdn.myfi.ws/d/en-US/privacy.md" {tags} />
         </>
     }
 }
