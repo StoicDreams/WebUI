@@ -9,7 +9,7 @@ pub(crate) fn page_under_construction() -> Html {
             <Quote Colo={Theme::Primary}>
                 <p>{"This page showcases one of WebUI's starter pages."}</p>
             </Quote>
-            <MarkdownContent href="/d/en-US/under_construction.md" {tags} />
+            <MarkdownContent href="https://cdn.myfi.ws/d/en-US/under_construction.md" {tags} />
             <NextPage url="/" />
         </>
     }
