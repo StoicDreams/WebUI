@@ -1,6 +1,6 @@
 # Rust Web UI Workspace - Stoic Dreams
 
-## Version 0.4.6
+## Version 0.5.0
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
@@ -82,7 +82,7 @@ Install webui executable from local development.
 
 ```bash
 # From the workspace root folder
-cargo install --path webui
+cargo install --path webui --features all
 ```
 
 Delete any starter files that need refeshing (index.html, etc) and run `webui`

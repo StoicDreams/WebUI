@@ -24,6 +24,22 @@ use list::*;
 use markdown_segments::*;
 use tags::*;
 
+/// Get the default tags for markdown content
+pub fn get_markdown_tags() -> HashMap<String, String> {
+    let mut tags = HashMap::<String, String>::new();
+    tags.insert(
+        "COMPANY_SINGULAR".to_string(),
+        get_company_singular().to_string(),
+    );
+    tags.insert(
+        "COMPANY_PLURAL".to_string(),
+        get_company_plural().to_string(),
+    );
+    tags.insert("APP_NAME".to_string(), get_app_name().to_string());
+    tags.insert("DOMAIN".to_string(), get_domain().to_string());
+    tags
+}
+
 /// Properties for Image component
 #[derive(Properties, PartialEq)]
 pub struct MarkdownContentProps {

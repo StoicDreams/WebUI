@@ -52,6 +52,17 @@ Add waxm build target
 rustup target add wasm32-unknown-unknown
 ```
 
+### Features
+
+Before you get started, it's important to understand the optional features that `WebUI` offers.
+
+These features can be enable using feature flags. Some features are only applicable to the `WebUI` executable that is used to setup your core `WebUI` framework files, while others are only applicable to the `WebUI` library, and finally some are shared by both.
+
+Flag | Lib | Exe | Detail
+--- | --- | --- | ---
+pages | X | X | Include this flag to include some starter pages that consist of page components and accompanying `.md` files.
+myfi | X | | Include this flag to include components that integrate with [MyFi.ws](https://www.myfi.ws) API services (`*Currently under development`).
+
 ### Start a new Rust project
 
 Start by creating your project using cargo.
@@ -76,16 +87,34 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.4.6"
+webui = "0.5.0"
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/RustWebUI", branch = "main" }
 ```
 
 Install webui executable - this will be used to build your boilerplate static files.
 
+> Note: We recommend that you generally set the same feature flags for your `webui` executable that you set for your use of the `webui` library to assure accompanying starter files are included.
+> That said, not all features will include starter files. See the [Features](#features) section above for more information on specific features to use between the `WebUI` executable and library.
+
 ```bash
+# default installation, includes starter pages md files.
 cargo install webui
+
+# explicitly include starter pages
+cargo install webui --features pages
+
+# example setting multiple features
+cargo install webui --features "pages myfi"
+
+# install with all features enabled
+cargo install webui --all-features
+
+# exlucde any optional features
+cargo install webui --no-default-features
 ```
+
+#### Current Features Include
 
 Run `webui` in your projects root folder (not `src`) to add static files (index.html, css, etc.).
 

@@ -16,6 +16,12 @@ pub mod constants;
 pub mod data_types;
 /// Global methods and helpers
 pub mod global;
+/// MyFi API components and integrations
+#[cfg(feature = "myfi")]
+mod myfi;
+/// Starter pages for new projects
+#[cfg(feature = "pages")]
+pub mod pages;
 /// Shortcut for all common components
 pub mod prelude;
 /// Modules that hold application states
@@ -56,6 +62,7 @@ pub fn start_app(app_config: AppConfig) {
     unsafe {
         set_app_name(app_config.app_name.to_owned());
         set_company_name(app_config.company_name.to_owned());
+        set_domain(app_config.domain.to_owned());
     }
     start_webui_app(app_config);
 }
@@ -63,10 +70,15 @@ pub fn start_app(app_config: AppConfig) {
 thread_local!(static COMPANY_PLURAL: Cell<&'static str> = Cell::new("Company's"));
 thread_local!(static COMPANY_SINGULAR: Cell<&'static str> = Cell::new("Company"));
 thread_local!(static APP_NAME: Cell<&'static str> = Cell::new("Web UI App"));
+thread_local!(static DOMAIN: Cell<&'static str> = Cell::new("Domain"));
 
 #[no_mangle]
 unsafe fn set_app_name(value: String) {
     APP_NAME.with(|a: &Cell<&'static str>| a.set(Box::leak(value.into_boxed_str())));
+}
+#[no_mangle]
+unsafe fn set_domain(value: String) {
+    DOMAIN.with(|a: &Cell<&'static str>| a.set(Box::leak(value.into_boxed_str())));
 }
 #[no_mangle]
 unsafe fn set_company_name(value: String) {
@@ -85,4 +97,8 @@ pub fn get_company_singular() -> &'static str {
 
 pub fn get_company_plural() -> &'static str {
     COMPANY_PLURAL.with(|a| a.get())
+}
+
+pub fn get_domain() -> &'static str {
+    DOMAIN.with(|a| a.get())
 }

@@ -13,6 +13,10 @@ pub use crate::interop::*;
 pub use crate::jslog;
 pub use crate::macros;
 pub use crate::macros::*;
+#[cfg(feature = "myfi")]
+pub use crate::myfi::*;
+#[cfg(feature = "pages")]
+pub use crate::pages::*;
 pub use crate::states::*;
 pub use crate::titles::*;
 pub use crate::*;

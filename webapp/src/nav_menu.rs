@@ -79,6 +79,18 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
                 page_blogs_what_is_ui_framework,
             )],
         ),
+        NavGroupInfo::link(
+            "Starter Pages",
+            "fa-duotone fa-file-code",
+            roles::PUBLIC,
+            vec![NavLinkInfo::link(
+                "Under Construction",
+                "/under-construction",
+                "fa-duotone fa-traffic-cone",
+                roles::PUBLIC,
+                starter_page_under_construction,
+            )],
+        ),
         NavLinkInfo::link(
             "About",
             "/about",
@@ -91,14 +103,14 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
             "/terms",
             "fa-duotone fa-handshake",
             roles::PUBLIC,
-            page_terms,
+            starter_page_terms,
         ),
         NavLinkInfo::link(
             "Privacy",
             "/privacy",
             "fa-duotone fa-shield-exclamation",
             roles::PUBLIC,
-            page_privacy,
+            starter_page_privacy,
         ),
     ];
     nav_routes

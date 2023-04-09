@@ -16,7 +16,7 @@ fn setup_app_config() -> AppConfig {
         "Web UI Demo & Documentation".to_owned(),
         "Stoic Dreams".to_owned(),
         "https://www.stoicdreams.com".to_owned(),
-        "StoicDreams.com".to_owned(),
+        "WebUI.StoicDreams.com".to_owned(),
     )
     .set_header_logo_src("Logo.svg".to_owned())
     .set_nav_routing(nav_menu::get_nav_routing())
