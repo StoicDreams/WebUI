@@ -1,5 +1,4 @@
 use crate::prelude::*;
-use reqwest::*;
 
 #[derive(Debug, serde::Serialize)]
 pub enum FetchMethod {
@@ -26,7 +25,7 @@ impl FetchMethod {
 pub struct FetchRequest {
     url: String,
     method: FetchMethod,
-    headers: header::HeaderMap,
+    headers: HashMap<String, String>,
 }
 
 impl FetchRequest {
@@ -34,15 +33,16 @@ impl FetchRequest {
         Self {
             url,
             method,
-            headers: header::HeaderMap::new(),
+            headers: HashMap::new(),
         }
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, serde::Deserialize, serde::Serialize)]
 pub struct FetchResponse {
+    headers: HashMap<String, String>,
     status: u16,
-    result: Option<String>,
+    body: Option<String>,
 }
 
 impl FetchResponse {
@@ -50,32 +50,23 @@ impl FetchResponse {
         self.status >= 200 && self.status < 300
     }
     pub fn get_result(&self) -> Option<String> {
-        self.result.to_owned()
+        self.body.to_owned()
     }
     pub fn ok(status: u16, body: String) -> Self {
         FetchResponse {
+            headers: HashMap::new(),
             status,
-            result: Some(body),
+            body: Some(body),
         }
     }
     pub fn error() -> Self {
         FetchResponse {
+            headers: HashMap::new(),
             status: 500,
-            result: None,
+            body: None,
         }
     }
 }
-trait Block {
-    fn wait(self) -> <Self as futures::Future>::Output
-    where
-        Self: Sized,
-        Self: futures::Future,
-    {
-        futures::executor::block_on(self)
-    }
-}
-
-impl<F, T> Block for F where F: futures::Future<Output = T> {}
 
 fn build_url(url: &str) -> String {
     if url.is_empty() {
@@ -90,45 +81,32 @@ fn build_url(url: &str) -> String {
     format!("{}/{}", interop::get_full_path(), url)
 }
 
-pub async fn fetch(request: FetchRequest) -> FetchResponse {
-    let client = reqwest::Client::builder()
-        .default_headers(request.headers)
-        .build();
-    let url = build_url(&request.url);
-    match client {
-        Ok(client) => match request.method {
-            FetchMethod::Get => {
-                let result = client.get(url).send().await;
-                handle_result(result).await
-            }
-            FetchMethod::Patch(data) => {
-                let result = client.patch(url).body(data).send().await;
-                handle_result(result).await
-            }
-            FetchMethod::Post(data) => {
-                let result = client.post(url).body(data).send().await;
-                handle_result(result).await
-            }
-            FetchMethod::Put(data) => {
-                let result = client.put(url).body(data).send().await;
-                handle_result(result).await
-            }
-            FetchMethod::Delete => {
-                let result = client.delete(url).send().await;
-                handle_result(result).await
-            }
-        },
-        Err(_error) => FetchResponse::error(),
-    }
+#[derive(Debug, serde::Deserialize, serde::Serialize)]
+struct FetchOptions {
+    method: String,
+    body: Option<String>,
 }
 
-async fn handle_result(result: reqwest::Result<reqwest::Response>) -> FetchResponse {
-    match result {
-        Ok(response) => {
-            let status = response.status().as_u16();
-            let body = response.text().await.unwrap_or_default();
-            FetchResponse::ok(status, body)
+pub async fn fetch(request: FetchRequest) -> FetchResponse {
+    let mut options = FetchOptions {
+        method: request.method.to_http_method(),
+        body: None,
+    };
+    match request.method {
+        FetchMethod::Get => (),
+        FetchMethod::Patch(data) => options.body = Some(data),
+        FetchMethod::Post(data) => options.body = Some(data),
+        FetchMethod::Put(data) => options.body = Some(data),
+        FetchMethod::Delete => (),
+    };
+
+    let json = serde_json::to_string(&options).unwrap();
+    let url = build_url(&request.url);
+    let result = webui_fetch(url, json).await;
+    if let Some(result) = result.as_string() {
+        if let Ok(result) = serde_json::from_str::<FetchResponse>(&result) {
+            return result;
         }
-        Err(_err) => FetchResponse::error(),
     }
+    FetchResponse::error()
 }

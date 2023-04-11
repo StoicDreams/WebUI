@@ -53,6 +53,7 @@ pub use lazy_static::*;
 pub use num_format::*;
 pub use regex::*;
 pub use rust_decimal_macros::*;
+pub use std::collections::*;
 pub use std::rc::*;
 pub use uuid::Uuid;
 pub use wasm_bindgen::{prelude::*, JsCast};

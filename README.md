@@ -1,6 +1,6 @@
-# Rust Web UI Workspace - Stoic Dreams
+# Web UI Workspace - Stoic Dreams
 
-## Version 0.5.2
+## Version 0.6.0
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
@@ -14,7 +14,9 @@
 
 ## About
 
-This project has been created to house a Rust based web UI framework to remove boilerplate when creating new SPA websites.
+Web UI is a framework with the purpose of simplifying and minizing boilerplate code when creating new SPA websites built in Rust and running solely on front-end webassembly (i.e. a web browser).
+
+Web UI is not suitable for those looking to build a website that is hosted and run on a webserver, only feeding html, css, and javascript to a browser.
 
 ## Goals
 
@@ -23,8 +25,6 @@ This project has been created to house a Rust based web UI framework to remove b
 - Provide robust component systems for handling common display types, user input and interactions, and data processing.
 
 ## Getting Started
-
-This project was setup on a Mac, so for now instructions are only included for Mac setup.
 
 ### Download
 

@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 
 /// Check if given path matches the current browser path
@@ -108,4 +109,7 @@ extern "C" {
 
     #[wasm_bindgen]
     pub fn set_global_data(key: String, value: String);
+
+    #[wasm_bindgen]
+    pub(crate) async fn webui_fetch(url: String, options: String) -> JsValue;
 }

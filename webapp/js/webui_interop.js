@@ -45,8 +45,24 @@ export function get_origin() {
 }
 
 export function log(message) {
-    console.log(message);
+    console.info(message, TimeStamp());
 }
+function TimeStamp() {
+    const now = Date.now();
+    const milliseconds = Math.floor(now % 1000);
+    const seconds = Math.floor((now / 1000) % 60);
+    const minutes = Math.floor((now / 1000 / 60) % 60);
+    const hours = Math.floor(now / 1000 / 60 / 60 % 24);
+    function pad(number) { return number < 10 ? `0${number}` : number; }
+    return [
+       pad(hours),
+       pad(minutes),
+       pad(seconds),
+       pad(milliseconds)
+    ].join(':');
+}
+
+
 
 const STORAGE_ACCEPTED_KEY = 'storage_accepted';
 const REJECT_STORAGE_CACHING = 0;
@@ -151,4 +167,18 @@ export function get_uuid() {
             return v.toString(16);
         });
     }
+}
+
+export async function webui_fetch(url, jsonIn) {
+    let options = JSON.parse(jsonIn);
+    let result = await fetch(url, options);
+    let headers = result.headers;
+    let status = result.status;
+    let body = await result.text();
+    let json = JSON.stringify({
+        headers: headers,
+        status: status,
+        body: body
+    });
+    return json;
 }
