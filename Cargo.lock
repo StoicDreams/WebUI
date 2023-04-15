@@ -1784,7 +1784,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "serde",
  "webui",
@@ -1800,7 +1800,7 @@ dependencies = [
 
 [[package]]
 name = "webui"
-version = "0.6.1"
+version = "0.6.2"
 dependencies = [
  "async-std",
  "chrono",

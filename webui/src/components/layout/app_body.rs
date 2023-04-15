@@ -14,29 +14,37 @@ pub(crate) fn app_body() -> Html {
     let page_state = use_state(|| PageState::Show);
     let nav = contexts.nav.deref().to_owned();
     let path = use_state(|| interop::get_path().to_lowercase());
+    let routes = contexts.config.nav_routing;
     if let NavigationMessage::PathUpdate(new_path) = nav {
         if *path.deref() != new_path {
             contexts.nav.set(NavigationMessage::None);
-            if *page_state.deref() == PageState::Show {
+            let page_check = get_page_option(&routes, &new_path);
+            if page_check != None && *page_state.deref() == PageState::Show {
+                contexts.drawer.set(DrawerMessage::Close);
                 let page_state = page_state.clone();
+                // let page_state_out = page_state.clone();
+                // let page_state_hidden = page_state.clone();
+                // let page_state_in = page_state.clone();
+                // let page_state_show = page_state.clone();
                 let path = path.clone();
                 set_timeout!(1, move || {
-                    let page_state = page_state.clone();
+                    let page_state_out = page_state.clone();
                     let path = path.clone();
                     let new_path = new_path.clone();
-                    page_state.set(PageState::TransitionOut);
+                    page_state_out.set(PageState::TransitionOut);
                     set_timeout!(300, move || {
-                        let page_state = page_state.clone();
+                        let page_state_hidden = page_state_out.clone();
                         let path = path.clone();
                         let new_path = new_path.clone();
-                        page_state.set(PageState::Hidden);
+                        page_state_hidden.set(PageState::Hidden);
                         path.set(new_path);
+                        // TODO: This set timeout is where the page freeze is happening, need to figure out why.
                         set_timeout!(100, move || {
-                            let page_state = page_state.clone();
-                            page_state.set(PageState::TransitionIn);
+                            let page_state_in = page_state_hidden.clone();
+                            page_state_in.set(PageState::TransitionIn);
                             set_timeout!(300, move || {
-                                let page_state = page_state.clone();
-                                page_state.set(PageState::Show);
+                                let page_state_show = page_state_in.clone();
+                                page_state_show.set(PageState::Show);
                             });
                         });
                     });
@@ -52,7 +60,6 @@ pub(crate) fn app_body() -> Html {
         PageState::Show => "",
     };
 
-    let routes = contexts.config.nav_routing;
     let page = path.deref().to_string();
     html! {
         <>
@@ -87,7 +94,7 @@ pub struct PageContentProps {
 
 #[function_component(PageContent)]
 fn page_content(props: &PageContentProps) -> Html {
-    match use_get_page(props.routes.to_owned(), &props.page) {
+    match use_get_page(&props.routes, &props.page) {
         yew::suspense::SuspensionResult::Ok(link_info) => {
             let page = link_info.page;
             html! {<>{page()}</>}
@@ -100,7 +107,7 @@ fn page_content(props: &PageContentProps) -> Html {
 }
 
 #[hook]
-fn use_get_page(routes: Vec<NavRoute>, page: &str) -> yew::suspense::SuspensionResult<NavLinkInfo> {
+fn use_get_page(routes: &[NavRoute], page: &str) -> yew::suspense::SuspensionResult<NavLinkInfo> {
     match get_page_option(routes, page) {
         Some(info) => Ok(info),
         None => {
@@ -117,19 +124,19 @@ fn get_page_failure<F: FnOnce()>(handler: F) {
     handler();
 }
 
-fn get_page_option(routes: Vec<NavRoute>, page: &str) -> Option<NavLinkInfo> {
+fn get_page_option(routes: &[NavRoute], page: &str) -> Option<NavLinkInfo> {
     for route in routes {
         match route {
             NavRoute::NavLink(link_info) => {
                 if link_info.path.to_lowercase() == page.to_lowercase() {
-                    return Option::Some(link_info);
+                    return Option::Some(link_info.to_owned());
                 }
             }
             NavRoute::NavGroup(group_info) => {
                 if group_info.children.is_empty() {
                     continue;
                 }
-                if let Option::Some(link_info) = get_page_option(group_info.children, page) {
+                if let Option::Some(link_info) = get_page_option(&group_info.children, page) {
                     return Option::Some(link_info);
                 }
             }

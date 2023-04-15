@@ -29,14 +29,13 @@ pub fn link(props: &NavLinkProps) -> Html {
     } else {
         props.title.to_owned()
     };
-    let mypath = props.href.to_string();
     let onclick = {
-        let mypath = mypath;
+        let mypath = props.href.to_string();
         let navigation = contexts.nav.clone();
-        let mymessage = NavigationMessage::PathUpdate(mypath);
         Callback::from(move |_| {
+            let mymessage = NavigationMessage::PathUpdate(mypath.clone());
+            jslog!("mypath: {}", mypath);
             let mymessage = mymessage.clone();
-            contexts.drawer.set(DrawerMessage::Close);
             navigation.set(mymessage);
         })
     };
