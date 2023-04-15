@@ -1,5 +1,5 @@
 (function webuiSetup(){
-    'strict'
+    "use strict"
     function getEl(sel, mswait) {
         return new Promise((resolve, reject) => {
             let el = null;
