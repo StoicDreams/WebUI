@@ -22,10 +22,6 @@ pub(crate) fn app_body() -> Html {
             if page_check != None && *page_state.deref() == PageState::Show {
                 contexts.drawer.set(DrawerMessage::Close);
                 let page_state = page_state.clone();
-                // let page_state_out = page_state.clone();
-                // let page_state_hidden = page_state.clone();
-                // let page_state_in = page_state.clone();
-                // let page_state_show = page_state.clone();
                 let path = path.clone();
                 set_timeout!(1, move || {
                     let page_state_out = page_state.clone();
