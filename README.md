@@ -14,7 +14,7 @@
 
 ## About
 
-Web UI is a framework with the purpose of simplifying and minizing boilerplate code when creating new SPA websites built in Rust and running solely on front-end webassembly (i.e. a web browser).
+Web UI is a framework with the purpose of simplifying and minizing boilerplate code when creating new SPA websites built in Rust and running solely on front-end webassembly (i.e. a web browser.)
 
 Web UI is not suitable for those looking to build a website that is hosted and run on a webserver, only feeding html, css, and javascript to a browser.
 
@@ -92,7 +92,7 @@ Delete any starter files that need refeshing (index.html, etc) and run `webui`
 webui
 ```
 
-Run `trunk server --open` from your UI project root (e.g. `webapp`) to run your site locally.
+Run `trunk serve --open` from your UI project root (e.g. `webapp`) to run your site locally.
 
 ```bash
 trunk serve --open

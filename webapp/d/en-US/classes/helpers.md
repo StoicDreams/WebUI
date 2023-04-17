@@ -258,7 +258,7 @@ Margin and padding helper classes allow setting values that represent multiplier
 
 Acceptable multipler values are between 0 and 10, with zero being no margin or padding, and 10 being the max multipler value.
 
-Use `ma-N` and `pa-N` margin and padding variants to set margin and padding for all 4 sides (top, right, bottom, and left).
+Use `ma-N` and `pa-N` margin and padding variants to set margin and padding for all 4 sides (top, right, bottom, and left.)
 ```
 
 ```rust

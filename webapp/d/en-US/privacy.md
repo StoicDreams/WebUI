@@ -81,7 +81,7 @@ Some of our business partners may use cookies on our websites. However, we have 
 ```section
 We may share aggregated information with our partners and advertisers. This information is not linked to any personal information that can identify any individual person.
 
-We may partner with other parties to provide specific services (for example, Azure Cloud services). When the user signs up for these services, we may share names, or other contact information that is necessary for the third party to provide these services. These parties are not allowed to use personally identifiable information except for the purpose of providing these services.
+We may partner with other parties to provide specific services (for example, Azure Cloud services.) When the user signs up for these services, we may share names, or other contact information that is necessary for the third party to provide these services. These parties are not allowed to use personally identifiable information except for the purpose of providing these services.
 ```
 
 ## Links

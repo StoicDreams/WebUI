@@ -61,7 +61,7 @@ These features can be enable using feature flags. Some features are only applica
 Flag | Lib | Exe | Detail
 --- | --- | --- | ---
 pages | X | | Include this flag to include some starter_page_* components for setting up some initial starter pages on a new website..
-myfi | X | | Include this flag to include components that integrate with [MyFi.ws](https://www.myfi.ws) API services (`*Currently under development`).
+myfi | X | | Include this flag to include components that integrate with [MyFi.ws](https://www.myfi.ws) API services (`*Currently under development`.)
 
 ### Start a new Rust project
 
@@ -120,7 +120,7 @@ cargo install webui --no-default-features
 
 #### Current Features Include
 
-Run `webui` in your projects root folder (not `src`) to add static files (index.html, css, etc.).
+Run `webui` in your projects root folder (not `src`) to add static files (index.html, css, etc.)
 
 ```bash
 webui
@@ -145,10 +145,10 @@ Other files are considered starter files and will not overwrite an existing file
 
 ### Run Dev Server for Testing
 
-Run `trunk server --open` from your project root to run your site locally. The `--open` flag will open your website in your default browser. If you already have the page open you can exclude the `--open` flag.
+Run `trunk serve --open` from your project root to run your site locally. The `--open` flag will open your website in your default browser. If you already have the page open you can exclude the `--open` flag.
 
 ```bash
-trunk server --open
+trunk serve --open
 ```
 
 ## Author
