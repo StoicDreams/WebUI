@@ -46,15 +46,6 @@ jobs:
       with:
         inlineScript: |
           az storage copy -s 'webapp/dist/*' --destination-account-name ${{ env.ACCOUNT_NAME }} --destination-container '$web' --recursive
-    - name: Set Correct Content-Type Attributes
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          $myloc = "$((Get-Location).ProviderPath)\webapp\dist\"
-          Get-ChildItem "webapp/dist" -Filter "*.wasm" -Recurse -Force | ForEach-Object {
-              $rel_Path = $_.FullName.Replace($myloc, "")
-              az storage blob update -c '$web' -n $rel_Path --account-name ${{ env.ACCOUNT_NAME }} --content-type application/wasm
-          }
     - name: Purge Storage Cache
       uses: azure/CLI@v1
       with:
