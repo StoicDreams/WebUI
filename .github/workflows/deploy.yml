@@ -24,8 +24,8 @@ jobs:
       run: cargo test
     - name: Install Trunk
       run: cargo install trunk
-    # - name: Install Post Build
-    #   run: cargo install webapp_post_build --git https://github.com/StoicDreams/RustWebUI
+    - name: Install Post Build
+      run: cargo install webapp_post_build --git https://github.com/StoicDreams/RustWebUI
     - name: Build Web App
       run: |
         # Change directory to project folder
