@@ -62,15 +62,12 @@ fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
         .print_commands(true)
         .build();
     let mut script = format!("{} {}", command, commandargs.join(" "));
-    match directory {
-        Some(directory) => {
-            script = format!(
-                "cd {}
+    if let Some(directory) = directory {
+        script = format!(
+            "cd {}
 {}",
-                directory, script
-            );
-        }
-        None => (),
+            directory, script
+        );
     };
     println!("Running Command: {}", script);
     let output = ps.run(&script).unwrap();

@@ -1,4 +1,5 @@
 use super::*;
+use crate::prelude::regex::*;
 use std::collections::HashMap;
 
 const PTN_ANCHOR: &str = r"\[[^\]]+\]\([^\)]+\)";

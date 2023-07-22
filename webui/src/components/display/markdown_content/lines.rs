@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use super::*;
+use crate::prelude::regex::*;
 
 const PTN_AVATAR: &str = r"(!?\[[^\]]*\]\([^\)]+\))";
 

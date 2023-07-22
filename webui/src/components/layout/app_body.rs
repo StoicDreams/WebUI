@@ -19,7 +19,7 @@ pub(crate) fn app_body() -> Html {
         if *path.deref() != new_path {
             contexts.nav.set(NavigationMessage::None);
             let page_check = get_page_option(&routes, &new_path);
-            if page_check != None && *page_state.deref() == PageState::Show {
+            if page_check.is_some() && *page_state.deref() == PageState::Show {
                 contexts.drawer.set(DrawerMessage::Close);
                 let page_state = page_state.clone();
                 let path = path.clone();
