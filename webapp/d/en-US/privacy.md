@@ -59,7 +59,7 @@ At {COMPANY_SINGULAR}, we take precautions to protect your information. When you
 
 When we collect or transfer information, that information is encrypted and transmitted to us in a secure way. You can verify this by looking for a lock icon in the address bar and looking for "https" at the beginning of the address of the web page.
 
-While we use encryption to protect information transmitted online, we also protect your information offline. Only employees who need information to perform a specific job are granted access to personally identifiable information. All of our data is encrypted and secured in Microsoft Azure Cloud storage services, to help assure the highest security standards are in place to protect your data.
+While we use encryption to protect information transmitted online, we also protect your information offline. Only employees who need information to perform a specific job are granted access to personally identifiable information. All of our data is encrypted and secured in our secure storage services, to help assure the highest security standards are in place to protect your data.
 ```
 
 ## Registration
