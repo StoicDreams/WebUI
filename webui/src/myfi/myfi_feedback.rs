@@ -2,7 +2,7 @@ use crate::prelude::*;
 use std::borrow::BorrowMut;
 use std::collections::HashMap;
 
-pub fn feedback_button_info() -> DrawerToggleInfo {
+pub fn myfi_feedback_button_info() -> DrawerToggleInfo {
     DrawerToggleInfo::builder(
         "Give us your Feedback!",
         || html! {<i class="fa-solid fa-comment" />},

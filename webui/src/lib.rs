@@ -19,11 +19,11 @@ pub mod global;
 /// MyFi API components and integrations
 #[cfg(feature = "myfi")]
 mod myfi;
-/// Starter pages for new projects
-#[cfg(feature = "pages")]
-pub mod pages;
 /// Shortcut for all common components
 pub mod prelude;
+/// Starter pages for new projects
+#[cfg(feature = "pages")]
+pub mod starter_pages;
 /// Modules that hold application states
 pub mod states;
 

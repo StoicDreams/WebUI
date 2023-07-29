@@ -1,6 +1,6 @@
 use js_sys::{Array, Function};
 
-use crate::{interop, prelude::*};
+use crate::prelude::*;
 
 pub fn newid() -> Uuid {
     Uuid::from_str(&interop::get_uuid()).unwrap()

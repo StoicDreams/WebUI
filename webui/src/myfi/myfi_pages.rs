@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub async fn get_page_data(page: &str) -> Option<String> {
+pub async fn get_myfi_page_data(page: &str) -> Option<String> {
     match to_base64(page) {
         Some(page_encoded) => {
             let response = fetch(FetchRequest::new(

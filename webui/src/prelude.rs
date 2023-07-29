@@ -16,7 +16,7 @@ pub use crate::macros::*;
 #[cfg(feature = "myfi")]
 pub use crate::myfi::*;
 #[cfg(feature = "pages")]
-pub use crate::pages::*;
+pub use crate::starter_pages::*;
 pub use crate::states::*;
 pub use crate::titles::*;
 pub use crate::*;

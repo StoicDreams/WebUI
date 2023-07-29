@@ -20,7 +20,7 @@ fn setup_app_config() -> AppConfig {
     .set_header_logo_src("Logo.svg".to_owned())
     .set_nav_routing(nav_menu::get_nav_routing())
     .set_drawer_toggle_header_left(nav_menu::nav_menu_info())
-    .set_drawer_toggle_header_middle(feedback_button_info())
+    .set_drawer_toggle_header_middle(myfi_feedback_button_info())
     .set_header_strip_bar(header_strip_bar::header_strip_bar)
     .set_user_info_panel(info_panel::info_panel)
     .set_copyright_start(2022)
