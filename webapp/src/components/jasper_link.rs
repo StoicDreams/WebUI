@@ -1,4 +1,4 @@
-use webui::*;
+use webui::prelude::*;
 
 /// Properties for Paper component
 #[derive(Properties, PartialEq)]

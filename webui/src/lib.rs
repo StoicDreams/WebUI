@@ -41,7 +41,7 @@ pub use prelude::*;
 ///
 /// example
 /// ```rust,ignore
-/// use webui::*;
+/// use webui::prelude::*;
 ///
 /// fn main() {
 ///     let app_config = AppConfig::builder(

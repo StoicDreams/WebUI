@@ -6,7 +6,7 @@ use crate::prelude::*;
 ///
 /// Example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
 /// let number = Decimal::from_u32(1000).unwrap();
 /// assert_eq!("1,000.00", format_decimal(number,2));
@@ -65,7 +65,7 @@ pub fn format_decimal(number: Decimal, digits: u32) -> String {
 ///
 /// Example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
 /// let number = 1000f32;
 /// assert_eq!("1,000.00", format_number(number,2));

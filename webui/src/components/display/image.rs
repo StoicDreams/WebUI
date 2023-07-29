@@ -19,9 +19,9 @@ pub struct ImageProps {
 ///
 /// Basic example displaying image with classes
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Image src="Logo.svg" alt="" class="d-flex flex-column" />
 ///     }
@@ -33,9 +33,9 @@ pub struct ImageProps {
 /// Elevation applies a box shadow to the Image component.
 /// Valid ranges range from 0 ro 25.
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Image src="Logo.svg" elevation={10} />
 ///     }

@@ -1,7 +1,7 @@
 use crate::prelude::*;
 
 /// App home page
-pub(crate) fn page_components_display() -> Html {
+pub(crate) fn page_components_display(_contexts: Contexts) -> Html {
     set_title("Display Components");
     html! {
         <>

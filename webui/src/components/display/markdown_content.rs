@@ -55,9 +55,9 @@ pub struct MarkdownContentProps {
 ///
 /// Basic example displaying from url
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <MarkdownContent href="/d/en-us/example.md"/>
 ///     }
@@ -68,9 +68,9 @@ pub struct MarkdownContentProps {
 ///
 /// Basic example displaying from passed in value
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <MarkdownContent markdown="# Hello World" />
 ///     }

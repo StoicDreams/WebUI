@@ -39,9 +39,9 @@ pub struct CardProps {
 ///
 /// Basic example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Card title="Hello World" avatar="fa-solid fa-acorn">{"Your card body content here"}</Card>
 ///     }
@@ -50,9 +50,9 @@ pub struct CardProps {
 ///
 /// Apply theme to card header
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Card title="Hello World" theme={Theme::Primary}>{"Your card body content here"}</Card>
 ///     }
@@ -61,9 +61,9 @@ pub struct CardProps {
 ///
 /// Add classes - applied to outer Paper component
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Card class="d-flex flex-column">{"Your card body content here"}</Card>
 ///     }
@@ -75,9 +75,9 @@ pub struct CardProps {
 /// Elevation applies a box shadow to the Card component.
 /// Valid ranges range from 0 ro 25.
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Card elevation={10}>{"Your card body content here"}</Card>
 ///     }

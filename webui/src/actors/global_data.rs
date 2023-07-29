@@ -33,9 +33,9 @@ impl GlobalData {
             }
             Err(error) => {
                 jslog!("Error in GlobalData.set_data: {:?}", error);
-                Err(WebUIError::LockError(
+                Err(WebUIError::LockError(String::from(
                     "Unable to retrieve lock to set global data",
-                ))
+                )))
             }
         }
     }
@@ -89,9 +89,9 @@ impl GlobalData {
                     }
                 }
             }
-            Err(_) => Err(WebUIError::LockError(
+            Err(_) => Err(WebUIError::LockError(String::from(
                 "Unable to retrieve lock to get global data",
-            )),
+            ))),
         }
     }
 }

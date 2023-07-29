@@ -19,9 +19,9 @@ pub struct PaperProps {
 ///
 /// Basic example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Paper>{"Your child content here"}</Paper>
 ///     }
@@ -30,9 +30,9 @@ pub struct PaperProps {
 ///
 /// Add classes
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Paper class="d-flex flex-column">{"Your child content here"}</Paper>
 ///     }
@@ -44,9 +44,9 @@ pub struct PaperProps {
 /// Elevation applies a box shadow to the Paper component.
 /// Valid ranges range from 0 ro 25.
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Paper elevation={10}>{"Your child content here"}</Paper>
 ///     }

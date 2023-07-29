@@ -53,6 +53,7 @@ pub use lazy_static::*;
 pub use num_format::{Locale, ToFormattedString};
 pub use regex::{Captures, Regex};
 pub use rust_decimal_macros::*;
+pub use serde::{de::DeserializeOwned, Deserialize, Serialize};
 pub use std::collections::*;
 pub use std::rc::*;
 pub use uuid::Uuid;

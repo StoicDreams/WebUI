@@ -31,7 +31,7 @@ impl Component for App {
         html! {
             <div id="app" class="page transition out">
                 <AppContexts
-                    app_config={props.config.clone()}
+                    config={props.config.clone()}
                     >
                     <AppHeader />
                     <AppBody />

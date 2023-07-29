@@ -1,3 +1,4 @@
+use js_sys::Array;
 use std::collections::HashMap;
 use wasm_bindgen::prelude::*;
 
@@ -23,6 +24,10 @@ macro_rules! jslog {
 
 #[wasm_bindgen(module = "/src/static_files/js/webui_interop.js")]
 extern "C" {
+    /// General run method
+    #[wasm_bindgen]
+    pub fn run_method(method: &str, args: &JsValue) -> JsValue;
+
     /// Set the document/page title
     #[wasm_bindgen]
     pub fn set_title(title: &str);

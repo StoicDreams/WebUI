@@ -19,8 +19,8 @@ pub struct AppConfig {
     pub footer_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub footer_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
-    pub header_strip_bar: Option<fn() -> Html>,
-    pub user_info_panel: Option<fn() -> Html>,
+    pub header_strip_bar: Option<fn(contexts: Contexts) -> Html>,
+    pub user_info_panel: Option<fn(contexts: Contexts) -> Html>,
     pub copyright_year_start: Option<i16>,
 }
 
@@ -43,15 +43,15 @@ pub struct AppConfigBuilder {
     pub(crate) footer_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) footer_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) header_strip_bar: Option<fn() -> Html>,
-    pub(crate) user_info_panel: Option<fn() -> Html>,
+    pub(crate) header_strip_bar: Option<fn(contexts: Contexts) -> Html>,
+    pub(crate) user_info_panel: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) copyright_year_start: Option<i16>,
 }
 impl AppConfig {
     /// Create an AppConfigBuilder instance to build your AppConfig with.
     ///
     /// ```rust
-    /// use webui::*;
+    /// use webui::prelude::*;
     ///
     /// let app_config:AppConfig = AppConfig::builder(
     ///     "App Name".to_string(),
@@ -198,12 +198,12 @@ impl AppConfigBuilder {
         self
     }
     /// Set extra content to display in the header, between the middle togle button and the user info panel
-    pub fn set_header_strip_bar(&mut self, strip_bar: fn() -> Html) -> &mut Self {
+    pub fn set_header_strip_bar(&mut self, strip_bar: fn(contexts: Contexts) -> Html) -> &mut Self {
         self.header_strip_bar = Some(strip_bar);
         self
     }
     /// Set extra content to display in the header, between the middle togle button and the user info panel
-    pub fn set_user_info_panel(&mut self, info_panel: fn() -> Html) -> &mut Self {
+    pub fn set_user_info_panel(&mut self, info_panel: fn(contexts: Contexts) -> Html) -> &mut Self {
         self.user_info_panel = Some(info_panel);
         self
     }

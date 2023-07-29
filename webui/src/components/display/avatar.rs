@@ -23,9 +23,9 @@ pub struct AvatarProps {
 ///
 /// Basic example displaying Font Awesome icon
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Avatar icon="fa-solid fa-acorn" alt="Acorn Icon" />
 ///     }
@@ -34,9 +34,9 @@ pub struct AvatarProps {
 ///
 /// Add classes
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Avatar image="Logo.svg" alt="" class="d-flex flex-column" />
 ///     }
@@ -48,9 +48,9 @@ pub struct AvatarProps {
 /// Elevation applies a box shadow to the Avatar component.
 /// Valid ranges range from 0 ro 25.
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         <Avatar image="Logo.svg" elevation={10} />
 ///     }

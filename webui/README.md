@@ -63,6 +63,19 @@ Flag | Lib | Exe | Detail
 pages | X | | Include this flag to include some starter_page_* components for setting up some initial starter pages on a new website..
 myfi | X | | Include this flag to include components that integrate with [MyFi.ws](https://www.myfi.ws) API services (`*Currently under development`.)
 
+#### Current and Planned Features
+
+Flag | Feature | Status | Detail
+--- | --- | --- | ---
+pages | privacy | available | General privacy page
+pages | terms | available | General terms & conditions page
+pages | under_construction | available | General under construction page/placeholder
+myfi | feedback | development | Dialog for capturing user feedback
+myfi | event logs | development | Helper method for logging event logs
+myfi | account services | development | Pages & methods for users to signup/login/logout as well as restricting role based content
+myfi | page data | planned | Store and retrieve page data
+myfi | website editor | planned | Inline editor for managing page content through the website UI
+
 ### Start a new Rust project
 
 Start by creating your project using cargo.
@@ -118,8 +131,6 @@ cargo install webui --all-features
 cargo install webui --no-default-features
 ```
 
-#### Current Features Include
-
 Run `webui` in your projects root folder (not `src`) to add static files (index.html, css, etc.)
 
 ```bash
@@ -132,7 +143,7 @@ Note that you should run `webui` command anytime you update to a new version, ma
 
 Certain files are considered static and are not meant to be manually updated. These files will be overwritten during updates.
 
-Other files are considered starter files and will not overwrite an existing file during updates. If you want to update to the latest starter file, then you will need to delete or rename your existing file - recommend renaming file, such as postfixing .bck to the file name, so you can copy over your customizations to the new Web UI file once it's created.
+Other files are considered starter files that you will probably want or need to update and will not overwrite an existing file during updates. If you want to update to the latest starter file, then you will need to delete or rename your existing file - recommend renaming file, such as postfixing .bck to the file name, so you can copy over your customizations to the new Web UI file once it's created.
 
 | File | Starter | Static | Details |
 | --- | :---:| :---: | --- |

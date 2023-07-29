@@ -2,9 +2,9 @@
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     let classes = classes!(CLASSES_PAGE_SECTION, CLASSES_SIDE_BY_SIDE);
 ///
 ///     html! {

@@ -6,9 +6,9 @@ pub const TITLE_CLASSES: &str = "pa-1 f4 d-flex flex-wrap flex-row";
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_standard!("Text for your title")}
 ///     }
@@ -33,9 +33,9 @@ macro_rules! title_standard {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_active!("Text for your title")}
 ///     }
@@ -60,9 +60,9 @@ macro_rules! title_active {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_background!("Text for your title")}
 ///     }
@@ -87,9 +87,9 @@ macro_rules! title_background {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///     {title_black!("Text for your title")}
 ///     }
@@ -114,9 +114,9 @@ macro_rules! title_black {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_white!("Text for your title")}
 ///     }
@@ -141,9 +141,9 @@ macro_rules! title_white {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_primary!("Text for your title")}
 ///     }
@@ -168,9 +168,9 @@ macro_rules! title_primary {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_secondary!("Text for your title")}
 ///     }
@@ -195,9 +195,9 @@ macro_rules! title_secondary {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_tertiary!("Text for your title")}
 ///     }
@@ -222,9 +222,9 @@ macro_rules! title_tertiary {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_info!("Text for your title")}
 ///     }
@@ -249,9 +249,9 @@ macro_rules! title_info {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_success!("Text for your title")}
 ///     }
@@ -276,9 +276,9 @@ macro_rules! title_success {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_warning!("Text for your title")}
 ///     }
@@ -303,9 +303,9 @@ macro_rules! title_warning {
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {title_danger!("Text for your title")}
 ///     }

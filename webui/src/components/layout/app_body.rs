@@ -14,18 +14,20 @@ pub(crate) fn app_body() -> Html {
     let page_state = use_state(|| PageState::Show);
     let nav = contexts.nav.deref().to_owned();
     let path = use_state(|| interop::get_path().to_lowercase());
-    let routes = contexts.config.nav_routing;
+    let routes = contexts.config.nav_routing.clone();
     if let NavigationMessage::PathUpdate(new_path) = nav {
         if *path.deref() != new_path {
             contexts.nav.set(NavigationMessage::None);
+            contexts.data.set(None);
             let page_check = get_page_option(&routes, &new_path);
             if page_check.is_some() && *page_state.deref() == PageState::Show {
                 contexts.drawer.set(DrawerMessage::Close);
                 let page_state = page_state.clone();
-                let path = path.clone();
+                load_page_data(&path, contexts.clone());
+                let path_timeout = path.clone();
                 set_timeout!(1, move || {
                     let page_state_out = page_state.clone();
-                    let path = path.clone();
+                    let path = path_timeout.clone();
                     let new_path = new_path.clone();
                     page_state_out.set(PageState::TransitionOut);
                     set_timeout!(300, move || {
@@ -56,6 +58,8 @@ pub(crate) fn app_body() -> Html {
         PageState::Show => "",
     };
 
+    load_page_data(&path, contexts.clone());
+
     let page = path.deref().to_string();
     html! {
         <>
@@ -69,6 +73,24 @@ pub(crate) fn app_body() -> Html {
             </Paper>
         </>
     }
+}
+
+#[cfg(not(feature = "myfi"))]
+fn load_page_data(_path: &str, _contexts: Contexts) {}
+
+#[cfg(feature = "myfi")]
+fn load_page_data(path: &str, contexts: Contexts) {
+    let data = contexts.data.clone();
+    let path = path.to_owned();
+    let last_fetched = contexts.page_loaded.deref().as_str();
+    if last_fetched == path {
+        return;
+    }
+    contexts.page_loaded.set(path.clone());
+    wasm_bindgen_futures::spawn_local(async move {
+        let fetched = get_page_data(&path).await;
+        data.set(fetched);
+    });
 }
 
 #[function_component(PageNotFound)]
@@ -90,10 +112,11 @@ pub struct PageContentProps {
 
 #[function_component(PageContent)]
 fn page_content(props: &PageContentProps) -> Html {
+    let contexts = use_context::<Contexts>().expect("Contexts not found");
     match use_get_page(&props.routes, &props.page) {
         yew::suspense::SuspensionResult::Ok(link_info) => {
             let page = link_info.page;
-            html! {<>{page()}</>}
+            html! {<>{page(contexts)}</>}
         }
         yew::suspense::SuspensionResult::Err(_err) => {
             jslog!("Get page failed!");

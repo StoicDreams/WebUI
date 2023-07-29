@@ -211,7 +211,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
             let cover_click = handle_close.to_owned();
             let close_x_click = handle_close.to_owned();
             let close_click = handle_close.to_owned();
-            let contexts_click = contexts;
+            let contexts_click = contexts.clone();
             let confirm_click = Callback::from(move |ev| {
                 on_confirm_onclick(contexts_click.to_owned());
                 handle_close.emit(ev);
@@ -258,7 +258,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                                     {cancel_button_display}
                                                 </Button>
                                             }
-                                        } else {empty_html()}}
+                                        } else {empty_html(contexts.clone())}}
                                         {if show_confirm {
                                             html! {
                                                 <>
@@ -268,7 +268,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                                     </Button>
                                                 </>
                                             }
-                                        } else {empty_html()}}
+                                        } else {empty_html(contexts.clone())}}
                                     </footer>
                                 }
                             } else { html! {} }}

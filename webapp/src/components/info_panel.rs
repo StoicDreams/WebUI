@@ -1,6 +1,6 @@
-use webui::*;
+use webui::prelude::*;
 
-pub fn info_panel() -> Html {
+pub fn info_panel(_contexts: Contexts) -> Html {
     html! {
         <>
             <Paper>

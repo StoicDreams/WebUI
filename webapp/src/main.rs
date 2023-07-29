@@ -2,7 +2,6 @@ use crate::prelude::*;
 use webui::prelude::*;
 
 mod components;
-mod feedback;
 mod nav_menu;
 mod pages;
 mod prelude;

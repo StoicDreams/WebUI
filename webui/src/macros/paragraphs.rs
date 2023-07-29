@@ -2,9 +2,9 @@
 ///
 /// example
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
-/// fn page() -> Html {
+/// fn page(contexts: Contexts) -> Html {
 ///     html! {
 ///         {paragraphs!(
 ///             "This is the first paragraph.",

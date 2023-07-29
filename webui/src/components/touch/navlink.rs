@@ -18,7 +18,7 @@ pub struct NavLinkProps {
 ///
 /// example to display a link
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
 /// fn component() -> Html {
 ///     html! {
@@ -29,7 +29,7 @@ pub struct NavLinkProps {
 ///
 /// example to display a button
 /// ```rust
-/// use webui::*;
+/// use webui::prelude::*;
 ///
 /// fn component() -> Html {
 ///     html! {
