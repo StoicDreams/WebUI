@@ -75,6 +75,10 @@ fn build_sitemap() {
 }
 
 fn run(command: &str, commandarg: &str) {
+    if command == "echo" {
+        println!("{}", commandarg);
+        return;
+    }
     run_ma(command, &[commandarg]);
 }
 
