@@ -19,20 +19,18 @@ fn main() {
     let args = Args::parse();
     copy_static_files();
 
-    if args.publish {
-        let version_args = &mut Vec::new();
-        version_args.push("./IncrementVersion.ps1");
-        if args.major {
-            version_args.push("-major");
-        } else if args.minor {
-            version_args.push("-minor");
-        }
-        run_ma("pwsh", version_args);
+    run("cargo", "test");
+    let version_args = &mut Vec::new();
+    version_args.push("./IncrementVersion.ps1");
+    if args.major {
+        version_args.push("-major");
+    } else if args.minor {
+        version_args.push("-minor");
     }
+    run_ma("pwsh", version_args);
     run("cargo", "fmt");
     run("cargo", "update");
     run("cargo", "build");
-    run("cargo", "test");
     build_sitemap();
     run_ma("cargo", &["install", "--path", "webui"]);
     run_ma("git", &["add", "-A"]);
