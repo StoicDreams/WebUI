@@ -18,6 +18,8 @@ pub use crate::myfi::*;
 #[cfg(feature = "pages")]
 pub use crate::starter_pages::*;
 pub use crate::states::*;
+#[cfg(feature = "stoic")]
+pub use crate::stoic::*;
 pub use crate::titles::*;
 pub use crate::*;
 

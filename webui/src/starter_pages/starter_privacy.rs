@@ -7,6 +7,7 @@ pub fn starter_page_privacy(_contexts: Contexts) -> Html {
     html! {
         <>
             <MarkdownContent href="https://cdn.myfi.ws/d/en-US/privacy.md" {tags} />
+            <NextPageButton url="/terms" />
         </>
     }
 }

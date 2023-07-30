@@ -6,7 +6,7 @@ pub(crate) fn page_home(_contexts: Contexts) -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/home.md" />
-            <NextPage url="/classes/helpers" />
+            <NextPageButton url="/classes/helpers" />
         </>
     }
 }

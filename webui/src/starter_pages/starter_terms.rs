@@ -7,6 +7,7 @@ pub fn starter_page_terms(_contexts: Contexts) -> Html {
     html! {
         <>
             <MarkdownContent href="https://cdn.myfi.ws/d/en-US/terms.md" {tags} />
+            <NextPageButton url="/privacy" />
         </>
     }
 }

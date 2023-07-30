@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub(crate) fn header_strip_bar(_contexts: Contexts) -> Html {
+pub fn stoic_header_strip_bar(_contexts: Contexts) -> Html {
     html! {
         <>
             <span class="flex-break show-at-mobile" />

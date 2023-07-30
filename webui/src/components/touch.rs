@@ -19,6 +19,9 @@ pub mod link;
 /// Module for navigation links
 pub mod navlink;
 
+/// Module for next page buttons
+pub mod next_page_button;
+
 pub use app_drawer_button::*;
 pub use button::*;
 pub use input_field::*;
@@ -26,3 +29,4 @@ pub use input_message::*;
 pub use input_text::*;
 pub use link::*;
 pub use navlink::*;
+pub use next_page_button::*;

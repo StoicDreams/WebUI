@@ -26,6 +26,9 @@ pub mod prelude;
 pub mod starter_pages;
 /// Modules that hold application states
 pub mod states;
+/// Stoic Dreams specific features
+#[cfg(feature = "stoic")]
+mod stoic;
 
 /// Generalized macros
 #[macro_use]

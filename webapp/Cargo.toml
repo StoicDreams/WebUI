@@ -1,13 +1,13 @@
 [package]
 name = "webapp"
-version = "0.6.5"#sync
+version = "0.6.5" #sync
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-webui = { path = "../webui", features = ["myfi","pages"] }
-yew = {version = "0.20", features = ["csr"]}
+webui = { path = "../webui", features = ["all", "stoic"] }
+yew = { version = "0.20", features = ["csr"] }
 serde = { version = "1.0", features = ["derive"] }
 
 [profile.dev]

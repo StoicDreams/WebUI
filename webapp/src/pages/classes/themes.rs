@@ -6,7 +6,7 @@ pub(crate) fn page_classes_themes(_contexts: Contexts) -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/classes/themes.md" />
-            <NextPage url="/classes/variables" />
+            <NextPageButton url="/classes/variables" />
         </>
     }
 }

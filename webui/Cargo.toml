@@ -1,10 +1,10 @@
 [package]
 name = "webui"
-version = "0.6.5"#sync
+version = "0.6.5"                                                                                                                                                 #sync
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 keywords = ["webassembly", "ui"]
-categories = ["wasm","web-programming"]
+categories = ["wasm", "web-programming"]
 license = "MIT"
 authors = ["Erik Gasssler"]
 documentation = "https://docs.rs/webui"
@@ -12,10 +12,12 @@ repository = "https://github.com/StoicDreams/RustWebUI"
 homepage = "https://webui.stoicdreams.com"
 
 [features]
-all = ["myfi", "pages"]
+all = ["myfi", "nextpagebutton", "pages"]
 default = ["pages"]
 myfi = []
 pages = []
+stoic = []
+nextpagebutton = []
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -35,7 +37,7 @@ rust_decimal = "1.26"
 rust_decimal_macros = "1.26"
 regex = "1"
 futures = "0.3"
-async-std = {version = "1.12", features = ["attributes"] }
+async-std = { version = "1.12", features = ["attributes"] }
 chrono = "0.4"
 lazy_static = "1.4"
 num-format = "0.4"

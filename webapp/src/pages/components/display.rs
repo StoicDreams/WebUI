@@ -6,7 +6,7 @@ pub(crate) fn page_components_display(_contexts: Contexts) -> Html {
     html! {
         <>
             <MarkdownContent href="/d/en-US/components/display.md" />
-            <NextPage url="/about" />
+            <NextPageButton url="/about" />
         </>
     }
 }
