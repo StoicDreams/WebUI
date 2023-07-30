@@ -158,4 +158,4 @@ webuisave -c "Your commit message"
 
 ## License
 
-MIT
+[MIT](LICENSE)

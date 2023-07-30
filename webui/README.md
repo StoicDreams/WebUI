@@ -170,4 +170,4 @@ trunk serve --open
 
 ## License
 
-MIT
+[MIT](LICENSE)

@@ -10,7 +10,7 @@ pub(crate) fn page_under_construction(contexts: Contexts) -> Html {
                 <p>{"This page showcases one of WebUI's starter pages."}</p>
             </Quote>
             <MarkdownContent href="https://cdn.myfi.ws/d/en-US/under_construction.md" {tags} />
-            <NextPage url="/" />
+            <NextPageButton url="/" />
         </>
     }
 }
