@@ -52,7 +52,7 @@ jobs:
       if: always()
   purge-storage-cache:
     runs-on: ubuntu-latest
-    if: success()
+    needs: build-and-deploy
     steps:
     - name: Azure Login
       uses: azure/login@v1
