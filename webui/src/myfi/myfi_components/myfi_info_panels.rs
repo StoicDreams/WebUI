@@ -2,7 +2,7 @@ use web_sys::KeyboardEvent;
 
 use crate::prelude::*;
 
-const WRAPPER_STYLES: &str = "min-width:380px;";
+const WRAPPER_STYLES: &str = "min-width:300px;";
 
 /// The info panel for myfi account and other services.
 pub fn myfi_info_panel(contexts: Contexts) -> Html {
