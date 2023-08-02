@@ -1,22 +1,32 @@
 use crate::prelude::*;
 
+/// Process for loading data at start of website.
+/// Loads are only applied once.
 #[function_component(Loaders)]
 pub(crate) fn loaders() -> Html {
+    let data_loaded = use_state(|| 0u8);
     let contexts = use_context::<Contexts>().expect("Contexts not found");
-    #[cfg(feature = "myfi")]
-    {
-        myfi_loader(contexts);
+    if *data_loaded & 2 == 0 {
+        data_loaded.clone().set(2);
+        spawn_async!({
+            let is_loaded = *data_loaded;
+            let contexts = contexts.clone();
+            #[cfg(feature = "myfi")]
+            {
+                if is_loaded & 1 == 0 {
+                    data_loaded.set(1 | *data_loaded);
+                    myfi_loader(contexts).await;
+                }
+            }
+        });
     }
     html!()
 }
 
 #[cfg(feature = "myfi")]
-pub(crate) fn myfi_loader(contexts: Contexts) -> Html {
+pub(crate) async fn myfi_loader(contexts: Contexts) {
     let context = contexts.clone();
-    spawn_async!({
-        myfi_get_session().await;
-        let user_state = context.user.clone();
-        myfi_get_my_info(user_state).await;
-    });
-    html!()
+    let loaded = myfi_get_session().await;
+    let user_state = context.user.clone();
+    myfi_get_my_info(user_state).await;
 }

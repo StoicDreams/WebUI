@@ -6,11 +6,10 @@ use request::*;
 use response::*;
 use web_sys::Request;
 
-const MYFI_URL: &str = "https://{}.myfi.ws/{}";
 const MYFI_ROOT_AUTH: &str = "auth";
-const MYFI_URL_SESSION: &str = "/session";
-const MYFI_URL_MYINFO: &str = "/myinfo";
-const MYFI_URL_SIGNIN: &str = "/signin";
+const MYFI_URL_SESSION: &str = "session";
+const MYFI_URL_MYINFO: &str = "myinfo";
+const MYFI_URL_SIGNIN: &str = "signin";
 
 pub(crate) async fn myfi_get_session() {
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_SESSION);

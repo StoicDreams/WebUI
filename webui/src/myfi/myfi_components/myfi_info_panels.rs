@@ -60,7 +60,7 @@ fn sign_up() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     html! {
         <>
-            {title_primary!("Create a new Stoic Dreams account!")}
+            {title_primary!(&format!("Create a new {} account!", get_company_singular()))}
             <p>{"Coming Soon!"}</p>
         </>
     }
@@ -124,7 +124,7 @@ fn sign_in() -> Html {
             } else {
                 html!{
                     <>
-                        {title_primary!("Sign in to your Stoic Dreams account!")}
+                        {title_primary!(&format!("Sign in to your {} account!", get_company_singular()))}
                         <form class="d-flex flex-column gap-1" name="myfi-sign-in-form" autocomplete="on" onkeyup={form_detect_enter}>
                             <InputText name="Email" value={email.clone()} />
                             <InputText t="password" name="Password" value={password.clone()} />

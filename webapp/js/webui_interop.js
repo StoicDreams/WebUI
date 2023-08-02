@@ -12,9 +12,9 @@ export function push_state(path) {
     app.className = 'page transition out';
     history.pushState(null, null, path);
     let halftran = pageTransitionDuration / 2;
-    setTimeout(()=>{
+    setTimeout(() => {
         app.className = 'page transition in';
-        setTimeout(()=>{
+        setTimeout(() => {
             app.className = '';
         }, halftran);
     }, halftran);
@@ -55,10 +55,10 @@ function TimeStamp() {
     const hours = Math.floor(now / 1000 / 60 / 60 % 24);
     function pad(number) { return number < 10 ? `0${number}` : number; }
     return [
-       pad(hours),
-       pad(minutes),
-       pad(seconds),
-       pad(milliseconds)
+        pad(hours),
+        pad(minutes),
+        pad(seconds),
+        pad(milliseconds)
     ].join(':');
 }
 
@@ -68,15 +68,15 @@ const STORAGE_ACCEPTED_KEY = 'storage_accepted';
 const REJECT_STORAGE_CACHING = 0;
 const ACCEPT_SESSION_STORAGE = 1;
 const ACCEPT_LOCAL_STORAGE = 2;
-const memStorage = (function(){
+const memStorage = (function () {
     const memStorageCache = {}
     let acceptedStorage = REJECT_STORAGE_CACHING;
-    if(localStorage.key(STORAGE_ACCEPTED_KEY)) {
+    if (localStorage.key(STORAGE_ACCEPTED_KEY)) {
         acceptedStorage = ACCEPT_LOCAL_STORAGE;
         Object.keys(localStorage).forEach(key => {
             memStorageCache[key] = localStorage.getItem(key);
         });
-    } else if(sessionStorage.key(STORAGE_ACCEPTED_KEY)) {
+    } else if (sessionStorage.key(STORAGE_ACCEPTED_KEY)) {
         acceptedStorage = ACCEPT_SESSION_STORAGE;
         Object.keys(sessionStorage).forEach(key => {
             memStorageCache[key] = sessionStorage.getItem(key);
@@ -95,7 +95,7 @@ const memStorage = (function(){
     }
     class MemStorage {
         key(key) {
-            return Object.keys(memStorageCache).filter(m => m==key).length > 0 ? key : null;
+            return Object.keys(memStorageCache).filter(m => m == key).length > 0 ? key : null;
         }
         setItem(key, value) {
             memStorageCache[key] = value;
@@ -162,7 +162,7 @@ export function get_uuid() {
     try {
         return crypto.randomUUID();
     } catch (ex) {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
@@ -171,6 +171,9 @@ export function get_uuid() {
 
 export async function webui_fetch(url, jsonIn) {
     let options = JSON.parse(jsonIn);
+    options.credentials = 'include';
+    options.mode = 'cors';
+    options.referrerPolicy = 'origin-when-cross-origin';
     let result = await fetch(url, options);
     let headers = result.headers;
     let status = result.status;

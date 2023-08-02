@@ -22,7 +22,8 @@
     --color-danger: rgb(183, 5, 5);
     --color-danger-offset: var(--color-white);
     --color-shade: rgba(125, 125, 125, 0.2);
-    --color-active: rgb(41, 41, 41);
+    --color-shade-offset: var(--color-white);
+    --color-active: rgb(31, 112, 92);
     --color-active-offset: var(--color-white);
     --color-button: var(--color-info);
     --color-button-offset: var(--color-info-offset);
@@ -577,6 +578,7 @@ aside.app-drawer.top {
     width: 100%;
     height: 100%;
     left: 0;
+    z-index: 503;
 }
 
 aside.app-drawer.right {
@@ -584,6 +586,7 @@ aside.app-drawer.right {
     width: 100%;
     height: 100%;
     left: 100%;
+    z-index: 502;
 }
 
 aside.app-drawer.bottom {
@@ -591,6 +594,7 @@ aside.app-drawer.bottom {
     width: 100%;
     height: 100%;
     left: 0;
+    z-index: 504;
 }
 
 aside.app-drawer.left {
@@ -598,6 +602,7 @@ aside.app-drawer.left {
     width: 100%;
     height: 100%;
     right: 100%;
+    z-index: 501;
 }
 
 .app-drawer .page-cover {
@@ -2673,6 +2678,8 @@ body.w-4k .hide-at-4k {
 }
 
 .tabbed-content-buttons .btn:not(.theme-active) {
+    background-color: var(--color-shade);
+    color: var(--color-shade-offset);
     margin-top: calc(2 * var(--padding));
     box-shadow: inset var(--elevation-7);
 }
