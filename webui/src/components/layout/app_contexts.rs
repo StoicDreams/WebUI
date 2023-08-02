@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use crate::prelude::*;
 
 /// Properties for app drawer components
@@ -5,23 +7,23 @@ use crate::prelude::*;
 pub(crate) struct AppContextsProps {
     pub children: Children,
     pub config: AppConfig,
+    pub state_keys: Vec<String>,
 }
 
 #[function_component(AppContexts)]
 pub(crate) fn app_contexts(props: &AppContextsProps) -> Html {
-    let app_config = &props.config;
-    let navigation = use_state(|| {
+    let nav = use_state(|| {
         let path = interop::get_path().to_lowercase();
         NavigationMessage::PathUpdate(path)
     });
-    let data = use_state(|| None::<String>);
-    let drawers = use_state(|| DrawerMessage::None);
     let context = Contexts {
-        config: app_config.clone(),
+        config: props.config.clone(),
         page_loaded: use_state(|| "".to_string()),
-        data,
-        nav: navigation,
-        drawer: drawers,
+        data: use_state(|| None::<String>),
+        nav,
+        drawer: use_state(|| DrawerMessage::None),
+        #[cfg(feature = "myfi")]
+        user: use_state(|| None::<MyFiUser>),
     };
     html! {
         <ContextProvider<Contexts> {context}>

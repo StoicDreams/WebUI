@@ -4,18 +4,18 @@ pub struct Dialog {
     info: DrawerToggleInfoBuilder,
 }
 impl Dialog {
-    pub fn new(title: &str, content: DynHtml) -> Self {
+    pub fn new(title: fn(Contexts) -> String, content: DynContextsHtml) -> Self {
         Dialog {
-            info: DrawerToggleInfo::builder(title, || html!(), content)
+            info: DrawerToggleInfo::builder(title, |_contexts: Contexts| html!(), content)
                 .set_drawer(Direction::Top)
                 .set_on_confirm("Confirm", |_| true)
                 .to_owned(),
         }
     }
     /// Create a new dialog without any close buttons, only a confirmation button.
-    pub fn alert(title: &str, content: DynHtml) -> Self {
+    pub fn alert(title: fn(Contexts) -> String, content: DynContextsHtml) -> Self {
         Dialog {
-            info: DrawerToggleInfo::builder(title, || html!(), content)
+            info: DrawerToggleInfo::builder(title, |_contexts: Contexts| html!(), content)
                 .set_drawer(Direction::Top)
                 .hide_cancel_button()
                 .hide_close_x_button()

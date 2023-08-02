@@ -11,6 +11,12 @@ pub struct DynHtml {
     content: Rc<dyn Fn() -> Html>,
 }
 
+#[derive(Clone)]
+pub struct DynContextsHtml {
+    id: Uuid,
+    content: Rc<dyn Fn(Contexts) -> Html>,
+}
+
 impl DynHtml {
     pub fn new<F>(content: F) -> Self
     where
@@ -20,6 +26,22 @@ impl DynHtml {
             id: newid(),
             content: Rc::new(content),
         }
+    }
+}
+
+impl DynContextsHtml {
+    pub fn new<F>(content: F) -> Self
+    where
+        F: Fn(Contexts) -> Html + 'static,
+    {
+        Self {
+            id: newid(),
+            content: Rc::new(content),
+        }
+    }
+    pub fn run(&self, contexts: Contexts) -> Html {
+        let unbox = self.content.as_ref();
+        html!(<>{unbox(contexts)}</>)
     }
 }
 
@@ -36,6 +58,12 @@ impl PartialEq for DynHtml {
     }
 }
 
+impl PartialEq for DynContextsHtml {
+    fn eq(&self, other: &Self) -> bool {
+        self.id == other.id
+    }
+}
+
 impl core::fmt::Debug for DynHtml {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("DynHtml")
@@ -45,11 +73,29 @@ impl core::fmt::Debug for DynHtml {
     }
 }
 
+impl core::fmt::Debug for DynContextsHtml {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("DynContextsHtml")
+            .field("id", &self.id)
+            .field("content", &"dyn Fn(Contexts) -> Html")
+            .finish()
+    }
+}
+
 impl Default for DynHtml {
     fn default() -> Self {
         Self {
             id: Default::default(),
             content: Rc::new(|| html!()),
+        }
+    }
+}
+
+impl Default for DynContextsHtml {
+    fn default() -> Self {
+        Self {
+            id: Default::default(),
+            content: Rc::new(|_| html!()),
         }
     }
 }

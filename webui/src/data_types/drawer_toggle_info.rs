@@ -3,12 +3,12 @@ use crate::prelude::*;
 /// Struct used for defining details for displaying buttons that toggle drawer content.
 #[derive(Clone, Debug, PartialEq)]
 pub struct DrawerToggleInfo {
-    pub(crate) display: fn() -> Html,
-    pub(crate) title: String,
+    pub(crate) display: fn(Contexts) -> Html,
+    pub(crate) title: fn(Contexts) -> String,
     pub(crate) class: String,
     pub(crate) content_class: String,
     pub(crate) drawer: Direction,
-    pub(crate) drawer_content: DynHtml,
+    pub(crate) drawer_content: DynContextsHtml,
     pub(crate) hide_header: bool,
     pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
@@ -19,12 +19,12 @@ pub struct DrawerToggleInfo {
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct DrawerToggleInfoBuilder {
-    display: fn() -> Html,
-    title: String,
+    display: fn(Contexts) -> Html,
+    title: fn(Contexts) -> String,
     class: String,
     content_class: String,
     drawer: Direction,
-    drawer_content: DynHtml,
+    drawer_content: DynContextsHtml,
     hide_header: bool,
     hide_footer: bool,
     hide_close_x: bool,
@@ -35,12 +35,12 @@ pub struct DrawerToggleInfoBuilder {
 
 impl DrawerToggleInfo {
     pub fn builder(
-        title: &str,
-        button_display: fn() -> Html,
-        drawer_content: DynHtml,
+        title: fn(Contexts) -> String,
+        button_display: fn(Contexts) -> Html,
+        drawer_content: DynContextsHtml,
     ) -> DrawerToggleInfoBuilder {
         DrawerToggleInfoBuilder {
-            title: String::from(title),
+            title,
             display: button_display,
             drawer_content,
             class: String::default(),
@@ -55,8 +55,13 @@ impl DrawerToggleInfo {
         }
     }
     pub(crate) fn get_options(&self) -> AppDrawerOptions {
-        let mut builder: AppDrawerOptionsBuilder =
-            AppDrawerOptions::builder(self.title.to_owned(), self.drawer_content.to_owned());
+        let title = self.title.clone();
+        let mut builder: AppDrawerOptionsBuilder = AppDrawerOptions::builder(
+            DynContextsHtml::new(move |contexts| {
+                html! {(title)(contexts)}
+            }),
+            self.drawer_content.to_owned(),
+        );
         builder.set_content_class(&self.content_class);
         builder.set_drawer(self.drawer);
         if self.hide_header {
@@ -83,7 +88,7 @@ impl DrawerToggleInfoBuilder {
     pub fn build(&mut self) -> DrawerToggleInfo {
         DrawerToggleInfo {
             display: self.display,
-            title: self.title.to_string(),
+            title: self.title,
             class: self.class.to_string(),
             content_class: self.content_class.to_string(),
             drawer: self.drawer.to_owned(),

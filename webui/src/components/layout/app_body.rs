@@ -25,22 +25,24 @@ pub(crate) fn app_body() -> Html {
                 let page_state = page_state.clone();
                 load_page_data(&path, contexts.clone());
                 let path_timeout = path.clone();
-                set_timeout!(1, move || {
+                set_timeout!(1, {
                     let page_state_out = page_state.clone();
                     let path = path_timeout.clone();
                     let new_path = new_path.clone();
                     page_state_out.set(PageState::TransitionOut);
-                    set_timeout!(300, move || {
+                    set_timeout!(300, {
                         let page_state_hidden = page_state_out.clone();
                         let path = path.clone();
                         let new_path = new_path.clone();
                         page_state_hidden.set(PageState::Hidden);
                         path.set(new_path);
                         // TODO: This set timeout is where the page freeze is happening, need to figure out why.
-                        set_timeout!(100, move || {
-                            let page_state_in = page_state_hidden.clone();
+                        jslog!("timeout transitionedF: {}", js_sys::Date::now());
+                        set_timeout!(100, {
+                            jslog!("timeout transitionedB: {}", js_sys::Date::now());
+                            let page_state_in = page_state_hidden.to_owned();
                             page_state_in.set(PageState::TransitionIn);
-                            set_timeout!(300, move || {
+                            set_timeout!(300, {
                                 let page_state_show = page_state_in.clone();
                                 page_state_show.set(PageState::Show);
                             });
@@ -87,10 +89,14 @@ fn load_page_data(path: &str, contexts: Contexts) {
         return;
     }
     contexts.page_loaded.set(path.clone());
-    wasm_bindgen_futures::spawn_local(async move {
+    spawn_async!({
         let fetched = get_myfi_page_data(&path).await;
         data.set(fetched);
     });
+    // wasm_bindgen_futures::spawn_local(async move {
+    //     let fetched = get_myfi_page_data(&path).await;
+    //     data.set(fetched);
+    // });
 }
 
 #[function_component(PageNotFound)]

@@ -16,6 +16,8 @@ pub mod constants;
 pub mod data_types;
 /// Global methods and helpers
 pub mod global;
+/// Internal loaders
+pub(crate) mod loaders;
 /// MyFi API components and integrations
 #[cfg(feature = "myfi")]
 mod myfi;
@@ -67,7 +69,7 @@ pub fn start_app(app_config: AppConfig) {
         set_company_name(app_config.company_name.to_owned());
         set_domain(app_config.domain.to_owned());
     }
-    start_webui_app(app_config);
+    start_webui_app(app_config, vec![]);
 }
 
 thread_local!(static COMPANY_PLURAL: Cell<&'static str> = Cell::new("Company's"));

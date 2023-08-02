@@ -3,8 +3,8 @@ use crate::prelude::*;
 #[derive(Clone, Debug, PartialEq, Default)]
 pub struct AppDrawerOptions {
     pub(crate) drawer: Direction,
-    pub(crate) title: String,
-    pub(crate) display_ref: DynHtml,
+    pub(crate) title: DynContextsHtml,
+    pub(crate) display_ref: DynContextsHtml,
     pub(crate) hide_header: bool,
     pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
@@ -15,8 +15,8 @@ pub struct AppDrawerOptions {
 }
 pub struct AppDrawerOptionsBuilder {
     drawer: Direction,
-    title: String,
-    display_ref: DynHtml,
+    title: DynContextsHtml,
+    display_ref: DynContextsHtml,
     hide_header: bool,
     hide_footer: bool,
     hide_close_x: bool,
@@ -80,7 +80,7 @@ impl AppDrawerOptionsBuilder {
 }
 
 impl AppDrawerOptions {
-    pub fn builder(title: String, display: DynHtml) -> AppDrawerOptionsBuilder {
+    pub fn builder(title: DynContextsHtml, display: DynContextsHtml) -> AppDrawerOptionsBuilder {
         AppDrawerOptionsBuilder {
             drawer: Direction::Top,
             title,
@@ -95,7 +95,7 @@ impl AppDrawerOptions {
         }
     }
 
-    pub(crate) fn get_display(&self) -> DynHtml {
+    pub(crate) fn get_display(&self) -> DynContextsHtml {
         self.display_ref.to_owned()
     }
 
@@ -134,7 +134,10 @@ const TRANSITION_DURATION: i32 = 300;
 #[function_component(AppDrawer)]
 pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
+    let title_contexts = contexts.clone();
+    let body_contexts = contexts.clone();
     let is_open_handle = use_state(|| false);
+    let is_attached_handle = use_state(|| false);
     let is_transition_handle = use_state(|| false);
     let content_handle: UseStateHandle<Option<AppDrawerOptions>> = use_state(|| None);
     match contexts.drawer.deref().to_owned() {
@@ -152,25 +155,38 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                     is_open_handle.set(is_open);
                     let is_transition_handle = is_transition_handle.clone();
                     let content_handle = content_handle.clone();
-                    set_timeout!(TRANSITION_DURATION, move || {
-                        is_transition_handle.set(false);
-                        if !is_open {
-                            content_handle.set(None);
+                    let is_attached_handle = is_attached_handle.clone();
+                    set_timeout!(1, {
+                        if is_open {
+                            is_attached_handle.clone().set(true);
                         }
+                        let is_transition_handle = is_transition_handle.clone();
+                        let content_handle = content_handle.clone();
+                        let is_attached_handle = is_attached_handle.clone();
+                        set_timeout!(TRANSITION_DURATION, {
+                            is_transition_handle.set(false);
+                            if !is_open {
+                                content_handle.set(None);
+                                is_attached_handle.set(false);
+                            }
+                        });
                     });
                 }
             }
         }
         DrawerMessage::Close => {
             let is_open = is_open_handle.deref().to_owned();
+            jslog!("Close drawer:{}", is_open);
             if is_open {
                 is_open_handle.set(false);
                 is_transition_handle.set(true);
                 let is_transition_handle = is_transition_handle.clone();
                 let content_handle = content_handle.clone();
-                set_timeout!(TRANSITION_DURATION, move || {
+                let is_attached_handle = is_attached_handle.clone();
+                set_timeout!(TRANSITION_DURATION, {
                     is_transition_handle.set(false);
                     content_handle.set(None);
+                    is_attached_handle.set(false);
                 });
             }
         }
@@ -179,8 +195,9 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
     match content_handle.deref().to_owned() {
         Some(content) => {
             let is_open = is_open_handle.deref().to_owned();
+            let is_attached = is_attached_handle.deref().to_owned();
             let is_transition = is_transition_handle.deref().to_owned();
-            if !is_open && !is_transition {
+            if !is_attached && !is_open && !is_transition {
                 return html! {
                     <></>
                 };
@@ -189,7 +206,15 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                 "app-drawer {} {} {}",
                 props.drawer,
                 props.class.to_owned().unwrap_or_default(),
-                if is_open { "open" } else { "closed" }
+                if is_attached {
+                    if is_open {
+                        "open"
+                    } else {
+                        "closed"
+                    }
+                } else {
+                    "attaching"
+                }
             );
             let content_class = format!("drawer-content elevation-20 {}", content.content_class);
             let drawer_body = content.get_display();
@@ -217,7 +242,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                 handle_close.emit(ev);
             });
 
-            let title = content.title;
+            let title = content.title.run(title_contexts);
             html! {
                 <aside class={class}>
                     <div class="drawer-placement">
@@ -247,7 +272,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                 }
                             }else{html!{}}}
                             <Paper class="flex-grow d-flex flex-column gap-1 overflow-auto pa-2">
-                                {drawer_body.run()}
+                                {drawer_body.run(body_contexts)}
                             </Paper>
                             {if show_footer {
                                 html! {

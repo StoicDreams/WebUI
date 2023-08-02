@@ -7,7 +7,7 @@ pub struct NextPageProps {
 }
 
 #[function_component(NextPageButton)]
-pub fn next_page_button(props: &NextPageProps) -> Html {
+pub fn next_page_button(_props: &NextPageProps) -> Html {
     #[cfg(not(feature = "nextpagebutton"))]
     {
         return html! {};
@@ -16,14 +16,14 @@ pub fn next_page_button(props: &NextPageProps) -> Html {
     {
         let contexts = use_context::<Contexts>().expect("Contexts not found");
         let app_config = contexts.config;
-        let display = match props.display.to_owned() {
+        let display = match _props.display.to_owned() {
             Some(display) => display,
-            None => match app_config.get_nav_from_path(&props.url) {
+            None => match app_config.get_nav_from_path(&_props.url) {
                 Some(nav) => nav.name,
                 None => "Not Found".to_string(),
             },
         };
-        let href = props.url.to_owned();
+        let href = _props.url.to_owned();
         html!(
             <>
                 <Paper class="flex-grow" />

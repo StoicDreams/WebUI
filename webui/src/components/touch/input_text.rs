@@ -4,6 +4,8 @@ use web_sys::HtmlInputElement;
 #[derive(Properties, PartialEq)]
 pub struct InputTextProps {
     #[prop_or_default]
+    pub t: String,
+    #[prop_or_default]
     pub name: String,
     #[prop_or_default]
     pub key: String,
@@ -17,7 +19,7 @@ pub struct InputTextProps {
     #[prop_or_default]
     pub cache_id: Option<String>,
     #[prop_or_default]
-    pub onchange: Option<Callback<Event>>,
+    pub onchange: Option<Callback<String>>,
 }
 
 #[function_component(InputText)]
@@ -25,6 +27,11 @@ pub fn input_message(props: &InputTextProps) -> Html {
     let my_id = match &props.cache_id {
         Some(id) => id.to_string(),
         None => interop::get_uuid(),
+    };
+    let input_type = if props.t.is_empty() {
+        "text".to_string()
+    } else {
+        props.t.to_string()
     };
     let classes = &mut Classes::new();
     classes.push("input-message");
@@ -40,14 +47,12 @@ pub fn input_message(props: &InputTextProps) -> Html {
             }
         })
     };
-    let changeref = props.value.clone();
     let onchange_handler = props.onchange.clone().unwrap_or(Callback::from(|_| ()));
     let onchange = {
         Callback::from(move |ev: Event| {
             if let Some(target) = ev.target() {
                 let value = target.unchecked_into::<HtmlInputElement>().value();
-                changeref.set(value);
-                onchange_handler.emit(ev);
+                onchange_handler.emit(value);
             }
         })
     };
@@ -63,7 +68,7 @@ pub fn input_message(props: &InputTextProps) -> Html {
             >
             <div class="auto_message_box single-line">
                 <pre><code>{props.value.to_string()}</code></pre>
-                <input type="text"
+                <input type={input_type}
                     name={props.key.to_owned()}
                     id={my_id.to_owned()}
                     value={props.value.to_string()}

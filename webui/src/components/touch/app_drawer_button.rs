@@ -24,17 +24,21 @@ pub struct AppDrawerButtonProps {
 #[function_component(AppDrawerButton)]
 pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
+    let title_context = contexts.clone();
     let logo_src_handle: UseStateHandle<Option<String>> = use_state(|| None);
     let logo_title_handle: UseStateHandle<String> = use_state(String::default);
     let drawer_info = &props.info;
     let logo_src = logo_src_handle.deref().to_owned();
     let logo_title = logo_title_handle.deref().to_owned();
     let drawer_info_click = drawer_info.clone();
+    let contexts_onclick = contexts.clone();
     let setup_onclick = Callback::from(move |_| {
         let drawer_info_click = drawer_info_click.clone();
         if let Some(info) = drawer_info_click {
             let options = info.get_options();
-            contexts.drawer.set(DrawerMessage::ToggleDrawer(options));
+            contexts_onclick
+                .drawer
+                .set(DrawerMessage::ToggleDrawer(options));
         };
     });
     let children = &props.children;
@@ -43,12 +47,13 @@ pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
         <>
             {match drawer_info.clone() {
                 Some(drawer_info) => {
+                    let title = (drawer_info.title)(title_context);
                     let btn_class = if drawer_info.class.is_empty() {"btn toggle elevation-1".to_string()} else {drawer_info.class.to_string()};
                     html! {
-                        <button type="button" title={drawer_info.title.to_string()} class={props.class.to_string()}
-                            aria-label={drawer_info.title.to_string()}
+                        <button type="button" title={title.to_owned()} class={props.class.to_string()}
+                            aria-label={title.to_owned()}
                             onclick={setup_onclick}>
-                            <span class={btn_class}>{(drawer_info.display)()}</span>
+                            <span class={btn_class}>{(drawer_info.display)(contexts.clone())}</span>
                             {match &logo_src {
                                 Some(logo) => {
                                     html! {

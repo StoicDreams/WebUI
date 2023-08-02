@@ -4,9 +4,9 @@ use std::collections::HashMap;
 
 pub fn myfi_feedback_button_info() -> DrawerToggleInfo {
     DrawerToggleInfo::builder(
-        "Give us your Feedback!",
-        || html! {<i class="fa-solid fa-comment" />},
-        DynHtml::new(get_render_wrapper),
+        |_| String::from("Give us your Feedback!"),
+        |_| html! {<i class="fa-solid fa-comment" />},
+        DynContextsHtml::new(get_render_wrapper),
     )
     .set_drawer(Direction::Top)
     .set_on_confirm("Send Feedback", handle_confirm)
@@ -43,7 +43,8 @@ fn handle_confirm(contexts: Contexts) -> bool {
     let post_data = HashMap::from([("Message", value)]);
     match serde_json::to_string(&post_data) {
         Ok(post_body) => {
-            wasm_bindgen_futures::spawn_local(async move {
+            spawn_async!({
+                // wasm_bindgen_futures::spawn_local(async move {
                 let response = fetch(FetchRequest::new(
                     "https://feedback.myfi.ws/api/new".to_string(),
                     FetchMethod::Post(post_body.to_string()),
@@ -56,8 +57,8 @@ fn handle_confirm(contexts: Contexts) -> bool {
                             let message = get_response_message(&result, DEFAULT_THANK_YOU);
                             contexts.drawer.set(
                                 Dialog::alert(
-                                    "Thank you",
-                                    DynHtml::new(move || html!({ message.clone() })),
+                                    |_| String::from("Thank you"),
+                                    DynContextsHtml::new(move |_| html!({ message.clone() })),
                                 )
                                 .borrow_mut()
                                 .message(),
@@ -66,8 +67,8 @@ fn handle_confirm(contexts: Contexts) -> bool {
                         None => {
                             contexts.drawer.set(
                                 Dialog::alert(
-                                    "Thank you",
-                                    DynHtml::new(|| html!(DEFAULT_THANK_YOU)),
+                                    |_| String::from("Thank you"),
+                                    DynContextsHtml::new(|_| html!(DEFAULT_THANK_YOU)),
                                 )
                                 .message(),
                             );
@@ -76,8 +77,8 @@ fn handle_confirm(contexts: Contexts) -> bool {
                 } else {
                     contexts.drawer.set(
                         Dialog::alert(
-                            "Feedback Failure",
-                            DynHtml::new(|| html!("We're sorry, it looks like our server failed to save your feedback. Please wait a moment and try again.")),
+                            |_| String::from("Feedback Failure"),
+                            DynContextsHtml::new(|_| html!("We're sorry, it looks like our server failed to save your feedback. Please wait a moment and try again.")),
                         )
                         .message(),
                     );
@@ -92,7 +93,7 @@ fn handle_confirm(contexts: Contexts) -> bool {
     }
 }
 
-pub(crate) fn get_render_wrapper() -> Html {
+pub(crate) fn get_render_wrapper(_contexts: Contexts) -> Html {
     html! {
         <GetRender />
     }

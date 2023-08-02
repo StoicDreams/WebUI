@@ -8,6 +8,10 @@ pub mod classes;
 #[macro_use]
 pub mod list_items;
 
+#[macro_use]
+#[cfg(feature = "myfi")]
+pub mod myfi;
+
 /// Macros for splitting up arguments into paragraphs
 ///
 /// <p>text segment</p>

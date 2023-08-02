@@ -10,11 +10,15 @@ use crate::prelude::*;
 #[derive(Properties, PartialEq)]
 pub(crate) struct AppProps {
     pub config: AppConfig,
+    pub state_keys: Vec<String>,
 }
 
 /// Inner process for starting website
-pub(crate) fn start_webui_app(app_config: AppConfig) {
-    let props = AppProps { config: app_config };
+pub(crate) fn start_webui_app(app_config: AppConfig, state_keys: Vec<String>) {
+    let props = AppProps {
+        config: app_config,
+        state_keys,
+    };
     yew::Renderer::<App>::with_props(props).render();
 }
 struct App {}
@@ -32,6 +36,7 @@ impl Component for App {
             <div id="app" class="page transition out">
                 <AppContexts
                     config={props.config.clone()}
+                    state_keys={props.state_keys.clone()}
                     >
                     <AppHeader />
                     <AppBody />
@@ -40,6 +45,7 @@ impl Component for App {
                     <AppDrawer drawer={Direction::Right} />
                     <AppDrawer drawer={Direction::Bottom} />
                     <AppDrawer drawer={Direction::Left} />
+                    <crate::loaders::Loaders />
                 </AppContexts>
             </div>
         }
