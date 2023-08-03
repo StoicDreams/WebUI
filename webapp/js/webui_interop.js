@@ -1,5 +1,15 @@
 "use strict"
 
+export function run_method(method, args) {
+    if (typeof window[method] !== 'function') {
+        return null;
+    }
+    if (!Array.isArray(args)) {
+        args = [args];
+    }
+    return window[method](...args);
+}
+
 export function set_title(title) {
     document.title = title;
 }
@@ -45,7 +55,7 @@ export function get_origin() {
 }
 
 export function log(message) {
-    console.info(message, TimeStamp());
+    console.log(message, TimeStamp());
 }
 function TimeStamp() {
     const now = Date.now();
@@ -53,13 +63,14 @@ function TimeStamp() {
     const seconds = Math.floor((now / 1000) % 60);
     const minutes = Math.floor((now / 1000 / 60) % 60);
     const hours = Math.floor(now / 1000 / 60 / 60 % 24);
-    function pad(number) { return number < 10 ? `0${number}` : number; }
+
     return [
         pad(hours),
         pad(minutes),
         pad(seconds),
         pad(milliseconds)
     ].join(':');
+    function pad(number) { return number < 10 ? `0${number}` : number; }
 }
 
 
@@ -169,11 +180,23 @@ export function get_uuid() {
     }
 }
 
+const COOKIES = {};
+
+function get_domain_from_url(url) {
+    if (!url) { return ''; }
+    if (url.substring(0, 8) !== 'https://') { return ''; }
+    return url.split('/')[2];
+}
+
 export async function webui_fetch(url, jsonIn) {
     let options = JSON.parse(jsonIn);
-    options.credentials = 'include';
-    options.mode = 'cors';
-    options.referrerPolicy = 'origin-when-cross-origin';
+    let domain = get_domain_from_url(url);
+    let isCors = domain.indexOf('myfi.ws') !== -1;
+    if (isCors) {
+        options.credentials = 'include';
+        options.mode = 'cors';
+        options.referrerPolicy = 'origin-when-cross-origin';
+    }
     let result = await fetch(url, options);
     let headers = result.headers;
     let status = result.status;
