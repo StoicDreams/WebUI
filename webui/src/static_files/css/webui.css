@@ -1200,6 +1200,7 @@ a.btn:active,
     display: inline-flex;
     flex-flow: row;
     gap: 0.5em;
+    align-items: center;
     text-decoration: none;
     padding: calc(1 * var(--padding)) calc(2 * var(--padding));
     cursor: pointer;
