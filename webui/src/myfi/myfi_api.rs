@@ -40,7 +40,6 @@ pub(crate) fn myfi_sign_in(
     email: &str,
     password: &str,
     alert_state: UseStateHandle<String>,
-    submitting_state: UseStateHandle<bool>,
 ) {
     let user_state = contexts.clone().user;
     let email = email.to_string();
@@ -51,7 +50,6 @@ pub(crate) fn myfi_sign_in(
         Ok(post_body) => {
             let contexts = contexts.clone();
             let alert_state = alert_state.clone();
-            let submitting_state = submitting_state.clone();
             spawn_async!({
                 let response = fetch_cors(FetchRequest::new(
                     url.to_string(),
@@ -69,7 +67,6 @@ pub(crate) fn myfi_sign_in(
                                 "Success",
                                 format!("Welcome {}, you have successfully signed in.", name)
                             );
-                            submitting_state.clone().set(false);
                             return;
                         }
                     }
@@ -80,13 +77,12 @@ pub(crate) fn myfi_sign_in(
                     alert_state.clone().set("Unknown error".to_string());
                 }
                 user_state.clone().set(Some(MyFiUser::default()));
-                submitting_state.clone().set(false);
             });
         }
         Err(error) => {
             let message = format!("{}", error);
             alert_state.clone().set(message.clone());
-            submitting_state.clone().set(false);
+            user_state.clone().set(Some(MyFiUser::default()));
         }
     }
 }

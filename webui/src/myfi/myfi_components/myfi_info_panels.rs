@@ -48,8 +48,13 @@ pub(crate) fn get_render_wrapper(contexts: Contexts) -> Html {
         if user.roles > 0 {
             return render_with_user(contexts, user);
         }
+        return render_without_user();
     }
-    render_without_user()
+    html! {
+        <Paper class="d-inlineblock">
+            <Loading variant={LoadingVariant::Circle} size={LOADING_SIZE_LARGE} color={Theme::Info} />
+        </Paper>
+    }
 }
 
 fn render_without_user() -> Html {
@@ -90,35 +95,27 @@ fn sign_in() -> Html {
     let email = use_state(|| "".to_string());
     let password = use_state(|| "".to_string());
     let alert = use_state(|| "".to_string());
-    let is_submitting = use_state(|| false);
     let submit_form = {
         let contexts = contexts.clone();
         let email = email.clone();
         let password = password.clone();
         let alert = alert.clone();
-        let is_submitting = is_submitting.clone();
         move || {
-            is_submitting.set(true);
+            contexts.user.set(None);
             alert.set(String::default());
             let email = email.deref().to_owned();
             let password = password.deref().to_owned();
             if let Some(error) = validate_email(&email) {
                 alert.set(error);
-                is_submitting.set(false);
+                contexts.user.set(Some(MyFiUser::default()));
                 return;
             }
             if let Some(error) = validate_password(&password) {
                 alert.set(error);
-                is_submitting.set(false);
+                contexts.user.set(Some(MyFiUser::default()));
                 return;
             }
-            myfi_sign_in(
-                contexts.clone(),
-                &email,
-                &password,
-                alert.clone(),
-                is_submitting.clone(),
-            )
+            myfi_sign_in(contexts.clone(), &email, &password, alert.clone())
         }
     };
     let submit = {
@@ -135,24 +132,16 @@ fn sign_in() -> Html {
     };
     html! {
         <>
-            {if is_submitting.deref().to_owned() {
-                html!{<Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={60} />}
+            {title_primary!(&format!("Sign in to your {} account!", get_company_singular()))}
+            <form class="d-flex flex-column gap-1" name="myfi-sign-in-form" autocomplete="on" onkeyup={form_detect_enter}>
+                <InputText name="Email" value={email.clone()} />
+                <InputText t="password" name="Password" value={password.clone()} />
+            </form>
+            <Button onclick={submit}>{"Sign In"}</Button>
+            {if !alert.deref().to_owned().is_empty() {
+                html!{<Alert color={Theme::Danger}>{alert.deref().to_owned()}</Alert>}
             } else {
-                html!{
-                    <>
-                        {title_primary!(&format!("Sign in to your {} account!", get_company_singular()))}
-                        <form class="d-flex flex-column gap-1" name="myfi-sign-in-form" autocomplete="on" onkeyup={form_detect_enter}>
-                            <InputText name="Email" value={email.clone()} />
-                            <InputText t="password" name="Password" value={password.clone()} />
-                        </form>
-                        <Button onclick={submit}>{"Sign In"}</Button>
-                        {if !alert.deref().to_owned().is_empty() {
-                            html!{<Alert color={Theme::Danger}>{alert.deref().to_owned()}</Alert>}
-                        } else {
-                            html!{}
-                        }}
-                    </>
-                }
+                html!{}
             }}
         </>
     }
@@ -162,6 +151,7 @@ fn render_with_user(contexts: Contexts, user: &MyFiUser) -> Html {
     let onclick = {
         let contexts_signout = contexts.clone();
         Callback::from(move |_| {
+            contexts_signout.user.set(None);
             myfi_sign_out(contexts_signout.clone());
         })
     };
