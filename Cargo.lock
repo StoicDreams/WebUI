@@ -1280,7 +1280,7 @@ dependencies = [
 
 [[package]]
 name = "pushrust"
-version = "0.1.0"
+version = "0.6.10"
 dependencies = [
  "clap",
  "powershell_script",
@@ -1834,7 +1834,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.6.5"
+version = "0.6.10"
 dependencies = [
  "serde",
  "webui",
@@ -1843,14 +1843,14 @@ dependencies = [
 
 [[package]]
 name = "webapp_post_build"
-version = "0.1.0"
+version = "0.6.10"
 dependencies = [
  "clap",
 ]
 
 [[package]]
 name = "webui"
-version = "0.6.5"
+version = "0.6.10"
 dependencies = [
  "async-std",
  "chrono",
@@ -1875,7 +1875,7 @@ dependencies = [
 
 [[package]]
 name = "webuisave"
-version = "0.1.0"
+version = "0.6.10"
 dependencies = [
  "clap",
 ]

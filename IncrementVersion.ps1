@@ -14,7 +14,7 @@ $vpatch = 0
 $rgxTargetGetVersion = 'version = "([0-9]+)\.([0-9]+)\.([0-9]+)"'
 Get-ChildItem -Path .\webui -Filter *Cargo.toml -Recurse -File | ForEach-Object {
     $result = Select-String -Path $_.FullName -Pattern $rgxTargetGetVersion
-    if($result.Matches.Count -gt 0) {
+    if ($result.Matches.Count -gt 0) {
         $vmajor = [int]$result.Matches[0].Groups[1].Value
         $vminor = [int]$result.Matches[0].Groups[2].Value
         $vpatch = [int]$result.Matches[0].Groups[3].Value
@@ -22,13 +22,18 @@ Get-ChildItem -Path .\webui -Filter *Cargo.toml -Recurse -File | ForEach-Object 
             $vmajor = $vmajor + 1;
             $vminor = 0;
             $vpatch = 0;
-        } elseif ($minor) {
+        }
+        elseif ($minor) {
             $vminor = $vminor + 1;
             $vpatch = 0;
-        } else {
+        }
+        else {
             $vpatch = $vpatch + 1;
         }
         $version = "$vmajor.$vminor.$vpatch"
+    }
+    else {
+        Write-Host "Source Not Found" -ForegroundColor Red
     }
 }
 
@@ -40,17 +45,17 @@ function UpdateProjectVersion {
         [string] $newXML
     )
 
-    if(!(Test-Path -Path $projectPath)) {
+    if (!(Test-Path -Path $projectPath)) {
         Write-Host "Not found - $projectPath" -BackgroundColor Red -ForegroundColor White
         return;
     }
     $content = Get-Content -Path $projectPath
     $oldMatch = $content -match $rgxTargetXML
-    if($oldMatch.Length -eq 0) {
+    if ($oldMatch.Length -eq 0) {
         return;
     }
     $fileMatches = $content -match $newXML
-    if($fileMatches.Length -eq 1) {
+    if ($fileMatches.Length -eq 1) {
         Write-Host "Already up to date - $projectPath - $newXML" -ForegroundColor Cyan
         return;
     }
@@ -71,20 +76,24 @@ function ApplyVersionUpdates {
     }
 }
 
-if($null -ne $version) {
+if ($null -ne $version) {
     Write-Host Found Version: $version -ForegroundColor Green
     $rootpath = Get-Location
     $rootpath = $rootpath.ToString().ToLower()
     Write-Host Path: "Root Path Start: $rootpath"
 
     ApplyVersionUpdates .\webui\src\components\layout app_footer.rs 'Web UI version ([0-9\.]+)' "Web UI version $version"
-    ApplyVersionUpdates .\webui Cargo.toml 'version = "([0-9\.]+)"#sync' "version = ""$version""#sync"
-    ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"#sync' "version = ""$version""#sync"
+    ApplyVersionUpdates .\webui Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
+    ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
+    ApplyVersionUpdates .\webuisave Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
+    ApplyVersionUpdates .\webapp_post_build Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
+    ApplyVersionUpdates .\pushrust Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
     ApplyVersionUpdates .\webapp Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$version"""
     ApplyVersionUpdates .\ README.md 'Version ([0-9\.]+)' "Version $version"
     ApplyVersionUpdates .\webui README.md 'webui = "([0-9\.]+)"' "webui = ""$version"""
     ApplyVersionUpdates .\webui README.md 'webui = { version = "([0-9\.]+)"' "webui = { version = ""$version"""
     ApplyVersionUpdates .\webapp service-worker.js 'webui_([0-9\.]+)' "webui_$version"
-} else {
+}
+else {
     Write-Host Current version was not found -ForegroundColor Red
 }
