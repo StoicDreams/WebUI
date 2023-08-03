@@ -15,6 +15,8 @@ pub struct AppDrawerButtonProps {
     pub logotitle: Option<String>,
     #[prop_or_default]
     pub always_show_logo: bool,
+    #[prop_or(1)]
+    pub elevation: u8,
 }
 
 /// Button that is used to trigger opening one of the four app drawers.
@@ -42,16 +44,23 @@ pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
         };
     });
     let children = &props.children;
+    let classes = &mut Classes::new();
 
+    if !props.class.is_empty() {
+        classes.push(&props.class);
+    } else {
+        classes.push("btn");
+    }
+    let elevation = props.elevation;
     html! {
         <>
             {match drawer_info.clone() {
                 Some(drawer_info) => {
                     let title = (drawer_info.title)(title_context);
-                    let btn_class = if drawer_info.class.is_empty() {"btn toggle elevation-1".to_string()} else {drawer_info.class.to_string()};
+                    let btn_class = if drawer_info.class.is_empty() {"toggle".to_string()} else {drawer_info.class.to_string()};
                     html! {
-                        <button type="button" title={title.to_owned()} class={props.class.to_string()}
-                            aria-label={title.to_owned()}
+                        <Button title={title.to_owned()} class={classes.to_string()}
+                            elevation={elevation}
                             onclick={setup_onclick}>
                             <span class={btn_class}>{(drawer_info.display)(contexts.clone())}</span>
                             {match &logo_src {
@@ -63,7 +72,7 @@ pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
                                 None => html! {}
                             }}
                             {for children.iter()}
-                        </button>
+                        </Button>
                     }
                 },
                 None => html! {

@@ -6,10 +6,24 @@ const WRAPPER_STYLES: &str = "min-width:300px;";
 
 /// The info panel for myfi account and other services.
 pub fn myfi_info_panel(contexts: Contexts) -> Html {
+    let user = contexts.user.deref().deref().to_owned();
+    if let Some(user) = user {
+        let class = if user.roles > 0 {
+            "btn theme-success"
+        } else {
+            ""
+        }
+        .to_string();
+        return html! {
+            <AppDrawerButton info={drawer_toggle_info(contexts)} {class}>
+                <span>{user.display_name}</span>
+            </AppDrawerButton>
+        };
+    }
     html! {
-        <>
-            <AppDrawerButton info={drawer_toggle_info(contexts)} />
-        </>
+        <Paper class="d-inlineblock">
+            <Loading variant={LoadingVariant::Circle} size={LOADING_SIZE_MEDIUM} color={Theme::Info} />
+        </Paper>
     }
 }
 

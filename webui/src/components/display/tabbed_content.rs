@@ -27,7 +27,7 @@ pub fn tabbed_content(props: &TabbedContentProps) -> Html {
     let show_index = use_state(|| 1);
     let mut index = 0;
     let mut tab_index = 0;
-    jslog!("Tabs: {}", *show_index);
+
     html!(
         <Paper class={wrapper_classes.to_string()}>
             <Paper class="tabbed-content-buttons d-flex flex-row gap-0">

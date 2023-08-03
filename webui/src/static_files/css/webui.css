@@ -1197,7 +1197,9 @@ a.btn:active,
 }
 
 .btn {
-    display: inline-block;
+    display: inline-flex;
+    flex-flow: row;
+    gap: 0.5em;
     text-decoration: none;
     padding: calc(1 * var(--padding)) calc(2 * var(--padding));
     cursor: pointer;
