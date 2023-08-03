@@ -32,7 +32,7 @@ pub(crate) async fn myfi_get_my_info(user_state: Arc<UseStateHandle<Option<MyFiU
             }
         }
     }
-    user_state.clone().set(None);
+    user_state.clone().set(Some(MyFiUser::default()));
 }
 
 pub(crate) fn myfi_sign_in(
@@ -79,7 +79,7 @@ pub(crate) fn myfi_sign_in(
                 } else {
                     alert_state.clone().set("Unknown error".to_string());
                 }
-                user_state.clone().set(None);
+                user_state.clone().set(Some(MyFiUser::default()));
                 submitting_state.clone().set(false);
             });
         }
@@ -97,7 +97,7 @@ pub(crate) fn myfi_sign_out(contexts: Contexts) {
     let contexts = contexts.clone();
     spawn_async!({
         _ = fetch_cors(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
-        user_state.clone().set(None);
+        user_state.clone().set(Some(MyFiUser::default()));
         alert!(contexts, "Success", "You have successfully signed out.");
     });
 }

@@ -6,3 +6,13 @@ pub struct MyFiUser {
     pub display_name: String,
     pub roles: u64,
 }
+
+impl Default for MyFiUser {
+    fn default() -> Self {
+        Self {
+            id: None,
+            display_name: "Guest".to_string(),
+            roles: 0,
+        }
+    }
+}
