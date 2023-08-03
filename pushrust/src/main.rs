@@ -5,11 +5,12 @@ use std::path::Path;
 #[derive(Parser, Debug)]
 struct Args {
     #[arg(short, long)]
-    commit: String,
+    commit: Option<String>,
 }
 
 fn main() {
     let args = Args::parse();
+    check_correct_folder();
     run(
         "echo",
         "echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\"",
@@ -21,14 +22,23 @@ fn main() {
     run("cargo", "build", None);
     run("cargo", "test", None);
     build_sitemap();
-    run_ma("git", &["add", "-A"], None);
-    run_ma(
-        "git",
-        &["commit", "-m", &format!("\"{}\"", &args.commit)],
-        None,
-    );
-    run_ma("git", &["push", "-u", "origin", "main"], None);
+    if let Some(commit) = args.commit {
+        run_ma("git", &["add", "-A"], None);
+        run_ma("git", &["commit", "-m", &format!("\"{}\"", &commit)], None);
+        run_ma("git", &["push", "-u", "origin", "main"], None);
+    }
     run("echo", "Finished Successfully", None);
+}
+
+fn check_correct_folder() {
+    let nav_file = Path::new("./webapp");
+    if !nav_file.exists() {
+        let nav_file = Path::new("../webapp");
+        if !nav_file.exists() {
+            panic!("Must be in solution root folder to run this command.");
+        }
+        run_ma("cd", &[".."], None);
+    }
 }
 
 fn build_sitemap() {

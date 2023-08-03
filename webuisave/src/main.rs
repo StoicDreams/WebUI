@@ -6,7 +6,7 @@ use std::process::Command;
 #[derive(Parser, Debug)]
 struct Args {
     #[arg(short, long)]
-    commit: String,
+    commit: Option<String>,
     #[arg(long)]
     major: bool,
     #[arg(long)]
@@ -17,30 +17,45 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
+    check_correct_folder();
     copy_static_files();
-
     run("cargo", "test");
-    let version_args = &mut Vec::new();
-    version_args.push("./IncrementVersion.ps1");
-    if args.major {
-        version_args.push("-major");
-    } else if args.minor {
-        version_args.push("-minor");
+    if let Some(_commit) = args.commit.clone() {
+        let version_args = &mut Vec::new();
+        version_args.push("./IncrementVersion.ps1");
+        if args.major {
+            version_args.push("-major");
+        } else if args.minor {
+            version_args.push("-minor");
+        }
+        run_ma("pwsh", version_args);
     }
-    run_ma("pwsh", version_args);
     run("cargo", "fmt");
     run("cargo", "update");
     run("cargo", "build");
     build_sitemap();
     run_ma("cargo", &["install", "--path", "webui"]);
-    run_ma("git", &["add", "-A"]);
-    run_ma("git", &["commit", "-m", &args.commit]);
-    run_ma("git", &["push", "-u", "origin", "main"]);
-    if args.publish {
-        run_ma("cargo", &["publish", "-p", "webui"]);
+    if let Some(commit) = args.commit {
+        run_ma("git", &["add", "-A"]);
+        run_ma("git", &["commit", "-m", &commit]);
+        run_ma("git", &["push", "-u", "origin", "main"]);
+        if args.publish {
+            run_ma("cargo", &["publish", "-p", "webui"]);
+        }
+        run("pwsh", "./SyncVersionToLocalProjects.ps1");
     }
-    run("pwsh", "./SyncVersionToLocalProjects.ps1");
     run("echo", "Finished Successfully");
+}
+
+fn check_correct_folder() {
+    let nav_file = Path::new("./webui/src/static_files");
+    if !nav_file.exists() {
+        let nav_file = Path::new("../webui/src/static_files");
+        if !nav_file.exists() {
+            panic!("Must be in solution root folder to run this command.");
+        }
+        run_ma("cd", &[".."]);
+    }
 }
 
 /// Copy static files from webapp to webui
