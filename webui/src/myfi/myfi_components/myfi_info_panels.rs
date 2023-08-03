@@ -29,7 +29,7 @@ fn drawer_toggle_info(contexts: Contexts) -> DrawerToggleInfo {
 pub(crate) fn get_render_wrapper(contexts: Contexts) -> Html {
     let user_state = contexts.clone().user;
     let user_state = user_state.deref();
-    jslog!("Render Wrapper: {:?}", user_state.deref());
+
     if let Some(user) = user_state.deref() {
         return render_with_user(contexts, user);
     }

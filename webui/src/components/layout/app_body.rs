@@ -37,9 +37,7 @@ pub(crate) fn app_body() -> Html {
                         page_state_hidden.set(PageState::Hidden);
                         path.set(new_path);
                         // TODO: This set timeout is where the page freeze is happening, need to figure out why.
-                        jslog!("timeout transitionedF: {}", js_sys::Date::now());
                         set_timeout!(100, {
-                            jslog!("timeout transitionedB: {}", js_sys::Date::now());
                             let page_state_in = page_state_hidden.to_owned();
                             page_state_in.set(PageState::TransitionIn);
                             set_timeout!(300, {
