@@ -97,6 +97,13 @@ struct FetchOptions {
     body: Option<String>,
 }
 
+/// Fetch data from server with CORS policy enabled
+pub async fn fetch_cors(request: FetchRequest) -> FetchResponse {
+    let request = FetchRequest::new_cors(request.url, request.method);
+    fetch(request).await
+}
+
+/// Fetch data from server
 pub async fn fetch(request: FetchRequest) -> FetchResponse {
     let mut options = FetchOptions {
         method: request.method.to_http_method(),

@@ -17,13 +17,13 @@ const MYFI_URL_SIGNOUT: &str = "signout";
 
 pub(crate) async fn myfi_get_session() {
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_SESSION);
-    _ = fetch(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
+    _ = fetch_cors(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
 }
 
 pub(crate) async fn myfi_get_my_info(user_state: Arc<UseStateHandle<Option<MyFiUser>>>) {
     let user_state = user_state.clone();
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_MYINFO);
-    let response = fetch(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
+    let response = fetch_cors(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
     if response.is_ok() {
         if let Some(result) = response.get_result() {
             if let Ok(user) = serde_json::from_str::<MyFiUser>(&result) {
@@ -55,7 +55,7 @@ pub(crate) fn myfi_sign_in(
             let alert_state = alert_state.clone();
             let submitting_state = submitting_state.clone();
             spawn_async!({
-                let response = fetch(FetchRequest::new(
+                let response = fetch_cors(FetchRequest::new(
                     url.to_string(),
                     FetchMethod::Post(post_body.to_string()),
                 ))
@@ -98,7 +98,7 @@ pub(crate) fn myfi_sign_out(contexts: Contexts) {
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_SIGNOUT);
     let contexts = contexts.clone();
     spawn_async!({
-        _ = fetch(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
+        _ = fetch_cors(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
         user_state.clone().set(None);
         alert!(contexts, "Success", "You have successfully signed out.");
     });

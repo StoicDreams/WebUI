@@ -1,6 +1,6 @@
 [package]
 name = "webapp_post_build"
-version = "0.6.10" #sync
+version = "0.6.11" #sync
 edition = "2021"
 
 [dependencies]
