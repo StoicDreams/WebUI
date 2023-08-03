@@ -27,10 +27,8 @@ pub(crate) async fn myfi_get_my_info(user_state: Arc<UseStateHandle<Option<MyFiU
     if response.is_ok() {
         if let Some(result) = response.get_result() {
             if let Ok(user) = serde_json::from_str::<MyFiUser>(&result) {
-                if user.roles > 0 {
-                    user_state.clone().set(Some(user));
-                    return;
-                }
+                user_state.clone().set(Some(user));
+                return;
             }
         }
     }
