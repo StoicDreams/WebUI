@@ -1,6 +1,6 @@
 [package]
 name = "pushrust"
-version = "0.6.15" #sync
+version = "0.6.16" #sync
 edition = "2021"
 
 [dependencies]

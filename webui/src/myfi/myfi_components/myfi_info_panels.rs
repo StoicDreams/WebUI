@@ -45,7 +45,9 @@ pub(crate) fn get_render_wrapper(contexts: Contexts) -> Html {
     let user_state = user_state.deref();
 
     if let Some(user) = user_state.deref() {
-        return render_with_user(contexts, user);
+        if user.roles > 0 {
+            return render_with_user(contexts, user);
+        }
     }
     render_without_user()
 }
