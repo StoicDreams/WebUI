@@ -38,6 +38,7 @@ impl Component for App {
                     config={props.config.clone()}
                     state_keys={props.state_keys.clone()}
                     >
+                    <crate::loaders::Loaders />
                     <AppHeader />
                     <AppBody />
                     <AppFooter />
@@ -45,7 +46,6 @@ impl Component for App {
                     <AppDrawer drawer={Direction::Right} />
                     <AppDrawer drawer={Direction::Bottom} />
                     <AppDrawer drawer={Direction::Left} />
-                    <crate::loaders::Loaders />
                 </AppContexts>
             </div>
         }

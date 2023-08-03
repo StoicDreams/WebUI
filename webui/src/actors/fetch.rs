@@ -26,6 +26,7 @@ pub struct FetchRequest {
     url: String,
     method: FetchMethod,
     headers: HashMap<String, String>,
+    use_cors: bool,
 }
 
 impl FetchRequest {
@@ -34,6 +35,15 @@ impl FetchRequest {
             url,
             method,
             headers: HashMap::new(),
+            use_cors: false,
+        }
+    }
+    pub fn new_cors(url: String, method: FetchMethod) -> Self {
+        Self {
+            url,
+            method,
+            headers: HashMap::new(),
+            use_cors: true,
         }
     }
 }
@@ -102,7 +112,7 @@ pub async fn fetch(request: FetchRequest) -> FetchResponse {
 
     let json = serde_json::to_string(&options).unwrap();
     let url = build_url(&request.url);
-    let result = webui_fetch(url, json).await;
+    let result = webui_fetch(url, json, request.use_cors).await;
     if let Some(result) = result.as_string() {
         if let Ok(result) = serde_json::from_str::<FetchResponse>(&result) {
             return result;

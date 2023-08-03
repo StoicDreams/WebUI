@@ -28,6 +28,8 @@ fn drawer_toggle_info(contexts: Contexts) -> DrawerToggleInfo {
 
 pub(crate) fn get_render_wrapper(contexts: Contexts) -> Html {
     let user_state = contexts.clone().user;
+    let user_state = user_state.deref();
+    jslog!("Render Wrapper: {:?}", user_state.deref());
     if let Some(user) = user_state.deref() {
         return render_with_user(contexts, user);
     }
@@ -94,10 +96,8 @@ fn sign_in() -> Html {
                 is_submitting.set(false);
                 return;
             }
-            let user_state = contexts.clone().user;
             myfi_sign_in(
                 contexts.clone(),
-                user_state,
                 &email,
                 &password,
                 alert.clone(),
@@ -143,10 +143,10 @@ fn sign_in() -> Html {
 }
 
 fn render_with_user(contexts: Contexts, user: &MyFiUser) -> Html {
-    let contexts_signout = contexts.clone();
     let onclick = {
+        let contexts_signout = contexts.clone();
         Callback::from(move |_| {
-            handle_sign_out(contexts_signout.clone());
+            myfi_sign_out(contexts_signout.clone());
         })
     };
     html! {
@@ -157,12 +157,6 @@ fn render_with_user(contexts: Contexts, user: &MyFiUser) -> Html {
         </Paper>
     }
 }
-
-fn handle_sign_up(contexts: Contexts) {}
-
-fn handle_sign_in(contexts: Contexts) {}
-
-fn handle_sign_out(contexts: Contexts) {}
 
 fn handle_confirm(_contexts: Contexts) -> bool {
     true

@@ -1,29 +1,36 @@
 mod request;
 mod response;
 
+use std::sync::Arc;
+
 use crate::prelude::*;
 use request::*;
 use response::*;
+use uuid::timestamp::context;
 use web_sys::Request;
 
 const MYFI_ROOT_AUTH: &str = "auth";
 const MYFI_URL_SESSION: &str = "session";
 const MYFI_URL_MYINFO: &str = "myinfo";
 const MYFI_URL_SIGNIN: &str = "signin";
+const MYFI_URL_SIGNOUT: &str = "signout";
 
 pub(crate) async fn myfi_get_session() {
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_SESSION);
     _ = fetch(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
 }
 
-pub(crate) async fn myfi_get_my_info(user_state: UseStateHandle<Option<MyFiUser>>) {
+pub(crate) async fn myfi_get_my_info(user_state: Arc<UseStateHandle<Option<MyFiUser>>>) {
     let user_state = user_state.clone();
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_MYINFO);
     let response = fetch(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
     if response.is_ok() {
         if let Some(result) = response.get_result() {
             if let Ok(user) = serde_json::from_str::<MyFiUser>(&result) {
-                user_state.clone().set(Some(user));
+                if user.roles > 0 {
+                    user_state.clone().set(Some(user));
+                    return;
+                }
             }
         }
     }
@@ -32,13 +39,12 @@ pub(crate) async fn myfi_get_my_info(user_state: UseStateHandle<Option<MyFiUser>
 
 pub(crate) fn myfi_sign_in(
     contexts: Contexts,
-    user_state: UseStateHandle<Option<MyFiUser>>,
     email: &str,
     password: &str,
     alert_state: UseStateHandle<String>,
     submitting_state: UseStateHandle<bool>,
 ) {
-    let user_state = user_state.clone();
+    let user_state = contexts.clone().user;
     let email = email.to_string();
     let password = password.to_string();
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_SIGNIN);
@@ -60,17 +66,10 @@ pub(crate) fn myfi_sign_in(
                             contexts.drawer.clone().set(DrawerMessage::Close);
                             let name = user.display_name.clone();
                             user_state.clone().set(Some(user));
-                            contexts.drawer.set(
-                                Dialog::alert(
-                                    |_| String::from("Success"),
-                                    DynContextsHtml::new(move |_| {
-                                        html!(&format!(
-                                            "Welcome {}, you have successfully signed in.",
-                                            name
-                                        ))
-                                    }),
-                                )
-                                .message(),
+                            alert!(
+                                contexts,
+                                "Success",
+                                format!("Welcome {}, you have successfully signed in.", name)
                             );
                             submitting_state.clone().set(false);
                             return;
@@ -92,4 +91,15 @@ pub(crate) fn myfi_sign_in(
             submitting_state.clone().set(false);
         }
     }
+}
+
+pub(crate) fn myfi_sign_out(contexts: Contexts) {
+    let user_state = contexts.clone().user;
+    let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_SIGNOUT);
+    let contexts = contexts.clone();
+    spawn_async!({
+        _ = fetch(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
+        user_state.clone().set(None);
+        alert!(contexts, "Success", "You have successfully signed out.");
+    });
 }

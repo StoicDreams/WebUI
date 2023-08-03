@@ -55,33 +55,14 @@ fn handle_confirm(contexts: Contexts) -> bool {
                     match response.get_result() {
                         Some(result) => {
                             let message = get_response_message(&result, DEFAULT_THANK_YOU);
-                            contexts.drawer.set(
-                                Dialog::alert(
-                                    |_| String::from("Thank you"),
-                                    DynContextsHtml::new(move |_| html!({ message.clone() })),
-                                )
-                                .borrow_mut()
-                                .message(),
-                            );
+                            alert!(contexts, "Thank you", message.clone());
                         }
                         None => {
-                            contexts.drawer.set(
-                                Dialog::alert(
-                                    |_| String::from("Thank you"),
-                                    DynContextsHtml::new(|_| html!(DEFAULT_THANK_YOU)),
-                                )
-                                .message(),
-                            );
+                            alert!(contexts, "Thank you", DEFAULT_THANK_YOU);
                         }
                     }
                 } else {
-                    contexts.drawer.set(
-                        Dialog::alert(
-                            |_| String::from("Feedback Failure"),
-                            DynContextsHtml::new(|_| html!("We're sorry, it looks like our server failed to save your feedback. Please wait a moment and try again.")),
-                        )
-                        .message(),
-                    );
+                    alert!(contexts, "Feedback Failure", "We're sorry, it looks like our server failed to save your feedback. Please wait a moment and try again.");
                 }
             });
             true

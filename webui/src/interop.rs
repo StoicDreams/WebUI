@@ -116,5 +116,5 @@ extern "C" {
     pub fn set_global_data(key: String, value: String);
 
     #[wasm_bindgen]
-    pub(crate) async fn webui_fetch(url: String, options: String) -> JsValue;
+    pub(crate) async fn webui_fetch(url: String, options: String, useCors: bool) -> JsValue;
 }
