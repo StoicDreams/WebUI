@@ -1463,6 +1463,10 @@ main>*>.d-flex>*[width] {
     width: max-content;
 }
 
+.text-center {
+    text-align: center;
+}
+
 .justify-left {
     justify-content: left;
 }
