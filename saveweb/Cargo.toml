@@ -1,6 +1,6 @@
 [package]
-name = "pushrust"
-version = "0.6.23" #sync
+name = "saveweb"
+version = "0.6.24" #sync
 edition = "2021"
 
 [dependencies]

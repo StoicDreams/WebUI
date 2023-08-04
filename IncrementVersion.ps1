@@ -87,7 +87,7 @@ if ($null -ne $version) {
     ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
     ApplyVersionUpdates .\webuisave Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
     ApplyVersionUpdates .\webapp_post_build Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
-    ApplyVersionUpdates .\pushrust Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
+    ApplyVersionUpdates .\saveweb Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
     ApplyVersionUpdates .\webapp Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$version"""
     ApplyVersionUpdates .\ README.md 'Version ([0-9\.]+)' "Version $version"
     ApplyVersionUpdates .\webui README.md 'webui = "([0-9\.]+)"' "webui = ""$version"""

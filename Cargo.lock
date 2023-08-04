@@ -1279,14 +1279,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "pushrust"
-version = "0.6.23"
-dependencies = [
- "clap",
- "powershell_script",
-]
-
-[[package]]
 name = "quote"
 version = "1.0.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1468,6 +1460,14 @@ name = "ryu"
 version = "1.0.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1ad4cc8da4ef723ed60bced201181d83791ad433213d8c24efffda1eec85d741"
+
+[[package]]
+name = "saveweb"
+version = "0.6.24"
+dependencies = [
+ "clap",
+ "powershell_script",
+]
 
 [[package]]
 name = "seahash"
@@ -1834,7 +1834,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.6.23"
+version = "0.6.24"
 dependencies = [
  "serde",
  "webui",
@@ -1843,14 +1843,14 @@ dependencies = [
 
 [[package]]
 name = "webapp_post_build"
-version = "0.6.23"
+version = "0.6.24"
 dependencies = [
  "clap",
 ]
 
 [[package]]
 name = "webui"
-version = "0.6.23"
+version = "0.6.24"
 dependencies = [
  "async-std",
  "chrono",
@@ -1875,7 +1875,7 @@ dependencies = [
 
 [[package]]
 name = "webuisave"
-version = "0.6.23"
+version = "0.6.24"
 dependencies = [
  "clap",
 ]
