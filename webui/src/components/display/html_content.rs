@@ -6,6 +6,20 @@ pub struct Props {
 }
 
 /// A component for displaying HTML content directly from a string.
+///
+/// Example:
+/// ```rust
+/// use webui::prelude::*;
+///
+/// fn page(contexts: Contexts) -> Html {
+///     html! {
+///         <HtmlContent html={r#"
+///             <h1>Hello World</h1>
+///             <p>This is a paragraph</p>
+///             "#} />
+///     }
+/// }
+/// ```
 #[function_component(HtmlContent)]
 pub fn html_conntet(props: &Props) -> Html {
     let window = web_sys::window().expect("Missing Window");
