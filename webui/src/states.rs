@@ -51,5 +51,5 @@ pub struct Contexts {
     pub nav: UseStateHandle<NavigationMessage>,
     pub drawer: UseStateHandle<DrawerMessage>,
     #[cfg(feature = "myfi")]
-    pub user: Arc<UseStateHandle<Option<MyFiUser>>>,
+    pub user: UseStateHandle<Option<MyFiUser>>,
 }

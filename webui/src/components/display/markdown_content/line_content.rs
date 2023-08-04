@@ -96,6 +96,10 @@ pub(super) fn render_line_content(
                 *index += 1;
                 html!(<p>{render_line(line)}</p>)
             },
+            MarkdownSegments::Component => {
+                *index += 1;
+                html!(<DynamicComponent name={line.to_owned()} />)
+            },
             MarkdownSegments::Quote(theme, cite, class, style) => {
                 *index += 1;
                 let theme = get_theme(theme.as_str());

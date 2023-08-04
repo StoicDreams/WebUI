@@ -6,6 +6,7 @@ pub(super) enum MarkdownSegments {
     Cards(String, String),
     Card(String, u16, String, String, String, String),
     Code(String, String, String),
+    Component,
     EndSection,
     Loading(LoadingVariant, Theme, u16, Option<u8>, String, String),
     List(bool, String, String),

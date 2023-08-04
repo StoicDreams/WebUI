@@ -24,6 +24,11 @@ pub(super) fn get_line_type(line: &str) -> (String, String, MarkdownSegments) {
             ),
         );
     }
+    if line.starts_with("!<") && line.ends_with('>') && !line.contains(' ') {
+        line.replace_range(0..2, EMPTY_STRING);
+        line.replace_range(line.len() - 1..line.len(), EMPTY_STRING);
+        return (raw_line, line, MarkdownSegments::Component);
+    }
     if line.starts_with("###### ") {
         line.replace_range(0..7, EMPTY_STRING);
         return (raw_line, line, MarkdownSegments::Title(6));

@@ -91,6 +91,27 @@ Three
 ```
 ````
 
+## Markdown
+
+```section
+Markdown components allow loading content from markdown files. This is a great way to reduce the initial loading of the website, as markdown can be loaded dynamically from API data or static files.
+```
+
+````sidebyside
+```Paper
+# Title
+!<Test>
+```
+```rust
+<MarkdownContent markdown={r#"
+    # Title
+    !<Test>
+    "#} />
+
+<MarkdownContent href="/d/en-US/test.md />
+```
+````
+
 ## Quote
 
 ```section

@@ -24,5 +24,6 @@ fn setup_app_config() -> AppConfig {
     .set_header_strip_bar(stoic_header_strip_bar)
     .set_user_info_panel(myfi_info_panel)
     .set_copyright_start(2022)
+    .register_component("Test", render_test)
     .build()
 }

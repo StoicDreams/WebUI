@@ -22,6 +22,7 @@ pub struct AppConfig {
     pub header_strip_bar: Option<fn(contexts: Contexts) -> Html>,
     pub user_info_panel: Option<fn(contexts: Contexts) -> Html>,
     pub copyright_year_start: Option<i16>,
+    pub component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
 }
 
 /// Struct holding App/Website configuration details.
@@ -46,6 +47,7 @@ pub struct AppConfigBuilder {
     pub(crate) header_strip_bar: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) user_info_panel: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) copyright_year_start: Option<i16>,
+    pub component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
 }
 impl AppConfig {
     /// Create an AppConfigBuilder instance to build your AppConfig with.
@@ -85,6 +87,7 @@ impl AppConfig {
             header_strip_bar: None,
             user_info_panel: None,
             copyright_year_start: None,
+            component_registry: None,
         }
     }
     pub fn get_nav_from_path(&self, path: &str) -> Option<NavLinkInfo> {
@@ -132,6 +135,7 @@ impl AppConfigBuilder {
             header_strip_bar: self.header_strip_bar.to_owned(),
             user_info_panel: self.user_info_panel.to_owned(),
             copyright_year_start: self.copyright_year_start.to_owned(),
+            component_registry: self.component_registry.to_owned(),
         }
     }
 
@@ -210,6 +214,16 @@ impl AppConfigBuilder {
     /// Set copyright years
     pub fn set_copyright_start(&mut self, copyright_start: i16) -> &mut Self {
         self.copyright_year_start = Some(copyright_start);
+        self
+    }
+    /// Register a component that can be dynamically loaded from Markdown content
+    pub fn register_component(&mut self, name: &str, component: fn(Contexts) -> Html) -> &mut Self {
+        let mut registry = match self.component_registry {
+            Some(ref mut registry) => registry.to_owned(),
+            None => HashMap::<String, fn(Contexts) -> Html>::new(),
+        };
+        registry.insert(name.to_string(), component);
+        self.component_registry = Some(registry);
         self
     }
 }

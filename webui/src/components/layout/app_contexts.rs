@@ -23,7 +23,7 @@ pub(crate) fn app_contexts(props: &AppContextsProps) -> Html {
         nav,
         drawer: use_state(|| DrawerMessage::None),
         #[cfg(feature = "myfi")]
-        user: Arc::new(use_state(|| None::<MyFiUser>)),
+        user: use_state(|| None::<MyFiUser>),
     };
     html! {
         <ContextProvider<Contexts> {context}>

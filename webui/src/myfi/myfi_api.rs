@@ -20,7 +20,7 @@ pub(crate) async fn myfi_get_session() {
     _ = fetch_cors(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
 }
 
-pub(crate) async fn myfi_get_my_info(user_state: Arc<UseStateHandle<Option<MyFiUser>>>) {
+pub(crate) async fn myfi_get_my_info(user_state: UseStateHandle<Option<MyFiUser>>) {
     let user_state = user_state.clone();
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_MYINFO);
     let response = fetch_cors(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;

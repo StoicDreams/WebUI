@@ -3,6 +3,7 @@ use std::collections::HashMap;
 
 mod children;
 mod code_segments;
+mod dynamic_component;
 mod helpers;
 mod line_content;
 mod line_segments;
@@ -15,6 +16,7 @@ mod tags;
 
 use children::*;
 use code_segments::*;
+use dynamic_component::*;
 use helpers::*;
 use line_content::*;
 use line_segments::*;
