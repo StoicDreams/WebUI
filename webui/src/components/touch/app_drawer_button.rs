@@ -24,7 +24,7 @@ pub struct AppDrawerButtonProps {
 /// Left and right app drawers are side panels that pop out with a width dependent on their content.
 /// Top and Bottom app drawers act more like dialogs|modals, sliding out and displaying in the center of the page.
 #[function_component(AppDrawerButton)]
-pub(crate) fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
+pub fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     let title_context = contexts.clone();
     let logo_src_handle: UseStateHandle<Option<String>> = use_state(|| None);

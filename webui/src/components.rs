@@ -1,16 +1,16 @@
 /// Components that are primarily purposed to contain or group together other components or content
-pub(crate) mod container;
+pub mod container;
 
 /// Components for rendering or displaying data
-pub(crate) mod display;
+pub mod display;
 
 /// Components that are solely used as part of Web UIs layout system
-pub(crate) mod layout;
+pub mod layout;
 
 /// Components that involve user interactions
-pub(crate) mod touch;
+pub mod touch;
 
 pub use container::*;
 pub use display::*;
-pub(crate) use layout::*;
+pub use layout::*;
 pub use touch::*;

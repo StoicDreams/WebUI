@@ -1463,7 +1463,7 @@ checksum = "1ad4cc8da4ef723ed60bced201181d83791ad433213d8c24efffda1eec85d741"
 
 [[package]]
 name = "saveweb"
-version = "0.6.26"
+version = "0.6.27"
 dependencies = [
  "clap",
  "powershell_script",
@@ -1834,7 +1834,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.6.26"
+version = "0.6.27"
 dependencies = [
  "serde",
  "webui",
@@ -1843,14 +1843,14 @@ dependencies = [
 
 [[package]]
 name = "webapp_post_build"
-version = "0.6.26"
+version = "0.6.27"
 dependencies = [
  "clap",
 ]
 
 [[package]]
 name = "webui"
-version = "0.6.26"
+version = "0.6.27"
 dependencies = [
  "async-std",
  "chrono",
@@ -1875,7 +1875,7 @@ dependencies = [
 
 [[package]]
 name = "webuisave"
-version = "0.6.26"
+version = "0.6.27"
 dependencies = [
  "clap",
 ]

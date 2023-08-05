@@ -1,6 +1,6 @@
 [package]
 name = "saveweb"
-version = "0.6.26" #sync
+version = "0.6.27" #sync
 edition = "2021"
 
 [dependencies]
