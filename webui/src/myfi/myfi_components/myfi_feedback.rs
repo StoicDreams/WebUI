@@ -3,12 +3,12 @@ use std::borrow::BorrowMut;
 use std::collections::HashMap;
 
 pub fn myfi_feedback_button_info() -> DrawerToggleInfo {
-    DrawerToggleInfo::builder(
-        |_| String::from("Give us your Feedback!"),
-        |_| html! {<i class="fa-solid fa-comment" />},
-        DynContextsHtml::new(get_render_wrapper),
+    drawer!(
+        "Give us your Feedback!",
+        html! {<i class="fa-solid fa-comment" />},
+        get_render_wrapper,
+        Direction::Top
     )
-    .set_drawer(Direction::Top)
     .set_on_confirm("Send Feedback", handle_confirm)
     .build()
 }

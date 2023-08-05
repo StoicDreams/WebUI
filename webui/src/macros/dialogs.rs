@@ -48,6 +48,7 @@ macro_rules! drawer {
     };
 }
 
+/// Macro for opening an regular dialog.
 #[macro_export]
 macro_rules! drawer_contexts {
     ( $title:expr, $btn_display:expr, $content:expr) => {

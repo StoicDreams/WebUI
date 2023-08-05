@@ -3,15 +3,15 @@ use crate::prelude::*;
 use crate::pages::*;
 
 pub fn nav_menu_info() -> DrawerToggleInfo {
-    DrawerToggleInfo::builder(
-        |_| String::from("Navigation Menu"),
-        |contexts: Contexts| html! {<i class="fa-solid fa-bars"></i>},
-        DynContextsHtml::new(nav_menu_render),
+    drawer!(
+        "Navigation Menu",
+        html! {<i class="fa-solid fa-bars"></i>},
+        nav_menu_render,
+        Direction::Left
     )
     .set_button_class("btn toggle theme-inherit")
     .hide_header()
     .hide_footer()
-    .set_drawer(Direction::Left)
     .build()
 }
 
