@@ -27,3 +27,30 @@ macro_rules! dialog {
         );
     };
 }
+
+/// Macro for opening an regular dialog.
+#[macro_export]
+macro_rules! drawer {
+    ( $title:expr, $btn_display:expr, $content:expr) => {
+        DrawerToggleInfo::builder(
+            |_contexts: Contexts| String::from($title),
+            |_contexts: Contexts| $btn_display,
+            DynContextsHtml::new($content),
+        )
+    };
+    ( $title:expr, $btn_display:expr, $content:expr, $direction: expr) => {
+        DrawerToggleInfo::builder(
+            |_contexts: Contexts| String::from($title),
+            |_contexts: Contexts| $btn_display,
+            DynContextsHtml::new($content),
+        )
+        .set_drawer($direction)
+    };
+}
+
+#[macro_export]
+macro_rules! drawer_contexts {
+    ( $title:expr, $btn_display:expr, $content:expr) => {
+        DrawerToggleInfo::builder($title, $btn_display, DynContextsHtml::new($content))
+    };
+}

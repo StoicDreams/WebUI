@@ -28,12 +28,12 @@ pub fn myfi_info_panel(contexts: Contexts) -> Html {
 }
 
 fn drawer_toggle_info(_contexts: Contexts) -> DrawerToggleInfo {
-    DrawerToggleInfo::builder(
-        |_contexts: Contexts| String::from("Account Services"),
-        |_contexts: Contexts| html! {<i class="fa-duotone fa-user" />},
-        DynContextsHtml::new(get_render_wrapper),
+    drawer!(
+        "Account Services",
+        html! {<i class="fa-duotone fa-user" />},
+        get_render_wrapper,
+        Direction::Right
     )
-    .set_drawer(Direction::Right)
     .hide_close_x_button()
     .hide_cancel_button()
     .set_on_confirm("Close", handle_confirm)

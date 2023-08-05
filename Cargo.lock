@@ -1325,9 +1325,9 @@ dependencies = [
 
 [[package]]
 name = "regex"
-version = "1.9.2"
+version = "1.9.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5bc4f4d719ae1d92dc7e5ef3865f93af6e28c7af68ebd7a68a367932b88c1e2c"
+checksum = "81bc1d4caf89fac26a70747fe603c130093b53c773888797a6329091246d651a"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1337,9 +1337,9 @@ dependencies = [
 
 [[package]]
 name = "regex-automata"
-version = "0.3.5"
+version = "0.3.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "26bb2039bb570943fc65037c16640a64fba171d3760138656fdfe62b3bd24239"
+checksum = "fed1ceff11a1dddaee50c9dc8e4938bd106e9d89ae372f192311e7da498e3b69"
 dependencies = [
  "aho-corasick",
  "memchr",
@@ -1463,7 +1463,7 @@ checksum = "1ad4cc8da4ef723ed60bced201181d83791ad433213d8c24efffda1eec85d741"
 
 [[package]]
 name = "saveweb"
-version = "0.6.25"
+version = "0.6.26"
 dependencies = [
  "clap",
  "powershell_script",
@@ -1834,7 +1834,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.6.25"
+version = "0.6.26"
 dependencies = [
  "serde",
  "webui",
@@ -1843,14 +1843,14 @@ dependencies = [
 
 [[package]]
 name = "webapp_post_build"
-version = "0.6.25"
+version = "0.6.26"
 dependencies = [
  "clap",
 ]
 
 [[package]]
 name = "webui"
-version = "0.6.25"
+version = "0.6.26"
 dependencies = [
  "async-std",
  "chrono",
@@ -1875,7 +1875,7 @@ dependencies = [
 
 [[package]]
 name = "webuisave"
-version = "0.6.25"
+version = "0.6.26"
 dependencies = [
  "clap",
 ]
