@@ -5,6 +5,8 @@ use crate::prelude::*;
 pub struct NavLinkProps {
     pub href: String,
     #[prop_or_default]
+    pub target: String,
+    #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
     pub class: String,
@@ -29,18 +31,42 @@ pub fn link(props: &NavLinkProps) -> Html {
     } else {
         props.title.to_owned()
     };
+    let target = if props.target.is_empty() {
+        "_self".to_owned()
+    } else {
+        props.target.to_owned()
+    };
+    let mypath = props.href.to_string();
+    let is_external_link = mypath.contains("://");
+    let is_open_in_new_tab = target == "_blank"
+        || target == "_new"
+        || (!mypath.starts_with("http") && mypath.contains("://"));
+    jslog!(
+        "Link to mypath: [{},{}] {}",
+        is_external_link,
+        is_open_in_new_tab,
+        mypath
+    );
     let onclick = {
-        let mypath = props.href.to_string();
         let navigation = contexts.nav.clone();
+        let mypath = mypath.clone();
         Callback::from(move |_| {
+            if is_external_link {
+                let window = web_sys::window().expect("no global `window` exists");
+                if is_open_in_new_tab {
+                    let _ = window.open_with_url(&mypath);
+                    return;
+                }
+                window.location().set_href(&mypath).unwrap();
+                return;
+            }
             let mymessage = NavigationMessage::PathUpdate(mypath.clone());
-            jslog!("mypath: {}", mypath);
             let mymessage = mymessage.clone();
             navigation.set(mymessage);
         })
     };
     html! {
-        <a href={props.href.to_owned()}
+        <a href={mypath}
             title={title}
             class={props.class.to_owned()}
             onclick={onclick}>

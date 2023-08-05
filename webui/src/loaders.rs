@@ -9,10 +9,10 @@ pub(crate) fn loaders() -> Html {
     if *data_loaded & 2 == 0 {
         data_loaded.clone().set(2);
         spawn_async!({
-            let is_loaded = *data_loaded;
-            let contexts = contexts.clone();
             #[cfg(feature = "myfi")]
             {
+                let is_loaded = *data_loaded;
+                let contexts = contexts.clone();
                 if is_loaded & 1 == 0 {
                     data_loaded.set(1 | *data_loaded);
                     myfi_loader(contexts).await;
@@ -26,7 +26,6 @@ pub(crate) fn loaders() -> Html {
 #[cfg(feature = "myfi")]
 pub(crate) async fn myfi_loader(contexts: Contexts) {
     let context = contexts.clone();
-    let loaded = myfi_get_session().await;
     let user_state = context.user.clone();
     myfi_get_my_info(user_state).await;
 }

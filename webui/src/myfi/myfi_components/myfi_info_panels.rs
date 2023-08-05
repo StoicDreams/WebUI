@@ -27,10 +27,10 @@ pub fn myfi_info_panel(contexts: Contexts) -> Html {
     }
 }
 
-fn drawer_toggle_info(contexts: Contexts) -> DrawerToggleInfo {
+fn drawer_toggle_info(_contexts: Contexts) -> DrawerToggleInfo {
     DrawerToggleInfo::builder(
-        |contexts: Contexts| String::from("Account Services"),
-        |contexts: Contexts| html! {<i class="fa-duotone fa-user" />},
+        |_contexts: Contexts| String::from("Account Services"),
+        |_contexts: Contexts| html! {<i class="fa-duotone fa-user" />},
         DynContextsHtml::new(get_render_wrapper),
     )
     .set_drawer(Direction::Right)
@@ -67,83 +67,26 @@ fn render_without_user() -> Html {
 
 #[function_component(DisplayLoginSignup)]
 fn display_login_signup() -> Html {
-    let tab_keys = vec![String::from("Sign In"), String::from("Create Acount")];
-    html! {
-        <Paper>
-            <TabbedContent tabs={tab_keys} class="d-flex flex-column gap-1">
-                <SignIn />
-                <SignUp />
-            </TabbedContent>
-        </Paper>
-    }
-}
-
-#[function_component(SignUp)]
-fn sign_up() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
-    html! {
-        <>
-            {title_primary!(&format!("Create a new {} account!", get_company_singular()))}
-            <p>{"Coming Soon!"}</p>
-        </>
-    }
-}
-
-#[function_component(SignIn)]
-fn sign_in() -> Html {
-    let contexts = use_context::<Contexts>().expect("Contexts not found");
-    let email = use_state(|| "".to_string());
-    let password = use_state(|| "".to_string());
-    let alert = use_state(|| "".to_string());
-    let submit_form = {
-        let contexts = contexts.clone();
-        let email = email.clone();
-        let password = password.clone();
-        let alert = alert.clone();
-        move || {
-            contexts.user.set(None);
-            alert.set(String::default());
-            let email = email.deref().to_owned();
-            let password = password.deref().to_owned();
-            if let Some(error) = validate_email(&email) {
-                alert.set(error);
-                contexts.user.set(Some(MyFiUser::default()));
-                return;
-            }
-            if let Some(error) = validate_password(&password) {
-                alert.set(error);
-                contexts.user.set(Some(MyFiUser::default()));
-                return;
-            }
-            myfi_sign_in(contexts.clone(), &email, &password, alert.clone())
+    if let Some(user) = contexts.user.deref() {
+        if let Some(site_id) = &user.site_id {
+            let href = format!("https://www.stoicdreams.com/signin?siteid={site_id}",);
+            return html! {
+                <Paper>
+                    <Link href={href} target="_self" class="btn theme-primary">{"Sign In or Create Account"}</Link>
+                </Paper>
+            };
         }
-    };
-    let submit = {
-        let submit_form = submit_form.clone();
-        Callback::from(move |_| submit_form.clone()())
-    };
-    let form_detect_enter = {
-        let submit_form = submit_form.clone();
-        Callback::from(move |event: KeyboardEvent| {
-            if event.key() == "Enter" {
-                submit_form();
-            }
-        })
-    };
+        return html! {
+            <Paper>
+                <p>{"This website is not currently configured for Stoic Dreams account services."}</p>
+            </Paper>
+        };
+    }
     html! {
-        <>
-            {title_primary!(&format!("Sign in to your {} account!", get_company_singular()))}
-            <form class="d-flex flex-column gap-1" name="myfi-sign-in-form" autocomplete="on" onkeyup={form_detect_enter}>
-                <InputText name="Email" value={email.clone()} />
-                <InputText t="password" name="Password" value={password.clone()} />
-            </form>
-            <Button onclick={submit}>{"Sign In"}</Button>
-            {if !alert.deref().to_owned().is_empty() {
-                html!{<Alert color={Theme::Danger}>{alert.deref().to_owned()}</Alert>}
-            } else {
-                html!{}
-            }}
-        </>
+        <Paper class="d-flex flex-column justify-center">
+            <Loading variant={LoadingVariant::Circle} size={LOADING_SIZE_MEDIUM} color={Theme::Info} />
+        </Paper>
     }
 }
 
@@ -151,8 +94,7 @@ fn render_with_user(contexts: Contexts, user: &MyFiUser) -> Html {
     let onclick = {
         let contexts_signout = contexts.clone();
         Callback::from(move |_| {
-            contexts_signout.user.set(None);
-            myfi_sign_out(contexts_signout.clone());
+            sign_out(contexts_signout.clone());
         })
     };
     html! {
@@ -162,6 +104,37 @@ fn render_with_user(contexts: Contexts, user: &MyFiUser) -> Html {
             <Button onclick={onclick}>{"Sign Out"}</Button>
         </Paper>
     }
+}
+
+fn sign_out(contexts: Contexts) {
+    let confirm_signout_this_website = {
+        let contexts_signout = contexts.clone();
+        Callback::from(move |_| {
+            contexts_signout.user.set(None);
+            myfi_sign_out(contexts_signout.clone());
+        })
+    };
+    let confirm_signout_sd_acount = {
+        let contexts_signout = contexts.clone();
+        Callback::from(move |_| {
+            contexts_signout.user.set(None);
+            myfi_sign_out(contexts_signout.clone());
+        })
+    };
+    // confirm if user wants to sign out of just this website or all websites
+    dialog!(contexts, "Sign Out Options", {
+        html! {
+            <Paper class="d-flex flex-column gap-1">
+                <p>{"Would you like to sign out of just this website or all websites?"}</p>
+                <p>{"Selecting 'All Websites' will sign you out of all websites that use Stoic Dreams account services."}</p>
+                <p>{"Selecting 'Just This Website' will sign you out of this website only."}</p>
+                <Paper class="d-flex flex-row flex-wrap gap-2">
+                    <Button onclick={confirm_signout_this_website.to_owned()}>{"Just This Website"}</Button>
+                    <Button onclick={confirm_signout_sd_acount.to_owned()}>{"All Websites"}</Button>
+                </Paper>
+            </Paper>
+        }
+    });
 }
 
 fn handle_confirm(_contexts: Contexts) -> bool {
