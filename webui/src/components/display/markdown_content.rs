@@ -90,11 +90,14 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
         return html!(<Loading size={LOADING_SIZE_LARGE} />);
     }
     if let Some(md) = props.markdown.to_owned() {
-        let md = match &props.tags {
-            Some(tags) => replace_tags(&md, tags),
-            None => md,
-        };
-        markdown.set(parse_markdown(&md));
+        if !*is_loaded {
+            let md = match &props.tags {
+                Some(tags) => replace_tags(&md, tags),
+                None => md,
+            };
+            is_loaded.set(true);
+            markdown.set(parse_markdown(&md));
+        }
     };
     if !*is_loaded || (*markdown).is_empty() {
         if *is_loading {

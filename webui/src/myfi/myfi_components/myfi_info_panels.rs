@@ -73,7 +73,7 @@ fn display_login_signup() -> Html {
             let href = format!("https://www.stoicdreams.com/signin?siteid={site_id}",);
             return html! {
                 <Paper>
-                    <Link href={href} target="_self" class="btn theme-primary">{"Sign In or Create Account"}</Link>
+                    <Link href={href} target="_self" class="btn theme-primary">{"Sign In with Stoic Dreams"}</Link>
                 </Paper>
             };
         }
