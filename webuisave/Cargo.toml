@@ -1,6 +1,6 @@
 [package]
 name = "webuisave"
-version = "0.6.29" #sync
+version = "0.6.30" #sync
 edition = "2021"
 
 [dependencies]

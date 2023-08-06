@@ -49,6 +49,7 @@ pub fn link(props: &NavLinkProps) -> Html {
     );
     let onclick = {
         let navigation = contexts.nav.clone();
+        let contexts = contexts.clone();
         let mypath = mypath.clone();
         Callback::from(move |_| {
             if is_external_link {
@@ -60,8 +61,8 @@ pub fn link(props: &NavLinkProps) -> Html {
                 window.location().set_href(&mypath).unwrap();
                 return;
             }
+            let navigation = contexts.nav.clone();
             let mymessage = NavigationMessage::PathUpdate(mypath.clone());
-            let mymessage = mymessage.clone();
             navigation.set(mymessage);
         })
     };

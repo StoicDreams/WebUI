@@ -6,6 +6,9 @@ pub mod dialogs;
 #[macro_use]
 pub mod classes;
 
+#[macro_use]
+pub mod contexts;
+
 /// Macro for splitting up arguments into list items
 ///
 /// <li>text segment</li>
