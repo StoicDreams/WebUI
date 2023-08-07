@@ -7,6 +7,8 @@ pub struct ButtonProps {
     pub elevation: u8,
     #[prop_or_default]
     pub children: Children,
+    #[prop_or(Theme::None)]
+    pub color: Theme,
     #[prop_or_default]
     pub class: String,
     #[prop_or_default]
@@ -32,6 +34,10 @@ pub fn button(props: &ButtonProps) -> Html {
 
     if props.elevation > 0 {
         classes.push(format!("elevation-{}", props.elevation));
+    }
+
+    if props.color != Theme::None {
+        classes.push(format!("{}", props.color));
     }
 
     let onclick = match props.onclick.to_owned() {

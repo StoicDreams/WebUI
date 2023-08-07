@@ -111,30 +111,56 @@ fn sign_out(contexts: Contexts) {
         let contexts_signout = contexts.clone();
         Callback::from(move |_| {
             contexts_signout.user.set(None);
-            myfi_sign_out(contexts_signout.clone());
+            myfi_sign_out(contexts_signout.clone(), SignoutScope::ThisWebsite);
         })
     };
-    let confirm_signout_sd_acount = {
+    let confirm_signout_this_browser = {
         let contexts_signout = contexts.clone();
         Callback::from(move |_| {
             contexts_signout.user.set(None);
-            myfi_sign_out(contexts_signout.clone());
+            myfi_sign_out(contexts_signout.clone(), SignoutScope::ThisBrowser);
         })
     };
-    // confirm if user wants to sign out of just this website or all websites
-    dialog!(contexts, "Sign Out Options", {
-        html! {
-            <Paper class="d-flex flex-column gap-1">
-                <p>{"Would you like to sign out of just this website or all websites?"}</p>
-                <p>{"Selecting 'All Websites' will sign you out of all websites that use Stoic Dreams account services."}</p>
-                <p>{"Selecting 'Just This Website' will sign you out of this website only."}</p>
-                <Paper class="d-flex flex-row flex-wrap gap-2">
-                    <Button onclick={confirm_signout_this_website.to_owned()}>{"Just This Website"}</Button>
-                    <Button onclick={confirm_signout_sd_acount.to_owned()}>{"All Websites"}</Button>
-                </Paper>
-            </Paper>
+    let confirm_signout_this_all_devices = {
+        let contexts_signout = contexts.clone();
+        Callback::from(move |_| {
+            contexts_signout.user.set(None);
+            myfi_sign_out(contexts_signout.clone(), SignoutScope::AllDevices);
+        })
+    };
+    let render_confirmation = {
+        let confirm_signout_this_website = confirm_signout_this_website.clone();
+        let confirm_signout_sd_acount = confirm_signout_this_browser.clone();
+        move |_| {
+            html! {
+                <>
+                    <Paper class="flex-grow" />
+                    <Paper class="d-flex flex-row flex-wrap gap-2">
+                        <Button onclick={confirm_signout_this_all_devices.to_owned()} color={Theme::Danger}>{"All Devices"}</Button>
+                        <Button onclick={confirm_signout_sd_acount.to_owned()} color={Theme::Warning}>{"All Websites"}</Button>
+                        <Button onclick={confirm_signout_this_website.to_owned()} color={Theme::Success}>{"Just This Website"}</Button>
+                    </Paper>
+                </>
+            }
         }
-    });
+    };
+    // confirm if user wants to sign out of just this website or all websites
+    dialog!(
+        contexts,
+        "Sign Out Options",
+        {
+            html! {
+                <Paper class="d-flex flex-column gap-1">
+                    <MarkdownContent markdown={r#"Would you like to sign out of just this website or all websites?
+Selecting `Just This Website` will sign you out of this website only.
+Selecting `All Websites` will sign you out of all websites that use Stoic Dreams account services within this browser.
+Selecting `All Devices` will sign you out of all Stoic Dreams services across all devices and browsers.
+"#} />
+                </Paper>
+            }
+        },
+        render_confirmation
+    );
 }
 
 fn handle_confirm(_contexts: Contexts) -> bool {

@@ -15,6 +15,7 @@ pub struct DrawerToggleInfo {
     pub(crate) hide_cancel: bool,
     pub(crate) on_confirm: Option<fn(Contexts) -> bool>,
     pub(crate) confirm_display: String,
+    pub(crate) confirm_render: Option<DynContextsHtml>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
@@ -31,6 +32,7 @@ pub struct DrawerToggleInfoBuilder {
     hide_cancel: bool,
     on_confirm: Option<fn(Contexts) -> bool>,
     confirm_display: String,
+    confirm_render: Option<DynContextsHtml>,
 }
 
 impl DrawerToggleInfo {
@@ -52,6 +54,7 @@ impl DrawerToggleInfo {
             hide_cancel: false,
             on_confirm: None,
             confirm_display: String::default(),
+            confirm_render: None,
         }
     }
     pub(crate) fn get_options(&self) -> AppDrawerOptions {
@@ -75,11 +78,12 @@ impl DrawerToggleInfo {
             if self.hide_cancel {
                 builder.hide_cancel();
             }
-            if let Some(on_confirm) = self.on_confirm {
+            if let Some(render_confirm) = self.confirm_render.to_owned() {
+                builder.set_confirm_render(render_confirm);
+            } else if let Some(on_confirm) = self.on_confirm {
                 builder.set_on_confirm(self.confirm_display.to_string(), on_confirm);
             }
         }
-
         builder.build()
     }
 }
@@ -99,6 +103,7 @@ impl DrawerToggleInfoBuilder {
             hide_cancel: self.hide_cancel,
             on_confirm: self.on_confirm,
             confirm_display: self.confirm_display.to_string(),
+            confirm_render: self.confirm_render.to_owned(),
         }
     }
     pub fn set_content_class(&mut self, class: &str) -> &Self {
@@ -140,6 +145,12 @@ impl DrawerToggleInfoBuilder {
     pub fn set_on_confirm(&mut self, display: &str, on_confirm: fn(Contexts) -> bool) -> &mut Self {
         self.on_confirm = Some(on_confirm);
         self.confirm_display = String::from(display);
+        self
+    }
+
+    /// Set explicit rendering instead of using the default confirmation button
+    pub fn set_confirm_render(&mut self, render: DynContextsHtml) -> &mut Self {
+        self.confirm_render = Some(render);
         self
     }
 }

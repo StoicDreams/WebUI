@@ -11,6 +11,7 @@ pub struct AppDrawerOptions {
     pub(crate) hide_cancel: bool,
     pub(crate) on_confirm: Option<usize>,
     pub(crate) confirm_display: String,
+    pub(crate) confirm_render: Option<DynContextsHtml>,
     pub(crate) content_class: String,
 }
 pub struct AppDrawerOptionsBuilder {
@@ -23,6 +24,7 @@ pub struct AppDrawerOptionsBuilder {
     hide_cancel: bool,
     on_confirm: Option<fn(Contexts) -> bool>,
     confirm_display: String,
+    confirm_render: Option<DynContextsHtml>,
     content_class: String,
 }
 
@@ -41,6 +43,7 @@ impl AppDrawerOptionsBuilder {
                 let confirm_display = &self.confirm_display;
                 confirm_display.to_owned()
             },
+            confirm_render: self.confirm_render,
             content_class: self.content_class,
         }
     }
@@ -73,6 +76,10 @@ impl AppDrawerOptionsBuilder {
         self.confirm_display = display;
         self
     }
+    pub fn set_confirm_render(&mut self, render: DynContextsHtml) -> &mut Self {
+        self.confirm_render = Some(render);
+        self
+    }
     pub fn set_content_class(&mut self, class: &str) -> &mut Self {
         self.content_class = String::from(class);
         self
@@ -91,6 +98,7 @@ impl AppDrawerOptions {
             hide_cancel: false,
             confirm_display: "Confirm".to_string(),
             on_confirm: None,
+            confirm_render: None,
             content_class: String::default(),
         }
     }
@@ -232,7 +240,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                 let content_close = content_close.to_owned();
                 drawer_context.set(DrawerMessage::ToggleDrawer(content_close));
             });
-
+            let confirm_render = content.confirm_render.to_owned();
             let cover_click = handle_close.to_owned();
             let close_x_click = handle_close.to_owned();
             let close_click = handle_close.to_owned();
@@ -284,7 +292,9 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                                 </Button>
                                             }
                                         } else {empty_html(contexts.clone())}}
-                                        {if show_confirm {
+                                        {if let Some(render) = confirm_render {
+                                            {render.run(contexts.clone())}
+                                        } else if show_confirm {
                                             html! {
                                                 <>
                                                     <span class="flex-grow" />

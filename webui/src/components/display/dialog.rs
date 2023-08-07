@@ -12,6 +12,7 @@ impl Dialog {
                 .to_owned(),
         }
     }
+
     /// Create a new dialog without any close buttons, only a confirmation button.
     pub fn alert(title: fn(Contexts) -> String, content: DynContextsHtml) -> Self {
         Dialog {
@@ -47,6 +48,11 @@ impl Dialog {
 
     pub fn hide_footer(&mut self) -> &mut Self {
         self.info.hide_footer();
+        self
+    }
+
+    pub fn set_footer_confirmation(&mut self, render: DynContextsHtml) -> &mut Self {
+        self.info.set_confirm_render(render);
         self
     }
 

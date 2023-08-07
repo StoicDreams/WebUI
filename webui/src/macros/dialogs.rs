@@ -26,6 +26,16 @@ macro_rules! dialog {
             .message(),
         );
     };
+    ( $contexts:expr, $title:expr, $html:expr, $confirm_html:expr) => {
+        $contexts.drawer.set(
+            Dialog::new(
+                |_| $title.to_string(),
+                DynContextsHtml::new(move |_| html!($html)),
+            )
+            .set_footer_confirmation(DynContextsHtml::new($confirm_html))
+            .message(),
+        );
+    };
 }
 
 /// Macro for opening an regular dialog.

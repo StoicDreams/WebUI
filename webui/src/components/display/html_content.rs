@@ -21,7 +21,7 @@ pub struct Props {
 /// }
 /// ```
 #[function_component(HtmlContent)]
-pub fn html_conntet(props: &Props) -> Html {
+pub fn html_content(props: &Props) -> Html {
     let window = web_sys::window().expect("Missing Window");
     let document = window.document().expect("Missing Document");
     let div = document
