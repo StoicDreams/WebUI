@@ -108,7 +108,7 @@ if ($null -ne $version) {
     Write-Host Path: "Root Path Start: $rootpath"
 
     ApplyVersionUpdates ..\ Cargo.toml 'version = "([0-9\.]+)"[ ]*#webuisync' "version = ""$version"" #webuisync" $false
-    ApplyVersionUpdates ..\ Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$versionminor""" $true
+    ApplyVersionUpdates ..\ Cargo.toml 'webui = "([0-9\.]+)" ' + "webui = ""$versionminor""" $true
 }
 else {
     Write-Host Current version was not found -ForegroundColor Red
