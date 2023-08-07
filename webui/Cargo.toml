@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.6.30" #sync
+version = "0.6.31" #sync
 
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."

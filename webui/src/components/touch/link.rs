@@ -61,9 +61,7 @@ pub fn link(props: &NavLinkProps) -> Html {
                 window.location().set_href(&mypath).unwrap();
                 return;
             }
-            let navigation = contexts.nav.clone();
-            let mymessage = NavigationMessage::PathUpdate(mypath.clone());
-            navigation.set(mymessage);
+            nav_to!(contexts, mypath);
         })
     };
     html! {
