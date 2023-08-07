@@ -5,7 +5,7 @@ use crate::prelude::*;
 macro_rules! nav_to {
     ( $contexts:expr, $local_path:expr) => {
         let navigation = $contexts.nav.clone();
-        let mymessage = NavigationMessage::PathUpdate($local_path.clone());
+        let mymessage = NavigationMessage::PathUpdate(String::from($local_path.to_owned()));
         navigation.set(mymessage);
     };
 }
