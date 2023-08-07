@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-#[derive(Debug, serde::Serialize)]
+#[derive(Debug, serde::Serialize, Clone, PartialEq)]
 pub enum FetchMethod {
     Get,
     Patch(String),
@@ -21,7 +21,7 @@ impl FetchMethod {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone, PartialEq)]
 pub struct FetchRequest {
     url: String,
     method: FetchMethod,
@@ -45,6 +45,10 @@ impl FetchRequest {
             headers: HashMap::new(),
             use_cors: true,
         }
+    }
+    pub fn add_header(&mut self, key: &str, value: &str) -> &mut Self {
+        self.headers.insert(String::from(key), String::from(value));
+        self
     }
 }
 
