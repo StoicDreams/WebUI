@@ -41,14 +41,7 @@ pub fn link(props: &NavLinkProps) -> Html {
     let is_open_in_new_tab = target == "_blank"
         || target == "_new"
         || (!mypath.starts_with("http") && mypath.contains("://"));
-    jslog!(
-        "Link to mypath: [{},{}] {}",
-        is_external_link,
-        is_open_in_new_tab,
-        mypath
-    );
     let onclick = {
-        let navigation = contexts.nav.clone();
         let contexts = contexts.clone();
         let mypath = mypath.clone();
         Callback::from(move |_| {
