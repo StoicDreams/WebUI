@@ -1,6 +1,6 @@
 use clap::Parser;
 use powershell_script::PsScriptBuilder;
-use std::path::Path;
+use std::{fs, path::Path};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -17,6 +17,7 @@ fn main() {
         None,
     );
     rc("webui", Some("webapp"));
+    delete_file_if_exists("./Cargo.lock");
     run("cargo", "fmt", None);
     run("cargo", "update", None);
     run("cargo", "build", None);
@@ -83,4 +84,19 @@ fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
     let output = ps.run(&script).unwrap();
     let result = output.stdout().unwrap_or_default();
     println!("Result: {}", result);
+}
+
+fn delete_file_if_exists(path: &str) {
+    let fullpath = Path::new(path);
+    if !fullpath.exists() {
+        return;
+    }
+    match fs::remove_file(fullpath) {
+        Ok(_) => {
+            println!("Deleted file: {}", path);
+        }
+        Err(error) => {
+            println!("Failed to delete file: {}", error);
+        }
+    };
 }

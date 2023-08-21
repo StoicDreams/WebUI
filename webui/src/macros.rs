@@ -34,6 +34,7 @@ pub mod titles;
 
 pub use classes::*;
 pub use contexts::*;
+pub use helpers::*;
 pub use list_items::*;
 pub use paragraphs::*;
 pub use sync::*;
