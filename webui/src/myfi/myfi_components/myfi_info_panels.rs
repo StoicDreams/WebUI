@@ -72,8 +72,9 @@ fn display_login_signup() -> Html {
         if let Some(site_id) = &user.site_id {
             let href = format!("https://www.stoicdreams.com/signin?siteid={site_id}",);
             return html! {
-                <Paper>
+                <Paper style="max-width:400px;" class="d-flex flex-column gap-2">
                     <Link href={href} target="_self" class="btn theme-primary">{"Sign In with Stoic Dreams"}</Link>
+                    <Quote color={Theme::Info}>{"Stoic Dreams Account Services is provided securely through www.stoicdreams.com. Clicking this Sign-In button will redirect you to www.stoicdreams.com where you can sign-in to your Stoic Dreams account and choose what personal information, such as your full name and email, is shared with this site."}</Quote>
                 </Paper>
             };
         }

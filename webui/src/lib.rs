@@ -32,6 +32,10 @@ pub mod states;
 #[cfg(feature = "stoic")]
 mod stoic;
 
+#[macro_use]
+extern crate webui_procs;
+pub use webui_procs::*;
+
 /// Generalized macros
 #[macro_use]
 pub mod macros;

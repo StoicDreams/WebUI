@@ -1,7 +1,8 @@
 [package]
 name = "webui"
-version = "0.6.37" #sync
+version = "0.6.40" #syncwebui
 
+crate-type = ["dylib", "rlib"]
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 keywords = ["webassembly", "ui"]
@@ -23,6 +24,7 @@ nextpagebutton = []
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+webui_procs = { path = "../webui_procs" }
 web-sys = "0.3"
 yew = "0.20"
 yew-agent = "0.2"

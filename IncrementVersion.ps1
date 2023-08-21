@@ -83,16 +83,18 @@ if ($null -ne $version) {
     Write-Host Path: "Root Path Start: $rootpath"
 
     ApplyVersionUpdates .\webui\src\components\layout app_footer.rs 'Web UI version ([0-9\.]+)' "Web UI version $version"
-    ApplyVersionUpdates .\webui Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
-    ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
-    ApplyVersionUpdates .\webuisave Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
-    ApplyVersionUpdates .\webapp_post_build Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
-    ApplyVersionUpdates .\saveweb Cargo.toml 'version = "([0-9\.]+)"[ ]*#sync' "version = ""$version"" #sync"
+    ApplyVersionUpdates .\webui Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
+    ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
+    ApplyVersionUpdates .\webuisave Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
+    ApplyVersionUpdates .\webapp_post_build Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
+    ApplyVersionUpdates .\saveweb Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates .\webapp Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$version"""
     ApplyVersionUpdates .\ README.md 'Version ([0-9\.]+)' "Version $version"
     ApplyVersionUpdates .\webui README.md 'webui = "([0-9\.]+)"' "webui = ""$version"""
     ApplyVersionUpdates .\webui README.md 'webui = { version = "([0-9\.]+)"' "webui = { version = ""$version"""
-    ApplyVersionUpdates .\webapp service-worker.js 'webui_([0-9\.]+)' "webui_$version"
+    ApplyVersionUpdates "..\..\" service-worker.js 'webui_([0-9\.]+)' "webui_$version"
+    ApplyVersionUpdates "..\..\" Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
+    ApplyVersionUpdates "..\..\" README.md '\[WebUI Version\: ([0-9\.]+)\]\(https\://github\.com/StoicDreams/RustWebUI\)' "[WebUI Version: $version](https://github.com/StoicDreams/RustWebUI)"
 }
 else {
     Write-Host Current version was not found -ForegroundColor Red

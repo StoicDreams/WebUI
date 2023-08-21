@@ -20,7 +20,7 @@ fn main() {
     check_correct_folder();
     copy_static_files();
     run("cargo", "test");
-    if let Some(_commit) = args.commit.clone() {
+    if args.commit.is_some() {
         let version_args = &mut Vec::new();
         version_args.push("./IncrementVersion.ps1");
         if args.major {
@@ -42,7 +42,6 @@ fn main() {
         if args.publish {
             run_ma("cargo", &["publish", "-p", "webui"]);
         }
-        run("pwsh", "./SyncVersionToLocalProjects.ps1");
     }
     run("echo", "Finished Successfully");
 }

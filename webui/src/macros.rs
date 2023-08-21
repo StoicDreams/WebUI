@@ -9,15 +9,14 @@ pub mod classes;
 #[macro_use]
 pub mod contexts;
 
+#[macro_use]
+pub mod helpers;
+
 /// Macro for splitting up arguments into list items
 ///
 /// <li>text segment</li>
 #[macro_use]
 pub mod list_items;
-
-#[macro_use]
-#[cfg(feature = "myfi")]
-pub mod myfi;
 
 /// Macros for splitting up arguments into paragraphs
 ///

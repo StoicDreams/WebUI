@@ -1,3 +1,10 @@
 [workspace]
 
-members = ["saveweb", "webui", "webuisave", "webapp", "webapp_post_build"]
+members = [
+    "saveweb",
+    "webui_procs",
+    "webui",
+    "webuisave",
+    "webapp",
+    "webapp_post_build",
+]
