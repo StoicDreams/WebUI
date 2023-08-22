@@ -113,6 +113,7 @@ fn sign_out(contexts: Contexts) {
         Callback::from(move |_| {
             contexts_signout.user.set(None);
             myfi_sign_out(contexts_signout.clone(), SignoutScope::ThisWebsite);
+            set_user_storage_data(String::from("stoic_dreams_auth_token"), String::default());
         })
     };
     let confirm_signout_this_browser = {
@@ -120,6 +121,7 @@ fn sign_out(contexts: Contexts) {
         Callback::from(move |_| {
             contexts_signout.user.set(None);
             myfi_sign_out(contexts_signout.clone(), SignoutScope::ThisBrowser);
+            set_user_storage_data(String::from("stoic_dreams_auth_token"), String::default());
         })
     };
     let confirm_signout_this_all_devices = {
@@ -127,6 +129,7 @@ fn sign_out(contexts: Contexts) {
         Callback::from(move |_| {
             contexts_signout.user.set(None);
             myfi_sign_out(contexts_signout.clone(), SignoutScope::AllDevices);
+            set_user_storage_data(String::from("stoic_dreams_auth_token"), String::default());
         })
     };
     let render_confirmation = {

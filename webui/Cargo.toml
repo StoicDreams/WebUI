@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.6.43" #syncwebui
+version = "0.6.44" #syncwebui
 
 crate-type = ["dylib", "rlib"]
 edition = "2021"
