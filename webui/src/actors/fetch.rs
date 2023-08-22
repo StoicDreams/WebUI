@@ -38,13 +38,9 @@ impl FetchRequest {
             use_cors: false,
         }
     }
-    pub fn new_cors(url: String, method: FetchMethod) -> Self {
-        Self {
-            url,
-            method,
-            headers: HashMap::new(),
-            use_cors: true,
-        }
+    pub fn use_cors(&mut self) -> &mut Self {
+        self.use_cors = true;
+        self
     }
     pub fn add_header(&mut self, key: &str, value: &str) -> &mut Self {
         self.headers.insert(String::from(key), String::from(value));
@@ -99,12 +95,14 @@ fn build_url(url: &str) -> String {
 struct FetchOptions {
     method: String,
     body: Option<String>,
+    headers: HashMap<String, String>,
 }
 
 /// Fetch data from server with CORS policy enabled
 pub async fn fetch_cors(request: FetchRequest) -> FetchResponse {
-    let request = FetchRequest::new_cors(request.url, request.method);
-    fetch(request).await
+    let mut request = request.to_owned();
+    request.use_cors();
+    fetch(request.to_owned()).await
 }
 
 /// Fetch data from server
@@ -112,6 +110,7 @@ pub async fn fetch(request: FetchRequest) -> FetchResponse {
     let mut options = FetchOptions {
         method: request.method.to_http_method(),
         body: None,
+        headers: request.headers,
     };
     match request.method {
         FetchMethod::Get => (),
@@ -121,8 +120,15 @@ pub async fn fetch(request: FetchRequest) -> FetchResponse {
         FetchMethod::Delete => (),
     };
 
-    let json = serde_json::to_string(&options).unwrap();
     let url = build_url(&request.url);
+    #[cfg(feature = "myfi")]
+    if is_domain(&url, "*.myfi.ws") {
+        let authkey = get_user_storage_data("stoic_dreams_auth_token".to_string());
+        if !authkey.is_empty() {
+            options.headers.insert(String::from("x-auth"), authkey);
+        }
+    }
+    let json = serde_json::to_string(&options).unwrap();
     let result = webui_fetch(url, json, request.use_cors).await;
     if let Some(result) = result.as_string() {
         if let Ok(result) = serde_json::from_str::<FetchResponse>(&result) {
@@ -130,4 +136,55 @@ pub async fn fetch(request: FetchRequest) -> FetchResponse {
         }
     }
     FetchResponse::error()
+}
+
+#[allow(dead_code)]
+fn is_domain(url: &str, domain: &str) -> bool {
+    let in_segments = domain.split('.').collect::<Vec<&str>>();
+    if !url.starts_with("https://") {
+        return false;
+    }
+    let dom_segments = url.split("https://").collect::<Vec<&str>>()[1]
+        .split('/')
+        .collect::<Vec<&str>>()[0]
+        .split('.')
+        .collect::<Vec<&str>>();
+    if in_segments.len() != dom_segments.len() {
+        return false;
+    }
+    for (index, item) in in_segments.iter().enumerate() {
+        if *item == "*" {
+            continue;
+        }
+        match dom_segments.get(index) {
+            Some(segment) => {
+                if *segment != *item {
+                    return false;
+                }
+            }
+            None => {
+                return false;
+            }
+        }
+    }
+    true
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn verify_myfi_domains() {
+        use web_sys::console::assert;
+
+        assert!(is_domain("https://auth.myfi.ws", "*.myfi.ws"));
+        assert!(is_domain("https://auth.myfi.ws/some_command", "*.myfi.ws"));
+        assert!(is_domain(
+            "https://auth.myfi.ws/category/some_command",
+            "*.myfi.ws"
+        ));
+        assert!(!is_domain("myfi.ws", "*.myfi.ws"));
+        assert!(!is_domain("https://www.bing.com", "*.myfi.ws"));
+    }
 }
