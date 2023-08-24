@@ -115,7 +115,7 @@ const memStorage = (function () {
             });
         }
         getItem(key) {
-            return memStorageCache[key];
+            return memStorageCache[key] ?? "";
         }
         acceptLocalStorage() {
             acceptedStorage = ACCEPT_LOCAL_STORAGE;
