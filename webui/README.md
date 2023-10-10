@@ -1,6 +1,6 @@
 # Web UI
 
-[WebUI Version: 0.6.45](https://github.com/StoicDreams/RustWebUI)
+[WebUI Version: 0.6.46](https://github.com/StoicDreams/RustWebUI)
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
@@ -102,11 +102,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.6.45"
+webui = "0.6.46"
 # Customize with specific feature flags (pages is included by default)
-# webui = { version = "0.6.45", default-features = false }
-# webui = { version = "0.6.45", features = ["all"] }
-# webui = { version = "0.6.45", features = ["myfi", "pages"] }
+# webui = { version = "0.6.46", default-features = false }
+# webui = { version = "0.6.46", features = ["all"] }
+# webui = { version = "0.6.46", features = ["myfi", "pages"] }
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/RustWebUI", branch = "main" }
 ```
@@ -166,7 +166,7 @@ trunk serve --open
 
 ## Author
 
-**[Erik Gassler](https://www.erikgassler.com) - [Stoic Dreams](https://www.stoicdreams.com)** - Just a simpleton who likes making stuff with bits and bytes.
+**[Erik Gassler](https://www.erikgassler.com) - [Stoic Dreams](https://www.stoicdreams.com)** - Forging solutions for tomorrow's software development.
 
 **Support** - Visit [Stoic Dreams' GitHub Sponsor page](https://github.com/sponsors/StoicDreams) if you would like to provide support to Stoic Dreams.
 
