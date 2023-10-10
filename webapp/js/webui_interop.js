@@ -18,16 +18,7 @@ let pageTransitionDuration = 300;
 export function push_state(path) {
     let cp = location.pathname.toLowerCase().split('?')[0].split('#')[0];
     if (path == cp) { return; }
-    let app = document.getElementById('app');
-    app.className = 'page transition out';
     history.pushState(null, null, path);
-    let halftran = pageTransitionDuration / 2;
-    setTimeout(() => {
-        app.className = 'page transition in';
-        setTimeout(() => {
-            app.className = '';
-        }, halftran);
-    }, halftran);
 }
 
 export function set_page_transition_duration(value) {

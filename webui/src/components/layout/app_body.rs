@@ -31,6 +31,7 @@ pub(crate) fn app_body() -> Html {
                     let new_path = new_path.clone();
                     page_state_out.set(PageState::TransitionOut);
                     set_timeout!(300, {
+                        push_state(&new_path);
                         let page_state_hidden = page_state_out.clone();
                         let path = path.clone();
                         let new_path = new_path.clone();
