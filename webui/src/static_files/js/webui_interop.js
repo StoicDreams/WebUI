@@ -119,6 +119,7 @@ const memStorage = (function () {
         }
         acceptLocalStorage() {
             acceptedStorage = ACCEPT_LOCAL_STORAGE;
+            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             sessionStorage.clear();
             Object.keys(memStorageCache).forEach(key => {
                 localStorage.setItem(key, memStorageCache[key]);
@@ -126,6 +127,7 @@ const memStorage = (function () {
         }
         acceptSessionStorage() {
             acceptedStorage = ACCEPT_SESSION_STORAGE;
+            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             localStorage.clear();
             Object.keys(memStorageCache).forEach(key => {
                 sessionStorage.setItem(key, memStorageCache[key]);
@@ -133,6 +135,7 @@ const memStorage = (function () {
         }
         rejectCachedStorage() {
             acceptedStorage = REJECT_STORAGE_CACHING;
+            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             sessionStorage.clear();
             localStorage.clear();
         }

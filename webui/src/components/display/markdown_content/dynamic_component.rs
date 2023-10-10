@@ -52,6 +52,6 @@ pub fn dynamic_component(props: &DynamicComponentProps) -> Html {
         }
     }
     html!(
-        <Paper>{format!("Component <{} /> not found!", props.name)}</Paper>
+        <Paper>{format!("Component <{}> not found!", props.name)}</Paper>
     )
 }
