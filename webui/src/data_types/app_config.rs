@@ -118,6 +118,10 @@ impl AppConfigBuilder {
     ///
     /// Run this to finalize your app configuration.
     pub fn build(&mut self) -> AppConfig {
+        #[cfg(feature = "myfi")]
+        {
+            self.register_component("MyFiStorageConcent", render_myfi_storage_concent);
+        }
         AppConfig {
             app_name: self.app_name.to_string(),
             company_name: self.company_name.to_string(),

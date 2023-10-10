@@ -1,5 +1,11 @@
 use crate::prelude::*;
 
+pub fn render_myfi_storage_concent(_contexts: Contexts) -> Html {
+    html!(
+        <MyFiStorageConcent />
+    )
+}
+
 #[function_component(MyFiStorageConcent)]
 pub fn myfi_storage_concent() -> Html {
     let app_type = "website";
