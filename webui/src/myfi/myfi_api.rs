@@ -13,19 +13,21 @@ const MYFI_ROOT_AUTH: &str = "auth";
 const MYFI_URL_MYINFO: &str = "myinfo";
 const MYFI_URL_SIGNOUT: &str = "signout";
 
-pub(crate) async fn myfi_get_my_info(user_state: UseStateHandle<Option<MyFiUser>>) {
+pub(crate) async fn myfi_get_my_info(user_state: UseStateHandle<Option<MyFiUser>>) -> bool {
     let user_state = user_state.clone();
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_MYINFO);
     let response = fetch_cors(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
     if response.is_ok() {
         if let Some(result) = response.get_result() {
             if let Ok(user) = serde_json::from_str::<MyFiUser>(&result) {
+                let roles = user.roles.to_owned();
                 user_state.clone().set(Some(user));
-                return;
+                return roles > 0;
             }
         }
     }
     user_state.clone().set(Some(MyFiUser::default()));
+    false
 }
 
 pub enum SignoutScope {

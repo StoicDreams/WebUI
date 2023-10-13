@@ -123,7 +123,7 @@ pub async fn fetch(request: FetchRequest) -> FetchResponse {
     let url = build_url(&request.url);
     #[cfg(feature = "myfi")]
     if is_domain(&url, "*.myfi.ws") && !is_domain(&url, "cdn.myfi.ws") {
-        let authkey = get_user_storage_data("stoic_dreams_auth_token".to_string());
+        let authkey = get_user_storage_data(get_myfi_auth_token_key());
         if !authkey.is_empty() {
             options.headers.insert(String::from("x-auth"), authkey);
         }

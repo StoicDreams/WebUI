@@ -2,8 +2,7 @@
 pub use crate::actors::fetch::*;
 pub use crate::actors::global_data::*;
 pub use crate::actors::input_state::*;
-pub use crate::common::classes::*;
-pub use crate::common::elevation::*;
+pub use crate::common::*;
 pub use crate::components::*;
 pub use crate::constants::*;
 pub use crate::data_types::*;

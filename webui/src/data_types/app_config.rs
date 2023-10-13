@@ -153,6 +153,24 @@ impl AppConfigBuilder {
     /// Set settings for navigation routing
     pub fn set_nav_routing(&mut self, nav_routing: Vec<NavRoute>) -> &mut Self {
         self.nav_routing = nav_routing;
+        #[cfg(feature = "myfi")]
+        {
+            let mut nav_routing = self.nav_routing.to_owned();
+            let mut myfi_nav = vec![NavGroupInfo::link(
+                "MyFiPages",
+                "fa-solid fa-user-secret",
+                roles::INVALID,
+                vec![NavLinkInfo::link(
+                    "Stoic Dreams Account Authentication",
+                    "/sdauth",
+                    "fa-solid fa-user",
+                    roles::PUBLIC,
+                    page_sdauth,
+                )],
+            )];
+            nav_routing.append(&mut myfi_nav);
+            self.nav_routing = nav_routing;
+        }
         self
     }
     /// Hide the Powered By Web UI link in the footer
