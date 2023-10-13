@@ -59,6 +59,7 @@ Validating account.
                 let user_state = contexts.clone().user;
                 match myfi_get_my_info(user_state).await {
                     true => {
+                        nav_to!(contexts, "/sdauth");
                         pmthread.set(String::from(
                             r#"
 ```quote "success"
@@ -66,7 +67,6 @@ Sign-in to Stoic Dreams account successful.
 ```
 "#,
                         ));
-                        nav_to!(contexts, "/sdauth");
                     }
                     false => {
                         pmthread.set(String::from(
