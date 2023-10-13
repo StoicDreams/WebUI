@@ -184,7 +184,6 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
         }
         DrawerMessage::Close => {
             let is_open = is_open_handle.deref().to_owned();
-            jslog!("Close drawer:{}", is_open);
             if is_open {
                 is_open_handle.set(false);
                 is_transition_handle.set(true);

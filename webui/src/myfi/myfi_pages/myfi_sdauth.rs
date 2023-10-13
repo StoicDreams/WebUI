@@ -22,7 +22,7 @@ fn render_page() -> Html {
                 <MyFiStorageConcent />
                 <Paper class="d-flex flex-column justify-left align-left">
                     <Quote color={Theme::Success}>
-                        {"You "}
+                        {"You are currently signed in with your Stoic Dreams account."}
                     </Quote>
                 </Paper>
                 <NextPageButton url="/" snap_bottom={false} />

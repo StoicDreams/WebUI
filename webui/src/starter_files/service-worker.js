@@ -11,7 +11,7 @@ function get_uuid() {
         });
     }
 }
-const currentVersion = location.host.substring(0, 9) === 'localhost' ? `${get_uuid()}` : 'webui_0.6.51';
+const currentVersion = location.host.substring(0, 9) === 'localhost' ? `${get_uuid()}` : 'webui_0.6.52';
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${currentVersion}`;
 const offlineAssetsInclude = [/\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/];
