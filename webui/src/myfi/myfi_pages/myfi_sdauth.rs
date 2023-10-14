@@ -59,7 +59,7 @@ Validating account.
                 let user_state = contexts.clone().user;
                 match myfi_get_my_info(user_state).await {
                     true => {
-                        nav_to!(contexts, "/sdauth");
+                        push_state("/sdauth");
                         pmthread.set(String::from(
                             r#"
 ```quote "success"
