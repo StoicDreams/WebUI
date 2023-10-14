@@ -42,7 +42,7 @@ Validating account.
     if !displayed_markdown.contains("Validating account.") {
         return html! {
             <>
-                <Loading variant={LoadingVariant::StripedBar} color={Theme::Primary} size={LOADING_SIZE_XLARGE} />
+                <MyFiStorageConsent />
                 <Paper class="d-flex flex-column justify-left align-left">
                     <MarkdownContent markdown={displayed_markdown} />
                 </Paper>
@@ -92,7 +92,7 @@ Expected key was not found for account authentication.
     });
     html! {
         <>
-            <MyFiStorageConsent />
+            <Loading variant={LoadingVariant::StripedBar} color={Theme::Primary} size={LOADING_SIZE_XLARGE} />
             <Paper class="d-flex flex-column justify-left align-left">
                 <MarkdownContent markdown={displayed_markdown} />
             </Paper>
