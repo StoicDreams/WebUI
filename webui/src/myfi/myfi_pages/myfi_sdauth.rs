@@ -19,7 +19,7 @@ fn render_page() -> Html {
     if auth_key.is_none() {
         return html! {
             <>
-                <MyFiStorageConcent />
+                <MyFiStorageConsent />
                 <Paper class="d-flex flex-column justify-left align-left">
                     <Quote color={Theme::Success}>
                         {"You are currently signed in with your Stoic Dreams account."}
@@ -42,11 +42,10 @@ Validating account.
     if !displayed_markdown.contains("Validating account.") {
         return html! {
             <>
-                <MyFiStorageConcent />
+                <Loading variant={LoadingVariant::StripedBar} color={Theme::Primary} size={LOADING_SIZE_XLARGE} />
                 <Paper class="d-flex flex-column justify-left align-left">
                     <MarkdownContent markdown={displayed_markdown} />
                 </Paper>
-                <NextPageButton url="/" snap_bottom={false} />
             </>
         };
     }
@@ -93,7 +92,7 @@ Expected key was not found for account authentication.
     });
     html! {
         <>
-            <MyFiStorageConcent />
+            <MyFiStorageConsent />
             <Paper class="d-flex flex-column justify-left align-left">
                 <MarkdownContent markdown={displayed_markdown} />
             </Paper>

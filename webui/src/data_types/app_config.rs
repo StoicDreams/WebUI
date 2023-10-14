@@ -120,7 +120,7 @@ impl AppConfigBuilder {
     pub fn build(&mut self) -> AppConfig {
         #[cfg(feature = "myfi")]
         {
-            self.register_component("MyFiStorageConcent", render_myfi_storage_concent);
+            self.register_component("MyFiStorageConsent", render_myfi_storage_consent);
         }
         AppConfig {
             app_name: self.app_name.to_string(),

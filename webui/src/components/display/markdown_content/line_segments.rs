@@ -6,7 +6,7 @@ const PTN_ANCHOR: &str = r"\[[^\]]+\]\([^\)]+\)";
 const PTN_ANCHOR_SEGMENTS: &str =
     r#"\[(?P<display>[^\]]+)\]\((?P<url>[^"\)]+)"?(?P<title>[^"]*)"?\)"#;
 const PTN_AVATAR: &str = r"!\[[^\]]*\]\([^\)]+\)";
-const PTN_AVATAR_SEGMENTS: &str = r#"!\[?(?P<alt>[^\]]+)\]\((?P<url>[^\)]+)\)"#;
+const PTN_AVATAR_SEGMENTS: &str = r"!\[?(?P<alt>[^\]]+)\]\((?P<url>[^\)]+)\)";
 pub(super) fn render_line_segment(segment: &str) -> Html {
     let line_pattern = Regex::new(&format!("^{}$", PTN_AVATAR)).unwrap();
     if line_pattern.is_match(segment) {

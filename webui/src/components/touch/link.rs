@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 /// Properties for NavLink component
 #[derive(Properties, PartialEq)]
-pub struct NavLinkProps {
+pub struct LinkProps {
     pub href: String,
     #[prop_or_default]
     pub target: String,
@@ -19,7 +19,7 @@ pub struct NavLinkProps {
 }
 
 #[function_component(Link)]
-pub fn link(props: &NavLinkProps) -> Html {
+pub fn link(props: &LinkProps) -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     let classes = &mut Classes::new();
     classes.push("navlink");

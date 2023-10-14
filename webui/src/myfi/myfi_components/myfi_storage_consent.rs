@@ -1,13 +1,13 @@
 use crate::prelude::*;
 
-pub fn render_myfi_storage_concent(_contexts: Contexts) -> Html {
+pub fn render_myfi_storage_consent(_contexts: Contexts) -> Html {
     html!(
-        <MyFiStorageConcent />
+        <MyFiStorageConsent />
     )
 }
 
-#[function_component(MyFiStorageConcent)]
-pub fn myfi_storage_concent() -> Html {
+#[function_component(MyFiStorageConsent)]
+pub fn myfi_storage_consent() -> Html {
     let app_type = "website";
     let current_setting = use_state(|| get_user_storage_data(String::from("storage_accepted")));
     let confirm_local_storage = {

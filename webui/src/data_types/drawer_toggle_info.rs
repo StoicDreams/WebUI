@@ -58,7 +58,7 @@ impl DrawerToggleInfo {
         }
     }
     pub(crate) fn get_options(&self) -> AppDrawerOptions {
-        let title = self.title.clone();
+        let title = self.title.to_owned();
         let mut builder: AppDrawerOptionsBuilder = AppDrawerOptions::builder(
             DynContextsHtml::new(move |contexts| {
                 html! {(title)(contexts)}

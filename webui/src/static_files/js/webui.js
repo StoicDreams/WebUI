@@ -38,12 +38,6 @@
         // Disabling local navigation which will be handled by PWA webasembly processing
         if (anchor.href[0] === '/'
             || anchor.href.substr(0, location.origin.length).toLowerCase() === location.origin.toLowerCase()) {
-            history.pushState(null, null, anchor.href);
-            return true;
-        }
-        // Assuring external navigation opens a new window|tab
-        if (anchor.href.substr(0, 4) === 'http') {
-            window.open(anchor.href, '_blank');
             return true;
         }
         return false;
