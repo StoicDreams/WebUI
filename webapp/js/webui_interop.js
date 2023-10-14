@@ -16,8 +16,6 @@ export function set_title(title) {
 
 let pageTransitionDuration = 300;
 export function push_state(path) {
-    let cp = location.pathname.toLowerCase().split('?')[0].split('#')[0];
-    if (path == cp) { return; }
     history.pushState(null, null, path);
 }
 
