@@ -52,5 +52,7 @@ pub fn myfi_sign_out(contexts: Contexts, scope: SignoutScope) {
         _ = fetch_cors(request).await;
         user_state.clone().set(Some(MyFiUser::default()));
         alert!(contexts, "Success", "You have successfully signed out.");
+        set_user_storage_data(String::from("stoic_dreams_auth_token"), String::default());
+        myfi_get_my_info(user_state).await;
     });
 }
