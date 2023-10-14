@@ -17,17 +17,7 @@ fn render_page() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     let auth_key = query_url("key");
     if auth_key.is_none() {
-        return html! {
-            <>
-                <MyFiStorageConsent />
-                <Paper class="d-flex flex-column justify-left align-left">
-                    <Quote color={Theme::Success}>
-                        {"You are currently signed in with your Stoic Dreams account."}
-                    </Quote>
-                </Paper>
-                <NextPageButton url="/" snap_bottom={false} />
-            </>
-        };
+        return render_no_key(contexts);
     }
     let page_messages = use_state(|| {
         String::from(
@@ -90,11 +80,53 @@ Expected key was not found for account authentication.
             }
         }
     });
+    render_loading(&displayed_markdown)
+}
+
+fn render_no_key(contexts: Contexts) -> Html {
+    match contexts.user.deref().to_owned() {
+        Some(user) => {
+            if user.roles == 0 {
+                html! {
+                    <>
+                        <Paper class="d-flex flex-column justify-left align-left">
+                            <Quote color={Theme::Success}>
+                                {"You are currently signed in with your Stoic Dreams account."}
+                            </Quote>
+                        </Paper>
+                        <NextPageButton url="/" snap_bottom={false} />
+                    </>
+                }
+            } else {
+                html! {
+                    <>
+                        <MyFiStorageConsent />
+                        <Paper class="d-flex flex-column justify-left align-left">
+                            <Quote color={Theme::Success}>
+                                {"You are currently signed in with your Stoic Dreams account."}
+                            </Quote>
+                        </Paper>
+                        <NextPageButton url="/" snap_bottom={false} />
+                    </>
+                }
+            }
+        }
+        None => render_loading(
+            r#"
+```quote "info"
+Loading user information.
+```
+"#,
+        ),
+    }
+}
+
+fn render_loading(markdown: &str) -> Html {
     html! {
         <>
-            <Loading variant={LoadingVariant::StripedBar} color={Theme::Primary} size={LOADING_SIZE_XLARGE} />
             <Paper class="d-flex flex-column justify-left align-left">
-                <MarkdownContent markdown={displayed_markdown} />
+                <Loading variant={LoadingVariant::StripedBar} color={Theme::Secondary} size={LOADING_SIZE_XLARGE} />
+                <MarkdownContent markdown={markdown.to_string()} />
             </Paper>
         </>
     }
