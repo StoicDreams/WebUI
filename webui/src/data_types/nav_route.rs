@@ -23,7 +23,7 @@ pub struct NavLinkInfo {
     pub name: String,
     pub path: String,
     pub icon: String,
-    pub role: u64,
+    pub role: u32,
     pub page: fn(Contexts) -> Html,
 }
 
@@ -42,7 +42,7 @@ impl NavLinkInfo {
     ///
     /// let link_info = NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home);
     /// ```
-    pub fn new(name: &str, path: &str, icon: &str, role: u64, page: fn(Contexts) -> Html) -> Self {
+    pub fn new(name: &str, path: &str, icon: &str, role: u32, page: fn(Contexts) -> Html) -> Self {
         Self {
             name: name.to_string(),
             path: path.to_string(),
@@ -56,7 +56,7 @@ impl NavLinkInfo {
         name: &str,
         path: &str,
         icon: &str,
-        role: u64,
+        role: u32,
         page: fn(Contexts) -> Html,
     ) -> NavRoute {
         NavRoute::NavLink(Self {
@@ -84,7 +84,7 @@ impl NavLinkInfo {
 pub struct NavGroupInfo {
     pub name: String,
     pub icon: String,
-    pub role: u64,
+    pub role: u32,
     pub children: Vec<NavRoute>,
 }
 
@@ -105,7 +105,7 @@ impl NavGroupInfo {
     ///     NavRoute::NavLink(NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home))
     /// ]);
     /// ```
-    pub fn new(name: &str, icon: &str, role: u64, children: Vec<NavRoute>) -> Self {
+    pub fn new(name: &str, icon: &str, role: u32, children: Vec<NavRoute>) -> Self {
         Self {
             name: name.to_string(),
             icon: icon.to_string(),
@@ -114,7 +114,7 @@ impl NavGroupInfo {
         }
     }
 
-    pub fn link(name: &str, icon: &str, role: u64, children: Vec<NavRoute>) -> NavRoute {
+    pub fn link(name: &str, icon: &str, role: u32, children: Vec<NavRoute>) -> NavRoute {
         NavRoute::NavGroup(Self {
             name: name.to_string(),
             icon: icon.to_string(),

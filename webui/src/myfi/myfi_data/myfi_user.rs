@@ -4,7 +4,7 @@ use crate::prelude::*;
 pub struct MyFiUser {
     pub id: Option<String>,
     pub display_name: String,
-    pub roles: u64,
+    pub roles: u32,
     pub company_id: Option<String>,
     pub site_id: Option<String>,
 }
