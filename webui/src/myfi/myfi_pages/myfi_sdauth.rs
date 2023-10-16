@@ -46,7 +46,8 @@ Validating account.
             Some(key) => {
                 set_user_storage_data(get_myfi_auth_token_key(), key);
                 let user_state = contexts.clone().user;
-                match myfi_get_my_info(user_state).await {
+                let roles_state = contexts.clone().user_roles;
+                match myfi_get_my_info(user_state, roles_state).await {
                     true => {
                         push_state("/sdauth");
                         pmthread.set(String::from(

@@ -112,6 +112,7 @@ fn sign_out(contexts: Contexts) {
         let contexts_signout = contexts.clone();
         Callback::from(move |_| {
             contexts_signout.user.set(None);
+            contexts_signout.user_roles.set(0);
             myfi_sign_out(contexts_signout.clone(), SignoutScope::ThisWebsite);
         })
     };
@@ -119,6 +120,7 @@ fn sign_out(contexts: Contexts) {
         let contexts_signout = contexts.clone();
         Callback::from(move |_| {
             contexts_signout.user.set(None);
+            contexts_signout.user_roles.set(0);
             myfi_sign_out(contexts_signout.clone(), SignoutScope::ThisBrowser);
         })
     };
@@ -126,6 +128,7 @@ fn sign_out(contexts: Contexts) {
         let contexts_signout = contexts.clone();
         Callback::from(move |_| {
             contexts_signout.user.set(None);
+            contexts_signout.user_roles.set(0);
             myfi_sign_out(contexts_signout.clone(), SignoutScope::AllDevices);
         })
     };

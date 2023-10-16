@@ -22,6 +22,7 @@ pub(crate) fn app_contexts(props: &AppContextsProps) -> Html {
         data: use_state(|| None::<String>),
         nav,
         drawer: use_state(|| DrawerMessage::None),
+        user_roles: use_state(|| 0),
         #[cfg(feature = "myfi")]
         user: use_state(|| None::<MyFiUser>),
     };

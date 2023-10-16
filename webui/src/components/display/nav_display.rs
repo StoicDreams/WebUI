@@ -16,46 +16,50 @@ pub struct NavDisplayProps {
 pub fn nav_display(props: &NavDisplayProps) -> Html {
     let classes = &mut Classes::new();
     classes.push("nav-display");
-
+    let contexts = use_context::<Contexts>();
+    let user_roles = match contexts {
+        Some(contexts) => contexts.user_roles.deref().to_owned(),
+        None => 0,
+    };
     if !props.class.is_empty() {
         classes.push(&props.class);
     }
 
     html! {
         <section class={classes.clone()}>
-            {nav_display_group(&props.routes)}
+            {nav_display_group(&props.routes, &user_roles)}
             <div class="grow" />
         </section>
     }
 }
 
-fn nav_display_group(routes: &[NavRoute]) -> Html {
+fn nav_display_group(routes: &[NavRoute], user_roles: &u32) -> Html {
     html! {
         <>
             {
                 routes.iter().map(|route| {
-                    html!{display_nav_route(route)}
+                    html!{display_nav_route(route, user_roles)}
                 }).collect::<Html>()
             }
         </>
     }
 }
 
-fn display_nav_route(route: &NavRoute) -> Html {
+fn display_nav_route(route: &NavRoute, user_roles: &u32) -> Html {
     match route {
         NavRoute::NavGroup(group_info) => {
-            if group_info.role != 0 {
+            if group_info.role != 0 && group_info.role & user_roles == 0 {
                 return html! {};
             }
             html! {
                 <Paper class="nav-group">
                     <DisplayNavGroupToggle group_info={group_info.to_owned()} />
-                    {nav_display_group(&group_info.children)}
+                    {nav_display_group(&group_info.children, user_roles)}
                 </Paper>
             }
         }
         NavRoute::NavLink(link_info) => {
-            if link_info.role != 0 {
+            if link_info.role != 0 && link_info.role & user_roles == 0 {
                 return html! {};
             }
             html! {

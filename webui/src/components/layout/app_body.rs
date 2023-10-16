@@ -15,11 +15,12 @@ pub(crate) fn app_body() -> Html {
     let nav = contexts.nav.deref().to_owned();
     let path = use_state(|| interop::get_path().to_lowercase());
     let routes = contexts.config.nav_routing.clone();
+    let user_roles = contexts.user_roles.deref().to_owned();
     if let NavigationMessage::PathUpdate(new_path) = nav {
         if *path.deref() != new_path {
             contexts.nav.set(NavigationMessage::None);
             contexts.data.set(None);
-            let page_check = get_page_option(&routes, &new_path);
+            let page_check = get_page_option(&routes, &new_path, &user_roles);
             if page_check.is_some() && *page_state.deref() == PageState::Show {
                 contexts.drawer.set(DrawerMessage::Close);
                 let page_state = page_state.clone();
@@ -118,7 +119,8 @@ pub struct PageContentProps {
 #[function_component(PageContent)]
 fn page_content(props: &PageContentProps) -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
-    match use_get_page(&props.routes, &props.page) {
+    let user_roles = contexts.user_roles.deref().to_owned();
+    match use_get_page(&props.routes, &props.page, &user_roles) {
         yew::suspense::SuspensionResult::Ok(link_info) => {
             let page = link_info.page;
             html! {<>{page(contexts)}</>}
@@ -131,8 +133,12 @@ fn page_content(props: &PageContentProps) -> Html {
 }
 
 #[hook]
-fn use_get_page(routes: &[NavRoute], page: &str) -> yew::suspense::SuspensionResult<NavLinkInfo> {
-    match get_page_option(routes, page) {
+fn use_get_page(
+    routes: &[NavRoute],
+    page: &str,
+    user_roles: &u32,
+) -> yew::suspense::SuspensionResult<NavLinkInfo> {
+    match get_page_option(routes, page, user_roles) {
         Some(info) => Ok(info),
         None => {
             let (s, handle) = yew::suspense::Suspension::new();
@@ -148,11 +154,13 @@ fn get_page_failure<F: FnOnce()>(handler: F) {
     handler();
 }
 
-fn get_page_option(routes: &[NavRoute], page: &str) -> Option<NavLinkInfo> {
+fn get_page_option(routes: &[NavRoute], page: &str, user_roles: &u32) -> Option<NavLinkInfo> {
     for route in routes {
         match route {
             NavRoute::NavLink(link_info) => {
-                if link_info.path.to_lowercase() == page.to_lowercase() {
+                if link_info.path.to_lowercase() == page.to_lowercase()
+                    && (link_info.role == 0 || link_info.role & user_roles != 0)
+                {
                     return Option::Some(link_info.to_owned());
                 }
             }
@@ -160,7 +168,9 @@ fn get_page_option(routes: &[NavRoute], page: &str) -> Option<NavLinkInfo> {
                 if group_info.children.is_empty() {
                     continue;
                 }
-                if let Option::Some(link_info) = get_page_option(&group_info.children, page) {
+                if let Option::Some(link_info) =
+                    get_page_option(&group_info.children, page, user_roles)
+                {
                     return Option::Some(link_info);
                 }
             }

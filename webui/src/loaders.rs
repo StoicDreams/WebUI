@@ -27,5 +27,6 @@ pub(crate) fn loaders() -> Html {
 pub(crate) async fn myfi_loader(contexts: Contexts) {
     let context = contexts.clone();
     let user_state = context.user.clone();
-    myfi_get_my_info(user_state).await;
+    let roles_state = context.user_roles.clone();
+    myfi_get_my_info(user_state, roles_state).await;
 }

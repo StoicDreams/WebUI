@@ -19,6 +19,18 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
     let nav_routes = vec![
         NavLinkInfo::link("Home", "/", "fa-duotone fa-house", roles::PUBLIC, page_home),
         NavGroupInfo::link(
+            "Stoic Dreams Admin",
+            "fa-duotone fa-jedi",
+            roles::SITE_ADMIN,
+            vec![NavLinkInfo::link(
+                "Site Admin",
+                "/site_admin",
+                "fa-duotone fa-jedi",
+                roles::SITE_ADMIN,
+                page_site_admin_home,
+            )],
+        ),
+        NavGroupInfo::link(
             "Classes",
             "fa-duotone fa-file-code",
             roles::PUBLIC,
