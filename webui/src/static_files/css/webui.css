@@ -2441,6 +2441,15 @@ a.theme-white:active {
     color: var(--color-black);
 }
 
+.theme-shade,
+a.theme-shade:link,
+a.theme-shade:visited,
+a.theme-shade:focus,
+a.theme-shade:active {
+    background-color: var(--color-shade);
+    color: var(--color-shade-offset);
+}
+
 .theme-primary,
 a.theme-primary:link,
 a.theme-primary:visited,
