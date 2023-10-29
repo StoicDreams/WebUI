@@ -19,6 +19,8 @@ pub struct ButtonProps {
     //pub onclick: fn(ev:MouseEvent),
     #[prop_or_default]
     pub onclick: Option<Callback<MouseEvent>>,
+    #[prop_or_default]
+    pub disabled: bool,
 }
 
 /// Display button
@@ -44,6 +46,14 @@ pub fn button(props: &ButtonProps) -> Html {
         Some(callback) => callback,
         None => Callback::default(),
     };
+    if props.disabled {
+        classes.push("disabled");
+        return html! {
+            <button type="button" class={classes.to_owned()} title={props.title.to_string()} aria-label={props.title.to_string()} disabled={true}>
+                {for props.children.iter()}
+            </button>
+        };
+    }
     html! {
         <button type="button" class={classes.to_owned()} title={props.title.to_string()} aria-label={props.title.to_string()} onclick={onclick}>
             {for props.children.iter()}

@@ -1210,6 +1210,13 @@ a.btn:active,
     user-select: text;
 }
 
+.disabled,
+:disabled,
+.btn:disabled {
+    background-color: var(--color-shade);
+    color: var(--color-shade-offset);
+}
+
 .btn:disabled {
     cursor: not-allowed;
 }
