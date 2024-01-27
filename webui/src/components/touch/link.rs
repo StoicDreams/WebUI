@@ -1,3 +1,5 @@
+use web_sys::HtmlLinkElement;
+
 use crate::prelude::*;
 
 /// Properties for NavLink component
@@ -21,6 +23,7 @@ pub struct LinkProps {
 #[function_component(Link)]
 pub fn link(props: &LinkProps) -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
+    let app_config = contexts.clone().config;
     let classes = &mut Classes::new();
     classes.push("navlink");
     if !props.class.is_empty() {
@@ -31,35 +34,34 @@ pub fn link(props: &LinkProps) -> Html {
     } else {
         props.title.to_owned()
     };
-    let target = if props.target.is_empty() {
+    let target = if app_config.external_links_new_tab_only {
+        "_blank".to_owned()
+    } else if props.target.is_empty() {
         "_self".to_owned()
     } else {
         props.target.to_owned()
     };
     let mypath = props.href.to_string();
     let is_external_link = mypath.contains("://");
-    let is_open_in_new_tab = target == "_blank"
-        || target == "_new"
-        || (!mypath.starts_with("http") && mypath.contains("://"));
     let onclick = {
         let contexts = contexts.clone();
         let mypath = mypath.clone();
-        Callback::from(move |_| {
+        let target = target.clone();
+        Callback::from(move |e: MouseEvent| {
+            e.prevent_default();
             if is_external_link {
-                let window = web_sys::window().expect("no global `window` exists");
-                if is_open_in_new_tab {
-                    let _ = window.open_with_url(&mypath);
-                    return;
-                }
-                window.location().set_href(&mypath).unwrap();
+                jslog!("Open external link {}.", mypath);
+                open_external_link(&mypath, &target);
                 return;
             }
+            jslog!("Nav to {}", mypath);
             nav_to!(contexts, mypath);
         })
     };
     html! {
         <a href={mypath}
             title={title}
+            target={target}
             class={props.class.to_owned()}
             onclick={onclick}>
             {if !props.icon.is_empty() {

@@ -12,7 +12,7 @@
                 }
                 const c = Date.now();
                 if (c - start > mswait) {
-                    reject(`Element ${sel} not found.`);
+                    resolve(null);
                     return;
                 }
                 setTimeout(check, 10);

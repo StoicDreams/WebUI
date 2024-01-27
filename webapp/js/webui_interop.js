@@ -1,5 +1,15 @@
 "use strict"
 
+export function open_external_link(href, target) {
+    let is_open_in_new_tab = target && target != '_self';
+    if (is_open_in_new_tab) {
+        window.open(href, target);
+        return;
+    }
+
+    window.location.href = href;
+}
+
 export function run_method(method, args) {
     if (typeof window[method] !== 'function') {
         return null;
@@ -61,8 +71,6 @@ function TimeStamp() {
     ].join(':');
     function pad(number) { return number < 10 ? `0${number}` : number; }
 }
-
-
 
 const STORAGE_ACCEPTED_KEY = 'storage_accepted';
 const REJECT_STORAGE_CACHING = 0;

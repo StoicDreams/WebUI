@@ -24,6 +24,10 @@ macro_rules! jslog {
 
 #[wasm_bindgen(module = "/src/static_files/js/webui_interop.js")]
 extern "C" {
+    /// Handler for opening external links
+    #[wasm_bindgen]
+    pub fn open_external_link(href: &str, target: &str);
+
     /// General run method
     #[wasm_bindgen]
     pub fn run_method(method: &str, args: &JsValue) -> JsValue;

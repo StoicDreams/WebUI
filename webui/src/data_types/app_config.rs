@@ -28,6 +28,7 @@ pub struct AppConfig {
     pub user_info_panel: Option<fn(contexts: Contexts) -> Html>,
     pub copyright_year_start: Option<i16>,
     pub component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
+    pub external_links_new_tab_only: bool,
 }
 
 /// Struct holding App/Website configuration details.
@@ -54,7 +55,8 @@ pub struct AppConfigBuilder {
     pub(crate) header_strip_bar: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) user_info_panel: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) copyright_year_start: Option<i16>,
-    pub component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
+    pub(crate) component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
+    pub(crate) external_links_new_tab_only: bool,
 }
 impl AppConfig {
     /// Create an AppConfigBuilder instance to build your AppConfig with.
@@ -97,6 +99,7 @@ impl AppConfig {
             user_info_panel: None,
             copyright_year_start: None,
             component_registry: None,
+            external_links_new_tab_only: false,
         }
     }
     pub fn get_nav_from_path(&self, path: &str) -> Option<NavLinkInfo> {
@@ -151,6 +154,7 @@ impl AppConfigBuilder {
             user_info_panel: self.user_info_panel.to_owned(),
             copyright_year_start: self.copyright_year_start.to_owned(),
             component_registry: self.component_registry.to_owned(),
+            external_links_new_tab_only: self.external_links_new_tab_only,
         }
     }
 
@@ -277,6 +281,11 @@ impl AppConfigBuilder {
         };
         registry.insert(name.to_string(), component);
         self.component_registry = Some(registry);
+        self
+    }
+    /// Enforce that all external links open in new tabs instead of allowing in current tab.
+    pub fn external_links_open_new_tab_only(&mut self) -> &mut Self {
+        self.external_links_new_tab_only = true;
         self
     }
 }

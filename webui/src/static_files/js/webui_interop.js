@@ -1,5 +1,15 @@
 "use strict"
 
+export function open_external_link(href, target) {
+    let is_open_in_new_tab = target && target != '_self';
+    if (is_open_in_new_tab) {
+        window.open(href, target);
+        return;
+    }
+
+    window.location.href = href;
+}
+
 export function run_method(method, args) {
     if (typeof window[method] !== 'function') {
         return null;
@@ -62,8 +72,6 @@ function TimeStamp() {
     function pad(number) { return number < 10 ? `0${number}` : number; }
 }
 
-
-
 const STORAGE_ACCEPTED_KEY = 'storage_accepted';
 const REJECT_STORAGE_CACHING = 0;
 const ACCEPT_SESSION_STORAGE = 1;
@@ -108,7 +116,6 @@ const memStorage = (function () {
         }
         acceptLocalStorage() {
             acceptedStorage = ACCEPT_LOCAL_STORAGE;
-            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             sessionStorage.clear();
             Object.keys(memStorageCache).forEach(key => {
                 localStorage.setItem(key, memStorageCache[key]);
@@ -116,7 +123,6 @@ const memStorage = (function () {
         }
         acceptSessionStorage() {
             acceptedStorage = ACCEPT_SESSION_STORAGE;
-            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             localStorage.clear();
             Object.keys(memStorageCache).forEach(key => {
                 sessionStorage.setItem(key, memStorageCache[key]);
@@ -124,7 +130,6 @@ const memStorage = (function () {
         }
         rejectCachedStorage() {
             acceptedStorage = REJECT_STORAGE_CACHING;
-            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             sessionStorage.clear();
             localStorage.clear();
         }
