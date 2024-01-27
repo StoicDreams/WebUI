@@ -28,7 +28,7 @@ pub(crate) fn default_app_footer(contexts: Contexts) -> Html {
             if !app_config.hide_powered_by {
                 <Paper>
                     <sup>{"Powered by "}</sup>
-                    <a title="Web UI version 0.6.69" href="https://webui.stoicdreams.com">{"Web UI"}</a>
+                    <a title="Web UI version 0.6.70" href="https://webui.stoicdreams.com">{"Web UI"}</a>
                 </Paper>
             }
             <AppDrawerButton info={right_drawer_info.clone()} />
