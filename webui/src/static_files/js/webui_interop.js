@@ -5,9 +5,13 @@ setTimeout(() => {
     console.log('Setup titlebar for Tauri!');
     document.getElementById('titlebar-minimize')
         .addEventListener('click', () => window.__TAURI__.window.appWindow.minimize())
-    document.getElementById('titlebar-maximize')
-        .addEventListener('click', () => {
-            console.log(window.__TAURI__.window.appWindow);
+    const tmax = document.getElementById('titlebar-maximize');
+    tmax.addEventListener('click', async () => {
+            if (await await window.__TAURI__.window.appWindow.isMaximized()) {
+                tmax.innerHTML = tmax.getAttribute('data-maximize') || `<i class="far fa-window-maximize"></i>`;
+            } else {
+                tmax.innerHTML = tmax.getAttribute('data-restore') || `<i class="far fa-window-restore"></i>`;
+            }
             window.__TAURI__.window.appWindow.toggleMaximize();
         })
     document.getElementById('titlebar-close')
