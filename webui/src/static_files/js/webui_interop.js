@@ -1,29 +1,28 @@
 "use strict"
 
 setTimeout(() => {
-    console.log('Setup titlebar');
-    import('@tauri-apps/api/window').then(twindow=>{
-        console.log('Loaded tauri window', twindow);
-        document.getElementById('titlebar-minimize')
-            .addEventListener('click', () => twindow.minimize())
-        document.getElementById('titlebar-maximize')
-            .addEventListener('click', () => {
-                console.log(twindow);
-                twindow.toggleMaximize();
-            })
-        document.getElementById('titlebar-close')
-            .addEventListener('click', () => twindow.close())
-    }).catch(_ => {});
+    if(!window.__TAURI__) return;
+    console.log('Setup titlebar for Tauri!');
+    document.getElementById('titlebar-minimize')
+        .addEventListener('click', () => window.__TAURI__.appWindow.minimize())
+    document.getElementById('titlebar-maximize')
+        .addEventListener('click', () => {
+            console.log(window.__TAURI__.appWindow);
+            window.__TAURI__.appWindow.toggleMaximize();
+        })
+    document.getElementById('titlebar-close')
+        .addEventListener('click', () => window.__TAURI__.appWindow.close())
 }, 10);
 
-let external_link_opener = window.open;
-import('@tauri-apps/api/shell').then(shell=>{
-    console.log('Loaded tauri shell', shell);
-}).catch(_ => {});
+if (window.__TAURI__) {
+    window._native_open = window.open;
+    window.open = window.__TAURI__.shell.open;
+}
+
 export function open_external_link(href, target) {
     let is_open_in_new_tab = target && target != '_self';
     if (is_open_in_new_tab) {
-        external_link_opener(href, target);
+        window.open(href, target);
         return;
     }
 
