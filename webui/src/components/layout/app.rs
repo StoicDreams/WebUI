@@ -1,8 +1,6 @@
 use super::app_body::AppBody;
-use super::app_contexts::AppContexts;
+use super::app_contexts::*;
 use super::app_drawer::AppDrawer;
-use super::app_footer::AppFooter;
-use super::app_header::AppHeader;
 use crate::data_types::app_config::AppConfig;
 use crate::prelude::*;
 
@@ -32,22 +30,58 @@ impl Component for App {
     }
     fn view(&self, ctx: &Context<Self>) -> Html {
         let props = ctx.props();
-        html! {
-            <div id="app" class="page transition out">
-                <AppContexts
-                    config={props.config.clone()}
-                    state_keys={props.state_keys.clone()}
-                    >
-                    <crate::loaders::Loaders />
-                    <AppHeader />
-                    <AppBody />
-                    <AppFooter />
-                    <AppDrawer drawer={Direction::Top} />
-                    <AppDrawer drawer={Direction::Right} />
-                    <AppDrawer drawer={Direction::Bottom} />
-                    <AppDrawer drawer={Direction::Left} />
-                </AppContexts>
-            </div>
-        }
+        html! {<AppRender config={props.config.to_owned()} state_keys={props.state_keys.to_owned()} />}
     }
+}
+
+#[function_component(AppRender)]
+fn app_render(props: &AppProps) -> Html {
+    let nav: UseStateHandle<NavigationMessage> = use_state(|| {
+        let path = interop::get_path().to_lowercase();
+        NavigationMessage::PathUpdate(path)
+    });
+    let contexts = Contexts {
+        config: props.config.clone(),
+        page_loaded: use_state(|| "".to_string()),
+        data: use_state(|| None::<String>),
+        nav,
+        drawer: use_state(|| DrawerMessage::None),
+        user_roles: use_state(|| 0),
+        #[cfg(feature = "myfi")]
+        user: use_state(|| None::<MyFiUser>),
+    };
+    html! {
+        <div id="app" class="page transition out">
+            <ContextProvider<Contexts> context={contexts.to_owned()}>
+                <crate::loaders::Loaders />
+                <AppHeader />
+                <AppBody />
+                <AppFooter />
+                <AppDrawer drawer={Direction::Top} />
+                <AppDrawer drawer={Direction::Right} />
+                <AppDrawer drawer={Direction::Bottom} />
+                <AppDrawer drawer={Direction::Left} />
+            </ContextProvider<Contexts>>
+        </div>
+    }
+}
+
+#[function_component(AppHeader)]
+fn app_header() -> Html {
+    let contexts = use_context::<Contexts>().expect("Contexts not found");
+    let app_config = contexts.clone().config;
+    if let Some(header) = app_config.header {
+        return html! {header(contexts.to_owned())};
+    }
+    html! {}
+}
+
+#[function_component(AppFooter)]
+fn app_footer() -> Html {
+    let contexts = use_context::<Contexts>().expect("Contexts not found");
+    let app_config = contexts.clone().config;
+    if let Some(footer) = app_config.footer {
+        return html! {footer(contexts.to_owned())};
+    }
+    html! {}
 }

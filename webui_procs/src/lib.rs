@@ -1,5 +1,4 @@
 extern crate proc_macro;
-use std::ops::Add;
 
 use proc_macro::{TokenStream, TokenTree};
 

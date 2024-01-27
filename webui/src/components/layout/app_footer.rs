@@ -4,9 +4,7 @@ use rust_decimal::prelude::ToPrimitive;
 use crate::{function_component, html, use_context, AppDrawerButton, Contexts, Html, Paper};
 
 /// App footer component
-#[function_component(AppFooter)]
-pub(crate) fn app_footer() -> Html {
-    let contexts = use_context::<Contexts>().expect("Contexts not found");
+pub(crate) fn default_app_footer(contexts: Contexts) -> Html {
     let app_config = contexts.config;
     let left_drawer_info = app_config.footer_left_drawer_toggle.clone();
     let bottom_drawer_info = app_config.footer_bottom_drawer_toggle.clone();
@@ -30,7 +28,7 @@ pub(crate) fn app_footer() -> Html {
             if !app_config.hide_powered_by {
                 <Paper>
                     <sup>{"Powered by "}</sup>
-                    <a title="Web UI version 0.6.67" href="https://webui.stoicdreams.com">{"Web UI"}</a>
+                    <a title="Web UI version 0.6.68" href="https://webui.stoicdreams.com">{"Web UI"}</a>
                 </Paper>
             }
             <AppDrawerButton info={right_drawer_info.clone()} />

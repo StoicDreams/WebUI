@@ -99,7 +99,7 @@ fn run_ma(command: &str, commandargs: &[&str]) {
     let output = Command::new(command)
         .args(commandargs)
         .output()
-        .expect("BAD");
+        .expect("Command failed");
 
     if !output.status.success() {
         let s = String::from_utf8_lossy(&output.stderr);

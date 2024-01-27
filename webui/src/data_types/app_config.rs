@@ -1,6 +1,9 @@
 use crate::data_types::drawer_toggle_info::DrawerToggleInfo;
 use crate::prelude::*;
 
+use self::app_footer::default_app_footer;
+use self::app_header::default_app_header;
+
 /// Struct holding App/Website configuration details.
 ///
 /// This is required to be created on app startup and passed into webui::start_app(app_config)
@@ -13,6 +16,8 @@ pub struct AppConfig {
     pub header_logo_src: Option<String>,
     pub hide_powered_by: bool,
     pub nav_routing: Vec<NavRoute>,
+    pub header: Option<fn(contexts: Contexts) -> Html>,
+    pub footer: Option<fn(contexts: Contexts) -> Html>,
     pub header_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub header_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub header_top_drawer_toggle: Option<DrawerToggleInfo>,
@@ -41,9 +46,11 @@ pub struct AppConfigBuilder {
     pub(crate) header_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) header_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) header_top_drawer_toggle: Option<DrawerToggleInfo>,
+    pub(crate) footer: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) footer_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) footer_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
+    pub(crate) header: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) header_strip_bar: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) user_info_panel: Option<fn(contexts: Contexts) -> Html>,
     pub(crate) copyright_year_start: Option<i16>,
@@ -78,9 +85,11 @@ impl AppConfig {
             header_logo_src: None,
             hide_powered_by: false,
             nav_routing: Vec::new(),
+            header: Some(default_app_header),
             header_left_drawer_toggle: None,
             header_right_drawer_toggle: None,
             header_top_drawer_toggle: None,
+            footer: Some(default_app_footer),
             footer_left_drawer_toggle: None,
             footer_right_drawer_toggle: None,
             footer_bottom_drawer_toggle: None,
@@ -130,9 +139,11 @@ impl AppConfigBuilder {
             header_logo_src: self.header_logo_src.to_owned(),
             hide_powered_by: self.hide_powered_by.to_owned(),
             nav_routing: self.nav_routing.to_owned(),
+            header: self.header.to_owned(),
             header_left_drawer_toggle: self.header_left_drawer_toggle.to_owned(),
             header_right_drawer_toggle: self.header_right_drawer_toggle.to_owned(),
             header_top_drawer_toggle: self.header_top_drawer_toggle.to_owned(),
+            footer: self.footer.to_owned(),
             footer_left_drawer_toggle: self.footer_left_drawer_toggle.to_owned(),
             footer_right_drawer_toggle: self.footer_right_drawer_toggle.to_owned(),
             footer_bottom_drawer_toggle: self.footer_bottom_drawer_toggle.to_owned(),
@@ -180,6 +191,21 @@ impl AppConfigBuilder {
         self.hide_powered_by = true;
         self
     }
+    /// Set your website/app to have no header
+    pub fn set_no_header(&mut self) -> &mut Self {
+        self.header = None;
+        self
+    }
+    /// Set a custom header component to use instead of the default header
+    pub fn set_header(&mut self, header: fn(contexts: Contexts) -> Html) -> &mut Self {
+        self.header = Some(header);
+        self
+    }
+    /// Set extra content to display in the header, between the middle togle button and the user info panel
+    pub fn set_header_strip_bar(&mut self, strip_bar: fn(contexts: Contexts) -> Html) -> &mut Self {
+        self.header_strip_bar = Some(strip_bar);
+        self
+    }
     /// Set a handler for a drawer toggle button
     ///
     /// This button will be displayed in the header, as the first item.
@@ -202,6 +228,16 @@ impl AppConfigBuilder {
         self.header_right_drawer_toggle = Some(drawer_info);
         self
     }
+    /// Set your website/app to have no footer
+    pub fn set_no_footer(&mut self) -> &mut Self {
+        self.footer = None;
+        self
+    }
+    /// Set a custom footer component to use instead of the default footer
+    pub fn set_footer(&mut self, footer: fn(contexts: Contexts) -> Html) -> &mut Self {
+        self.footer = Some(footer);
+        self
+    }
     /// Set a handler for a drawer toggle button
     ///
     /// This button will be displayed in the footer, as the first item.
@@ -221,11 +257,6 @@ impl AppConfigBuilder {
     /// This button will be displayed in the footer, as the last item.
     pub fn set_drawer_toggle_footer_right(&mut self, drawer_info: DrawerToggleInfo) -> &mut Self {
         self.footer_right_drawer_toggle = Some(drawer_info);
-        self
-    }
-    /// Set extra content to display in the header, between the middle togle button and the user info panel
-    pub fn set_header_strip_bar(&mut self, strip_bar: fn(contexts: Contexts) -> Html) -> &mut Self {
-        self.header_strip_bar = Some(strip_bar);
         self
     }
     /// Set extra content to display in the header, between the middle togle button and the user info panel

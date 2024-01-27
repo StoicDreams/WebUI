@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.6.67" #syncwebui
+version = "0.6.68" #syncwebui
 
 crate-type = ["dylib", "rlib"]
 edition = "2021"
@@ -17,9 +17,9 @@ homepage = "https://webui.stoicdreams.com"
 all = ["myfi", "nextpagebutton", "pages"]
 default = ["pages"]
 myfi = []
+nextpagebutton = []
 pages = []
 stoic = []
-nextpagebutton = []
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
