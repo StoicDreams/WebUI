@@ -1,17 +1,17 @@
 "use strict"
 
 setTimeout(() => {
-    if(!window.__TAURI__) return;
+    if (!window.__TAURI__) return;
     console.log('Setup titlebar for Tauri!');
     document.getElementById('titlebar-minimize')
-        .addEventListener('click', () => window.__TAURI__.appWindow.minimize())
+        .addEventListener('click', () => window.__TAURI__.window.appWindow.minimize())
     document.getElementById('titlebar-maximize')
         .addEventListener('click', () => {
-            console.log(window.__TAURI__.appWindow);
-            window.__TAURI__.appWindow.toggleMaximize();
+            console.log(window.__TAURI__.window.appWindow);
+            window.__TAURI__.window.appWindow.toggleMaximize();
         })
     document.getElementById('titlebar-close')
-        .addEventListener('click', () => window.__TAURI__.appWindow.close())
+        .addEventListener('click', () => window.__TAURI__.window.appWindow.close())
 }, 10);
 
 if (window.__TAURI__) {
