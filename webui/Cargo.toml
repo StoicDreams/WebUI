@@ -44,3 +44,4 @@ async-std = { version = "1.12", features = ["attributes"] }
 chrono = "0.4"
 lazy_static = "1.4"
 num-format = "0.4"
+markdown = { git = "https://github.com/wooorm/markdown-rs" }

@@ -19,6 +19,9 @@ pub mod loading;
 /// Module for MarkdownContent components
 pub mod markdown_content;
 
+/// Module for parsing markdown content
+pub mod markdown_parser;
+
 /// Module for navigation display components.
 pub mod nav_display;
 
@@ -35,6 +38,7 @@ pub use html_content::*;
 pub use image::*;
 pub use loading::*;
 pub use markdown_content::*;
+pub use markdown_parser::*;
 pub use nav_display::*;
 pub use tabbed_content::*;
 pub use table::*;

@@ -2713,6 +2713,49 @@ body.w-4k .hide-at-4k {
     box-shadow: inset var(--elevation-7);
 }
 
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+.float-inline-start {
+    float: inline-start;
+}
+
+.float-inline-end {
+    float: inline-end;
+}
+
+.clear {
+    clear: both;
+}
+
+.clear::before,
+.clear::after {
+    content: " ";
+    display: block;
+    height: 0px;
+    clear: both;
+}
+
+.titlebar-button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.titlebar-button:hover {
+    background: #5bbec3;
+    background: var(--color-background-offset);
+    color: var(--color-background);
+}
+
 /* Animations */
 
 @keyframes animation-fadein {

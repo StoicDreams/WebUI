@@ -83,6 +83,83 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
     let is_loaded = use_state(|| false);
     let is_loading = use_state(|| false);
     let cached_href = use_state(String::default);
+    let markdown = use_state(String::default);
+    let href = props.href.to_owned().unwrap_or_default();
+    if *is_loaded && *cached_href != href {
+        is_loaded.set(false);
+        return html!(<Loading size={LOADING_SIZE_LARGE} />);
+    }
+    if let Some(md) = props.markdown.to_owned() {
+        if !*is_loaded {
+            let md = match &props.tags {
+                Some(tags) => replace_tags(&md, tags),
+                None => md,
+            };
+            is_loaded.set(true);
+            markdown.set(md);
+        }
+    };
+    if !*is_loaded || (*markdown).is_empty() {
+        if *is_loading {
+            return html!(<Loading size={LOADING_SIZE_LARGE} />);
+        }
+        if let Some(href) = props.href.to_owned() {
+            is_loading.set(true);
+            let md = markdown;
+            if *cached_href != href {
+                cached_href.set(href.to_owned());
+            }
+            let tags = props.tags.clone();
+            wasm_bindgen_futures::spawn_local(async move {
+                let response = fetch(FetchRequest::new(href, FetchMethod::Get)).await;
+                if !response.is_ok() {
+                    md.set("Failed to load content.".to_string());
+                    is_loaded.set(true);
+                    is_loading.set(false);
+                    return;
+                }
+                match response.get_result() {
+                    Some(body) => {
+                        if body.starts_with("<!DOCTYPE") {
+                            md.set("Content is invalid type.".to_string());
+                            is_loaded.set(true);
+                            is_loading.set(false);
+                            return;
+                        }
+                        let body = match &tags {
+                            Some(tags) => replace_tags(&body, tags),
+                            None => body,
+                        };
+                        md.set(body);
+                        is_loaded.set(true);
+                        is_loading.set(false);
+                    }
+                    None => {
+                        md.set("Failed to load content body.".to_string());
+
+                        is_loaded.set(true);
+                        is_loading.set(false);
+                    }
+                }
+            });
+            return html!(<Loading size={LOADING_SIZE_LARGE} />);
+        }
+    }
+
+    if (*markdown).is_empty() {
+        return html!(<Loading size={LOADING_SIZE_LARGE} />);
+    }
+
+    html! {
+        {render_markdown(&markdown)}
+    }
+}
+
+#[function_component(MarkdownContentLegacy)]
+pub fn site_content_legacy(props: &MarkdownContentProps) -> Html {
+    let is_loaded = use_state(|| false);
+    let is_loading = use_state(|| false);
+    let cached_href = use_state(String::default);
     let markdown = use_state(Vec::<(String, String, MarkdownSegments)>::new);
     let href = props.href.to_owned().unwrap_or_default();
     if *is_loaded && *cached_href != href {

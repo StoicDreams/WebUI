@@ -1085,6 +1085,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "markdown"
+version = "1.0.0-alpha.16"
+source = "git+https://github.com/wooorm/markdown-rs#60db8e5896be05d23137a6bdb806e63519171f9e"
+dependencies = [
+ "unicode-id",
+]
+
+[[package]]
 name = "memchr"
 version = "2.7.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1767,6 +1775,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "unicode-id"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b1b6def86329695390197b82c1e244a54a131ceb66c996f2088a3876e2ae083f"
+
+[[package]]
 name = "unicode-ident"
 version = "1.0.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1920,6 +1934,7 @@ dependencies = [
  "futures",
  "js-sys",
  "lazy_static",
+ "markdown",
  "num-format",
  "regex",
  "rust_decimal",
