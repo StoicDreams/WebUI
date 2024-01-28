@@ -100,5 +100,14 @@
             }, 300);
         }, 200);
     });
+    (function checkHighlighting(){
+        if (window.hljs) {
+            document.querySelectorAll('pre code:not([data-hl])').forEach((el) => {
+                el.setAttribute('data-hl', true);
+                window.hljs.highlightElement(el);
+            });
+        }
+        setTimeout(checkHighlighting, 100);
+    })();
 })();
 

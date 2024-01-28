@@ -32,9 +32,9 @@ And since Rust is so strict about compilation errors, this means that most bugs 
 This feedback loop being so short, means problems are identified and resolved in much shorter cycles. Which then translates to me being able to create software that works in faster iteration cycles.
 ```
 
-````cards
+`````cards
 
-```card "Getting Started" "500" "tertiary" "fa-duotone fa-star"
+````card "Getting Started" "500" "tertiary" "fa-duotone fa-star"
 Web UI is very early in development, as I just started working on Web UI on Sept 28th, 2022.
 
 Expect rapid iteration style development with breaking changes, even in patch version updates, prior to releasing a 1.0 version, which may be sometime in 2024 depending on my prioritizations between this and other passion projects and priorities.
@@ -46,9 +46,9 @@ Web UI is currently being used for this website, as well as all of my other Stoi
 If you are fine dealing with frequent breaking changes and would like to start using Web UI for your project, I would appreciate you letting me know what you think about Web UI and what you would like to see in it through either a Feedback message or in [the Stoic Dreams discord server](https://discord.com/channels/972856291909332993/1025781071608037466 "Web UI at Stoic Dreams Discord server") to help me prioritize features and updates based on what people want from Web UI.
 
 I will be updating this website to provide full documentation, but for now you can check out [our Rust-built documentation](https://crates.io/crates/webui "Web UI rust crate documentation").
-```
+````
 
-```card "Where is the Documentation" "500" "tertiary" "fa-duotone fa-books"
+````card "Where is the Documentation" "500" "tertiary" "fa-duotone fa-books"
 I expect you may be wondering where this website doesn't contain much documentation. And if you look into the source code you will see more publicly accessible features and components that aren't documented here.
 
 The reason is quite simple. Web UI is very early in development, and a lot of the work I am doing is experimental and subject to frequent changes or entire re-writes or removal. Additionally, I am working on this project, along with several other personal projects, on a part-time basis, with my full-time job and family time taking higher priorities.
@@ -64,9 +64,9 @@ Rust WebUI Docs: [Developer documentation for Web UI.](https://docs.rs/webui)
 Crates.io: [Crate information for Web UI.](https://crates.io/crates/webui)
 ```
 
-```
-
 ````
+
+`````
 
 ## Web UI Powered Websites
 

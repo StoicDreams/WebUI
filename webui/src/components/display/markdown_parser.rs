@@ -137,7 +137,9 @@ fn handle_mdx_jsx_text_element(mdx_jsx_text_element: &mdast::MdxJsxTextElement) 
 }
 
 fn handle_link(link: &mdast::Link) -> Html {
-    html!{format!("Unhandled link:{:?}", link)}
+    let url = link.url.to_owned();
+    let title = link.title.to_owned().unwrap_or_default();
+    html!{<Link href={url} title={title}>{handle_children(&link.children)}</Link>}
 }
 
 fn handle_link_reference(link_reference: &mdast::LinkReference) -> Html {
@@ -152,18 +154,91 @@ fn handle_text(text: &mdast::Text) -> Html {
     html!{<>{&text.value}</>}
 }
 
+fn get_meta(meta: &Vec<&str>, pos: usize) -> String {
+    if pos == 0 { return String::default(); }
+    if meta.len() < pos { return String::default(); }
+    let mut value = meta[pos-1].to_string();
+    if value.starts_with('"') {
+        value = value[1..].to_string();
+    }
+    if value.ends_with('"') {
+        value = value[..value.len()-1].to_string();
+    }
+    value
+}
+
 fn handle_code(code: &mdast::Code) -> Html {
     let meta = match &code.meta {
-        Some(class) => class.split(' ').collect::<Vec<&str>>(),
+        Some(class) => class.split("\" \"").collect::<Vec<&str>>(),
         None => vec![]
     };
-    let class = if meta.len() > 0 { meta[0] } else { "" };
-    let style = if meta.len() > 0 { meta[0] } else { "" };
     match &code.lang {
         Some(lang) => {
-            match lang.to_lowercase() {
-
+            match lang.to_lowercase().as_str() {
+                "automax" | "automaxcontent" => {
+                    let class = get_meta(&meta, 1);
+                    let style = get_meta(&meta, 2);
+                    let class = classes!(CLASSES_AUTO_MAXCONTENT, "gap-2", class).to_string();
+                    html!(<Paper class={class} style={style} elevation={ELEVATION_STANDARD}>
+                        {render_markdown(&code.value)}
+                    </Paper>)
+                },
+                "cards" => {
+                    let class = get_meta(&meta, 1);
+                    let style = get_meta(&meta, 2);
+                    let class = classes!(CLASSES_CARD_CONTAINER, class).to_string();
+                    let style = style.to_string();
+                    html!(<Cards {class} {style}>
+                        {render_markdown(&code.value)}
+                    </Cards>)
+                },
+                "card" => {
+                    let title = get_meta(&meta, 1);
+                    let width = u16::from_str(&get_meta(&meta, 2)).unwrap_or(800u16);
+                    let theme = get_meta(&meta, 3);
+                    let avatar = get_meta(&meta, 4);
+                    let link = get_meta(&meta, 5);
+                    let link_title = get_meta(&meta, 6);
+                    let theme = get_theme(theme.as_str());
+                    html!(<Card title={title.to_owned()}
+                        width={width}
+                        theme={theme}
+                        avatar={avatar.to_owned()}
+                        link={link.to_owned()}
+                        link_title={link_title.to_owned()}
+                        elevation={ELEVATION_STANDARD}
+                        >
+                        {render_markdown(&code.value)}
+                    </Card>)
+                },
+                "list" => {
+                    let is_ordered = !get_meta(&meta, 1).is_empty();
+                    let class = get_meta(&meta, 2);
+                    let style = get_meta(&meta, 3);
+                    let markdown = code.value.to_owned();
+                    let lines = markdown.lines().filter(|&x| !x.is_empty()).collect::<Vec<&str>>();
+                    html!(<List is_ordered={is_ordered} class={class} style={style}>
+                        {lines.iter().map(|line|{
+                            html!(<li>{render_markdown(line)}</li>)
+                        }).collect::<Html>()}
+                    </List>)
+                },
+                "sideimage" => {
+                    let image_pos = get_meta(&meta, 1);
+                    let src = get_meta(&meta, 2);
+                    let class = get_meta(&meta, 3);
+                    let style = get_meta(&meta, 4);
+                    let image_pos = match image_pos.as_str() {
+                        "right" => LeftOrRight::Right,
+                        _ => LeftOrRight::Left,
+                    };
+                    html!(<SideImage {image_pos} class={class.to_owned()} src={src.to_owned()} style={style.to_owned()}>
+                        <Paper>{render_markdown(&code.value)}</Paper>
+                    </SideImage>)
+                },
                 _ => {
+                    let class = get_meta(&meta, 1);
+                    let style = get_meta(&meta, 2);
                     let lang_class = format!("language-{}", lang.to_lowercase());
                     let class = classes!(lang_class, class);
                     html!(<pre languagetag={lang.to_string()} class={class.to_string()} style={style.to_owned()}>
@@ -173,9 +248,8 @@ fn handle_code(code: &mdast::Code) -> Html {
             }
         },
         None => {            
-            let class = classes!(class);
-            html!(<pre class={class.to_string()} style={style.to_owned()}>
-                <code>{&code.value}</code>
+            html!(<pre class="language-plaintext">
+                <code class="langugae-plaintext">{&code.value}</code>
             </pre>)
         }
     }
@@ -191,12 +265,12 @@ fn handle_mdx_flow_expr(mdx_flow_expr: &mdast::MdxFlowExpression) -> Html {
 
 fn handle_heading(heading: &mdast::Heading) -> Html {
     match heading.depth {
-        1 => html!{<h1>{handle_children(&heading.children)}</h1>},
-        2 => html!{<h2>{handle_children(&heading.children)}</h2>},
-        3 => html!{<h3>{handle_children(&heading.children)}</h3>},
-        4 => html!{<h4>{handle_children(&heading.children)}</h4>},
-        5 => html!{<h5>{handle_children(&heading.children)}</h5>},
-        _ => html!{<h6>{handle_children(&heading.children)}</h6>}
+        1 => html!{<h1 class={format!("theme-primary {}", TITLE_CLASSES)}>{handle_children(&heading.children)}</h1>},
+        2 => html!{<h2 class={format!("theme-secondary {}", TITLE_CLASSES)}>{handle_children(&heading.children)}</h2>},
+        3 => html!{<h3 class={format!("theme-tertiary {}", TITLE_CLASSES)}>{handle_children(&heading.children)}</h3>},
+        4 => html!{<h4 class={format!("theme-tertiary {}", TITLE_CLASSES)}>{handle_children(&heading.children)}</h4>},
+        5 => html!{<h5 class={format!("theme-tertiary {}", TITLE_CLASSES)}>{handle_children(&heading.children)}</h5>},
+        _ => html!{<h6 class={format!("theme-tertiary {}", TITLE_CLASSES)}>{handle_children(&heading.children)}</h6>}
     }
 }
 
@@ -225,5 +299,23 @@ fn handle_definition(definition: &mdast::Definition) -> Html {
 }
 
 fn handle_paragraph(paragraph: &mdast::Paragraph) -> Html {
-    html!{format!("Unhandled paragraph:{:?}", paragraph)}
+    html!{<p>{handle_children(&paragraph.children)}</p>}
+}
+
+pub(super) fn get_theme(theme: &str) -> Theme {
+    match theme {
+        "active" => Theme::Active,
+        "background" => Theme::Background,
+        "black" => Theme::Black,
+        "white" => Theme::White,
+        "secondary" => Theme::Secondary,
+        "tertiary" => Theme::Tertiary,
+        "info" => Theme::Info,
+        "success" => Theme::Success,
+        "warning" => Theme::Warning,
+        "danger" => Theme::Danger,
+        "title" => Theme::Title,
+        "inherit" => Theme::None,
+        _ => Theme::Primary,
+    }
 }

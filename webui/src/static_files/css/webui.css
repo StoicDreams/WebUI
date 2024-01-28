@@ -141,7 +141,7 @@ main>.paper {
     display: flex;
     flex-direction: column;
     margin: 0;
-    padding: var(--padding);
+    padding: 0;
     padding-bottom: calc(var(--padding) + var(--footer-height));
     height: 100%;
     max-height: 100%;
@@ -489,6 +489,8 @@ ol {
 /* Layout Styles */
 #app>header {
     padding: var(--padding);
+    position: relative;
+    z-index: 100;
 }
 
 #app>footer {
@@ -542,13 +544,13 @@ main.page.hidden+#loading {
 }
 
 main.page.transition.out {
-    transform: scale(0.3) translateY(-10%);
+    transform: rotateY(90deg);
     opacity: 0;
 }
 
 main.page.transition.in {
-    transform: scale(1.03) translateY(1%);
-    opacity: 1;
+    transform: rotateY(90deg);
+    opacity: 0.6;
 }
 
 /* Component Classes */
@@ -2754,6 +2756,107 @@ body.w-4k .hide-at-4k {
     background: #5bbec3;
     background: var(--color-background-offset);
     color: var(--color-background);
+}
+
+/* Code highlight defaults */
+.hljs-keyword {
+    color: #fff
+}
+
+.hljs-link {
+    color: #0096db
+}
+
+.hljs-literal {
+    color: #ecff41
+}
+
+.hljs-section {
+    color: #f57226
+}
+
+.hljs-selector-tag {
+    color: #c766cf
+}
+
+.hljs-addition {
+    color: rgb(142, 127, 211)
+}
+
+.hljs-attribute {
+    color: rgb(238, 152, 83)
+}
+
+.hljs-built_in {
+    color: rgb(161, 204, 105)
+}
+
+.hljs-bullet {
+    color: rgb(138, 138, 180)
+}
+
+.hljs-name {
+    color: rgb(97, 99, 241)
+}
+
+.hljs-string {
+    color: rgb(177, 177, 177)
+}
+
+.hljs-symbol {
+    color: rgb(136, 221, 157)
+}
+
+.hljs-template-tag {
+    color: rgb(177, 127, 70)
+}
+
+.hljs-template-variable {
+    color: rgb(236, 82, 154)
+}
+
+.hljs-title {
+    color: rgb(255, 252, 47)
+}
+
+.hljs-type {
+    color: rgb(69, 248, 45)
+}
+
+.hljs-variable {
+    color: rgb(8, 233, 0)
+}
+
+.hljs-comment {
+    color: #919191
+}
+
+.hljs-deletion {
+    color: #cc2424
+}
+
+.hljs-meta {
+    color: #87a59e
+}
+
+.hljs-quote {
+    color: #9ac7c9
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-literal,
+.hljs-name,
+.hljs-section,
+.hljs-selector-tag,
+.hljs-strong,
+.hljs-title,
+.hljs-type {
+    font-weight: 700
+}
+
+.hljs-emphasis {
+    font-style: italic
 }
 
 /* Animations */
