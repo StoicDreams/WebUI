@@ -50,11 +50,9 @@ pub fn link(props: &LinkProps) -> Html {
         Callback::from(move |e: MouseEvent| {
             e.prevent_default();
             if is_external_link {
-                jslog!("Open external link {}.", mypath);
                 open_external_link(&mypath, &target);
                 return;
             }
-            jslog!("Nav to {}", mypath);
             nav_to!(contexts, mypath);
         })
     };

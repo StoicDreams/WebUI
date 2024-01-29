@@ -7,6 +7,9 @@ pub mod avatar;
 /// Module for Dialog components
 pub mod dialog;
 
+/// Module for dynamic components
+pub(crate) mod dynamic_component;
+
 /// Module for outputting HTML content from string data.
 pub mod html_content;
 
@@ -34,6 +37,7 @@ pub mod table;
 pub use alert::*;
 pub use avatar::*;
 pub use dialog::*;
+pub(crate) use dynamic_component::*;
 pub use html_content::*;
 pub use image::*;
 pub use loading::*;

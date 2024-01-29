@@ -25,8 +25,8 @@ Your content goes here
 Card components are special containers that include a header, body, and footer, with the header optionally containing Avatar, Title, and Link segments.
 ```
 
-````sidebyside
-```cards
+`````sidebyside
+````cards
 ```card "Hello" "300"
 World
 ```
@@ -36,8 +36,8 @@ Foo
 ```card "Lorem" "400" "info" "fa-solid fa-acorn" "https://loremipsum.io/"
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 ```
-```
-```rust
+````
+````rust
 <Cards>
     <Card title="Hello" width={300}>
         {"World"}
@@ -49,8 +49,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
         {"Lorem ipsum dolor..."}
     </Card>
 </Cards>
-```
 ````
+`````
 
 ## List
 
@@ -58,8 +58,8 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 List components are containers for displaying lists.
 ```
 
+`````sidebyside
 ````sidebyside
-```sidebyside
 ```list
 One
 Two
@@ -70,8 +70,8 @@ One
 Two
 Three
 ```
-```
-```rust
+````
+````rust
 <Paper class={classes!(CLASSES_SIDE_BY_SIDE, "gap-2")} elevation={ELEVATION_STANDARD}>
     <List>
         {list_items!(
@@ -88,8 +88,8 @@ Three
         )}
     </List>
 </Paper>
-```
 ````
+`````
 
 ## Markdown
 
@@ -118,8 +118,8 @@ Markdown components allow loading content from markdown files. This is a great w
 Quote components are containers for displaying specialy highlighted text, as well as an optional citation if desired.
 ```
 
-````sidebyside
-```paper
+`````sidebyside
+````paper
 ```quote
 To cite or not to cite?
 ```
@@ -129,9 +129,9 @@ I have no special talent. I am only passionately curious.
 ```quote "warning" "Mark Twain"
 Whenever you find yourself on the side of the majority, it is time to pause and reflect.
 ```
-```
+````
 
-```rust
+````rust
 <Paper class={classes!(CLASSES_SIDE_BY_SIDE, "gap-2")} elevation={ELEVATION_STANDARD}>
     <Quote>
         {"To cite or not to cite?"}
@@ -143,8 +143,8 @@ Whenever you find yourself on the side of the majority, it is time to pause and 
         {"Whenever you find yourself on the side of the majority, it is time to pause and reflect."}
     </Quote>
 </Paper>
-```
 ````
+`````
 
 ## SideImage
 
@@ -152,21 +152,21 @@ Whenever you find yourself on the side of the majority, it is time to pause and 
 SideImage components are containers for displaying a standard side-by-side section, with either the left or right side designated with an image.
 ```
 
-````sidebyside
-```paper
+`````sidebyside
+````paper
 ```sideimage "right" "/Logo.svg"
 Image on the right.
 ```
 ```sideimage "left" "/Logo.svg"
 Image on the left.
 ```
-```
-```rust
+````
+````rust
 <SideImage image_pos={LeftOrRight::Right} src="/Logo.svg">
     {"Image on the right."}
 </SideImage>
 <SideImage image_pos={LeftOrRight::Left} src="/Logo.svg">
     {"Image on the left."}
 </SideImage>
-```
 ````
+`````

@@ -237,16 +237,16 @@ Example class theme-white
 
 ## Color Settings
 
-````sidebyside
-```paper
+`````sidebyside
+````paper
 ```section
 Set your own color values for your Web UI app by adding and customizing this css code snippet to your site's css file.
 ```
 ```quote "info" "" "mt-3"
 **Note:** You should not update the webui.css file that contains the default settings, unless you plan to never run the `webui` auto updater that applies the latest updates.
 ```
-```
-```css
+````
+````css
 :root {
     --color-black: #101010FF;
     --color-white: #FFFFFFFF;
@@ -274,5 +274,5 @@ Set your own color values for your Web UI app by adding and customizing this css
     --color-button: var(--color-info);
     --color-button-offset: var(--color-info-offset);
 }
-```
 ````
+`````

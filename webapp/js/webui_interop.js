@@ -1,6 +1,8 @@
 "use strict"
 
+console.log('interop');
 export function open_external_link(href, target) {
+    console.log('interop ext link', href);
     let is_open_in_new_tab = target && target != '_self';
     if (is_open_in_new_tab) {
         window.open(href, target);
@@ -11,6 +13,7 @@ export function open_external_link(href, target) {
 }
 
 export function run_method(method, args) {
+    console.log('interop run method', method);
     if (typeof window[method] !== 'function') {
         return null;
     }
@@ -21,6 +24,7 @@ export function run_method(method, args) {
 }
 
 export function set_title(title) {
+    console.log('interop set title', title);
     document.title = title;
 }
 
@@ -138,14 +142,17 @@ const memStorage = (function () {
 })();
 
 export function user_accepts_local_storage() {
+    console.log('user accepts local storage');
     memStorage.acceptLocalStorage();
 }
 
 export function user_accepts_session_storage() {
+    console.log('user accepts session storage');
     memStorage.acceptSessionStorage();
 }
 
 export function user_rejects_cached_storage() {
+    console.log('user rejects cached storage');
     memStorage.rejectCachedStorage();
 }
 

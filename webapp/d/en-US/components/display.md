@@ -12,10 +12,10 @@ Avatar display components are used when you want to display either an image or i
 You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-acorn). If an avatar image is within a paragraph tag, then it will default its size to match the current font size within that paragraph.
 ```
 
-````sidebyside
+``````sidebyside
 
-```paper
-```sidebyside
+`````paper
+````sidebyside
 ```paper  "ma-10 pa-10"
 ![](/Logo.svg)
 ```
@@ -28,10 +28,10 @@ You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-
 ```paper  "ma-10 pa-10 f5 d-flex align-center"
 ![Acorn](fa-solid fa-acorn)
 ```
-```
-```
+````
+`````
 
-```rust
+`````rust
 <Paper class={CLASSES_SIDE_BY_SIDE} elevation={ELEVATION_STANDARD}>
     <Paper class="ma-10 pa-10">
         <Avatar image="/Logo.svg" />
@@ -46,8 +46,8 @@ You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-
         <Avatar icon="fa-solid fa-acorn" alt="Acorn" />
     </Paper>
 </Paper>
-```
-````
+`````
+``````
 
 ## Image
 
@@ -74,8 +74,8 @@ Loading display components can be used to display a loading circle or loading ba
 
 ```
 
-````sidebyside
-```paper
+`````sidebyside
+````paper
 ```cards
 >loading "circle" "info" "32" "10"
 >loading "circle" "info" "32" "20"
@@ -110,8 +110,8 @@ Loading display components can be used to display a loading circle or loading ba
 >loading "striped" "success" "8" "80"
 >loading "striped" "success" "8" "90"
 >loading "striped" "success" "8" "100"
-```
-```rust
+````
+````rust
 <Cards>
     <Paper>
         <Loading variant={LoadingVariant::Circle} color={Theme::Info} size={LOADING_SIZE_MEDIUM} percent={10}>
@@ -132,16 +132,16 @@ Loading display components can be used to display a loading circle or loading ba
     <Loading variant={LoadingVariant::StripedBar} color={Theme::Info} size={LOADING_SIZE_TINY} percent={20}>
 </Paper>
 ...
-```
 ````
+`````
 
 ```section
 Not setting a percent will default to an indeterminate loading display.
 ```
 
-````sidebyside
+`````sidebyside
 
-```paper
+````paper
 ```cards
 >loading "circle" "primary" "32"
 >loading "circle" "secondary" "32"
@@ -211,8 +211,8 @@ LOADING_SIZE_LARGE
 LOADING_SIZE_XLARGE
 >loading "striped" "primary" "128"
 ```
-```
-```rust
+````
+````rust
 <Cards>
     <Paper>
         <Loading variant={LoadingVariant::Circle} color={Theme::Primary} size={LOADING_SIZE_MEDIUM}>
@@ -247,8 +247,8 @@ LOADING_SIZE_XLARGE
     <Loading variant={LoadingVariant::StripedBar} color={Theme::Primary} size={LOADING_SIZE_SMALL}>
 </Paper>
 ...
-```
 ````
+`````
 
 ## MarkdownContent
 
@@ -262,18 +262,18 @@ Generally, the container based components will
 
 ``````sidebyside
 
-````paper
+`````paper
 
-```automax "gap-2"
+````automax "gap-2"
 ```paper "elevation-10"
 automax left
 ```
 ```paper "elevation-10"
 automax right
 ```
-```
+````
 
-```cards
+````cards
 ```card "Title"
 A card with a title
 ```
@@ -289,9 +289,9 @@ Another Card with an Avatar
 ```card "Hello World" "300" "info" "fa-solid fa-acorn" "/"
 Another Card With a Link
 ```
-```
+````
 
-```sidebyside
+````sidebyside
 ```list
 one
 two
@@ -302,58 +302,58 @@ one
 two
 three
 ```
-```
+````
 
-```maxauto "gap-2"
+````maxauto "gap-2"
 ```paper "elevation-10"
 maxauto left
 ```
 ```paper "elevation-10"
 maxauto right
 ```
-```
-
-```quote
-A standard non-cited quote
-```
-```quote "info"
-Add a theme
-```
-```quote "primary" "Some Author"
-Add a cite
-```
-```quote "secondary" "Some Author"
-Using the secondary theme
-```
-```quote "tertiary" "Some Author"
-Using the tertiary theme
-```
-```quote "title" "Some Author"
-Using the title theme
-```
-```quote "active" "Some Author"
-Using the active theme
-```
-```quote "info" "Some Author"
-Using the info theme
-```
-```quote "success" "Some Author"
-Using the success theme
-```
-```quote "warning" "Some Author"
-Using the warning theme
-```
-```quote "danger" "Some Author"
-Using the danger theme
-```
-```quote "black" "Some Author"
-Using the black theme
-```
-```quote "white" "Some Author"
-Using the white theme
-```
-
 ````
+
+````quote
+A standard non-cited quote
+````
+````quote "info"
+Add a theme
+````
+````quote "primary" "Some Author"
+Add a cite
+````
+````quote "secondary" "Some Author"
+Using the secondary theme
+````
+````quote "tertiary" "Some Author"
+Using the tertiary theme
+````
+````quote "title" "Some Author"
+Using the title theme
+````
+````quote "active" "Some Author"
+Using the active theme
+````
+````quote "info" "Some Author"
+Using the info theme
+````
+````quote "success" "Some Author"
+Using the success theme
+````
+````quote "warning" "Some Author"
+Using the warning theme
+````
+````quote "danger" "Some Author"
+Using the danger theme
+````
+````quote "black" "Some Author"
+Using the black theme
+````
+````quote "white" "Some Author"
+Using the white theme
+````
+
+`````
 
 `````paper
 ````rust
@@ -367,17 +367,17 @@ pub(crate) fn page_components_display() -> Html {
 }
 ````
 
-````markdown
-```automax "gap-2"
+`````markdown
+````automax "gap-2"
 ```paper "elevation-10"
 automax left
 ```
 ```paper "elevation-10"
 automax right
 ```
-```
+````
 
-```cards
+````cards
 ```card "Title"
 A card with a title
 ```
@@ -393,9 +393,9 @@ Another Card with an Avatar
 ```card "Hello World" "300" "info" "fa-solid fa-acorn" "/"
 Another Card With a Link
 ```
-```
+````
 
-```sidebyside
+````sidebyside
 ```list
 one
 two
@@ -406,16 +406,16 @@ one
 two
 three
 ```
-```
+````
 
-```maxauto "gap-2"
+````maxauto "gap-2"
 ```paper "elevation-10"
 maxauto left
 ```
 ```paper "elevation-10"
 maxauto right
 ```
-```
+````
 
 ```quote
 A standard non-cited quote

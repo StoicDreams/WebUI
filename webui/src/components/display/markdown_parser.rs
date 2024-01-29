@@ -1,6 +1,7 @@
-use markdown::mdast;
-
+use markdown::mdast::{self, AlignKind};
+use regex::Regex;
 use crate::prelude::*;
+use super::*;
 
 pub fn render_markdown(markdown: &str) -> Html {
     match markdown::to_mdast(markdown, &markdown::ParseOptions::gfm()) {
@@ -65,51 +66,64 @@ fn handle_root(root: &mdast::Root) -> Html {
 }
 
 fn handle_blockquote(blockquote: &mdast::BlockQuote) -> Html {
-    html!{format!("Unhandled blockquote:{:?} {}", blockquote, blockquote.children.len())}
+    html!{<blockquote>{handle_children(&blockquote.children)}</blockquote>}
 }
 
 fn handle_footnote_definition(footnote_definition: &mdast::FootnoteDefinition) -> Html {
-    html!{format!("Unhandled footnote_definition:{:?} {}", footnote_definition, footnote_definition.children.len())}
+    let label = match footnote_definition.label.to_owned() {
+        Some(label) => label,
+        None => footnote_definition.identifier.to_owned()
+    };
+    html!{<Paper id={footnote_definition.identifier.to_owned()}>{handle_children(&footnote_definition.children)}</Paper>}
 }
 
 fn handle_mdx_jsx_flow_element(mdx_jsx_flow_element: &mdast::MdxJsxFlowElement) -> Html {
-    html!{format!("Unhandled mdx_jsx_flow_element:{:?} {}", mdx_jsx_flow_element, mdx_jsx_flow_element.children.len())}
+    html!{<p>{format!("Unhandled mdx_jsx_flow_element:{:?} {}", mdx_jsx_flow_element, mdx_jsx_flow_element.children.len())}</p>}
 }
 
 fn handle_list(list: &mdast::List) -> Html {
-    html!{format!("Unhandled list:{:?} {}", list, list.children.len())}
+    if list.ordered {
+        let start = list.start.unwrap_or_else(|| 1);
+        html!{<ol start={start.to_string()}>{handle_children(&list.children)}</ol>}
+    } else {
+        html!{<ul>{handle_children(&list.children)}</ul>}
+    }
 }
 
 fn handle_mdx_js_esm(mdx_js_esm: &mdast::MdxjsEsm) -> Html {
-    html!{format!("Unhandled mdx_js_esm:{:?} {}", mdx_js_esm, mdx_js_esm.value)}
+    html!{<p>{format!("Unhandled mdx_js_esm:{:?} {}", mdx_js_esm, mdx_js_esm.value)}</p>}
 }
 
-fn handle_toml(toml: &mdast::Toml) -> Html {
-    html!{format!("Unhandled toml:{:?} {}", toml, toml.value)}
+fn handle_toml(toml: &mdast::Toml) -> Html {        
+    html!(<pre class="language-toml">
+        <code class="langugae-toml">{&toml.value}</code>
+    </pre>)
 }
 
-fn handle_yaml(yaml: &mdast::Yaml) -> Html {
-    html!{format!("Unhandled yaml:{:?} {}", yaml, yaml.value)}
+fn handle_yaml(yaml: &mdast::Yaml) -> Html {        
+    html!(<pre class="language-yaml">
+        <code class="langugae-yaml">{&yaml.value}</code>
+    </pre>)
 }
 
 fn handle_line_break(line_break: &mdast::Break) -> Html {
-    html!{format!("Unhandled line_break:{:?}", line_break)}
+    html!{<br />}
 }
 
 fn handle_inline_code(inline_code: &mdast::InlineCode) -> Html {
-    html!{format!("Unhandled inline_code:{:?} {}", inline_code, inline_code.value)}
+    html!{<code>{&inline_code.value}</code>}
 }
 
 fn handle_inline_math(inline_math: &mdast::InlineMath) -> Html {
-    html!{format!("Unhandled inline_math:{:?} {}", inline_math, inline_math.value)}
+    html!{<p>{format!("Unhandled inline_math:{:?} {}", inline_math, inline_math.value)}</p>}
 }
 
 fn handle_delete(delete: &mdast::Delete) -> Html {
-    html!{format!("Unhandled delete:{:?} {}", delete, delete.children.len())}
+    html!{<del>{handle_children(&delete.children)}</del>}
 }
 
 fn handle_emphasis(emphasis: &mdast::Emphasis) -> Html {
-    html!{format!("Unhandled emphasis:{:?} {}", emphasis, emphasis.children.len())}
+    html!{<em>{handle_children(&emphasis.children)}</em>}
 }
 
 fn handle_mdx_text_expressions(mdx_text_expressions: &mdast::MdxTextExpression) -> Html {
@@ -117,23 +131,47 @@ fn handle_mdx_text_expressions(mdx_text_expressions: &mdast::MdxTextExpression) 
 }
 
 fn handle_footnote_reference(footnote_reference: &mdast::FootnoteReference) -> Html {
-    html!{format!("Unhandled footnote_reference:{:?}", footnote_reference)}
+    let label = match footnote_reference.label.to_owned() {
+        Some(label) => label,
+        None => footnote_reference.identifier.to_owned()
+    };
+    html!{<a href={format!("#{}", footnote_reference.identifier)}>{format!("[{}]", label)}</a>}
 }
 
 fn handle_html(html: &mdast::Html) -> Html {
-    html!{format!("Unhandled html:{:?} {}", html, html.value)}
+    if let Some(letter) = html.value.chars().nth(1) {
+        if html.value.starts_with("<") && html.value.ends_with("/>") && letter.is_uppercase() {
+            let mut chars = html.value.chars();
+            chars.next();
+            chars.next_back();
+            chars.next_back();
+            let name = chars.as_str().trim().to_string();
+            return html!(<DynamicComponent name={name} />)
+        }
+        if html.value.starts_with("<") && html.value.ends_with(">") && letter.is_uppercase() {
+            let mut chars = html.value.chars();
+            chars.next();
+            chars.next_back();
+            let name = chars.as_str().to_string();
+            return html!(<DynamicComponent name={name} />)
+        }
+    }
+    html!{<SpanHtmlContent html={html.value.to_owned()} />}
 }
 
 fn handle_image(image: &mdast::Image) -> Html {
-    html!{format!("Unhandled image:{:?}", image)}
+    let alt = image.alt.to_owned();
+    let title = image.title.to_owned().unwrap_or(alt.to_owned());
+    html!{<img src={image.url.to_owned()} alt={image.alt.to_owned()} title={title} />}
 }
 
 fn handle_image_reference(image_reference: &mdast::ImageReference) -> Html {
-    html!{format!("Unhandled image_reference:{:?}", image_reference)}
+    let alt = image_reference.alt.to_owned();
+    html!{<img data-imgref={image_reference.identifier.to_owned()} alt={alt} />}
 }
 
 fn handle_mdx_jsx_text_element(mdx_jsx_text_element: &mdast::MdxJsxTextElement) -> Html {
-    html!{format!("Unhandled mdx_jsx_text_element:{:?} {}", mdx_jsx_text_element, mdx_jsx_text_element.children.len())}
+    html!{<p>{format!("Unhandled mdx_jsx_text_element:{:?} {}", mdx_jsx_text_element, mdx_jsx_text_element.children.len())}</p>}
 }
 
 fn handle_link(link: &mdast::Link) -> Html {
@@ -143,15 +181,16 @@ fn handle_link(link: &mdast::Link) -> Html {
 }
 
 fn handle_link_reference(link_reference: &mdast::LinkReference) -> Html {
-    html!{format!("Unhandled link_reference:{:?}", link_reference)}
+    let label = link_reference.to_owned().label.unwrap_or(link_reference.identifier.to_owned());
+    html!{<a data-linkref={link_reference.identifier.to_owned()}>{handle_children(&link_reference.children)}</a>}
 }
 
 fn handle_strong(strong: &mdast::Strong) -> Html {
-    html!{format!("Unhandled strong:{:?}", strong)}
+    html!{<strong>{handle_children(&strong.children)}</strong>}
 }
 
 fn handle_text(text: &mdast::Text) -> Html {
-    html!{<>{&text.value}</>}
+    handle_text_enhancements(&text.value)
 }
 
 fn get_meta(meta: &Vec<&str>, pos: usize) -> String {
@@ -223,6 +262,47 @@ fn handle_code(code: &mdast::Code) -> Html {
                         }).collect::<Html>()}
                     </List>)
                 },
+                "maxauto" | "maxcontentauto" => {
+                    let class = get_meta(&meta, 1);
+                    let style = get_meta(&meta, 2);
+                    let class = classes!(CLASSES_MAXCONTENT_AUTO, "gap-2", class);
+                    html!(<Paper class={class.to_string()} style={style.to_owned()} elevation={ELEVATION_STANDARD}>
+                        {render_markdown(&code.value)}
+                    </Paper>)
+                },
+                "paper" => {
+                    let class = get_meta(&meta, 1);
+                    let style = get_meta(&meta, 2);
+                    html!(<Paper class={class.to_owned()} style={style.to_owned()}>
+                        {render_markdown(&code.value)}
+                    </Paper>)
+                },
+                "quote" => {
+                    let theme = get_meta(&meta, 1);
+                    let cite = get_meta(&meta, 2);
+                    let class = get_meta(&meta, 3);
+                    let style = get_meta(&meta, 4);
+                    let theme = get_theme(theme.as_str());
+                    html!(<Quote color={theme} cite={cite.to_string()} class={class.to_owned()} style={style.to_owned()}>
+                        {render_markdown(&code.value)}
+                    </Quote>)
+                },
+                "section" => {
+                    let class = get_meta(&meta, 1);
+                    let style = get_meta(&meta, 2);
+                    let class = classes!(CLASSES_PAGE_SECTION, class);
+                    html!(<Paper class={class.to_string()} style={style.to_owned()} elevation={ELEVATION_STANDARD}>
+                        {render_markdown(&code.value)}
+                    </Paper>)
+                },
+                "sidebyside" => {
+                    let class = get_meta(&meta, 1);
+                    let style = get_meta(&meta, 2);
+                    let class = classes!(CLASSES_SIDE_BY_SIDE, "gap-2", class);
+                    html!(<Paper class={class.to_string()} style={style.to_owned()} elevation={ELEVATION_STANDARD}>
+                    {render_markdown(&code.value)}
+                    </Paper>)
+                },
                 "sideimage" => {
                     let image_pos = get_meta(&meta, 1);
                     let src = get_meta(&meta, 2);
@@ -256,11 +336,11 @@ fn handle_code(code: &mdast::Code) -> Html {
 }
 
 fn handle_math(math: &mdast::Math) -> Html {
-    html!{format!("Unhandled math:{:?}", math)}
+    html!{<p>{format!("Unhandled math:{:?}", math)}</p>}
 }
 
 fn handle_mdx_flow_expr(mdx_flow_expr: &mdast::MdxFlowExpression) -> Html {
-    html!{format!("Unhandled mdx_flow_expr:{:?}", mdx_flow_expr)}
+    html!{<p>{format!("Unhandled mdx_flow_expr:{:?}", mdx_flow_expr)}</p>}
 }
 
 fn handle_heading(heading: &mdast::Heading) -> Html {
@@ -275,31 +355,79 @@ fn handle_heading(heading: &mdast::Heading) -> Html {
 }
 
 fn handle_table(table: &mdast::Table) -> Html {
-    html!{format!("Unhandled table:{:?}", table)}
+    let mut styles: Vec<String> = vec![];
+    let mut count = 0;
+    let id = format!("T{}", newid().to_string().replace("-", ""));
+    for kind in &table.align {
+        count += 1;
+        let align = match kind {
+            AlignKind::Center => "center",
+            AlignKind::Left => "left",
+            AlignKind::Right => "right",
+            AlignKind::None => "left"
+        };
+        let style = format!("table#{} tr > td:nth-child({}) {{text-align:{};}}", id, count, align);
+        styles.push(style);
+    }
+    html!{
+        <>
+            <StyleContent styles={styles.join("\n")} />
+            <table id={id}>{handle_children(&table.children)}</table>
+        </>
+    }
 }
 
 fn handle_thematic_break(thematic_break: &mdast::ThematicBreak) -> Html {
-    html!{format!("Unhandled thematic_break:{:?}", thematic_break)}
+    html!{<hr />}
 }
 
 fn handle_table_row(table_row: &mdast::TableRow) -> Html {
-    html!{format!("Unhandled table_row:{:?}", table_row)}
+    html!{<tr>{handle_children(&table_row.children)}</tr>}
 }
 
 fn handle_table_cell(table_cell: &mdast::TableCell) -> Html {
-    html!{format!("Unhandled table_cell:{:?}", table_cell)}
+    html!{<td><div>{handle_children(&table_cell.children)}</div></td>}
 }
 
 fn handle_list_item(list_item: &mdast::ListItem) -> Html {
-    html!{format!("Unhandled list_item:{:?}", list_item)}
+    if let Some(checked) = list_item.checked {
+        return html!(
+            <li>
+            if checked {
+                <i class="fa-regular fa-square-check theme-success"></i>
+            } else {
+                <i class="fa-regular fa-square theme-shade"></i>
+            }
+            {handle_children(&list_item.children)}
+            </li>
+        )    
+    }
+    html!(<li>{handle_children(&list_item.children)}</li>)
 }
 
 fn handle_definition(definition: &mdast::Definition) -> Html {
-    html!{format!("Unhandled definition:{:?}", definition)}
-}
+    let url = definition.url.to_owned();
+    let id = definition.identifier.to_owned();
+    let title = definition.title.to_owned().unwrap_or(url.to_owned());
+    let label = definition.label.to_owned().unwrap_or(title.to_owned());
+    let script = format!(r#"
+        const url = `{}`;
+        const id = `{}`;
+        const title = `{}`;
+        const label = `{}`;
+        document.querySelectorAll(`[data-linkref="${{id}}"]`).forEach(a => {{
+            a.setAttribute('href', url);
+            a.setAttribute('title', title);
+        }});
+        document.querySelectorAll(`[data-imgref="${{id}}"]`).forEach(img => {{
+            img.setAttribute('src', url);
+        }});
+        "#, url, id, title, label);
+    html!{<JavaScriptContent script={script} delay={10} />}
+}//<a data-linkref="gh-checks"><img data-imgref="gh-image" alt="Task Proxy GitHub Actions"></a>
 
 fn handle_paragraph(paragraph: &mdast::Paragraph) -> Html {
-    html!{<p>{handle_children(&paragraph.children)}</p>}
+    html!{<div>{handle_children(&paragraph.children)}</div>}
 }
 
 pub(super) fn get_theme(theme: &str) -> Theme {
@@ -318,4 +446,18 @@ pub(super) fn get_theme(theme: &str) -> Theme {
         "inherit" => Theme::None,
         _ => Theme::Primary,
     }
+}
+
+fn handle_text_enhancements(text: &str) -> Html {
+    let mut html = insert_emojis(text);
+    html = replace_start_end_deliminators(&text, "==", "<mark>", "</mark>");
+    html = replace_start_end_deliminators(&text, "^", "<sup>", "</sup>");
+    html = parse_for_icon_refs(&html);
+    html!{<SpanHtmlContent html={html} />}
+}
+
+fn parse_for_icon_refs(text: &str) -> String {
+    let re = Regex::new(r"\!\[([A-Za-z-_ ]*)\]\(([A-Za-z-_ ]+)\)").unwrap();
+    let result = re.replace(text, "<i class=\"$2\" title=\"$1\"></i>");
+    result.to_string()
 }

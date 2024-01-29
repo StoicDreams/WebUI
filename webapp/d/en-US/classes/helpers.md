@@ -12,15 +12,15 @@ This page details the available helper classes, which are classes you can set fo
 Use this class to set default margin and padding for an element.
 ```
 
-````sidebyside
-```paper "d-flex align-center justify-center"
-```paper "theme-white"
+``````sidebyside
+`````paper "d-flex align-center justify-center"
+````paper "theme-white"
 ```paper "page-segment-standard theme-info"
 Example page-segment-standard
 ```
-```
-```
-```rust
+````
+`````
+`````rust
 <Paper class="d-flex align-center justify-center">
     <Paper class="theme-white">
         <Paper class="page-segment-standard theme-info">
@@ -28,8 +28,8 @@ Example page-segment-standard
         </Paper>
     </Paper>
 </Paper>
-```
-````
+`````
+``````
 
 ### page-segment-cards
 
@@ -37,8 +37,8 @@ Example page-segment-standard
 Use this class to a container for card elements.
 ```
 
-````sidebyside
-```paper "page-segment-cards"
+`````sidebyside
+````paper "page-segment-cards"
 ```paper "elevation-10 pa-3"
 Example Card
 ```
@@ -99,8 +99,8 @@ Example Card
 ```paper "elevation-10 pa-3"
 Example Card
 ```
-```
-```rust
+````
+````rust
 <Paper class="page-segment-cards">
     <Paper class="elevation-10 pa-3">
         {"Example Card"}
@@ -110,25 +110,25 @@ Example Card
     </Paper>
     ...
 </Paper>
-```
 ````
+`````
 
 ### side-by-side
 
 ```section
-Use this class to a container for card elements.
+Use this class for a 2 column container.
 ```
 
-````sidebyside
-```paper "side-by-side gap-4"
+`````sidebyside
+````paper "side-by-side gap-4"
 ```paper "elevation-10 pa-3"
 Example Paper
 ```
 ```paper "elevation-10 pa-3"
 Example Paper
 ```
-```
-```rust
+````
+````rust
 <Paper class="side-by-side gap-4">
     <Paper class="elevation-10 pa-3">
         {"Example Paper"}
@@ -137,25 +137,25 @@ Example Paper
         {"Example Paper"}
     </Paper>
 </Paper>
-```
 ````
+`````
 
 ### auto-maxcontent
 
 ```section
-Use this class to a container for card elements.
+Use this class for a 2 column container that autofills the left column.
 ```
 
-````sidebyside
-```paper "auto-maxcontent gap-4"
+`````sidebyside
+````paper "auto-maxcontent gap-4"
 ```paper "elevation-10 pa-3"
 Example Paper
 ```
 ```paper "elevation-10 pa-3"
 Example Paper
 ```
-```
-```rust
+````
+````rust
 <Paper class="auto-maxcontent gap-4">
     <Paper class="elevation-10 pa-3">
         {"Example Paper"}
@@ -164,25 +164,25 @@ Example Paper
         {"Example Paper"}
     </Paper>
 </Paper>
-```
 ````
+`````
 
 ### maxcontent-auto
 
 ```section
-Use this class to a container for card elements.
+Use this class for a 2 column container that autofills the right column.
 ```
 
-````sidebyside
-```paper "maxcontent-auto gap-4"
+`````sidebyside
+````paper "maxcontent-auto gap-4"
 ```paper "elevation-10 pa-3"
 Example Paper
 ```
 ```paper "elevation-10 pa-3"
 Example Paper
 ```
-```
-```rust
+````
+````rust
 <Paper class="maxcontent-auto gap-4">
     <Paper class="elevation-10 pa-3">
         {"Example Paper"}
@@ -191,8 +191,8 @@ Example Paper
         {"Example Paper"}
     </Paper>
 </Paper>
-```
 ````
+`````
 
 ### Font Adjustments
 

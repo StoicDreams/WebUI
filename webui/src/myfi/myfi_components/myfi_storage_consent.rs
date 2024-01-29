@@ -13,6 +13,7 @@ pub fn myfi_storage_consent() -> Html {
     let confirm_local_storage = {
         let current_setting = current_setting.clone();
         Callback::from(move |_| {
+            jslog!("user clicks to accepts local storage");
             user_accepts_local_storage();
             current_setting.set(String::from("2"));
         })
@@ -20,6 +21,7 @@ pub fn myfi_storage_consent() -> Html {
     let confirm_session_storage = {
         let current_setting = current_setting.clone();
         Callback::from(move |_| {
+            jslog!("user clicks to accepts session storage");
             user_accepts_session_storage();
             current_setting.set(String::from("1"));
         })
@@ -35,7 +37,7 @@ pub fn myfi_storage_consent() -> Html {
     let mut btn_mem_theme = Theme::Warning;
     let mut btn_ses_theme = Theme::Warning;
     let mut btn_loc_theme = Theme::Warning;
-
+    jslog!("Current setting {:?}", current_setting);
     match current_setting.as_str() {
         "2" => {
             btn_loc_theme = Theme::Active;

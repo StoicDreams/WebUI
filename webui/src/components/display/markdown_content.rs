@@ -3,7 +3,6 @@ use std::collections::HashMap;
 
 mod children;
 mod code_segments;
-mod dynamic_component;
 mod helpers;
 mod line_content;
 mod line_segments;

@@ -56,8 +56,8 @@ Example CLASSES_PAGE_SECTION
 This variable holds the class `page-segment-cards`, which applies default css styles for a flex container meant for displaying card elements.
 ```
 
-````sidebyside
-```paper "page-segment-cards elevation-10"
+`````sidebyside
+````paper "page-segment-cards elevation-10"
 ```paper "pa-2 elevation-10"
 Example Card
 ```
@@ -133,9 +133,9 @@ Example Card
 ```paper "pa-2 elevation-10"
 Example Card
 ```
-```
+````
 
-```rust
+````rust
 <Paper class={CLASSES_CARD_CONTAINER} elevation={ELEVATION_STANDARD}>
     <Paper class="pa-2 elevation={ELEVATION_STANDARD>
         {"Example Card"}
@@ -145,8 +145,8 @@ Example Card
     </Paper>
     ...
 </Paper>
-```
 ````
+`````
 
 ### CLASSES_SIDE_BY_SIDE
 
@@ -155,9 +155,9 @@ This variable holds the class `side-by-side`, which applies default css styles f
 with 2 columns.
 ```
 
-````sidebyside
+`````sidebyside
 
-```sidebyside
+````sidebyside
 ```paper "ma-5 pa-5 elevation-10"
 Example Left
 ```
@@ -165,9 +165,9 @@ Example Left
 ```paper "ma-5 pa-5 elevation-10"
 Example Right
 ```
-```
+````
 
-```paper
+````paper
 ```rust
 <Paper class={CLASSES_SIDE_BY_SIDE} elevation={ELEVATION_STANDARD}>
     <Paper class="ma-5 pa-5" elevation={ELEVATION_STANDARD}>
@@ -179,8 +179,8 @@ Example Right
     </Paper>
 </Paper>
 ```
-```
 ````
+`````
 
 ## Elevation Helpers
 
@@ -198,9 +198,9 @@ This is equivelent to no elevation, which is the default for Paper elements.
 Some other components may default to a higher elevation, in which case you can pass it this value to overwrite that default value to 0.
 ```
 
-````sidebyside
+`````sidebyside
 
-```paper
+````paper
 ```paper "ma-5 pa-5 elevation-0"
 Example ELEVATION_ZERO
 ```
@@ -208,9 +208,9 @@ Example ELEVATION_ZERO
 ```paper "ma-5 pa-5"
 Example No Elevation (default)
 ```
-```
+````
 
-```paper
+````paper
 ```rust
 <Paper class="ma-5 pa-5" elevation={ELEVATION_ZERO}>
     {"Example ELEVATION_ZERO"}
@@ -220,8 +220,8 @@ Example No Elevation (default)
     {"Example No Elevation (default)"}
 </Paper>
 ```
-```
 ````
+`````
 
 ### ELEVATION_MIN
 

@@ -21,7 +21,7 @@ impl GlobalData {
         match result {
             Ok(json) => {
                 // set_global_data(String::from(key), json.to_string());
-                match MY_MAP.lock() {
+                match HASHED_DATA.lock() {
                     Ok(mut table) => {
                         let _ = table.insert(key.to_string(), json.to_owned());
                     }
@@ -46,7 +46,7 @@ impl GlobalData {
         T: for<'a> serde::Deserialize<'a>,
     {
         // let json = get_global_data(String::from(key));
-        match MY_MAP.lock() {
+        match HASHED_DATA.lock() {
             Ok(table) => {
                 let json = match table.get(key) {
                     Some(value) => value.to_string(),
@@ -71,7 +71,7 @@ impl GlobalData {
         T: for<'a> serde::Deserialize<'a>,
     {
         // let json = get_global_data(String::from(key));
-        match MY_MAP.lock() {
+        match HASHED_DATA.lock() {
             Ok(table) => {
                 let json = match table.get(key) {
                     Some(value) => value.to_string(),
@@ -97,5 +97,5 @@ impl GlobalData {
 }
 
 lazy_static! {
-    static ref MY_MAP: Mutex<HashMap<String, String>> = Mutex::new(HashMap::new());
+    static ref HASHED_DATA: Mutex<HashMap<String, String>> = Mutex::new(HashMap::new());
 }

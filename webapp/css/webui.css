@@ -220,8 +220,10 @@ p {
     padding: 0;
     margin: 0;
 }
-
-p:not(:first-child) {
+p > img:not(:only-child) {
+    height: 1em;
+}
+.paper > p:not(:first-child) {
     margin-top: calc(1.5 * var(--padding));
 }
 
@@ -253,6 +255,11 @@ svg {
     overflow: visible;
 }
 
+hr {
+    width: 100%;
+    margin: calc(3*var(--padding)) 0;
+}
+
 pre,
 .auto_message_box {
     position: relative;
@@ -276,6 +283,11 @@ pre[languagetag]:before {
     z-index: 0;
     opacity: 0.7;
     box-sizing: border-box;
+}
+
+main>.paper>pre {
+    margin-left: var(--padding);
+    margin-right: var(--padding);
 }
 
 code {
@@ -305,6 +317,7 @@ table {
     border-collapse: collapse;
 }
 
+table > tr:first-child > td, 
 table th {
     background-color: var(--color-primary);
     color: var(--color-primary-offset);
@@ -484,6 +497,18 @@ ul,
 ol {
     margin: 0;
     padding-inline-start: calc(4 * var(--padding));
+}
+li {
+    position: relative;
+    line-height: 1.5em;
+    align-items: center;
+}
+li > svg:first-child,
+li > img:first-child,
+li > i:first-child {
+    float: left;
+    margin-right: calc(2*var(--padding));
+    height: 1.4em;
 }
 
 /* Layout Styles */

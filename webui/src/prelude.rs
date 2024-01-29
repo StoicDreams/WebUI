@@ -7,6 +7,7 @@ pub use crate::components::*;
 pub use crate::constants::*;
 pub use crate::data_types::*;
 pub use crate::global::*;
+pub use crate::helpers::*;
 pub use crate::interop;
 pub use crate::interop::*;
 pub use crate::jslog;

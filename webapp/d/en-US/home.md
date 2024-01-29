@@ -56,13 +56,10 @@ The reason is quite simple. Web UI is very early in development, and a lot of th
 For these reasons, I have decided to only document features and components once I feel they are ready to be used.
 
 Of course, this doesn't mean I won't still drastically change a feature or component if it's documented. But expect that if I do change a documented feature or component, that the associated documentation will be updated with the change.
-```list
-GitHub: [Web UI open-source web development framework.](https://github.com/StoicDreams/RustWebUI)
 
-Rust WebUI Docs: [Developer documentation for Web UI.](https://docs.rs/webui)
-
-Crates.io: [Crate information for Web UI.](https://crates.io/crates/webui)
-```
+- GitHub: [Web UI open-source web development framework.](https://github.com/StoicDreams/RustWebUI)
+- Rust WebUI Docs: [Developer documentation for Web UI.](https://docs.rs/webui)
+- Crates.io: [Crate information for Web UI.](https://crates.io/crates/webui)
 
 ````
 
