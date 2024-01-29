@@ -145,6 +145,16 @@ Run the script whenever you're ready to save and publish updates.
 webuisave -c "Your commit message"
 ```
 
+```bash
+# Increment minor version
+webuisave -c "Your commit message" --minor
+```
+
+```bash
+# Increment major version
+webuisave -c "Your commit message" --major
+```
+
 ## Other Resources
 
 [Rust Docs](https://www.rust-lang.org/)

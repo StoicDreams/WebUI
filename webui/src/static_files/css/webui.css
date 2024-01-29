@@ -220,7 +220,7 @@ p {
     padding: 0;
     margin: 0;
 }
-p > img:not(:only-child) {
+img:not(:only-child) {
     height: 1em;
 }
 .paper > p:not(:first-child) {
@@ -1264,12 +1264,12 @@ header .avatar>img {
     height: 1.7em;
 }
 
-p>.avatar:not(:only-child) {
+.avatar:not(:only-child) {
     display: inline-flex;
     height: 1.0em;
 }
 
-p>.avatar:not(:only-child)>img {
+.avatar:not(:only-child)>img {
     height: 1.0em;
 }
 
