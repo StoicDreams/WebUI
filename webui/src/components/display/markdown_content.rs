@@ -1,30 +1,6 @@
 use crate::prelude::*;
 use std::collections::HashMap;
 
-mod children;
-mod code_segments;
-mod helpers;
-mod line_content;
-mod line_segments;
-mod line_types;
-mod lines;
-mod list;
-mod markdown_segments;
-mod table;
-mod tags;
-
-use children::*;
-use code_segments::*;
-use dynamic_component::*;
-use helpers::*;
-use line_content::*;
-use line_segments::*;
-use line_types::*;
-use lines::*;
-use list::*;
-use markdown_segments::*;
-use tags::*;
-
 /// Get the default tags for markdown content
 pub fn get_markdown_tags() -> HashMap<String, String> {
     let mut tags = HashMap::<String, String>::new();
@@ -78,7 +54,7 @@ pub struct MarkdownContentProps {
 /// }
 /// ```
 #[function_component(MarkdownContent)]
-pub fn site_content(props: &MarkdownContentProps) -> Html {
+pub fn markdown_content(props: &MarkdownContentProps) -> Html {
     let is_loaded = use_state(|| false);
     let is_loading = use_state(|| false);
     let cached_href = use_state(String::default);
@@ -156,18 +132,5 @@ pub fn site_content(props: &MarkdownContentProps) -> Html {
 }
 
 pub fn markdown_to_html(markdown: &str) -> Html {
-    let markdown = parse_markdown(markdown);
-    html!(
-        <>
-            {start_render_children(&markdown)}
-        </>
-    )
-}
-
-fn parse_markdown(markdown: &str) -> Vec<(String, String, MarkdownSegments)> {
-    let mut lines = Vec::new();
-    for line in markdown.lines() {
-        lines.push(get_line_type(line));
-    }
-    lines.to_owned()
+    render_markdown(markdown)
 }

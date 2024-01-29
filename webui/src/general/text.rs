@@ -63,11 +63,11 @@ pub fn replace_start_end_deliminators(text: &str, delim: &str, start: &str, end:
 }
 
 /// Trim any left-side whitespace that is the minimum whitespace length covering all lines.
-/// 
+///
 /// Example
 /// ```rust
 /// use webui::prelude::*;
-/// 
+///
 /// fn main() {
 ///     let test = r#"
 ///         Line 1
@@ -82,17 +82,32 @@ pub fn replace_start_end_deliminators(text: &str, delim: &str, start: &str, end:
 /// }
 /// ```
 pub fn trim_left_padding(text: &str) -> String {
-    let min_spaces = text.lines()
+    let min_spaces = text
+        .lines()
         .filter(|line| !line.is_empty())
         .map(|line| line.chars().take_while(|c| c.is_whitespace()).count())
         .min()
         .unwrap_or(0);
-    if min_spaces == 0 { return text.to_string(); }
+    if min_spaces == 0 {
+        return text.to_string();
+    }
     text.lines()
         .map(|line| {
-            if line.is_empty() { return line.trim(); }
+            if line.is_empty() {
+                return line.trim();
+            }
             &line[min_spaces..]
         })
         .collect::<Vec<_>>()
         .join("\n")
+}
+
+pub fn replace_tags(markdown: &str, tags: &HashMap<String, String>) -> String {
+    let mut markdown = String::from(markdown);
+    for tag in tags.keys() {
+        if let Some(value) = tags.get(tag) {
+            markdown = markdown.replace(&format!("{{{}}}", tag), value.as_str());
+        }
+    }
+    markdown
 }
