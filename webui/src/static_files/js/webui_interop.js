@@ -115,24 +115,24 @@ const memStorage = (function () {
             return memStorageCache[key] ?? "";
         }
         acceptLocalStorage() {
-            memStorageCache[STORAGE_ACCEPTED_KEY] = "2";
             acceptedStorage = ACCEPT_LOCAL_STORAGE;
+            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             sessionStorage.clear();
             Object.keys(memStorageCache).forEach(key => {
                 localStorage.setItem(key, memStorageCache[key]);
             });
         }
         acceptSessionStorage() {
-            memStorageCache[STORAGE_ACCEPTED_KEY] = "1";
             acceptedStorage = ACCEPT_SESSION_STORAGE;
+            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             localStorage.clear();
             Object.keys(memStorageCache).forEach(key => {
                 sessionStorage.setItem(key, memStorageCache[key]);
             });
         }
         rejectCachedStorage() {
-            memStorageCache[STORAGE_ACCEPTED_KEY] = "0";
             acceptedStorage = REJECT_STORAGE_CACHING;
+            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
             sessionStorage.clear();
             localStorage.clear();
         }
