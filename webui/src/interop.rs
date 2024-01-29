@@ -46,13 +46,6 @@ extern "C" {
     #[wasm_bindgen]
     pub fn set_page_transition_duration(value: u16);
 
-    /// Get url page path
-    ///
-    /// Returned path always starts with forward slash '/'.
-    /// Will not include any query data.
-    #[wasm_bindgen]
-    pub fn get_path() -> String;
-
     /// Get host from window
     #[wasm_bindgen]
     pub fn get_host() -> String;
@@ -121,4 +114,11 @@ extern "C" {
 
     #[wasm_bindgen]
     pub(crate) async fn webui_fetch(url: String, options: String, useCors: bool) -> JsValue;
+
+    /// Get url page path
+    ///
+    /// Returned path always starts with forward slash '/'.
+    /// Will not include any query data.
+    #[wasm_bindgen]
+    pub fn get_path() -> String;
 }

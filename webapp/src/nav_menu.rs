@@ -131,7 +131,7 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
 fn nav_menu_render(_contexts: Contexts) -> Html {
     html! {
         <>
-            <Paper class="d-flex pa-1 justify-center">
+            <Paper class="d-flex pa-1 justify-center ml-a mr-a" style="width:160px">
                 <img src="Logo.svg" title="Web UI Logo" />
             </Paper>
             <NavDisplay routes={get_nav_routing()} class="d-flex flex-column pa-1" />

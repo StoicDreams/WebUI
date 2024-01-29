@@ -15,10 +15,10 @@ pub mod components;
 pub mod constants;
 /// Data Types
 pub mod data_types;
+/// Various helper methods
+pub mod general;
 /// Global methods and helpers
 pub mod global;
-/// Various helper methods
-pub mod helpers;
 /// Internal loaders
 pub(crate) mod loaders;
 /// MyFi API components and integrations

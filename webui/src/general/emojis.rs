@@ -4,11 +4,9 @@ use std::collections::HashMap;
 use std::sync::Mutex;
 
 pub fn insert_emojis(text: &str) -> String {
-    replace_tag_markers(text, ":", |segment| {
-        match EMOJIS.get(segment) {
-            Some(emoji) => Some(emoji.to_string()),
-            None => None
-        }
+    replace_tag_markers(text, ":", |segment| match EMOJIS.get(segment) {
+        Some(emoji) => Some(emoji.to_string()),
+        None => None,
     })
 }
 
@@ -103,9 +101,15 @@ lazy_static! {
         m.insert("rewind", "⏪");
         m.insert("arrow_double_up", "⏫");
         m.insert("arrow_double_down", "⏬");
-        m.insert("black_right_pointing_double_triangle_with_vertical_bar", "⏭");
+        m.insert(
+            "black_right_pointing_double_triangle_with_vertical_bar",
+            "⏭",
+        );
         m.insert("black_left_pointing_double_triangle_with_vertical_bar", "⏮");
-        m.insert("black_right_pointing_triangle_with_double_vertical_bar", "⏯");
+        m.insert(
+            "black_right_pointing_triangle_with_double_vertical_bar",
+            "⏯",
+        );
         m.insert("alarm_clock", "⏰");
         m.insert("stopwatch", "⏱");
         m.insert("timer_clock", "⏲");
@@ -1547,7 +1551,7 @@ lazy_static! {
         m.insert("man-playing-handball", "🤾‍♂️");
         m.insert("woman-bouncing-ball", "⛹️‍♀️");
         m.insert("man-bouncing-ball", "⛹️‍♂️");
-        m.insert("person_with_ball", "⛹️‍♂️");        
+        m.insert("person_with_ball", "⛹️‍♂️");
         m
     };
 }

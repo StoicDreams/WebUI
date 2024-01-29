@@ -38,7 +38,7 @@ pub fn html_content(props: &HtmlContentProps) -> Html {
 }
 
 /// A component for rendering raw html markup inside of a span.
-/// 
+///
 /// This is intended for smaller text segments, such as a single line.
 #[function_component(SpanHtmlContent)]
 pub fn span_html_content(props: &HtmlContentProps) -> Html {
@@ -47,7 +47,7 @@ pub fn span_html_content(props: &HtmlContentProps) -> Html {
     let el = document
         .create_element("span")
         .expect("Failed to create span");
-    el.set_inner_html(&props.html.clone());    
+    el.set_inner_html(&props.html.clone());
     Html::VRef(el.into())
 }
 
@@ -72,11 +72,11 @@ pub fn style_content(props: &StyleProps) -> Html {
 #[derive(Properties, PartialEq)]
 pub struct ScriptProps {
     pub script: String,
-    pub delay: usize
+    pub delay: usize,
 }
 
 /// A component for rendering a script tag for running inline javascript.
-/// 
+///
 /// The given script will be delayed by the desired amount before running, and the script tag will be destroyed at the end of the run.
 #[function_component(JavaScriptContent)]
 pub fn javascript_content(props: &ScriptProps) -> Html {
@@ -88,7 +88,8 @@ pub fn javascript_content(props: &ScriptProps) -> Html {
     el.set_attribute("type", "text/javascript");
     let id = format!("JS{}", newid().to_string());
     el.set_attribute("id", &id);
-    let script = format!(r#"
+    let script = format!(
+        r#"
 setTimeout(async()=>{{
     try {{
         {}
@@ -97,7 +98,9 @@ setTimeout(async()=>{{
     }}
     document.getElementById(`{}`).remove();
 }}, {})
-"#, props.script, id, props.delay);
+"#,
+        props.script, id, props.delay
+    );
     el.set_inner_html(&script);
     Html::VRef(el.into())
 }

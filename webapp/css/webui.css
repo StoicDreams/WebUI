@@ -226,7 +226,6 @@ p > img:not(:only-child) {
 .paper > p:not(:first-child) {
     margin-top: calc(1.5 * var(--padding));
 }
-
 button {
     display: inline-block;
     margin: 0;
@@ -779,7 +778,9 @@ aside.app-drawer.left {
 .app-drawer.left.open>.drawer-placement>.drawer-content {
     left: 100%;
 }
-
+.drawer-content img {
+    max-width: 100%;
+}
 .paper {
     border-radius: var(--default-borderradius);
 }

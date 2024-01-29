@@ -1,28 +1,5 @@
 "use strict"
 
-setTimeout(() => {
-    if (!window.__TAURI__) return;
-    console.log('Setup titlebar for Tauri!');
-    document.getElementById('titlebar-minimize')
-        .addEventListener('click', () => window.__TAURI__.window.appWindow.minimize())
-    const tmax = document.getElementById('titlebar-maximize');
-    tmax.addEventListener('click', async () => {
-            if (await await window.__TAURI__.window.appWindow.isMaximized()) {
-                tmax.innerHTML = tmax.getAttribute('data-maximize') || `<i class="far fa-window-maximize"></i>`;
-            } else {
-                tmax.innerHTML = tmax.getAttribute('data-restore') || `<i class="far fa-window-restore"></i>`;
-            }
-            window.__TAURI__.window.appWindow.toggleMaximize();
-        })
-    document.getElementById('titlebar-close')
-        .addEventListener('click', () => window.__TAURI__.window.appWindow.close())
-}, 10);
-
-if (window.__TAURI__) {
-    window._native_open = window.open;
-    window.open = window.__TAURI__.shell.open;
-}
-
 export function open_external_link(href, target) {
     let is_open_in_new_tab = target && target != '_self';
     if (is_open_in_new_tab) {
@@ -138,6 +115,7 @@ const memStorage = (function () {
             return memStorageCache[key] ?? "";
         }
         acceptLocalStorage() {
+            memStorageCache[STORAGE_ACCEPTED_KEY] = "2";
             acceptedStorage = ACCEPT_LOCAL_STORAGE;
             sessionStorage.clear();
             Object.keys(memStorageCache).forEach(key => {
@@ -145,6 +123,7 @@ const memStorage = (function () {
             });
         }
         acceptSessionStorage() {
+            memStorageCache[STORAGE_ACCEPTED_KEY] = "1";
             acceptedStorage = ACCEPT_SESSION_STORAGE;
             localStorage.clear();
             Object.keys(memStorageCache).forEach(key => {
@@ -152,6 +131,7 @@ const memStorage = (function () {
             });
         }
         rejectCachedStorage() {
+            memStorageCache[STORAGE_ACCEPTED_KEY] = "0";
             acceptedStorage = REJECT_STORAGE_CACHING;
             sessionStorage.clear();
             localStorage.clear();
@@ -217,4 +197,27 @@ export async function webui_fetch(url, jsonIn, useCors) {
         body: body
     });
     return json;
+}
+
+setTimeout(() => {
+    if (!window.__TAURI__) return;
+    console.log('Setup titlebar for Tauri!');
+    document.getElementById('titlebar-minimize')
+        .addEventListener('click', () => window.__TAURI__.window.appWindow.minimize())
+    const tmax = document.getElementById('titlebar-maximize');
+    tmax.addEventListener('click', async () => {
+            if (await await window.__TAURI__.window.appWindow.isMaximized()) {
+                tmax.innerHTML = tmax.getAttribute('data-maximize') || `<i class="far fa-window-maximize"></i>`;
+            } else {
+                tmax.innerHTML = tmax.getAttribute('data-restore') || `<i class="far fa-window-restore"></i>`;
+            }
+            window.__TAURI__.window.appWindow.toggleMaximize();
+        })
+    document.getElementById('titlebar-close')
+        .addEventListener('click', () => window.__TAURI__.window.appWindow.close())
+}, 10);
+
+if (window.__TAURI__) {
+    window._native_open = window.open;
+    window.open = window.__TAURI__.shell.open;
 }
