@@ -220,12 +220,21 @@ p {
     padding: 0;
     margin: 0;
 }
+
+img,
+svg {
+    vertical-align: middle;
+}
+
 img:not(:only-child) {
     height: 1em;
 }
-.paper > p:not(:first-child) {
+
+.paper>p:not(:first-child),
+.paper>div:not(:first-child) {
     margin-top: calc(1.5 * var(--padding));
 }
+
 button {
     display: inline-block;
     margin: 0;
@@ -316,7 +325,7 @@ table {
     border-collapse: collapse;
 }
 
-table > tr:first-child > td, 
+table>tr:first-child>td,
 table th {
     background-color: var(--color-primary);
     color: var(--color-primary-offset);
@@ -497,14 +506,16 @@ ol {
     margin: 0;
     padding-inline-start: calc(4 * var(--padding));
 }
+
 li {
     position: relative;
     line-height: 1.5em;
     align-items: center;
 }
-li > svg:first-child,
-li > img:first-child,
-li > i:first-child {
+
+li>svg:first-child,
+li>img:first-child,
+li>i:first-child {
     float: left;
     margin-right: calc(2*var(--padding));
     height: 1.4em;
@@ -778,9 +789,11 @@ aside.app-drawer.left {
 .app-drawer.left.open>.drawer-placement>.drawer-content {
     left: 100%;
 }
+
 .drawer-content img {
     max-width: 100%;
 }
+
 .paper {
     border-radius: var(--default-borderradius);
 }
