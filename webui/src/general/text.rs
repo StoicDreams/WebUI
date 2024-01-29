@@ -61,3 +61,38 @@ pub fn replace_start_end_deliminators(text: &str, delim: &str, start: &str, end:
     }
     result.to_owned()
 }
+
+/// Trim any left-side whitespace that is the minimum whitespace length covering all lines.
+/// 
+/// Example
+/// ```rust
+/// use webui::prelude::*;
+/// 
+/// fn main() {
+///     let test = r#"
+///         Line 1
+///             Line 2
+///                 Line 3
+///         line 4
+///         Line 5
+///         "#;
+///     let result = trim_left_padding(test);
+///     let expect = "Line 1\n    Line 2\n        Line 3\nline 4\nLine 5";
+///     assert_eq!(expect, result.trim());
+/// }
+/// ```
+pub fn trim_left_padding(text: &str) -> String {
+    let min_spaces = text.lines()
+        .filter(|line| !line.is_empty())
+        .map(|line| line.chars().take_while(|c| c.is_whitespace()).count())
+        .min()
+        .unwrap_or(0);
+    if min_spaces == 0 { return text.to_string(); }
+    text.lines()
+        .map(|line| {
+            if line.is_empty() { return line.trim(); }
+            &line[min_spaces..]
+        })
+        .collect::<Vec<_>>()
+        .join("\n")
+}

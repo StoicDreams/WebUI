@@ -19,9 +19,7 @@ use crate::prelude::*;
 /// assert_eq!("200,000.50", format_decimal(number,2));
 /// ```
 pub fn format_decimal(number: Decimal, digits: u32) -> String {
-    println!("N{}", number);
     let value = &mut format!("{}", number.round_dp(digits));
-    println!("{}  {}", value, digits);
     let split = &mut value.split('.');
     let left = &mut String::new();
     if let Some(value) = split.next() {

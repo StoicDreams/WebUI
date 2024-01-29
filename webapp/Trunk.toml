@@ -6,4 +6,4 @@ command = "webapp_post_build"
 # Paths to watch. The `build.target`'s parent folder is watched by default.
 watch = []
 # Paths to ignore.
-ignore = ["d"]
+ignore = []
