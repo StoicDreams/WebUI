@@ -220,7 +220,7 @@ p {
     padding: 0;
     margin: 0;
 }
-p > img:not(:only-child) {
+img:not(:only-child) {
     height: 1em;
 }
 .paper > p:not(:first-child) {

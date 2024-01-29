@@ -1,6 +1,6 @@
 [package]
 name = "webui_procs"
-version = "0.7.0" #syncwebui
+version = "0.7.1" #syncwebui
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

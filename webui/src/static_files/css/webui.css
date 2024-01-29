@@ -1264,12 +1264,12 @@ header .avatar>img {
     height: 1.7em;
 }
 
-.avatar:not(:only-child) {
+p>.avatar:not(:only-child) {
     display: inline-flex;
     height: 1.0em;
 }
 
-.avatar:not(:only-child)>img {
+p>.avatar:not(:only-child)>img {
     height: 1.0em;
 }
 
