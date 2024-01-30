@@ -1,6 +1,6 @@
 # Web UI
 
-[WebUI Version: 0.7.6](https://github.com/StoicDreams/RustWebUI)
+[WebUI Version: 0.7.7](https://github.com/StoicDreams/RustWebUI)
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
@@ -102,11 +102,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.7.6"
+webui = "0.7.7"
 # Customize with specific feature flags (pages is included by default)
-# webui = { version = "0.7.6", default-features = false }
-# webui = { version = "0.7.6", features = ["all"] }
-# webui = { version = "0.7.6", features = ["myfi", "pages"] }
+# webui = { version = "0.7.7", default-features = false }
+# webui = { version = "0.7.7", features = ["all"] }
+# webui = { version = "0.7.7", features = ["myfi", "pages"] }
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/RustWebUI", branch = "main" }
 ```
@@ -150,7 +150,6 @@ Other files are considered starter files that you will probably want or need to 
 | File | Starter | Static | Details |
 | --- | :---:| :---: | --- |
 | index.html | X | | Update metadata information and add any links for extended js/css functionality. |
-| webui.css | | X | Base styles, do not edit. |
 | app.webmanifest | X | | Update with information about your app. This is used for installable SPAs. |
 | robots.txt | X | | Update as needed to manage search bot rules. |
 | Logo.svg | X | | Placeholder logo. Update with your own.

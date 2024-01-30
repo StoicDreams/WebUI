@@ -242,9 +242,6 @@ Example class theme-white
 ```section
 Set your own color values for your Web UI app by adding and customizing this css code snippet to your site's css file.
 ```
-```quote "info" "" "mt-3"
-**Note:** You should not update the webui.css file that contains the default settings, unless you plan to never run the `webui` auto updater that applies the latest updates.
-```
 ````
 ````css
 :root {
