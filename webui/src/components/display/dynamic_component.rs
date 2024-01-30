@@ -13,7 +13,7 @@ pub(crate) struct DynamicComponentProps {
 /// Markdown Example:
 ///
 /// ```Markdown
-/// !<Test>
+/// <Test>
 /// ```
 /// Example:
 ///

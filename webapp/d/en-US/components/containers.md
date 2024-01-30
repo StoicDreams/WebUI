@@ -100,12 +100,12 @@ Markdown components allow loading content from markdown files. This is a great w
 ````sidebyside
 ```Paper
 # Title
-!<Test>
+<Test>
 ```
 ```rust
 <MarkdownContent markdown={r#"
     # Title
-    !<Test>
+    <Test>
     "#} />
 
 <MarkdownContent href="/d/en-US/test.md />
