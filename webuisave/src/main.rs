@@ -19,6 +19,10 @@ fn main() {
     let args = Args::parse();
     check_correct_folder();
     run("cargo", "test");
+    run("cargo", "fmt");
+    run("cargo", "update");
+    run("cargo", "build");
+    build_sitemap();
     if args.commit.is_some() {
         let version_args = &mut Vec::new();
         version_args.push("./IncrementVersion.ps1");
@@ -29,11 +33,8 @@ fn main() {
         }
         run_ma("pwsh", version_args);
     }
-    run("cargo", "fmt");
-    run("cargo", "update");
-    run("cargo", "build");
-    build_sitemap();
     run_ma("cargo", &["install", "--path", "webui"]);
+    run_ma("cargo", &["install", "--path", "webuisave"]);
     if let Some(commit) = args.commit {
         run_ma("git", &["add", "-A"]);
         run_ma("git", &["commit", "-m", &commit]);
