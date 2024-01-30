@@ -8,10 +8,8 @@ static MANIFEST: &str = include_str!("starter_files/app.webmanifest");
 static LOGO: &str = include_str!("starter_files/Logo.svg");
 static ROBOTS: &str = include_str!("starter_files/robots.txt");
 static SERVICEWORKER: &str = include_str!("starter_files/service-worker.js");
-static WEBUIJS: &str = include_str!("static_files/js/webui.js");
 
 fn main() {
-    starter_files::add_file("js/webui.js", WEBUIJS);
     starter_files::add_file_if_missing("index.html", INDEX);
     starter_files::add_file_if_missing("root_files/app.webmanifest", MANIFEST);
     starter_files::add_file_if_missing("root_files/Logo.svg", LOGO);

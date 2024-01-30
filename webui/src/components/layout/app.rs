@@ -60,7 +60,7 @@ fn app_render(props: &AppProps) -> Html {
                 <AppDrawer drawer={Direction::Top} />
                 <AppDrawer drawer={Direction::Right} />
                 <AppDrawer drawer={Direction::Bottom} />
-                <AppDrawer drawer={Direction::Left} />
+                <AppDrawer drawer={Direction::Left} pinnable={PinOptions::PinnableWithThinOption} />
             </ContextProvider<Contexts>>
         </div>
     }

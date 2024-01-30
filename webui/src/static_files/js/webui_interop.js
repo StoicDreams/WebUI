@@ -1,5 +1,6 @@
 "use strict"
 
+let app = null;
 export function open_external_link(href, target) {
     let is_open_in_new_tab = target && target != '_self';
     if (is_open_in_new_tab) {
@@ -199,7 +200,53 @@ export async function webui_fetch(url, jsonIn, useCors) {
     return json;
 }
 
-setTimeout(() => {
+const APP_CLASS_KEY = "app_classes";
+export function app_has_classes(classes) {
+    classes = classes.split(' ');
+    let current = app.className.split(' ');
+    for(let i = 0;i < classes.length; ++i) {
+        if (current.indexOf(classes[i]) !== -1) continue;
+        return false;
+    }
+    return true;
+}
+
+export function update_app_classes(add_classes, remove_classes) {
+    add_app_class(add_classes);
+    remove_app_class(remove_classes);
+}
+
+export function add_app_class(classes) {
+    let current = app.className.split(' ');
+    classes.split(' ').forEach(cls => {
+        if (!cls) return;
+        if (current.indexOf(cls) != -1) return;
+        current.push(cls);
+    });
+    app.className = current.join(' ');
+    memStorage.setItem(APP_CLASS_KEY, app.className);
+    applyDynamicStyleRules();
+}
+
+export function remove_app_class(classes) {
+    let current = app.className.split(' ');
+    let updated = [];
+    classes = classes.split(' ');
+    current.forEach(cls => {
+        if (!cls) return;
+        if (classes.indexOf(cls) != -1) return;
+        updated.push(cls);
+    });
+    app.className = updated.join(' ');
+    memStorage.setItem(APP_CLASS_KEY, app.className);
+    applyDynamicStyleRules();
+}
+
+function loadAppClasses(){
+    app.className = memStorage.getItem(APP_CLASS_KEY);
+}
+
+function setupTauriIntegrations(){
     if (!window.__TAURI__) return;
     console.log('Setup Tauri integrations!');
     window._native_open = window.open;
@@ -217,5 +264,149 @@ setTimeout(() => {
             window.__TAURI__.window.appWindow.toggleMaximize();
         })
     document.getElementById('titlebar-close')
-        .addEventListener('click', () => window.__TAURI__.window.appWindow.close())
-}, 10);
+        .addEventListener('click', () => window.__TAURI__.window.appWindow.close());
+}
+
+const getEl = function getEl(sel, mswait) {
+    mswait = mswait || 0;
+    return new Promise((resolve, reject) => {
+        let el = null;
+        const start = Date.now();
+        (function check() {
+            el = document.querySelector(sel);
+            if (el) {
+                resolve(el);
+                return;
+            }
+            const c = Date.now();
+            if (c - start > mswait) {
+                resolve(null);
+                return;
+            }
+            setTimeout(check, 10);
+        })();
+    });
+};
+
+const set_body_class = function set_body_class(winWidth) {
+    // Flag general width by class
+    let w = winWidth > 3800 ? 'w-4k'
+        : winWidth > 3400 ? 'w-wqhd'
+            : winWidth > 2500 ? 'w-qhd'
+                : winWidth > 1900 ? 'w-fhd'
+                    : winWidth > 1500 ? 'w-hdp'
+                        : winWidth > 1300 ? 'w-hd'
+                            : winWidth > 500 ? 'w-tab'
+                                : 'w-mob'
+        ;
+    document.body.className = `${w}`;
+};
+
+let _adsrCache = '';
+const applyDynamicStyleRules = async function applyDynamicStyleRules() {
+    let w = window;
+    let h = await getEl('#app > header', 1) || { clientHeight: 0 };
+    let m = await getEl('#app > main', 1) || { clientHeight: 0, clientWidth: 0 };
+    let f = await getEl('#app > footer', 1) || { clientHeight: 0 };
+    let dl = await getEl('aside.app-drawer.left .drawer-content') || { clientWidth: 0 };
+    let dr = await getEl('aside.app-drawer.right .drawer-content') || { clientWidth: 0 };
+    styles.innerHTML = `
+:root {
+--window-width: ${w.innerWidth}px;
+--window-height: ${w.innerHeight}px;
+--main-width: ${m.clientWidth}px;
+--main-height: ${m.clientHeight}px;
+--header-height: ${h.clientHeight}px;
+--footer-height: ${f.clientHeight}px;
+--drawer-left-width: ${dl.clientWidth}px;
+--drawer-right-width: ${dr.clientWidth}px;
+}
+`;
+    set_body_class(w.innerWidth);
+    if (_adsrCache !== styles.innerHTML) {
+        setTimeout(applyDynamicStyleRules,10);
+    }
+    _adsrCache = styles.innerHTML;
+};
+
+const getMatchByKey = function getMatchByKey(target, key) {
+    let el = target;
+    let i = 0;
+    while (el && i++ < 10) {
+        if (el[key]) { return el; }
+        el = el.parentNode;
+    }
+    return undefined;
+}
+const handleNav = function handleNav(target) {
+    if (!target.parentNode) {
+        // WebUI Already removed from DOM
+        return true;
+    }
+    let anchor = getMatchByKey(target, 'href');
+    if (!anchor) { return false; }
+    target = anchor.getAttribute('target');
+    // All external links should get handled by Rust calling open_external_link
+    if (target && target == '_blank') return true;
+    let href = anchor.getAttribute('href');
+    href = href.substr(0, location.origin.length).toLowerCase() === location.origin.toLowerCase() ? href.substr(location.origin.length) : href;
+    if (href[0] === '#') {
+        location.hash = href;
+        return true;
+    }
+    // Disabling local navigation which will be handled by PWA webasembly processing
+    if (href[0] === '/') {
+        return true;
+    }
+    return false;
+}
+const styles = document.createElement('style');
+const handlResize = function handlResize(ev) {
+    applyDynamicStyleRules();
+}
+
+const setupWatchers = function setupWatchers() {
+    styles.setAttribute('type', 'text/css');
+    document.head.appendChild(styles);
+    window.addEventListener('resize', handlResize);
+    setTimeout(applyDynamicStyleRules,10);
+}
+
+getEl('#app', 30000).then(el => {
+    if (!el) {
+        console.error('WebUI Interop failed to load application');
+        return;
+    }
+    app = el;
+    loadAppClasses();
+    el.addEventListener('click', ev => {
+        if (!ev.target) { return false; }
+        if (handleNav(ev.target)) {
+            ev.preventDefault();
+            ev.stopPropagation();
+            return false;
+        }
+        return true;
+    });
+    setupWatchers();
+    setTimeout(() => {
+        update_app_classes("page transition in", "out");
+        setTimeout(() => {
+            remove_app_class("page transition in");
+        }, 300);
+    }, 200);
+});
+
+(function checkHighlighting(){
+    if (window.hljs) {
+        document.querySelectorAll('pre code:not([data-hl])').forEach((el) => {
+            el.setAttribute('data-hl', true);
+            window.hljs.highlightElement(el);
+        });
+    }
+    setTimeout(checkHighlighting, 100);
+})();
+
+setTimeout(() => {
+    setupTauriIntegrations();
+}, 1);

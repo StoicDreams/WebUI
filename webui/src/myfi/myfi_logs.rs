@@ -7,7 +7,6 @@ struct EventLog {
 }
 
 pub async fn log_myfi_event(event: String, data: Option<String>) {
-    jslog!("Event: {} {:?}", event, data);
     let event_log = EventLog { event, data };
     if let Ok(post_body) = to_json(&event_log) {
         _ = fetch(FetchRequest::new(

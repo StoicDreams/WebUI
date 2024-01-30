@@ -1,3 +1,5 @@
+use std::default;
+
 use crate::prelude::*;
 
 #[derive(Clone, Debug, PartialEq, Default)]
@@ -123,12 +125,22 @@ impl AppDrawerOptions {
     }
 }
 
+#[derive(Default, PartialEq)]
+pub enum PinOptions {
+    #[default]
+    Unpinnable,
+    Pinnable,
+    PinnableWithThinOption,
+}
+
 /// Properties for app drawer components
 #[derive(Properties, PartialEq)]
 pub(crate) struct AppDrawerProps {
     #[prop_or_default]
     pub class: Option<String>,
     pub drawer: Direction,
+    #[prop_or_default]
+    pub pinnable: PinOptions,
 }
 
 #[derive(Default, Clone, PartialEq, Debug)]
@@ -149,12 +161,32 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
     let is_transition_handle = use_state(|| false);
     let content_handle: UseStateHandle<Option<AppDrawerOptions>> = use_state(|| None);
     match contexts.drawer.deref().to_owned() {
+        DrawerMessage::Setup(option) => {
+            contexts.drawer.set(DrawerMessage::None);
+            if props.drawer == option.drawer && props.pinnable != PinOptions::Unpinnable {
+                let option = option.clone();
+                let is_open_handle = is_open_handle.clone();
+                let content_handle = content_handle.clone();
+                let is_transition_handle = is_transition_handle.clone();
+                let is_attached_handle = is_attached_handle.clone();
+                set_timeout!(1, {
+                    let is_pinned = app_has_classes(format!("pin-{}", option.drawer));
+                    if is_pinned {
+                        is_open_handle.set(true);
+                        content_handle.set(Some(option.clone()));
+                        is_attached_handle.set(true);
+                        is_transition_handle.set(false);
+                    }
+                });
+            }
+        }
         DrawerMessage::ToggleDrawer(option) => {
             if props.drawer == option.drawer {
                 contexts.drawer.set(DrawerMessage::None);
+                let is_pinned = app_has_classes(format!("pin-{}", props.drawer));
                 let is_open = is_open_handle.deref().to_owned();
                 let is_transition = is_transition_handle.deref().to_owned();
-                if !is_transition {
+                if !is_pinned && !is_transition {
                     is_transition_handle.set(true);
                     let is_open = !is_open;
                     if is_open {
@@ -184,7 +216,8 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
         }
         DrawerMessage::Close => {
             let is_open = is_open_handle.deref().to_owned();
-            if is_open {
+            let is_pinned = app_has_classes(format!("pin-{}", props.drawer));
+            if !is_pinned && is_open {
                 is_open_handle.set(false);
                 is_transition_handle.set(true);
                 let is_transition_handle = is_transition_handle.clone();
@@ -204,7 +237,11 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
             let is_open = is_open_handle.deref().to_owned();
             let is_attached = is_attached_handle.deref().to_owned();
             let is_transition = is_transition_handle.deref().to_owned();
-            if !is_attached && !is_open && !is_transition {
+            if !is_attached
+                && !is_open
+                && !is_transition
+                && props.pinnable == PinOptions::Unpinnable
+            {
                 return html! {
                     <></>
                 };
@@ -306,6 +343,9 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                     </footer>
                                 }
                             } else { html! {} }}
+                            {if props.pinnable != PinOptions::Unpinnable {
+                                html!{render_pin_buttons(&props.drawer, &props.pinnable)}
+                            } else { html! {} }}
                         </div>
                     </div>
                 </aside>
@@ -314,5 +354,45 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
         None => {
             html!()
         }
+    }
+}
+
+fn render_pin_buttons(drawer: &Direction, pinnable: &PinOptions) -> Html {
+    let set_unpinned = {
+        let drawer = drawer.clone();
+        Callback::from(move |_: MouseEvent| {
+            remove_app_class(format!("only-icons pin-{}", drawer));
+        })
+    };
+    let set_pinned_thin = {
+        let drawer = drawer.clone();
+        Callback::from(move |_: MouseEvent| {
+            add_app_class(format!("only-icons pin-{}", drawer));
+        })
+    };
+    let set_pinned_full = {
+        let drawer = drawer.clone();
+        Callback::from(move |_: MouseEvent| {
+            remove_app_class(format!("only-icons"));
+            add_app_class(format!("pin-{}", drawer));
+        })
+    };
+    html! {
+        <Paper class={format!("d-flex flex-wrap pin-options gap-2 f10 justify-center pa-3 pinnable-{}", drawer)}>
+            <Button onclick={set_unpinned} class={format!("pin-button pin-unpinned")} title="Hide Panel">
+                <i class="fa-regular fa-square" />
+            </Button>
+            {match pinnable {
+                PinOptions::PinnableWithThinOption => html!{
+                    <Button onclick={set_pinned_thin} class={format!("pin-button pin-pinned-icon-only")} title="Show Minimal Panel">
+                        <i class="fa-regular fa-ellipsis-stroke-vertical" />
+                    </Button>
+                   },
+                _ => html!()
+            }}
+            <Button onclick={set_pinned_full} class={format!("pin-button pin-pinned-full")} title="Show full Panel">
+                <i class="fa-regular fa-sidebar" />
+            </Button>
+        </Paper>
     }
 }

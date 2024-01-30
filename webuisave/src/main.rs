@@ -18,7 +18,6 @@ struct Args {
 fn main() {
     let args = Args::parse();
     check_correct_folder();
-    copy_static_files();
     run("cargo", "test");
     if args.commit.is_some() {
         let version_args = &mut Vec::new();
@@ -55,17 +54,6 @@ fn check_correct_folder() {
         }
         run_ma("cd", &[".."]);
     }
-}
-
-/// Copy static files from webapp to webui
-///
-/// This is for WebUI dev only.
-/// Active dev updates files in webapp.
-/// When saving, we want to copy these files over to their counterpart in webui.
-fn copy_static_files() {
-    let web_app_js = "webapp/js/webui.js";
-    let web_ui_js = "webui/src/static_files/js/webui.js";
-    fs::copy(web_app_js, web_ui_js).unwrap();
 }
 
 fn build_sitemap() {

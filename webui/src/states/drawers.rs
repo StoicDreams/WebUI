@@ -6,4 +6,5 @@ pub enum DrawerMessage {
     None,
     Close,
     ToggleDrawer(AppDrawerOptions),
+    Setup(AppDrawerOptions),
 }

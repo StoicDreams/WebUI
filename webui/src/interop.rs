@@ -115,6 +115,18 @@ extern "C" {
     #[wasm_bindgen]
     pub(crate) async fn webui_fetch(url: String, options: String, useCors: bool) -> JsValue;
 
+    #[wasm_bindgen]
+    pub fn app_has_classes(classes: String) -> bool;
+
+    #[wasm_bindgen]
+    pub fn add_app_class(classes: String);
+
+    #[wasm_bindgen]
+    pub fn update_app_classes(add_classes: String, remove_classes: String);
+
+    #[wasm_bindgen]
+    pub fn remove_app_class(classes: String);
+
     /// Get url page path
     ///
     /// Returned path always starts with forward slash '/'.

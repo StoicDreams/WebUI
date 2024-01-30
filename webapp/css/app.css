@@ -1,1 +1,50 @@
 /* Example for where to add custom app styles */
+.app-drawer.left .logo {
+    height: calc(6*1em);
+    transition-property: all;
+    transition-duration: 200ms;
+}
+
+#app.pin-left > main,
+#app.pin-left > header {
+    margin-left: var(--drawer-left-width);
+}
+#app.pin-left .app-drawer.left .page-cover {
+    display:none;
+}
+#app.pin-left.only-icons .app-drawer.left .navlink > svg + span,
+#app.pin-left.only-icons .app-drawer.left .navlink > img + span {
+    display: none;
+}
+.pin-options {
+    flex-flow: row;
+}
+.pin-options button {
+    font-size: calc(var(--typography-size) * 2.25);
+    min-width: calc(var(--typography-size) * 2.25);
+    cursor: pointer;
+}
+#app.pin-left.only-icons .pin-options.pinnable-left {
+    flex-flow: column;
+}
+#app.pin-left.only-icons .pin-options.pinnable-left button {
+    font-size: calc(var(--typography-size) * 2.25);
+    min-width: calc(var(--typography-size) * 2.25);
+}
+
+.pin-options.pinnable-left button.pin-unpinned {
+    display: none;
+}
+#app.pin-left .pin-options.pinnable-left button.pin-unpinned {
+    display: inline-block;
+}
+#app.pin-left:not(.only-icons) .pin-options.pinnable-left button.pin-pinned-full {
+    display: none;
+}
+#app.pin-left .drawer-toggle-left,
+#app.pin-left.only-icons .pin-options.pinnable-left button.pin-pinned-icon-only {
+    display: none;
+}
+#app.pin-left.only-icons .app-drawer.left .logo {
+    height: calc(3*1em);
+}

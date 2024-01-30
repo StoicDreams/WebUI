@@ -29,10 +29,18 @@ pub fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
     let title_context = contexts.clone();
     let logo_src_handle: UseStateHandle<Option<String>> = use_state(|| None);
     let logo_title_handle: UseStateHandle<String> = use_state(String::default);
+    let is_setup = use_state(|| false);
     let drawer_info = &props.info;
     let logo_src = logo_src_handle.deref().to_owned();
     let logo_title = logo_title_handle.deref().to_owned();
     let drawer_info_click = drawer_info.clone();
+    if let Some(info) = &drawer_info_click {
+        if !*is_setup {
+            let options = info.get_options();
+            contexts.drawer.set(DrawerMessage::Setup(options));
+            is_setup.set(true);
+        }
+    }
     let contexts_onclick = contexts.clone();
     let setup_onclick = Callback::from(move |_| {
         let drawer_info_click = drawer_info_click.clone();
@@ -50,6 +58,9 @@ pub fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
         classes.push(&props.class);
     } else {
         classes.push("btn");
+    }
+    if let Some(drawer_info) = drawer_info {
+        classes.push(&format!("drawer-toggle-{}", drawer_info.drawer));
     }
     let elevation = props.elevation;
     html! {
