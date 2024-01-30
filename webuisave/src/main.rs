@@ -39,6 +39,7 @@ fn main() {
         run_ma("git", &["commit", "-m", &commit]);
         run_ma("git", &["push", "-u", "origin", "main"]);
         if args.publish {
+            run_ma("cargo", &["publish", "-p", "webui_procs"]);
             run_ma("cargo", &["publish", "-p", "webui"]);
         }
     }

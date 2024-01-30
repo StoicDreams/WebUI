@@ -23,7 +23,7 @@ stoic = []
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-webui_procs = { path = "../webui_procs" }
+webui_procs = "0.7.11" # { path = "../webui_procs" }
 web-sys = "0.3"
 yew = "0.20"
 yew-agent = "0.2"
