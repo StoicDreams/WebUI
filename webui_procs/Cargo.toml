@@ -2,6 +2,14 @@
 name = "webui_procs"
 version = "0.7.11" #syncwebui
 edition = "2021"
+description = "`early development` Macros for WebUI - Website UI framework and component library for quickly building websites with native support for Material UI standardization."
+keywords = ["webassembly", "ui"]
+categories = ["wasm", "web-programming"]
+license = "MIT"
+authors = ["Erik Gasssler"]
+documentation = "https://docs.rs/webui"
+repository = "https://github.com/StoicDreams/RustWebUI"
+homepage = "https://webui.stoicdreams.com"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
