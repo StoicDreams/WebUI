@@ -1,6 +1,6 @@
 # Web UI
 
-[WebUI Version: 0.7.9](https://github.com/StoicDreams/RustWebUI)
+[WebUI Version: 0.7.10](https://github.com/StoicDreams/RustWebUI)
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
@@ -102,11 +102,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.7.9"
+webui = "0.7.10"
 # Customize with specific feature flags (pages is included by default)
-# webui = { version = "0.7.9", default-features = false }
-# webui = { version = "0.7.9", features = ["all"] }
-# webui = { version = "0.7.9", features = ["myfi", "pages"] }
+# webui = { version = "0.7.10", default-features = false }
+# webui = { version = "0.7.10", features = ["all"] }
+# webui = { version = "0.7.10", features = ["myfi", "pages"] }
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/RustWebUI", branch = "main" }
 ```
