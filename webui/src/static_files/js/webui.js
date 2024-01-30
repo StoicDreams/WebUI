@@ -35,6 +35,9 @@
         }
         let anchor = getMatchByKey(target, 'href');
         if (!anchor) { return false; }
+        target = anchor.getAttribute('target');
+        // All external links should get handled by Rust calling open_external_link
+        if (target && target == '_blank') return true;
         let href = anchor.getAttribute('href');
         href = href.substr(0, location.origin.length).toLowerCase() === location.origin.toLowerCase() ? href.substr(location.origin.length) : href;
         if (href[0] === '#') {

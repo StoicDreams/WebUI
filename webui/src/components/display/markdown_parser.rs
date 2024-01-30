@@ -183,8 +183,23 @@ fn handle_mdx_jsx_text_element(mdx_jsx_text_element: &mdast::MdxJsxTextElement) 
 }
 
 fn handle_link(link: &mdast::Link) -> Html {
-    let url = link.url.to_owned();
+    let mut url = link.url.to_owned();
     let title = link.title.to_owned().unwrap_or_default();
+    // The markdown parser has an issue with subject/body variables that contain spaces, so to fix this issue users can use underscores instead of spaces and this process will revert them back to spaces.
+    if url.starts_with("mailto:") && url.contains("?") {
+        let mut skip = true;
+        url = url
+            .split("?")
+            .map(move |segment| {
+                if skip {
+                    skip = false;
+                    return segment.to_owned();
+                }
+                segment.replace("_", " ").to_owned()
+            })
+            .collect::<Vec<String>>()
+            .join("?");
+    }
     html! {<Link href={url} title={title}>{handle_children(&link.children)}</Link>}
 }
 

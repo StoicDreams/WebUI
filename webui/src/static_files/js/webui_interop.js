@@ -201,7 +201,10 @@ export async function webui_fetch(url, jsonIn, useCors) {
 
 setTimeout(() => {
     if (!window.__TAURI__) return;
-    console.log('Setup titlebar for Tauri!');
+    console.log('Setup Tauri integrations!');
+    window._native_open = window.open;
+    window.open = window.__TAURI__.shell.open;
+
     document.getElementById('titlebar-minimize')
         .addEventListener('click', () => window.__TAURI__.window.appWindow.minimize())
     const tmax = document.getElementById('titlebar-maximize');
@@ -216,8 +219,3 @@ setTimeout(() => {
     document.getElementById('titlebar-close')
         .addEventListener('click', () => window.__TAURI__.window.appWindow.close())
 }, 10);
-
-if (window.__TAURI__) {
-    window._native_open = window.open;
-    window.open = window.__TAURI__.shell.open;
-}

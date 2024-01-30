@@ -1,6 +1,6 @@
 [package]
 name = "webapp_post_build"
-version = "0.7.7" #syncwebui
+version = "0.7.8" #syncwebui
 edition = "2021"
 
 [dependencies]

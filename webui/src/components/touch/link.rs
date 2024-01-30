@@ -34,7 +34,11 @@ pub fn link(props: &LinkProps) -> Html {
     } else {
         props.title.to_owned()
     };
-    let target = if app_config.external_links_new_tab_only {
+    let target = if props.href.starts_with("mailto:")
+        || props.href.starts_with("tel:")
+        || props.href.starts_with("sms:")
+        || app_config.external_links_new_tab_only
+    {
         "_blank".to_owned()
     } else if props.target.is_empty() {
         "_self".to_owned()
@@ -42,7 +46,10 @@ pub fn link(props: &LinkProps) -> Html {
         props.target.to_owned()
     };
     let mypath = props.href.to_string();
-    let is_external_link = mypath.contains("://");
+    let is_external_link = mypath.contains("://")
+        || mypath.starts_with("mailto:")
+        || mypath.starts_with("tel:")
+        || mypath.starts_with("sms:");
     let onclick = {
         let contexts = contexts.clone();
         let mypath = mypath.clone();
