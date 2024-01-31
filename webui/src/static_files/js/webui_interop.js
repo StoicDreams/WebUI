@@ -252,19 +252,22 @@ function setupTauriIntegrations(){
     window._native_open = window.open;
     window.open = window.__TAURI__.shell.open;
 
-    document.getElementById('titlebar-minimize')
-        .addEventListener('click', () => window.__TAURI__.window.appWindow.minimize())
-    const tmax = document.getElementById('titlebar-maximize');
-    tmax.addEventListener('click', async () => {
+    getEl('#titlebar-minimize', 30000).then(el => {
+        el.addEventListener('click', () => window.__TAURI__.window.appWindow.minimize());
+    });
+    getEl('#titlebar-maximize', 30000).then(el => {
+        el.addEventListener('click', async () => {
             if (await await window.__TAURI__.window.appWindow.isMaximized()) {
-                tmax.innerHTML = tmax.getAttribute('data-maximize') || `<i class="far fa-window-maximize"></i>`;
+                el.innerHTML = el.getAttribute('data-maximize') || `<i class="far fa-window-maximize"></i>`;
             } else {
-                tmax.innerHTML = tmax.getAttribute('data-restore') || `<i class="far fa-window-restore"></i>`;
+                el.innerHTML = el.getAttribute('data-restore') || `<i class="far fa-window-restore"></i>`;
             }
             window.__TAURI__.window.appWindow.toggleMaximize();
         })
-    document.getElementById('titlebar-close')
-        .addEventListener('click', () => window.__TAURI__.window.appWindow.close());
+    });
+    getEl('#titlebar-close', 30000).then(el => {
+        el.addEventListener('click', () => window.__TAURI__.window.appWindow.close());
+    });
 }
 
 const getEl = function getEl(sel, mswait) {
