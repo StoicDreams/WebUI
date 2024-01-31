@@ -29,6 +29,7 @@ pub struct AppConfig {
     pub copyright_year_start: Option<i16>,
     pub component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
     pub external_links_new_tab_only: bool,
+    pub page_not_found: Option<fn(path: &str) -> Html>,
 }
 
 /// Struct holding App/Website configuration details.
@@ -57,6 +58,7 @@ pub struct AppConfigBuilder {
     pub(crate) copyright_year_start: Option<i16>,
     pub(crate) component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
     pub(crate) external_links_new_tab_only: bool,
+    pub(crate) page_not_found: Option<fn(path: &str) -> Html>,
 }
 impl AppConfig {
     /// Create an AppConfigBuilder instance to build your AppConfig with.
@@ -100,6 +102,7 @@ impl AppConfig {
             copyright_year_start: None,
             component_registry: None,
             external_links_new_tab_only: false,
+            page_not_found: None,
         }
     }
     pub fn get_nav_from_path(&self, path: &str) -> Option<NavLinkInfo> {
@@ -155,6 +158,7 @@ impl AppConfigBuilder {
             copyright_year_start: self.copyright_year_start.to_owned(),
             component_registry: self.component_registry.to_owned(),
             external_links_new_tab_only: self.external_links_new_tab_only,
+            page_not_found: self.page_not_found,
         }
     }
 
@@ -266,6 +270,11 @@ impl AppConfigBuilder {
     /// Set extra content to display in the header, between the middle togle button and the user info panel
     pub fn set_user_info_panel(&mut self, info_panel: fn(contexts: Contexts) -> Html) -> &mut Self {
         self.user_info_panel = Some(info_panel);
+        self
+    }
+    /// Set the content you want displayed when a requested page is not found.
+    pub fn set_page_not_found(&mut self, page_not_found: fn(path: &str) -> Html) -> &mut Self {
+        self.page_not_found = Some(page_not_found);
         self
     }
     /// Set copyright years

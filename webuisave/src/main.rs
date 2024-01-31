@@ -34,7 +34,6 @@ fn main() {
         run_ma("pwsh", version_args);
     }
     run_ma("cargo", &["install", "--path", "webui"]);
-    run_ma("cargo", &["install", "--path", "webuisave"]);
     if let Some(commit) = args.commit {
         run_ma("git", &["add", "-A"]);
         run_ma("git", &["commit", "-m", &commit]);
@@ -45,6 +44,10 @@ fn main() {
         }
     }
     run("echo", "Finished Successfully");
+    run(
+        "echo",
+        "Don't forget to run `cargo install --path webuisave`",
+    );
 }
 
 fn check_correct_folder() {

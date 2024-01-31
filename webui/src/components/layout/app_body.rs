@@ -99,14 +99,23 @@ fn load_page_data(path: &str, contexts: Contexts) {
     // });
 }
 
-#[function_component(PageNotFound)]
-fn page_not_found() -> Html {
+#[derive(Properties, PartialEq)]
+struct PageNotFoundProps {
+    path: String,
+}
+
+fn page_not_found(path: &str) -> Html {
     html! {
-        <SideImage image_pos={LeftOrRight::Right} src="https://cdn.myfi.ws/v/Vecteezy/404-error-illustration-exclusive-design-inspiration.svg">
-            {paragraphs!(
-                "The page you are looking for could not be found."
-            )}
-        </SideImage>
+        <MarkdownContent markdown={format!(r#"
+            `````sideimage "right" "https://cdn.myfi.ws/v/Vecteezy/404-error-illustration-exclusive-design-inspiration.svg"
+            ````paper "d-flex flex-column align-center"
+            ```paper "f7"
+            **`{}` Not Found:**
+            ```
+            The page you are looking for could not be found!
+            ````
+            `````
+            "#, path)} />
     }
 }
 
@@ -127,7 +136,10 @@ fn page_content(props: &PageContentProps) -> Html {
         }
         yew::suspense::SuspensionResult::Err(_err) => {
             jslog!("Get page failed!");
-            html! {<PageNotFound />}
+            match contexts.config.page_not_found {
+                Some(page) => html! {page(&props.page)},
+                None => html! {page_not_found(&props.page)},
+            }
         }
     }
 }
