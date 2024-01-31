@@ -384,13 +384,13 @@ fn render_pin_buttons(drawer: &Direction, pinnable: &PinOptions) -> Html {
             </Button>
             {match pinnable {
                 PinOptions::PinnableWithThinOption => html!{
-                    <Button onclick={set_pinned_thin} class={format!("pin-button pin-pinned-icon-only")} title="Show Minimal Panel">
+                    <Button onclick={set_pinned_thin} class={format!("pin-button pin-pinned-icon-only")} title="Pin Minimal Panel">
                         <i class="fa-regular fa-ellipsis-stroke-vertical" />
                     </Button>
                    },
                 _ => html!()
             }}
-            <Button onclick={set_pinned_full} class={format!("pin-button pin-pinned-full")} title="Show full Panel">
+            <Button onclick={set_pinned_full} class={format!("pin-button pin-pinned-full")} title="Pin full Panel">
                 <i class="fa-regular fa-sidebar" />
             </Button>
         </Paper>
