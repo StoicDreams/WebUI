@@ -412,4 +412,4 @@ getEl('#app', 30000).then(el => {
 
 setTimeout(() => {
     setupTauriIntegrations();
-}, 1);
+}, 1000);
