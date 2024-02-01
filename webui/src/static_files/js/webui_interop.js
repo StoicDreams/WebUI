@@ -327,7 +327,8 @@ const applyDynamicStyleRules = async function applyDynamicStyleRules() {
 `;
     set_body_class(w.innerWidth);
     if (_adsrCache !== styles.innerHTML) {
-        setTimeout(applyDynamicStyleRules,10);
+        setTimeout(applyDynamicStyleRules,100);
+        setTimeout(applyDynamicStyleRules,1000);
     }
     _adsrCache = styles.innerHTML;
 };
