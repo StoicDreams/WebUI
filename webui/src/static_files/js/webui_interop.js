@@ -4,7 +4,11 @@ let app = null;
 export function open_external_link(href, target) {
     let is_open_in_new_tab = target && target != '_self';
     if (is_open_in_new_tab) {
-        window.open(href, target);
+        if (window.__TAURI__) {
+            window.__TAURI__.shell.open(href);
+        } else {
+            window.open(href, target);
+        }
         return;
     }
 
@@ -249,8 +253,6 @@ function loadAppClasses(){
 function setupTauriIntegrations(){
     if (!window.__TAURI__) return;
     console.log('Setup Tauri integrations!');
-    window._native_open = window.open;
-    window.open = window.__TAURI__.shell.open;
 
     getEl('#titlebar-minimize', 30000).then(el => {
         el.addEventListener('click', () => window.__TAURI__.window.appWindow.minimize());

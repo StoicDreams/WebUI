@@ -1,6 +1,6 @@
 # Web UI
 
-[WebUI Version: 0.7.18](https://github.com/StoicDreams/RustWebUI)
+[WebUI Version: 0.7.19](https://github.com/StoicDreams/RustWebUI)
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
@@ -104,7 +104,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.7.18"
+webui = "0.7.19"
 # Customize with specific feature flags (pages is included by default)
 # webui = { version = "0.7.18", default-features = false }
 # webui = { version = "0.7.18", features = ["all"] }
