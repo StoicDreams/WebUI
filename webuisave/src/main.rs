@@ -35,12 +35,23 @@ fn main() {
     }
     run_ma("cargo", &["install", "--path", "webui"]);
     if let Some(commit) = args.commit {
-        run_ma("git", &["add", "-A"]);
-        run_ma("git", &["commit", "-m", &commit]);
-        run_ma("git", &["push", "-u", "origin", "main"]);
         if args.publish {
+            run_ma("git", &["add", "-A"]);
+            run_ma("git", &["commit", "-m", &commit]);
+            run_ma("git", &["push", "-u", "origin", "main"]);
             run_ma("cargo", &["publish", "-p", "webui_procs"]);
+            run("cargo", "update");
+            run("cargo", "build");
+            run_ma("git", &["add", "-A"]);
+            run_ma("git", &["commit", "-m", &commit]);
+            run_ma("git", &["push", "-u", "origin", "main"]);
             run_ma("cargo", &["publish", "-p", "webui"]);
+        } else {
+            run("cargo", "update");
+            run("cargo", "build");
+            run_ma("git", &["add", "-A"]);
+            run_ma("git", &["commit", "-m", &commit]);
+            run_ma("git", &["push", "-u", "origin", "main"]);
         }
     }
     run("echo", "Finished Successfully");
