@@ -127,6 +127,11 @@ pub async fn fetch(request: FetchRequest) -> FetchResponse {
         if !authkey.is_empty() {
             options.headers.insert(String::from("x-auth"), authkey);
         }
+        if let Some(key) = get_myfi_app_key() {
+            options
+                .headers
+                .insert(String::from("x-origin"), String::from(key));
+        }
     }
     let json = serde_json::to_string(&options).unwrap();
     let result = webui_fetch(url, json, request.use_cors).await;

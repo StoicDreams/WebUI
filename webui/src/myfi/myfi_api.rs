@@ -12,6 +12,22 @@ use web_sys::Request;
 const MYFI_ROOT_AUTH: &str = "auth";
 const MYFI_URL_MYINFO: &str = "myinfo";
 const MYFI_URL_SIGNOUT: &str = "signout";
+thread_local!(static MYFI_APP_KEY: Cell<&'static str> = Cell::new(""));
+
+/// Use this method to set your assigned public MyFi application key.
+///
+/// This is needed for desktop applications to use MyFi authenticated services.
+#[no_mangle]
+pub fn set_myfi_app_key(key: &str) {
+    MYFI_APP_KEY.with(|a: &Cell<&'static str>| a.set(Box::leak(key.to_string().into_boxed_str())));
+}
+pub(crate) fn get_myfi_app_key() -> Option<&'static str> {
+    let key = MYFI_APP_KEY.with(|a| a.get());
+    if key.is_empty() {
+        return None;
+    }
+    Some(key)
+}
 
 pub(crate) async fn myfi_get_my_info(
     user_state: UseStateHandle<Option<MyFiUser>>,
