@@ -15,7 +15,7 @@ pub(crate) fn get_myfi_auth_token_key() -> String {
 #[function_component(RenderPage)]
 fn render_page() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
-    let auth_key = query_url("key");
+    let auth_key = query_url("key", None);
     if auth_key.is_none() {
         return render_no_key(contexts);
     }

@@ -1,8 +1,14 @@
 use crate::prelude::*;
 
 /// Get the value from a single url query data key.
-pub fn query_url(name: &str) -> Option<String> {
-    if let Some(query_data) = get_query_data_from_path() {
+///
+/// If url is None, then current browser URL will be used.
+pub fn query_url(name: &str, url: Option<String>) -> Option<String> {
+    let query_data = match url {
+        Some(url) => get_query_data_from_url(&url),
+        None => get_query_data_from_path(),
+    };
+    if let Some(query_data) = query_data {
         return query_data
             .iter()
             .find(|(key, _)| *key == name)
@@ -14,9 +20,13 @@ pub fn query_url(name: &str) -> Option<String> {
 /// Get a HashMap of all url query data from the current page.
 pub fn get_query_data_from_path() -> Option<HashMap<String, String>> {
     let path = get_full_path();
-    match path.find('?') {
+    get_query_data_from_url(&path)
+}
+
+pub fn get_query_data_from_url(url: &str) -> Option<HashMap<String, String>> {
+    match url.find('?') {
         Some(index) => {
-            let query = &path[index + 1..];
+            let query = &url[index + 1..];
             let mut query_data = HashMap::new();
             for pair in query.split('&') {
                 let mut pair = pair.split('=');
