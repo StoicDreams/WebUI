@@ -208,7 +208,7 @@ fn handle_link_reference(link_reference: &mdast::LinkReference) -> Html {
         .to_owned()
         .label
         .unwrap_or(link_reference.identifier.to_owned());
-    html! {<a data-linkref={link_reference.identifier.to_owned()}>{handle_children(&link_reference.children)}</a>}
+    html! {<a target="_blank" data-linkref={link_reference.identifier.to_owned()}>{handle_children(&link_reference.children)}</a>}
 }
 
 fn handle_strong(strong: &mdast::Strong) -> Html {
