@@ -274,7 +274,7 @@ function setupTauriIntegrations(){
 
 const getEl = function getEl(sel, mswait) {
     mswait = mswait || 0;
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _) => {
         let el = null;
         const start = Date.now();
         (function check() {
@@ -327,13 +327,16 @@ const applyDynamicStyleRules = async function applyDynamicStyleRules() {
 --drawer-right-width: ${dr.clientWidth}px;
 }
 `;
-    set_body_class(w.innerWidth);
     if (_adsrCache !== styles.innerHTML) {
-        setTimeout(applyDynamicStyleRules,100);
-        setTimeout(applyDynamicStyleRules,1000);
+        set_body_class(w.innerWidth);
+        _adsrCache = styles.innerHTML;
     }
-    _adsrCache = styles.innerHTML;
 };
+
+(function periodicUpates(){
+    applyDynamicStyleRules();
+    setTimeout(periodicUpates, 1000);
+})();
 
 const getMatchByKey = function getMatchByKey(target, key) {
     let el = target;
