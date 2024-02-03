@@ -88,17 +88,20 @@ fn display_login_signup() -> Html {
 
 #[derive(PartialEq, Properties, Clone)]
 struct DisplaySigninLinkOptions {
-    site_id: AttrValue
+    site_id: AttrValue,
 }
 
 #[function_component(DisplaySigninLink)]
 fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
     let contexts = use_context::<Contexts>().expect("Failed to load contexts");
-    let href = format!("https://www.stoicdreams.com/signin?siteid={}", props.site_id);
+    let href = format!(
+        "https://www.stoicdreams.com/signin?siteid={}",
+        props.site_id
+    );
     let is_app = is_tauri_app();
     let target = if is_app { "_blank" } else { "_self" };
     let show_code = use_state(|| false);
-    let code_input = use_state (|| String::default());
+    let code_input = use_state(|| String::default());
     let onclick = {
         let is_app = is_app.clone();
         let show_code = show_code.clone();
@@ -160,7 +163,7 @@ fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
 }
 
 fn is_tauri_app() -> bool {
-    #[cfg(feature="tauri")]
+    #[cfg(feature = "tauri")]
     {
         return true;
     }

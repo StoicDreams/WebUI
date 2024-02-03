@@ -67,11 +67,12 @@ pub use yew::macros::html;
 pub use yew::{
     html_nested,
     prelude::{
-        function_component, hook, html::*, use_callback, use_context, use_effect, use_effect_with_deps,
-        use_force_update, use_memo, use_mut_ref, use_node_ref, use_prepared_state,
-        use_prepared_state_macro, use_prepared_state_with_suspension, use_reducer, use_reducer_eq,
-        use_state, use_state_eq, use_transitive_state, use_transitive_state_macro, Callback, Component,
-        ContextProvider, Event, Hook, Html, InputEvent, MouseEvent, UseStateHandle
+        function_component, hook, html::*, use_callback, use_context, use_effect,
+        use_effect_with_deps, use_force_update, use_memo, use_mut_ref, use_node_ref,
+        use_prepared_state, use_prepared_state_macro, use_prepared_state_with_suspension,
+        use_reducer, use_reducer_eq, use_state, use_state_eq, use_transitive_state,
+        use_transitive_state_macro, Callback, Component, ContextProvider, Event, Hook, Html,
+        InputEvent, MouseEvent, UseStateHandle,
     },
-    virtual_dom::{AttrValue, VChild}
+    virtual_dom::{AttrValue, VChild},
 };

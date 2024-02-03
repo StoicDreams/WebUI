@@ -3,7 +3,14 @@ use js_sys::decode_uri;
 use crate::prelude::*;
 
 pub fn get_path_from_url(url: &str) -> String {
-    String::from(url.split('?').next().unwrap_or_default().split('#').next().unwrap_or_default())
+    String::from(
+        url.split('?')
+            .next()
+            .unwrap_or_default()
+            .split('#')
+            .next()
+            .unwrap_or_default(),
+    )
 }
 
 /// Get the value from a single url query data key.
