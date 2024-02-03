@@ -20,7 +20,8 @@ pub(crate) fn app_body() -> Html {
         if *path.deref() != new_path {
             contexts.nav.set(NavigationMessage::None);
             contexts.data.set(None);
-            let page_check = get_page_option(&routes, &new_path, &user_roles);
+            let page_path = get_path_from_url(&new_path);
+            let page_check = get_page_option(&routes, &page_path, &user_roles);
             if page_check.is_some() && *page_state.deref() == PageState::Show {
                 contexts.drawer.set(DrawerMessage::Close);
                 let page_state = page_state.clone();
@@ -52,6 +53,7 @@ pub(crate) fn app_body() -> Html {
             }
         }
     }
+    let path = get_path_from_url(&path);
     let page_el = format!("page{}", path.replace('-', "_").replace('/', "__"));
     let main_class = match page_state.deref() {
         PageState::Hidden => "page hidden",
@@ -62,7 +64,7 @@ pub(crate) fn app_body() -> Html {
 
     load_page_data(&path, contexts.clone());
 
-    let page = path.deref().to_string();
+    let page = path.to_string();
     html! {
         <>
             <main class={main_class}>
@@ -93,10 +95,6 @@ fn load_page_data(path: &str, contexts: Contexts) {
         let fetched = get_myfi_page_data(&path).await;
         data.set(fetched);
     });
-    // wasm_bindgen_futures::spawn_local(async move {
-    //     let fetched = get_myfi_page_data(&path).await;
-    //     data.set(fetched);
-    // });
 }
 
 #[derive(Properties, PartialEq)]

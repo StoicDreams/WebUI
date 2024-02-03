@@ -17,7 +17,7 @@ pub struct LinkProps {
     #[prop_or_default]
     pub icon: String,
     #[prop_or_default]
-    pub onclick: Option<fn(ev: MouseEvent)>,
+    pub onclick: Option<Callback<MouseEvent>>,
 }
 
 #[function_component(Link)]
@@ -52,10 +52,14 @@ pub fn link(props: &LinkProps) -> Html {
         || mypath.starts_with("sms:");
     let onclick = {
         let contexts = contexts.clone();
+        let onclick = props.onclick.clone();
         let mypath = mypath.clone();
         let target = target.clone();
         Callback::from(move |e: MouseEvent| {
             e.prevent_default();
+            if let Some(onclick) = &onclick {
+                onclick.emit(e);
+            }
             if is_external_link {
                 open_external_link(&mypath, &target);
                 return;

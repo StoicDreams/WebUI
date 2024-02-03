@@ -6,17 +6,17 @@ use crate::prelude::*;
 #[derive(Properties, PartialEq)]
 pub struct IconOptions {
     /// Font Awesome or any other css classes for displaying icons
-    pub icon: String,
+    pub icon: AttrValue,
     #[prop_or_default]
     pub elevation: u8,
     #[prop_or(Theme::None)]
     pub color: Theme,
     #[prop_or_default]
-    pub title: String,
+    pub title: AttrValue,
     #[prop_or_default]
-    pub style: String,
+    pub style: AttrValue,
     #[prop_or_default]
-    pub class: String,
+    pub class: AttrValue,
 }
 
 impl Default for IconOptions {
@@ -37,7 +37,7 @@ pub fn icon(props: &IconOptions) -> Html {
     let classes = &mut Classes::new();
 
     if !props.class.is_empty() {
-        classes.push(&props.class);
+        classes.push(props.class.to_string());
     } else {
         classes.push("btn");
     }
@@ -52,7 +52,7 @@ pub fn icon(props: &IconOptions) -> Html {
 
     html! {
         <div class={classes.to_owned()} title={props.title.to_string()} aria-label={props.title.to_string()}>
-            <i class={props.icon.to_owned()} />
+            <i class={props.icon.to_string()} />
         </div>
     }
 }

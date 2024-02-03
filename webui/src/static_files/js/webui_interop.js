@@ -315,7 +315,7 @@ const applyDynamicStyleRules = async function applyDynamicStyleRules() {
     let f = await getEl('#app > footer', 1) || { clientHeight: 0 };
     let dl = await getEl('aside.app-drawer.left .drawer-content') || { clientWidth: 0 };
     let dr = await getEl('aside.app-drawer.right .drawer-content') || { clientWidth: 0 };
-    styles.innerHTML = `
+    let value = `
 :root {
 --window-width: ${w.innerWidth}px;
 --window-height: ${w.innerHeight}px;
@@ -327,9 +327,10 @@ const applyDynamicStyleRules = async function applyDynamicStyleRules() {
 --drawer-right-width: ${dr.clientWidth}px;
 }
 `;
-    if (_adsrCache !== styles.innerHTML) {
+    if (_adsrCache !== value) {
+        _adsrCache = value;
+        styles.innerHTML = value;
         set_body_class(w.innerWidth);
-        _adsrCache = styles.innerHTML;
     }
 };
 

@@ -1,4 +1,5 @@
 use web_sys::KeyboardEvent;
+use yew::AttrValue;
 
 use crate::prelude::*;
 
@@ -70,13 +71,7 @@ fn display_login_signup() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     if let Some(user) = contexts.user.deref() {
         if let Some(site_id) = &user.site_id {
-            let href = format!("https://www.stoicdreams.com/signin?siteid={site_id}",);
-            return html! {
-                <Paper style="max-width:400px;" class="d-flex flex-column gap-2">
-                    <Link href={href} target="_self" class="btn theme-primary">{"Sign In with Stoic Dreams"}</Link>
-                    <Quote color={Theme::Info}>{"Stoic Dreams Account Services is provided securely through www.stoicdreams.com. Clicking this Sign-In button will redirect you to www.stoicdreams.com where you can sign-in to your Stoic Dreams account and choose what personal information, such as your full name and email, is shared with this site."}</Quote>
-                </Paper>
-            };
+            return html! {<DisplaySigninLink site_id={site_id.to_string()} />};
         }
         return html! {
             <Paper>
@@ -89,6 +84,87 @@ fn display_login_signup() -> Html {
             <Loading variant={LoadingVariant::Circle} size={LOADING_SIZE_MEDIUM} color={Theme::Info} />
         </Paper>
     }
+}
+
+#[derive(PartialEq, Properties, Clone)]
+struct DisplaySigninLinkOptions {
+    site_id: AttrValue
+}
+
+#[function_component(DisplaySigninLink)]
+fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
+    let contexts = use_context::<Contexts>().expect("Failed to load contexts");
+    let href = format!("https://www.stoicdreams.com/signin?siteid={}", props.site_id);
+    let is_app = is_tauri_app();
+    let target = if is_app { "_blank" } else { "_self" };
+    let show_code = use_state(|| false);
+    let code_input = use_state (|| String::default());
+    let onclick = {
+        let is_app = is_app.clone();
+        let show_code = show_code.clone();
+        Callback::from(move |_| {
+            if is_app {
+                show_code.set(true);
+            }
+        })
+    };
+    html! {
+        <Paper style="max-width:400px;" class="d-flex flex-column gap-2">
+            <Paper class="d-flex gap-0 field-group-line">
+                <Link href={href} {onclick} target={target} class="btn theme-primary flex-grow">{"Sign In with Stoic Dreams"}</Link>
+                {if is_app && !*show_code {
+                    let onclick = {
+                        let show_code = show_code.clone();
+                        Callback::from(move |_| {
+                            show_code.set(true);
+                        })
+                    };
+                    html!{
+                        <Button class="btn theme-secondary flex-grow" {onclick}>{"Show Sign-In Code Input"}</Button>
+                    }
+                }else{html!()}}
+            </Paper>
+            {if *show_code {
+                let contexts = contexts.clone();
+                let code_input = code_input.clone();
+                let start_icon = IconOptions {
+                    icon: "fa-duotone fa-key".into(),
+                    color: Theme::Secondary,
+                    ..Default::default()
+                };
+                let onclick = {
+                    let contexts = contexts.clone();
+                    let code_input = code_input.clone();
+                    Callback::from(move |_| {
+                        let key = code_input.deref();
+                        if key.is_empty() {
+                            alert!(contexts, "Missing Input", "No Sign-In Auth code was entered!");
+                        } else {
+                            jslog!("Navigate to triggered {}", key);
+                            nav_to!(contexts, format!("/sdauth?key={}", key));
+                        }
+                    })
+                };
+                html!{
+                    <Paper class="field-group-line grow-open">
+                        <InputText value={code_input.clone()} {start_icon}
+                            end_button={html_nested! {
+                                <Button color={Theme::Primary} {onclick} title="Confirm your sign-in code after entering.">{"Confirm"}</Button>
+                            }} />
+                    </Paper>
+                }
+            }else{html!()}}
+            <Quote color={Theme::Info}>{"Stoic Dreams Account Services is provided securely through www.stoicdreams.com. Clicking this Sign-In button will redirect you to www.stoicdreams.com where you can sign-in to your Stoic Dreams account and choose what personal information, such as your full name and email, is shared with this site."}</Quote>
+        </Paper>
+    }
+}
+
+fn is_tauri_app() -> bool {
+    #[cfg(feature="tauri")]
+    {
+        return true;
+    }
+    false
 }
 
 fn render_with_user(contexts: Contexts, user: &MyFiUser) -> Html {

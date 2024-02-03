@@ -27,9 +27,9 @@ pub struct InputTextProps {
     #[prop_or_default]
     pub end_icon: Option<IconOptions>,
     #[prop_or_default]
-    pub start_button: Option<ButtonIconInfo>,
+    pub start_button: Option<VChild<Button>>,
     #[prop_or_default]
-    pub end_button: Option<ButtonIconInfo>,
+    pub end_button: Option<VChild<Button>>,
 }
 
 #[function_component(InputText)]
@@ -86,18 +86,7 @@ pub fn input_message(props: &InputTextProps) -> Html {
                             style={start_icon.style.to_owned()}
                             />}
                 } else { html!() }}
-                {if let Some(start_button) = &props.start_button {
-                    html!{<ButtonIcon
-                            icon={start_button.icon.to_owned()}
-                            onclick={start_button.onclick.to_owned()}
-                            elevation={start_button.elevation.to_owned()}
-                            color={start_button.color.to_owned()}
-                            class={start_button.class.to_owned()}
-                            title={start_button.title.to_owned()}
-                            style={start_button.style.to_owned()}
-                            disabled={start_button.disabled.to_owned()}
-                            />}
-                } else { html!() }}
+                {props.start_button.clone().map(Html::from).unwrap_or_default()}
                 <div class="auto_message_box single-line">
                     <pre><code class="language-plaintext">{props.value.to_string()}</code></pre>
                     <input type={input_type}
@@ -119,18 +108,7 @@ pub fn input_message(props: &InputTextProps) -> Html {
                             style={end_icon.style.to_owned()}
                             />}
                 } else { html!() }}
-                {if let Some(end_button) = &props.end_button {
-                    html!{<ButtonIcon
-                            icon={end_button.icon.to_owned()}
-                            onclick={end_button.onclick.to_owned()}
-                            elevation={end_button.elevation.to_owned()}
-                            color={end_button.color.to_owned()}
-                            class={end_button.class.to_owned()}
-                            title={end_button.title.to_owned()}
-                            style={end_button.style.to_owned()}
-                            disabled={end_button.disabled.to_owned()}
-                             />}
-                } else { html!() }}
+                {props.end_button.clone().map(Html::from).unwrap_or_default()}
             </div>
         </InputField>
     }
