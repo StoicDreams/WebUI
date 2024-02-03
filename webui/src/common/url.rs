@@ -1,3 +1,5 @@
+use js_sys::decode_uri;
+
 use crate::prelude::*;
 
 /// Get the value from a single url query data key.
@@ -12,7 +14,12 @@ pub fn query_url(name: &str, url: Option<String>) -> Option<String> {
         return query_data
             .iter()
             .find(|(key, _)| *key == name)
-            .map(|(_, value)| value.to_string());
+            .map(|(_, value)| {
+                match decode_uri(value) {
+                    Ok(js_value) => format!("{}", js_value),
+                    Err(_) => value.to_string()
+                }
+            });
     }
     None
 }
