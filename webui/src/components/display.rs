@@ -13,6 +13,9 @@ pub(crate) mod dynamic_component;
 /// Module for outputting HTML content from string data.
 pub mod html_content;
 
+/// Module for Icon components
+pub mod icon;
+
 /// Module for Image components
 pub mod image;
 
@@ -39,6 +42,7 @@ pub use avatar::*;
 pub use dialog::*;
 pub(crate) use dynamic_component::*;
 pub use html_content::*;
+pub use icon::*;
 pub use image::*;
 pub use loading::*;
 pub use markdown_content::*;
