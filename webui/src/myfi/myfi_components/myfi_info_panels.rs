@@ -94,10 +94,6 @@ struct DisplaySigninLinkOptions {
 #[function_component(DisplaySigninLink)]
 fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
     let contexts = use_context::<Contexts>().expect("Failed to load contexts");
-    let href = format!(
-        "https://www.stoicdreams.com/signin?siteid={}",
-        props.site_id
-    );
     let is_app = is_tauri_app();
     let target = if is_app { "_blank" } else { "_self" };
     let show_code = use_state(|| false);
@@ -110,6 +106,17 @@ fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
                 show_code.set(true);
             }
         })
+    };
+    let href = if is_app {
+        format!(
+            "https://www.stoicdreams.com/signin?siteid={}&app={}",
+            props.site_id, contexts.config.app_name
+        )
+    } else {
+        format!(
+            "https://www.stoicdreams.com/signin?siteid={}",
+            props.site_id
+        )
     };
     html! {
         <Paper style="max-width:400px;" class="d-flex flex-column gap-2">
