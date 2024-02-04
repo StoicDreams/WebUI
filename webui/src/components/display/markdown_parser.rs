@@ -164,7 +164,7 @@ fn handle_html(html: &mdast::Html) -> Html {
             return html!(<DynamicComponent name={name} />);
         }
     }
-    html! {<HtmlContent html={html.value.to_owned()} />}
+    html! {<HtmlContent html={clean_html(&html.value)} />}
 }
 
 fn handle_image(image: &mdast::Image) -> Html {

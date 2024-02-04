@@ -1,3 +1,4 @@
+use regex::Regex;
 use web_sys::HtmlElement;
 
 use crate::prelude::*;
@@ -94,4 +95,50 @@ setTimeout(async()=>{{
     );
     el.set_inner_html(&script);
     Html::VRef(el.into())
+}
+
+/// Remove scripts and code comments from html string
+pub fn clean_html(html: &str) -> String {
+    let mut result = html.to_string();
+    let patterns = vec![
+        r"(?s)<!--.*?-->\n?",
+        r"(?s)<script.+</script>\n?",
+        r#"<\?xml.*?\?>"#,
+    ];
+    for rgx in patterns {
+        let rgx = Regex::new(rgx).unwrap();
+        result = rgx.replace_all(&result, "").to_string();
+    }
+    result
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::prelude::*;
+
+    #[test]
+    fn test_clean_html() {
+        assert_eq!(
+            "Test",
+            &clean_html(r#"<?xml version="1.0" encoding="utf-8"?>Test"#)
+        );
+        assert_eq!("TestTest", &clean_html("Test<!--Anything ! Here-->Test"));
+        assert_eq!(
+            "<h1>Title</h1>\n<footer>Footer</footer>",
+            clean_html(
+                &trim_left_padding(
+                    r#"
+            <h1>Title</h1>
+            <!--?xml version="1.0" encoding="UTF-8"?-->
+            <script type="text/javascript">
+                alert('hello world');
+            </script>
+            <footer>Footer</footer>
+            "#
+                )
+                .trim()
+            )
+            .trim()
+        );
+    }
 }

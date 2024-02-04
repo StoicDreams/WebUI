@@ -90,7 +90,7 @@ fn image_svg(props: &UrlProp) -> Html {
             let result = fetch(FetchRequest::get(src.to_string())).await;
             if result.is_ok() {
                 match result.get_result() {
-                    Some(svg) => image.set(svg),
+                    Some(svg) => image.set(clean_html(&svg)),
                     None => image.set(String::from(
                         "<i class=\"fa-regular fa-triangle-exlamation\" />",
                     )),
@@ -105,5 +105,6 @@ fn image_svg(props: &UrlProp) -> Html {
             <Loading variant={LoadingVariant::Circle} size={0} />
         };
     }
+    jslog!("Image {:?}", image);
     html! {<HtmlContent html={image.to_string()} />}
 }
