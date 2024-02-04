@@ -19,7 +19,7 @@ pub struct AppLogoOptions {
 pub fn app_logo(props: &AppLogoOptions) -> Html {
     let text = if props.second.is_empty() {
         format!(
-            r#"<tspan class="single" x="50" y="50">{}</tspan>"#,
+            r#"<tspan class="single" x="75" y="75">{}</tspan>"#,
             props.text
         )
     } else {
