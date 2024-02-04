@@ -38,6 +38,14 @@ impl FetchRequest {
             use_cors: false,
         }
     }
+    pub fn get(url: String) -> Self {
+        Self {
+            url,
+            method: FetchMethod::Get,
+            headers: HashMap::new(),
+            use_cors: false,
+        }
+    }
     pub fn use_cors(&mut self) -> &mut Self {
         self.use_cors = true;
         self

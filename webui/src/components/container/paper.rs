@@ -13,6 +13,8 @@ pub struct PaperProps {
     pub style: String,
     #[prop_or_default]
     pub id: String,
+    #[prop_or_default]
+    pub title: String,
 }
 
 /// Common container component
@@ -76,9 +78,10 @@ pub fn paper(props: &PaperProps) -> Html {
     } else {
         Some(props.id.to_owned())
     };
+    let title = props.title.to_owned();
 
     html! {
-        <section {id} {class} {style}>
+        <section {id} {class} {style} {title}>
             { for props.children.iter() }
         </section>
     }

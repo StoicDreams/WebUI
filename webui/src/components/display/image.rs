@@ -1,4 +1,4 @@
-use crate::{function_component, html, Classes, Html, Paper, Properties};
+use crate::prelude::*;
 
 /// Properties for Image component
 #[derive(Properties, PartialEq)]
@@ -9,6 +9,8 @@ pub struct ImageProps {
     pub class: String,
     #[prop_or_default]
     pub alt: String,
+    #[prop_or_default]
+    pub title: String,
     #[prop_or_default]
     pub src: String,
     #[prop_or_default]
@@ -53,10 +55,55 @@ pub fn image(props: &ImageProps) -> Html {
     if !props.class.is_empty() {
         classes.push(&props.class);
     }
-
+    let is_svg = props.src.ends_with(".svg");
     html! {
-        <Paper class={classes.to_string()} style={props.style.to_owned()}>
-            <img src={props.src.to_string()} alt={props.alt.to_string()} title={props.alt.to_string()} />
+        <Paper class={classes.to_string()} style={props.style.to_owned()} title={props.title.to_owned()}>
+            {if is_svg {
+                html!{<ImageSVG src={expand_url(&props.src)} alt={props.alt.to_string()} title={props.alt.to_string()} />}
+            }else{
+                html!{<ImageIMG src={props.src.to_string()} alt={props.alt.to_string()} title={props.alt.to_string()} />}
+            }}
         </Paper>
     }
+}
+
+#[derive(Properties, PartialEq, Clone)]
+struct UrlProp {
+    src: AttrValue,
+    alt: AttrValue,
+    title: AttrValue,
+}
+
+#[function_component(ImageIMG)]
+fn image_img(props: &UrlProp) -> Html {
+    html! {<img src={props.src.to_string()} alt={props.alt.to_string()} title={props.alt.to_string()} />}
+}
+
+#[function_component(ImageSVG)]
+fn image_svg(props: &UrlProp) -> Html {
+    let contexts = use_context::<Contexts>().expect("Failed to load contexts");
+    let image = use_state(|| String::default());
+    if image.is_empty() {
+        let src = props.src.clone();
+        let image = image.clone();
+        spawn_async!({
+            let result = fetch(FetchRequest::get(src.to_string())).await;
+            if result.is_ok() {
+                match result.get_result() {
+                    Some(svg) => image.set(svg),
+                    None => image.set(String::from(
+                        "<i class=\"fa-regular fa-triangle-exlamation\" />",
+                    )),
+                }
+            } else {
+                image.set(String::from(
+                    "<i class=\"fa-regular fa-triangle-exlamation\" />",
+                ))
+            }
+        });
+        return html! {
+            <Loading variant={LoadingVariant::Circle} size={0} />
+        };
+    }
+    html! {<HtmlContent html={image.to_string()} />}
 }

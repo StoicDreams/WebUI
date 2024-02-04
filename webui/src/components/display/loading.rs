@@ -61,11 +61,16 @@ pub fn loading(props: &LoadingProps) -> Html {
         }
         LoadingVariant::Circle => classes!("loading", "circle", format!("color-{}", color)),
     };
+    let size = if size > 0 {
+        format!("{size}px")
+    } else {
+        String::from("50%")
+    };
     let styles = match props.variant {
-        LoadingVariant::Bar => format!("height:{size}px"),
-        LoadingVariant::StripedBar => format!("height:{size}px"),
+        LoadingVariant::Bar => format!("height:{size}"),
+        LoadingVariant::StripedBar => format!("height:{size}"),
         LoadingVariant::Circle => {
-            format!("width:{size}px;height:{size}px;max-width:{size}px;max-height:{size}px;")
+            format!("display:flex;align-items:center;justify-content:center;width:{size};height:{size};max-width:{size};max-height:{size};")
         }
     };
     let mut style_offset = String::default();

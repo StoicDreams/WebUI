@@ -1,3 +1,5 @@
+use web_sys::HtmlElement;
+
 use crate::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -26,29 +28,18 @@ pub fn html_content(props: &HtmlContentProps) -> Html {
     let document = window.document().expect("Missing Document");
     let el = document
         .create_element("div")
-        .expect("Failed to create div");
+        .expect("Failed to create div for html_content");
     el.set_inner_html(&props.html.clone());
-    el.set_class_name("paper d-flex align-center justify-center");
-    _ = el.set_attribute("style", "height: auto;width: auto;");
-    html! {
-        <div class="paper d-flex align-center justify-center">
-            {Html::VRef(el.into())}
-        </div>
+    let collection = el.child_nodes();
+    let mut nodes = vec![];
+    for elem in 0..collection.length() {
+        if let Some(item) = collection.item(elem) {
+            nodes.push(item);
+        }
     }
-}
-
-/// A component for rendering raw html markup inside of a span.
-///
-/// This is intended for smaller text segments, such as a single line.
-#[function_component(SpanHtmlContent)]
-pub fn span_html_content(props: &HtmlContentProps) -> Html {
-    let window = web_sys::window().expect("Missing Window");
-    let document = window.document().expect("Missing Document");
-    let el = document
-        .create_element("span")
-        .expect("Failed to create span");
-    el.set_inner_html(&props.html.clone());
-    Html::VRef(el.into())
+    html! {nodes.iter().map(|node|{
+        html!{Html::VRef(node.to_owned())}
+    }).collect::<Html>()}
 }
 
 #[derive(Properties, PartialEq)]

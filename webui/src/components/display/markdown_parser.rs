@@ -164,7 +164,7 @@ fn handle_html(html: &mdast::Html) -> Html {
             return html!(<DynamicComponent name={name} />);
         }
     }
-    html! {<SpanHtmlContent html={html.value.to_owned()} />}
+    html! {<HtmlContent html={html.value.to_owned()} />}
 }
 
 fn handle_image(image: &mdast::Image) -> Html {
@@ -502,7 +502,7 @@ fn handle_text_enhancements(text: &str) -> Html {
     html = replace_start_end_deliminators(&text, "==", "<mark>", "</mark>");
     html = replace_start_end_deliminators(&text, "^", "<sup>", "</sup>");
     html = parse_for_icon_refs(&html);
-    html! {<SpanHtmlContent html={html} />}
+    html! {<HtmlContent html={html} />}
 }
 
 fn parse_for_icon_refs(text: &str) -> String {

@@ -2,6 +2,7 @@ use js_sys::decode_uri;
 
 use crate::prelude::*;
 
+/// Get the path with any extra data (query string, hash) removed
 pub fn get_path_from_url(url: &str) -> String {
     String::from(
         url.split('?')
@@ -11,6 +12,19 @@ pub fn get_path_from_url(url: &str) -> String {
             .next()
             .unwrap_or_default(),
     )
+}
+
+/// Expand a path to the full URL
+///
+/// Assures that returned string always starts with an http path.
+pub fn expand_url(url: &str) -> String {
+    if url.starts_with("http") {
+        return url.to_string();
+    }
+    if url.starts_with("/") {
+        return format!("{}{}", get_host(), url);
+    }
+    format!("{}/{}", get_host(), url)
 }
 
 /// Get the value from a single url query data key.
