@@ -162,7 +162,7 @@ impl AppConfigBuilder {
         }
     }
 
-    /// Set a URL to use for your website logo
+    /// Set a URL to use for your application/website logo
     ///
     /// If set, this is displayed in the header on the far left side before any other content.
     pub fn set_header_logo_src(&mut self, img_src: String) -> &mut Self {

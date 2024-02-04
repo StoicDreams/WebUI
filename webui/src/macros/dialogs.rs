@@ -10,7 +10,7 @@ macro_rules! alert {
                 DynContextsHtml::new(move |_| html!($html)),
             )
             .message(),
-        );
+        )
     };
 }
 
@@ -24,7 +24,7 @@ macro_rules! dialog {
                 DynContextsHtml::new(move |_| html!($html)),
             )
             .message(),
-        );
+        )
     };
     ( $contexts:expr, $title:expr, $html:expr, $confirm_html:expr) => {
         $contexts.drawer.set(
@@ -34,7 +34,7 @@ macro_rules! dialog {
             )
             .set_footer_confirmation(DynContextsHtml::new($confirm_html))
             .message(),
-        );
+        )
     };
 }
 

@@ -47,16 +47,21 @@ Validating account.
                 set_user_storage_data(get_myfi_auth_token_key(), key);
                 let user_state = contexts.clone().user;
                 let roles_state = contexts.clone().user_roles;
+                let contexts = contexts.clone();
                 match myfi_get_my_info(user_state, roles_state).await {
                     true => {
-                        push_state("/sdauth");
-                        pmthread.set(String::from(
-                            r#"
-```quote "success"
-Sign-in to Stoic Dreams account successful.
-```
-"#,
-                        ));
+                        jslog!("Push state");
+                        {
+                            let contexts = contexts.clone();
+                            spawn_async!({
+                                alert!(
+                                    contexts,
+                                    "Success",
+                                    "You have successfully signed in to your Stoic Dreams account."
+                                )
+                            });
+                        }
+                        nav_to!(contexts, "/");
                     }
                     false => {
                         pmthread.set(String::from(
@@ -91,8 +96,8 @@ fn render_no_key(contexts: Contexts) -> Html {
                 html! {
                     <>
                         <Paper class="d-flex flex-column justify-left align-left">
-                            <Quote color={Theme::Success}>
-                                {"You are currently signed in with your Stoic Dreams account."}
+                            <Quote color={Theme::Warning}>
+                                {"You are not currently signed in with your Stoic Dreams account."}
                             </Quote>
                         </Paper>
                         <NextPageButton url="/" snap_bottom={false} />

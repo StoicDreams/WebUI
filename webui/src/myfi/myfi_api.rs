@@ -52,7 +52,7 @@ pub(crate) async fn myfi_get_my_info(
 }
 
 pub enum SignoutScope {
-    ThisWebsite,
+    ThisApp,
     ThisBrowser,
     AllDevices,
 }
@@ -61,7 +61,7 @@ pub fn myfi_sign_out(contexts: Contexts, scope: SignoutScope) {
     let user_state = contexts.clone().user;
     let roles_state = contexts.clone().user_roles;
     let scope = match scope {
-        SignoutScope::ThisWebsite => "site",
+        SignoutScope::ThisApp => "app",
         SignoutScope::ThisBrowser => "browser",
         SignoutScope::AllDevices => "all",
     };

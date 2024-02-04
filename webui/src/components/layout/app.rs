@@ -11,7 +11,7 @@ pub(crate) struct AppProps {
     pub state_keys: Vec<String>,
 }
 
-/// Inner process for starting website
+/// Inner process for starting application/website
 pub(crate) fn start_webui_app(app_config: AppConfig, state_keys: Vec<String>) {
     let props = AppProps {
         config: app_config,

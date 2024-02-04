@@ -49,7 +49,7 @@ pub mod interop;
 use components::layout::app::start_webui_app;
 pub use prelude::*;
 
-/// Initializer to run in app main() to start website
+/// Initializer to run in app main() to start application/website
 ///
 /// example
 /// ```rust,ignore
@@ -78,6 +78,13 @@ pub fn start_app(app_config: AppConfig) {
     }
     start_webui_app(app_config, vec![]);
 }
+
+pub const VERSION: &str = "0.7.23";
+#[cfg(feature = "tauri")]
+pub const IS_TAURI_APP: bool = true;
+
+#[cfg(not(feature = "tauri"))]
+pub const IS_TAURI_APP: bool = false;
 
 thread_local!(static COMPANY_PLURAL: Cell<&'static str> = Cell::new("Company's"));
 thread_local!(static COMPANY_SINGULAR: Cell<&'static str> = Cell::new("Company"));

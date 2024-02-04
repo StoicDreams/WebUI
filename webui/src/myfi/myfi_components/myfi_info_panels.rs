@@ -75,7 +75,7 @@ fn display_login_signup() -> Html {
         }
         return html! {
             <Paper>
-                <p>{"This website is not currently configured for Stoic Dreams account services."}</p>
+                <p>{"This application is not currently configured for Stoic Dreams account services."}</p>
             </Paper>
         };
     }
@@ -94,12 +94,11 @@ struct DisplaySigninLinkOptions {
 #[function_component(DisplaySigninLink)]
 fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
     let contexts = use_context::<Contexts>().expect("Failed to load contexts");
-    let is_app = is_tauri_app();
-    let target = if is_app { "_blank" } else { "_self" };
+    let target = if IS_TAURI_APP { "_blank" } else { "_self" };
     let show_code = use_state(|| false);
     let code_input = use_state(|| String::default());
     let onclick = {
-        let is_app = is_app.clone();
+        let is_app = IS_TAURI_APP;
         let show_code = show_code.clone();
         Callback::from(move |_| {
             if is_app {
@@ -107,7 +106,7 @@ fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
             }
         })
     };
-    let href = if is_app {
+    let href = if IS_TAURI_APP {
         format!(
             "https://www.stoicdreams.com/signin?siteid={}&app={}",
             props.site_id, contexts.config.app_name
@@ -122,7 +121,7 @@ fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
         <Paper style="max-width:400px;" class="d-flex flex-column gap-2">
             <Paper class="d-flex gap-0 field-group-line">
                 <Link href={href} {onclick} target={target} class="btn theme-primary flex-grow">{"Sign In with Stoic Dreams"}</Link>
-                {if is_app && !*show_code {
+                {if IS_TAURI_APP && !*show_code {
                     let onclick = {
                         let show_code = show_code.clone();
                         Callback::from(move |_| {
@@ -169,14 +168,6 @@ fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
     }
 }
 
-fn is_tauri_app() -> bool {
-    #[cfg(feature = "tauri")]
-    {
-        return true;
-    }
-    false
-}
-
 fn render_with_user(contexts: Contexts, user: &MyFiUser) -> Html {
     let onclick = {
         let contexts_signout = contexts.clone();
@@ -194,12 +185,12 @@ fn render_with_user(contexts: Contexts, user: &MyFiUser) -> Html {
 }
 
 fn sign_out(contexts: Contexts) {
-    let confirm_signout_this_website = {
+    let confirm_signout_this_app = {
         let contexts_signout = contexts.clone();
         Callback::from(move |_| {
             contexts_signout.user.set(None);
             contexts_signout.user_roles.set(0);
-            myfi_sign_out(contexts_signout.clone(), SignoutScope::ThisWebsite);
+            myfi_sign_out(contexts_signout.clone(), SignoutScope::ThisApp);
         })
     };
     let confirm_signout_this_browser = {
@@ -219,20 +210,32 @@ fn sign_out(contexts: Contexts) {
         })
     };
     let render_confirmation = {
-        let confirm_signout_this_website = confirm_signout_this_website.clone();
+        let confirm_signout_this_app = confirm_signout_this_app.clone();
         let confirm_signout_sd_acount = confirm_signout_this_browser.clone();
         move |_| {
             html! {
                 <>
                     <Paper class="flex-grow" />
                     <Paper class="d-flex flex-row flex-wrap gap-2">
-                        <Button onclick={confirm_signout_this_all_devices.to_owned()} color={Theme::Danger}>{"All Devices"}</Button>
-                        <Button onclick={confirm_signout_sd_acount.to_owned()} color={Theme::Warning}>{"All Websites"}</Button>
-                        <Button onclick={confirm_signout_this_website.to_owned()} color={Theme::Success}>{"Just This Website"}</Button>
+                    <Button onclick={confirm_signout_this_all_devices.to_owned()} color={Theme::Danger}>{"All Devices"}</Button>
+                        {if !IS_TAURI_APP {
+                            html!{<Button onclick={confirm_signout_sd_acount.to_owned()} color={Theme::Warning}>{"All Websites"}</Button>}
+                        } else {html!()}}
+                        <Button onclick={confirm_signout_this_app.to_owned()} color={Theme::Success}>{"Sign Out"}</Button>
                     </Paper>
                 </>
             }
         }
+    };
+    let markdown = if IS_TAURI_APP {
+        r#"Would you like to sign out of just this application or sign out of all Stoic Dreams account services?
+        Selecting `Sign Out` will sign you out of this application only.
+        Selecting `All Devices` will sign you out of all Stoic Dreams services across all devices and browsers."#
+    } else {
+        r#"Would you like to sign out of just this website or all websites?
+        Selecting `Sign Out` will sign you out of this website only.
+        Selecting `All Websites` will sign you out of all websites that use Stoic Dreams account services within this browser.
+        Selecting `All Devices` will sign you out of all Stoic Dreams services across all devices and browsers."#
     };
     // confirm if user wants to sign out of just this website or all websites
     dialog!(
@@ -241,11 +244,7 @@ fn sign_out(contexts: Contexts) {
         {
             html! {
                 <Paper class="d-flex flex-column gap-1">
-                    <MarkdownContent markdown={r#"Would you like to sign out of just this website or all websites?
-Selecting `Just This Website` will sign you out of this website only.
-Selecting `All Websites` will sign you out of all websites that use Stoic Dreams account services within this browser.
-Selecting `All Devices` will sign you out of all Stoic Dreams services across all devices and browsers.
-"#} />
+                    <MarkdownContent markdown={markdown} />
                 </Paper>
             }
         },

@@ -82,7 +82,7 @@ if ($null -ne $version) {
     $rootpath = $rootpath.ToString().ToLower()
     Write-Host Path: "Root Path Start: $rootpath"
 
-    ApplyVersionUpdates .\webui\src\components\layout app_footer.rs 'Web UI version ([0-9\.]+)' "Web UI version $version"
+    ApplyVersionUpdates .\webui\src lib.rs 'pub const VERSION: &str = "([0-9\.]+)";' "pub const VERSION: &str = ""$version"";"
     ApplyVersionUpdates .\webui Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates .\webuisave Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"

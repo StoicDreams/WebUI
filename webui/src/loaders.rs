@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-/// Process for loading data at start of website.
+/// Process for loading data at start of application/website.
 /// Loads are only applied once.
 #[function_component(Loaders)]
 pub(crate) fn loaders() -> Html {
