@@ -90,14 +90,22 @@ fn image_svg(props: &UrlProp) -> Html {
             let result = fetch(FetchRequest::get(src.to_string())).await;
             if result.is_ok() {
                 match result.get_result() {
-                    Some(svg) => image.set(clean_html(&svg)),
+                    Some(svg) => {
+                        if svg.starts_with(r#"<?xml version="1.0" encoding="UTF-8"?>"#) {
+                            image.set(clean_html(&svg));
+                        } else {
+                            image.set(String::from(
+                                r#"<i class="fa-regular fa-triangle-exlamation" title="Image data was not expected SVG content" />"#,
+                            ))
+                        }
+                    },
                     None => image.set(String::from(
-                        "<i class=\"fa-regular fa-triangle-exlamation\" />",
+                        r#"<i class="fa-regular fa-triangle-exlamation" title="failed to load image" />"#,
                     )),
                 }
             } else {
                 image.set(String::from(
-                    "<i class=\"fa-regular fa-triangle-exlamation\" />",
+                    r#"<i class="fa-regular fa-triangle-exlamation" title="Failed to load image" />"#,
                 ))
             }
         });
