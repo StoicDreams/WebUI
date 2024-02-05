@@ -13,6 +13,8 @@ pub struct AppLogoOptions {
     pub text: AttrValue,
     #[prop_or_default]
     pub second: AttrValue,
+    #[prop_or_default]
+    pub title: AttrValue,
 }
 
 #[function_component(AppLogo)]
@@ -29,7 +31,11 @@ pub fn app_logo(props: &AppLogoOptions) -> Html {
             props.text, props.second
         ))
     };
-    let title = format!("{} Logo", format!("{} {}", props.text, props.second).trim());
+    let title = if props.title.is_empty() {
+        format!("{} Logo", format!("{} {}", props.text, props.second).trim())
+    } else {
+        props.title.to_string()
+    };
     html! {<HtmlContent html={trim_left_padding(&format!(r#"
         <svg class="logo" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 150 150" version="1.1" title="{title}">
         <g class="background">
