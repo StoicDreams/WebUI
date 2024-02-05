@@ -79,7 +79,7 @@ pub fn start_app(app_config: AppConfig) {
     start_webui_app(app_config, vec![]);
 }
 
-pub const VERSION: &str = "0.7.30";
+pub const VERSION: &str = "0.7.31";
 #[cfg(feature = "tauri")]
 pub const IS_TAURI_APP: bool = true;
 

@@ -57,7 +57,7 @@ pub fn app_logo(props: &AppLogoOptions) -> Html {
             <path style=" stroke:none;fill-rule:nonzero;fill-opacity:1;" d="M 58.703125 141.28125 L 7.859375 90.757812 C -1.179688 81.773438 -1.179688 67.199219 7.859375 58.214844 L 58.703125 7.6875 C 67.746094 -1.296875 82.414062 -1.296875 91.453125 7.6875 L 142.296875 58.214844 C 151.339844 67.199219 151.339844 81.773438 142.296875 90.757812 L 91.453125 141.28125 C 82.414062 150.265625 67.75 150.265625 58.703125 141.28125 Z M 58.703125 141.28125 "/>
         </g>
         <g class="text">
-            <text x="50%" y="50%" fill="white" font-size="70" font-weight="700" text-anchor="middle" dominant-baseline="central">
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="central">
                 {text}
             </text>
         </g>
