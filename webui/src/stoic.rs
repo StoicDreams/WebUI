@@ -24,8 +24,8 @@ pub fn app_logo(props: &AppLogoOptions) -> Html {
         )
     } else {
         trim_left_padding(&format!(
-            r#"<tspan class="line1" x="75" y="50">{}</tspan>
-            <tspan class="line2" x="75" y="108">{}</tspan>"#,
+            r#"<tspan class="line1" x="75" y="40">{}</tspan>
+            <tspan class="line2" x="75" y="95">{}</tspan>"#,
             props.text, props.second
         ))
     };
