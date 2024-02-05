@@ -22,9 +22,9 @@ pub fn expand_url(url: &str) -> String {
         return url.to_string();
     }
     if url.starts_with("/") {
-        return format!("https://{}{}", get_host(), url);
+        return format!("{}{}", get_origin(), url);
     }
-    format!("https://{}/{}", get_host(), url)
+    format!("{}/{}", get_origin(), url)
 }
 
 /// Get the value from a single url query data key.

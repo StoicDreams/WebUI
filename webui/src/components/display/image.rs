@@ -91,7 +91,7 @@ fn image_svg(props: &UrlProp) -> Html {
             if result.is_ok() {
                 match result.get_result() {
                     Some(svg) => {
-                        if svg.starts_with(r#"<?xml version="1.0" encoding="UTF-8"?>"#) {
+                        if svg.trim().starts_with(r#"<?xml"#) || svg.starts_with(r"<svg") {
                             image.set(clean_html(&svg));
                         } else {
                             image.set(String::from(
