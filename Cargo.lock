@@ -1534,7 +1534,7 @@ checksum = "f98d2aa92eebf49b69786be48e4477826b256916e84a57ff2a4f21923b48eb4c"
 
 [[package]]
 name = "saveweb"
-version = "0.7.28"
+version = "0.7.29"
 dependencies = [
  "clap",
  "powershell_script",
@@ -1912,7 +1912,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.7.28"
+version = "0.7.29"
 dependencies = [
  "serde",
  "webui",
@@ -1921,14 +1921,14 @@ dependencies = [
 
 [[package]]
 name = "webapp_post_build"
-version = "0.7.28"
+version = "0.7.29"
 dependencies = [
  "clap",
 ]
 
 [[package]]
 name = "webui"
-version = "0.7.28"
+version = "0.7.29"
 dependencies = [
  "async-std",
  "chrono",
@@ -1961,11 +1961,11 @@ checksum = "baaded386ebd91bd415e431178cb392958aff65e2fdc4c8c42748a02e074262e"
 
 [[package]]
 name = "webui_procs"
-version = "0.7.28"
+version = "0.7.29"
 
 [[package]]
 name = "webuisave"
-version = "0.7.28"
+version = "0.7.29"
 dependencies = [
  "clap",
 ]

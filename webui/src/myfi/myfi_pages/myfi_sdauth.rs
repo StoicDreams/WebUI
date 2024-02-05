@@ -50,7 +50,6 @@ Validating account.
                 let contexts = contexts.clone();
                 match myfi_get_my_info(user_state, roles_state).await {
                     true => {
-                        jslog!("Push state");
                         {
                             let contexts = contexts.clone();
                             spawn_async!({

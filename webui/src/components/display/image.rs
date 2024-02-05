@@ -105,6 +105,5 @@ fn image_svg(props: &UrlProp) -> Html {
             <Loading variant={LoadingVariant::Circle} size={0} />
         };
     }
-    jslog!("Image {:?}", image);
     html! {<HtmlContent html={image.to_string()} />}
 }
