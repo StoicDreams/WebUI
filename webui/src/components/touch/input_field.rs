@@ -14,6 +14,7 @@ pub struct InputFieldProps {
     pub children: Children,
 }
 
+/// Wrapper component intended to be surrounding a single user input element (input, select, etc.)
 #[function_component(InputField)]
 pub fn input_message(props: &InputFieldProps) -> Html {
     let my_id = match &props.id {

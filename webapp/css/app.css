@@ -27,3 +27,42 @@
     --color-button: var(--color-info);
     --color-button-offset: var(--color-info-offset);
 }
+
+.dropdown {
+    display: block;
+    position: relative;
+    overflow: visible;
+}
+.dropdown.show > button::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255,255,255,0.01);
+    z-index: 9999;
+}
+.dropdown > .dropdown-menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    position: absolute;
+    min-width: 100%;
+    width: max-content;
+    list-style: none;
+    padding: 0px;
+    background-color: var(--color-white);
+    color: var(--color-black);
+    border-radius: var(--border-radius, 5px);
+    z-index: 99999;
+    border: 2px solid var(--color-info);
+}
+.dropdown > .dropdown-menu > li {
+    padding: var(--padding);
+}
+.dropdown > .dropdown-menu > li.selected {
+    background-color: var(--color-info);
+    color: var(--color-info-offset);
+}

@@ -77,6 +77,13 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
                     roles::PUBLIC,
                     page_components_display,
                 ),
+                NavLinkInfo::link(
+                    "Touch",
+                    "/components/touch",
+                    "fa-duotone fa-hand-back-point-up",
+                    roles::PUBLIC,
+                    page_components_touch,
+                ),
             ],
         ),
         NavGroupInfo::link(
