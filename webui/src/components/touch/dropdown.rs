@@ -1,14 +1,15 @@
 use crate::prelude::*;
+use js_sys::WebAssembly::Global;
 use web_sys::HtmlInputElement;
 
 #[derive(Properties, PartialEq)]
 pub struct DropdownOption {
     pub value: String,
-    pub display: fn() -> Html,
+    pub display: DynHtml,
 }
 
 impl DropdownOption {
-    pub fn new(value: &str, display: fn() -> Html) -> Self {
+    pub fn new(value: &str, display: DynHtml) -> Self {
         DropdownOption {
             value: value.to_string(),
             display,
@@ -85,7 +86,7 @@ pub fn input_dropdown(props: &DropdownProps) -> Html {
                             style={start_icon.style.to_owned()}
                             />}
                 } else { html!() }}
-                {(selected_option.display)()}
+                {selected_option.display.run()}
                 {if let Some(end_icon) = &props.end_icon {
                     html!{<Icon
                             icon={end_icon.icon.to_owned()}
@@ -109,7 +110,7 @@ pub fn input_dropdown(props: &DropdownProps) -> Html {
                             })
                         };
                         let classes = classes!(if option.value == *selected { "selected" } else { "" });
-                        html!{<li class={classes} {onclick}>{(option.display)()}</li>}
+                        html!{<li class={classes} {onclick}>{option.display.run()}</li>}
                     }).collect::<Html>()}
                 </ul>}
             } else { html!() }}
