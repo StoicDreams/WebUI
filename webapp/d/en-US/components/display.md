@@ -459,13 +459,13 @@ struct table_detail {
 }
 fn example() -> Html {
     let columns = vec![
-        TableColumns::<workflow_details>::new(
+        TableColumns::<table_detail>::new(
             "One".to_string(),
             |data| html! {data.one.to_string()},
         ),
-        TableColumns::<workflow_details>::new(
+        TableColumns::<table_detail>::new(
             "Two".to_string(),
-            |data| html! {data.one.to_string()},
+            |data| html! {data.two.to_string()},
         ),
     ];
     let data = vec![
@@ -481,7 +481,7 @@ fn example() -> Html {
     html!(
         <Paper>
             {
-                Table::<workflow_details>::new(columns)
+                Table::<table_detail>::new(columns)
                     .add_class("mt-3 mb-3".to_string())
                     .bordered()
                     .elevation(ELEVATION_STANDARD)
