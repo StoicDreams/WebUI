@@ -30,6 +30,7 @@ pub struct AppConfig {
     pub component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
     pub external_links_new_tab_only: bool,
     pub page_not_found: Option<fn(path: &str) -> Html>,
+    pub(crate) contexts_setup: Option<fn(contexts: &mut Contexts)>,
 }
 
 /// Struct holding App/Website configuration details.
@@ -59,6 +60,7 @@ pub struct AppConfigBuilder {
     pub(crate) component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
     pub(crate) external_links_new_tab_only: bool,
     pub(crate) page_not_found: Option<fn(path: &str) -> Html>,
+    pub(crate) contexts_setup: Option<fn(contexts: &mut Contexts)>,
 }
 impl AppConfig {
     /// Create an AppConfigBuilder instance to build your AppConfig with.
@@ -103,6 +105,7 @@ impl AppConfig {
             component_registry: None,
             external_links_new_tab_only: false,
             page_not_found: None,
+            contexts_setup: None,
         }
     }
     pub fn get_nav_from_path(&self, path: &str) -> Option<NavLinkInfo> {
@@ -159,6 +162,7 @@ impl AppConfigBuilder {
             component_registry: self.component_registry.to_owned(),
             external_links_new_tab_only: self.external_links_new_tab_only,
             page_not_found: self.page_not_found,
+            contexts_setup: self.contexts_setup,
         }
     }
 
@@ -295,6 +299,12 @@ impl AppConfigBuilder {
     /// Enforce that all external links open in new tabs instead of allowing in current tab.
     pub fn external_links_open_new_tab_only(&mut self) -> &mut Self {
         self.external_links_new_tab_only = true;
+        self
+    }
+
+    /// Set setup method that will be called once during app startup to allow for initializing dynamic app_data Contexts.
+    pub fn initialize_contexts(&mut self, contexts: fn(&mut Contexts)) -> &mut Self {
+        self.contexts_setup = Some(contexts);
         self
     }
 }

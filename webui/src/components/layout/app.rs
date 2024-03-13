@@ -50,6 +50,9 @@ fn app_render(props: &AppProps) -> Html {
         #[cfg(feature = "myfi")]
         user: use_state(|| None::<MyFiUser>),
     };
+    if let Some(init_contexts) = props.config.contexts_setup {
+        init_contexts(&mut contexts);
+    }
     contexts.init_data_handler("page_data", use_state(|| None::<String>));
     html! {
         <div id="app" class="page transition out">
