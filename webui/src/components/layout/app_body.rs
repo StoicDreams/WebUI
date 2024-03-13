@@ -93,7 +93,7 @@ fn load_page_data(path: &str, contexts: Contexts) {
         contexts.page_loaded.set(path.clone());
         spawn_async!({
             let fetched = get_myfi_page_data(&path).await;
-            data.set(fetched);
+            data.set(fetched.unwrap_or_default());
         });
     }
 }

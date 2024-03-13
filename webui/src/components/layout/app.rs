@@ -55,7 +55,7 @@ fn app_render(props: &AppProps) -> Html {
         None => default_app_loader,
     };
 
-    contexts.init_data_handler("page_data", use_state(|| None::<String>));
+    contexts.init_data_handler("page_data", use_state(|| String::default()));
     html! {
         <div id="app" class="page transition out">
             <ContextProvider<Contexts> context={contexts.to_owned()}>

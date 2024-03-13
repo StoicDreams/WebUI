@@ -1,6 +1,6 @@
 [package]
 name = "saveweb"
-version = "0.7.38" #syncwebui
+version = "0.7.39" #syncwebui
 edition = "2021"
 
 [dependencies]
