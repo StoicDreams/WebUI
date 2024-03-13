@@ -30,7 +30,7 @@ pub struct AppConfig {
     pub component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
     pub external_links_new_tab_only: bool,
     pub page_not_found: Option<fn(path: &str) -> Html>,
-    pub(crate) contexts_setup: Option<fn(contexts: &mut Contexts)>,
+    pub(crate) app_loader: Option<fn() -> Html>,
 }
 
 /// Struct holding App/Website configuration details.
@@ -60,7 +60,7 @@ pub struct AppConfigBuilder {
     pub(crate) component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
     pub(crate) external_links_new_tab_only: bool,
     pub(crate) page_not_found: Option<fn(path: &str) -> Html>,
-    pub(crate) contexts_setup: Option<fn(contexts: &mut Contexts)>,
+    pub(crate) app_loader: Option<fn() -> Html>,
 }
 impl AppConfig {
     /// Create an AppConfigBuilder instance to build your AppConfig with.
@@ -105,7 +105,7 @@ impl AppConfig {
             component_registry: None,
             external_links_new_tab_only: false,
             page_not_found: None,
-            contexts_setup: None,
+            app_loader: None,
         }
     }
     pub fn get_nav_from_path(&self, path: &str) -> Option<NavLinkInfo> {
@@ -162,7 +162,7 @@ impl AppConfigBuilder {
             component_registry: self.component_registry.to_owned(),
             external_links_new_tab_only: self.external_links_new_tab_only,
             page_not_found: self.page_not_found,
-            contexts_setup: self.contexts_setup,
+            app_loader: self.app_loader,
         }
     }
 
@@ -303,8 +303,10 @@ impl AppConfigBuilder {
     }
 
     /// Set setup method that will be called once during app startup to allow for initializing dynamic app_data Contexts.
-    pub fn initialize_contexts(&mut self, contexts: fn(&mut Contexts)) -> &mut Self {
-        self.contexts_setup = Some(contexts);
+    ///
+    /// Note: Html returned should not contain any renderable content. Use this method only for initializing app data on app startup.
+    pub fn set_app_loader(&mut self, app_loader: fn() -> Html) -> &mut Self {
+        self.app_loader = Some(app_loader);
         self
     }
 }

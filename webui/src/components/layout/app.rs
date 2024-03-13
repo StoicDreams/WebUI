@@ -50,14 +50,17 @@ fn app_render(props: &AppProps) -> Html {
         #[cfg(feature = "myfi")]
         user: use_state(|| None::<MyFiUser>),
     };
-    if let Some(init_contexts) = props.config.contexts_setup {
-        init_contexts(&mut contexts);
-    }
+    let app_loader = match props.config.app_loader {
+        Some(app_loader) => app_loader,
+        None => default_app_loader,
+    };
+
     contexts.init_data_handler("page_data", use_state(|| None::<String>));
     html! {
         <div id="app" class="page transition out">
             <ContextProvider<Contexts> context={contexts.to_owned()}>
                 <crate::loaders::Loaders />
+                {app_loader()}
                 <AppHeader />
                 <AppBody />
                 <AppFooter />
@@ -68,6 +71,10 @@ fn app_render(props: &AppProps) -> Html {
             </ContextProvider<Contexts>>
         </div>
     }
+}
+
+fn default_app_loader() -> Html {
+    html!()
 }
 
 #[function_component(AppHeader)]
