@@ -40,16 +40,17 @@ fn app_render(props: &AppProps) -> Html {
         let path = interop::get_path().to_lowercase();
         NavigationMessage::PathUpdate(path)
     });
-    let contexts = Contexts {
+    let mut contexts = Contexts {
         config: props.config.clone(),
         page_loaded: use_state(|| "".to_string()),
-        data: use_state(|| None::<String>),
+        app_data: HashMap::new(),
         nav,
         drawer: use_state(|| DrawerMessage::None),
         user_roles: use_state(|| 0),
         #[cfg(feature = "myfi")]
         user: use_state(|| None::<MyFiUser>),
     };
+    contexts.init_data_handler("page_data", use_state(|| None::<String>));
     html! {
         <div id="app" class="page transition out">
             <ContextProvider<Contexts> context={contexts.to_owned()}>
