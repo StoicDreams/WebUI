@@ -82,7 +82,7 @@ fn image_img(props: &UrlProp) -> Html {
 #[function_component(ImageSVG)]
 fn image_svg(props: &UrlProp) -> Html {
     let contexts = use_context::<Contexts>().expect("Failed to load contexts");
-    let image = use_state(|| String::default());
+    let image = use_state(String::default);
     if image.is_empty() {
         let src = props.src.clone();
         let image = image.clone();

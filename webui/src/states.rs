@@ -47,7 +47,8 @@ impl PartialEq for dyn DynamicContext {
 pub struct Contexts {
     pub config: AppConfig,
     pub page_loaded: UseStateHandle<String>,
-    pub app_data: HashMap<String, UseStateHandle<String>>,
+    pub page_data: UseStateHandle<String>,
+    pub app_data: UseStateHandle<HashMap<String, String>>,
     pub nav: UseStateHandle<NavigationMessage>,
     pub drawer: UseStateHandle<DrawerMessage>,
     pub user_roles: UseStateHandle<u32>,
@@ -56,36 +57,17 @@ pub struct Contexts {
 }
 
 impl Contexts {
-    pub fn get_data_handler(&self, name: &str) -> Option<UseStateHandle<String>> {
-        match self.app_data.get_key_value(&name.to_string()) {
-            Some(value) => Some(value.1.clone()),
-            None => None,
-        }
-    }
-    pub fn init_data_handler(&mut self, name: &str, value: UseStateHandle<String>) -> &Self {
-        self.app_data.insert(name.to_string(), value);
-        self
-    }
-    pub fn get_app_data(&self, name: &str) -> String {
-        match self.app_data.get_key_value(&name.to_string()) {
-            Some(value) => {
-                let handler = value.1.clone();
-                let value = handler.to_string();
-                value
-            }
+    pub fn get_app_data(&self, key: &str) -> String {
+        let app_data = self.app_data.deref();
+        match app_data.get(key) {
+            Some(value) => value.to_owned(),
             None => String::default(),
         }
     }
-    pub fn set_app_data(&self, name: &str, value: &str) -> &Self {
-        if let Some(handler) = self.app_data.get_key_value(&name.to_string()) {
-            handler.1.set(value.to_string());
-        }
-        self
-    }
-    pub fn clear_app_data(&self, name: &str) -> &Self {
-        if let Some(handler) = self.app_data.get_key_value(&name.to_string()) {
-            handler.1.set(String::default());
-        }
+    pub fn set_app_data(&self, key: &str, value: &str) -> &Self {
+        let mut app_data = self.app_data.deref().clone();
+        app_data.insert(key.to_string(), value.to_string());
+        self.app_data.set(app_data);
         self
     }
 }

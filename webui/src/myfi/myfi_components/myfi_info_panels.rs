@@ -96,7 +96,7 @@ fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
     let contexts = use_context::<Contexts>().expect("Failed to load contexts");
     let target = if IS_TAURI_APP { "_blank" } else { "_self" };
     let show_code = use_state(|| false);
-    let code_input = use_state(|| String::default());
+    let code_input = use_state(String::default);
     let onclick = {
         let is_app = IS_TAURI_APP;
         let show_code = show_code.clone();

@@ -19,7 +19,7 @@ pub(crate) fn app_body() -> Html {
     if let NavigationMessage::PathUpdate(new_path) = nav {
         if *path.deref() != new_path {
             contexts.nav.set(NavigationMessage::None);
-            contexts.clear_app_data("page_data");
+            contexts.page_data.set(String::default());
             let page_path = get_path_from_url(&new_path);
             let page_check = get_page_option(&routes, &page_path, &user_roles);
             if page_check.is_some() && *page_state.deref() == PageState::Show {
@@ -84,18 +84,17 @@ fn load_page_data(_path: &str, _contexts: Contexts) {}
 
 #[cfg(feature = "myfi")]
 fn load_page_data(path: &str, contexts: Contexts) {
-    if let Some(data) = contexts.get_data_handler("page_data") {
-        let path = path.to_owned();
-        let last_fetched = contexts.page_loaded.deref().as_str();
-        if last_fetched == path {
-            return;
-        }
-        contexts.page_loaded.set(path.clone());
-        spawn_async!({
-            let fetched = get_myfi_page_data(&path).await;
-            data.set(fetched.unwrap_or_default());
-        });
+    let data = contexts.page_data;
+    let path = path.to_owned();
+    let last_fetched = contexts.page_loaded.deref().as_str();
+    if last_fetched == path {
+        return;
     }
+    contexts.page_loaded.set(path.clone());
+    spawn_async!({
+        let fetched = get_myfi_page_data(&path).await;
+        data.set(fetched.unwrap_or_default());
+    });
 }
 
 #[derive(Properties, PartialEq)]
