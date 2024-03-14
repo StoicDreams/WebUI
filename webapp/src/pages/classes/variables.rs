@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub(crate) fn page_classes_variables(_contexts: Contexts) -> Html {
+pub(crate) fn page_classes_variables(_contexts: &Contexts) -> Html {
     set_title("Rust Class Variable Helpers");
     html! {
         <>

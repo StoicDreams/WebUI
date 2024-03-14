@@ -41,7 +41,7 @@ pub struct CardProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Card title="Hello World" avatar="fa-solid fa-acorn">{"Your card body content here"}</Card>
 ///     }
@@ -52,7 +52,7 @@ pub struct CardProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Card title="Hello World" theme={Theme::Primary}>{"Your card body content here"}</Card>
 ///     }
@@ -63,7 +63,7 @@ pub struct CardProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Card class="d-flex flex-column">{"Your card body content here"}</Card>
 ///     }
@@ -77,7 +77,7 @@ pub struct CardProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Card elevation={10}>{"Your card body content here"}</Card>
 ///     }

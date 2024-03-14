@@ -1,7 +1,7 @@
 use crate::prelude::*;
 
 /// App home page
-pub(crate) fn page_components_touch(_contexts: Contexts) -> Html {
+pub(crate) fn page_components_touch(_contexts: &Contexts) -> Html {
     set_title("Touch / User Input Components");
     html! {
         <>

@@ -14,7 +14,7 @@ pub struct HtmlContentProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <HtmlContent html={r#"
 ///             <h1>Hello World</h1>

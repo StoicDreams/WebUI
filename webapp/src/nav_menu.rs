@@ -15,7 +15,7 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
     .build()
 }
 
-pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
+pub(crate) fn get_nav_routing(contexts: &Contexts) -> Vec<NavRoute> {
     let nav_routes = vec![
         NavLinkInfo::link("Home", "/", "fa-duotone fa-house", roles::PUBLIC, page_home),
         NavGroupInfo::link(
@@ -135,13 +135,13 @@ pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
     nav_routes
 }
 
-fn nav_menu_render(_contexts: Contexts) -> Html {
+fn nav_menu_render(contexts: &Contexts) -> Html {
     html! {
         <>
             <Paper class="logo d-flex pa-1 justify-center ml-a mr-a">
                 <AppLogo text="Web" second="UI" />
             </Paper>
-            <NavDisplay routes={get_nav_routing()} class="d-flex flex-column pa-1" />
+            <NavDisplay routes={get_nav_routing(contexts)} class="d-flex flex-column pa-1" />
         </>
     }
 }

@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::prelude::*;
 
 /// App page body component - page specific content is rendered here
-pub fn page_about_stoic_dreams(_contexts: Contexts) -> Html {
+pub fn page_about_stoic_dreams(_contexts: &Contexts) -> Html {
     set_title("About Stoic Dreams");
     let tags = get_markdown_tags();
     let tag_copy = tags.clone();

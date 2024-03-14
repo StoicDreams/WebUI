@@ -4,7 +4,7 @@
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         {list_items!(
 ///             "This is the first list item.",

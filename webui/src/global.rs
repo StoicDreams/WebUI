@@ -6,7 +6,7 @@ pub fn newid() -> Uuid {
     Uuid::from_str(&interop::get_uuid()).unwrap()
 }
 
-pub fn empty_html(_contexts: Contexts) -> Html {
+pub fn empty_html(_contexts: &Contexts) -> Html {
     html! {}
 }
 

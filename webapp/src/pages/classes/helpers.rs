@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub(crate) fn page_classes_helpers(_contexts: Contexts) -> Html {
+pub(crate) fn page_classes_helpers(_contexts: &Contexts) -> Html {
     set_title("Web UI Helper Classes");
     html! {
         <>

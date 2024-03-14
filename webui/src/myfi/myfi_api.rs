@@ -57,7 +57,7 @@ pub enum SignoutScope {
     AllDevices,
 }
 
-pub fn myfi_sign_out(contexts: Contexts, scope: SignoutScope) {
+pub fn myfi_sign_out(contexts: &Contexts, scope: SignoutScope) {
     let user_state = contexts.clone().user;
     let roles_state = contexts.clone().user_roles;
     let scope = match scope {

@@ -59,6 +59,7 @@ pub use rust_decimal_macros::*;
 pub use serde::{de::DeserializeOwned, Deserialize, Serialize};
 pub use std::collections::*;
 pub use std::rc::*;
+pub use std::sync::Arc;
 pub use uuid::Uuid;
 pub use wasm_bindgen::{prelude::*, JsCast};
 pub use wasm_bindgen_futures::{spawn_local, JsFuture};

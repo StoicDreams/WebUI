@@ -4,8 +4,8 @@ use rust_decimal::prelude::ToPrimitive;
 use crate::{function_component, html, use_context, AppDrawerButton, Contexts, Html, Paper};
 
 /// App footer component
-pub(crate) fn default_app_footer(contexts: Contexts) -> Html {
-    let app_config = contexts.config;
+pub(crate) fn default_app_footer(contexts: &Contexts) -> Html {
+    let app_config = contexts.config.clone();
     let left_drawer_info = app_config.footer_left_drawer_toggle.clone();
     let bottom_drawer_info = app_config.footer_bottom_drawer_toggle.clone();
     let right_drawer_info = app_config.footer_right_drawer_toggle.clone();

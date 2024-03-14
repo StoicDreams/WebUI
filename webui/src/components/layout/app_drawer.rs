@@ -24,7 +24,7 @@ pub struct AppDrawerOptionsBuilder {
     hide_footer: bool,
     hide_close_x: bool,
     hide_cancel: bool,
-    on_confirm: Option<fn(Contexts) -> bool>,
+    on_confirm: Option<fn(&Contexts) -> bool>,
     confirm_display: String,
     confirm_render: Option<DynContextsHtml>,
     content_class: String,
@@ -72,7 +72,7 @@ impl AppDrawerOptionsBuilder {
     pub fn set_on_confirm(
         &mut self,
         display: String,
-        on_confirm: fn(Contexts) -> bool,
+        on_confirm: fn(&Contexts) -> bool,
     ) -> &mut Self {
         self.on_confirm = Some(on_confirm);
         self.confirm_display = display;
@@ -109,10 +109,10 @@ impl AppDrawerOptions {
         self.display_ref.to_owned()
     }
 
-    pub(crate) fn get_on_confirm(&self) -> fn(Contexts) -> bool {
+    pub(crate) fn get_on_confirm(&self) -> fn(&Contexts) -> bool {
         match self.on_confirm {
             Some(value) => {
-                let content: fn(Contexts) -> bool = if value > 0 {
+                let content: fn(&Contexts) -> bool = if value > 0 {
                     let fnptr = value as *const ();
                     unsafe { std::mem::transmute(fnptr) }
                 } else {
@@ -282,11 +282,11 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
             let close_click = handle_close.to_owned();
             let contexts_click = contexts.clone();
             let confirm_click = Callback::from(move |ev| {
-                on_confirm_onclick(contexts_click.to_owned());
+                on_confirm_onclick(&contexts_click);
                 handle_close.emit(ev);
             });
 
-            let title = content.title.run(title_contexts);
+            let title = content.title.run(&title_contexts);
             html! {
                 <aside class={class}>
                     <div class="drawer-placement">
@@ -316,7 +316,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                 }
                             }else{html!{}}}
                             <Paper class="flex-grow d-flex flex-column gap-1 overflow-auto pa-2">
-                                {drawer_body.run(body_contexts)}
+                                {drawer_body.run(&body_contexts)}
                             </Paper>
                             {if show_footer {
                                 html! {
@@ -327,9 +327,9 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                                     {cancel_button_display}
                                                 </Button>
                                             }
-                                        } else {empty_html(contexts.clone())}}
+                                        } else {empty_html(&contexts)}}
                                         {if let Some(render) = confirm_render {
-                                            {render.run(contexts.clone())}
+                                            {render.run(&contexts)}
                                         } else if show_confirm {
                                             html! {
                                                 <>
@@ -339,7 +339,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                                     </Button>
                                                 </>
                                             }
-                                        } else {empty_html(contexts.clone())}}
+                                        } else {empty_html(&contexts)}}
                                     </footer>
                                 }
                             } else { html! {} }}

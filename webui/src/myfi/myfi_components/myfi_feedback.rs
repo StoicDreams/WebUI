@@ -34,7 +34,7 @@ fn get_response_message(response: &str, backup: &str) -> String {
     String::from(response)
 }
 
-fn handle_confirm(contexts: Contexts) -> bool {
+fn handle_confirm(contexts: &Contexts) -> bool {
     let input_state = use_input_state(FEEDBACK_KEY, String::default, None);
     let value = input_state.get();
     if value.is_empty() {
@@ -43,6 +43,7 @@ fn handle_confirm(contexts: Contexts) -> bool {
     let post_data = HashMap::from([("Message", value)]);
     match serde_json::to_string(&post_data) {
         Ok(post_body) => {
+            let contexts = contexts.clone();
             spawn_async!({
                 // wasm_bindgen_futures::spawn_local(async move {
                 let response = fetch(FetchRequest::new(
@@ -74,7 +75,7 @@ fn handle_confirm(contexts: Contexts) -> bool {
     }
 }
 
-pub(crate) fn get_render_wrapper(_contexts: Contexts) -> Html {
+pub(crate) fn get_render_wrapper(_contexts: &Contexts) -> Html {
     html! {
         <GetRender />
     }

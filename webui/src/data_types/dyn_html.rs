@@ -14,7 +14,7 @@ pub struct DynHtml {
 #[derive(Clone)]
 pub struct DynContextsHtml {
     id: Uuid,
-    content: Rc<dyn Fn(Contexts) -> Html>,
+    content: Rc<dyn Fn(&Contexts) -> Html>,
 }
 
 impl DynHtml {
@@ -32,14 +32,14 @@ impl DynHtml {
 impl DynContextsHtml {
     pub fn new<F>(content: F) -> Self
     where
-        F: Fn(Contexts) -> Html + 'static,
+        F: Fn(&Contexts) -> Html + 'static,
     {
         Self {
             id: newid(),
             content: Rc::new(content),
         }
     }
-    pub fn run(&self, contexts: Contexts) -> Html {
+    pub fn run(&self, contexts: &Contexts) -> Html {
         let unbox = self.content.as_ref();
         html!(<>{unbox(contexts)}</>)
     }
@@ -77,7 +77,7 @@ impl core::fmt::Debug for DynContextsHtml {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("DynContextsHtml")
             .field("id", &self.id)
-            .field("content", &"dyn Fn(Contexts) -> Html")
+            .field("content", &"dyn Fn(&Contexts) -> Html")
             .finish()
     }
 }

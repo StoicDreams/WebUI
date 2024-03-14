@@ -77,7 +77,7 @@ fn app_header() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     let app_config = contexts.clone().config;
     if let Some(header) = app_config.header {
-        return html! {header(contexts.to_owned())};
+        return html! {header(&contexts)};
     }
     html! {}
 }
@@ -87,7 +87,7 @@ fn app_footer() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     let app_config = contexts.clone().config;
     if let Some(footer) = app_config.footer {
-        return html! {footer(contexts.to_owned())};
+        return html! {footer(&contexts)};
     }
     html! {}
 }

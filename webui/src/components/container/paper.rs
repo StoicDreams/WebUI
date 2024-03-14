@@ -23,7 +23,7 @@ pub struct PaperProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Paper>{"Your child content here"}</Paper>
 ///     }
@@ -34,7 +34,7 @@ pub struct PaperProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Paper class="d-flex flex-column">{"Your child content here"}</Paper>
 ///     }
@@ -48,7 +48,7 @@ pub struct PaperProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Paper elevation={10}>{"Your child content here"}</Paper>
 ///     }

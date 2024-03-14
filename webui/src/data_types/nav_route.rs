@@ -10,7 +10,7 @@ use crate::prelude::*;
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page_home(contexts: Contexts) -> Html {
+/// fn page_home(contexts: &Contexts) -> Html {
 ///     html! {
 ///         {"Home Page"}
 ///     }
@@ -24,7 +24,7 @@ pub struct NavLinkInfo {
     pub path: String,
     pub icon: String,
     pub role: u32,
-    pub page: fn(Contexts) -> Html,
+    pub page: fn(&Contexts) -> Html,
 }
 
 impl NavLinkInfo {
@@ -34,7 +34,7 @@ impl NavLinkInfo {
     /// ```rust
     /// use webui::prelude::*;
     ///
-    /// fn page_home(contexts: Contexts) -> Html {
+    /// fn page_home(contexts: &Contexts) -> Html {
     ///     html! {
     ///         {"Home Page"}
     ///     }
@@ -42,7 +42,7 @@ impl NavLinkInfo {
     ///
     /// let link_info = NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home);
     /// ```
-    pub fn new(name: &str, path: &str, icon: &str, role: u32, page: fn(Contexts) -> Html) -> Self {
+    pub fn new(name: &str, path: &str, icon: &str, role: u32, page: fn(&Contexts) -> Html) -> Self {
         Self {
             name: name.to_string(),
             path: path.to_string(),
@@ -57,7 +57,7 @@ impl NavLinkInfo {
         path: &str,
         icon: &str,
         role: u32,
-        page: fn(Contexts) -> Html,
+        page: fn(&Contexts) -> Html,
     ) -> NavRoute {
         NavRoute::NavLink(Self {
             name: name.to_string(),
@@ -95,7 +95,7 @@ impl NavGroupInfo {
     /// ```rust
     /// use webui::prelude::*;
     ///
-    /// fn page_home(contexts: Contexts) -> Html {
+    /// fn page_home(contexts: &Contexts) -> Html {
     ///     html! {
     ///         {"Home Page"}
     ///     }
@@ -133,13 +133,13 @@ impl NavGroupInfo {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page_home(contexts: Contexts) -> Html {
+/// fn page_home(contexts: &Contexts) -> Html {
 ///     html! {
 ///         {"Home Page"}
 ///     }
 /// }
 ///
-/// fn page_about(contexts: Contexts) -> Html {
+/// fn page_about(contexts: &Contexts) -> Html {
 ///     html! {
 ///         {"About Page"}
 ///     }

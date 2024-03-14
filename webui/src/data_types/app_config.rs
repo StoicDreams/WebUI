@@ -4,6 +4,8 @@ use crate::prelude::*;
 use self::app_footer::default_app_footer;
 use self::app_header::default_app_header;
 
+define_fn_struct!(NavRoutingCallback, Vec<NavRoute>, { contexts: &Contexts});
+
 /// Struct holding App/Website configuration details.
 ///
 /// This is required to be created on app startup and passed into webui::start_app(app_config)
@@ -15,19 +17,19 @@ pub struct AppConfig {
     pub domain: String,
     pub header_logo_src: Option<String>,
     pub hide_powered_by: bool,
-    pub nav_routing: Vec<NavRoute>,
-    pub header: Option<fn(contexts: Contexts) -> Html>,
-    pub footer: Option<fn(contexts: Contexts) -> Html>,
+    pub nav_routing: NavRoutingCallback,
+    pub header: Option<fn(contexts: &Contexts) -> Html>,
+    pub footer: Option<fn(contexts: &Contexts) -> Html>,
     pub header_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub header_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub header_top_drawer_toggle: Option<DrawerToggleInfo>,
     pub footer_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub footer_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
-    pub header_strip_bar: Option<fn(contexts: Contexts) -> Html>,
-    pub user_info_panel: Option<fn(contexts: Contexts) -> Html>,
+    pub header_strip_bar: Option<fn(contexts: &Contexts) -> Html>,
+    pub user_info_panel: Option<fn(contexts: &Contexts) -> Html>,
     pub copyright_year_start: Option<i16>,
-    pub component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
+    pub component_registry: Option<HashMap<String, fn(contexts: &Contexts) -> Html>>,
     pub external_links_new_tab_only: bool,
     pub page_not_found: Option<fn(path: &str) -> Html>,
     pub(crate) app_data_keys: Option<Vec<String>>,
@@ -45,19 +47,19 @@ pub struct AppConfigBuilder {
     pub(crate) domain: String,
     pub(crate) header_logo_src: Option<String>,
     pub(crate) hide_powered_by: bool,
-    pub(crate) nav_routing: Vec<NavRoute>,
+    pub(crate) nav_routing: NavRoutingCallback,
     pub(crate) header_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) header_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) header_top_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) footer: Option<fn(contexts: Contexts) -> Html>,
+    pub(crate) footer: Option<fn(contexts: &Contexts) -> Html>,
     pub(crate) footer_left_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) footer_right_drawer_toggle: Option<DrawerToggleInfo>,
     pub(crate) footer_bottom_drawer_toggle: Option<DrawerToggleInfo>,
-    pub(crate) header: Option<fn(contexts: Contexts) -> Html>,
-    pub(crate) header_strip_bar: Option<fn(contexts: Contexts) -> Html>,
-    pub(crate) user_info_panel: Option<fn(contexts: Contexts) -> Html>,
+    pub(crate) header: Option<fn(contexts: &Contexts) -> Html>,
+    pub(crate) header_strip_bar: Option<fn(contexts: &Contexts) -> Html>,
+    pub(crate) user_info_panel: Option<fn(contexts: &Contexts) -> Html>,
     pub(crate) copyright_year_start: Option<i16>,
-    pub(crate) component_registry: Option<HashMap<String, fn(contexts: Contexts) -> Html>>,
+    pub(crate) component_registry: Option<HashMap<String, fn(contexts: &Contexts) -> Html>>,
     pub(crate) external_links_new_tab_only: bool,
     pub(crate) page_not_found: Option<fn(path: &str) -> Html>,
     pub(crate) app_data_keys: Option<Vec<String>>,
@@ -65,7 +67,7 @@ pub struct AppConfigBuilder {
 impl AppConfig {
     /// Create an AppConfigBuilder instance to build your AppConfig with.
     ///
-    /// ```rust
+    /// ```rust,ignore
     /// use webui::prelude::*;
     ///
     /// let app_config:AppConfig = AppConfig::builder(
@@ -74,7 +76,7 @@ impl AppConfig {
     ///     "https://company.url".to_string(),
     ///     "company.url".to_string(),
     /// )
-    /// .set_header_logo_src("Logo.svg".to_owned()).to_owned()
+    /// .set_header_logo_src("Logo.svg".to_owned())
     /// .build();
     /// ```
     pub fn builder(
@@ -90,7 +92,7 @@ impl AppConfig {
             domain,
             header_logo_src: None,
             hide_powered_by: false,
-            nav_routing: Vec::new(),
+            nav_routing: NavRoutingCallback::new(|_| Vec::new()),
             header: Some(default_app_header),
             header_left_drawer_toggle: None,
             header_right_drawer_toggle: None,
@@ -108,8 +110,8 @@ impl AppConfig {
             app_data_keys: None,
         }
     }
-    pub fn get_nav_from_path(&self, path: &str) -> Option<NavLinkInfo> {
-        get_nav_from_list(path, &self.nav_routing)
+    pub fn get_nav_from_path(&self, path: &str, contexts: &Contexts) -> Option<NavLinkInfo> {
+        get_nav_from_list(path, &self.nav_routing.run(contexts))
     }
 }
 
@@ -174,25 +176,31 @@ impl AppConfigBuilder {
         self
     }
     /// Set settings for navigation routing
-    pub fn set_nav_routing(&mut self, nav_routing: Vec<NavRoute>) -> &mut Self {
-        self.nav_routing = nav_routing;
+    pub fn set_nav_routing(&mut self, nav_routing: NavRoutingCallback) -> &mut Self {
+        #[cfg(not(feature = "myfi"))]
+        {
+            self.nav_routing = nav_routing;
+        }
         #[cfg(feature = "myfi")]
         {
-            let mut nav_routing = self.nav_routing.to_owned();
-            let mut myfi_nav = vec![NavGroupInfo::link(
-                "MyFiPages",
-                "fa-solid fa-user-secret",
-                roles::INVALID,
-                vec![NavLinkInfo::link(
-                    "Stoic Dreams Account Authentication",
-                    "/sdauth",
-                    "fa-solid fa-user",
-                    roles::PUBLIC,
-                    page_sdauth,
-                )],
-            )];
-            nav_routing.append(&mut myfi_nav);
-            self.nav_routing = nav_routing;
+            let mut nav_routing = nav_routing.to_owned();
+            self.nav_routing = NavRoutingCallback::new(move |contexts| {
+                let mut nav_list = nav_routing.run(contexts);
+                let mut myfi_nav = vec![NavGroupInfo::link(
+                    "MyFiPages",
+                    "fa-solid fa-user-secret",
+                    roles::INVALID,
+                    vec![NavLinkInfo::link(
+                        "Stoic Dreams Account Authentication",
+                        "/sdauth",
+                        "fa-solid fa-user",
+                        roles::PUBLIC,
+                        page_sdauth,
+                    )],
+                )];
+                nav_list.append(&mut myfi_nav);
+                nav_list
+            });
         }
         self
     }
@@ -209,12 +217,15 @@ impl AppConfigBuilder {
         self
     }
     /// Set a custom header component to use instead of the default header
-    pub fn set_header(&mut self, header: fn(contexts: Contexts) -> Html) -> &mut Self {
+    pub fn set_header(&mut self, header: fn(contexts: &Contexts) -> Html) -> &mut Self {
         self.header = Some(header);
         self
     }
     /// Set extra content to display in the header, between the middle togle button and the user info panel
-    pub fn set_header_strip_bar(&mut self, strip_bar: fn(contexts: Contexts) -> Html) -> &mut Self {
+    pub fn set_header_strip_bar(
+        &mut self,
+        strip_bar: fn(contexts: &Contexts) -> Html,
+    ) -> &mut Self {
         self.header_strip_bar = Some(strip_bar);
         self
     }
@@ -246,7 +257,7 @@ impl AppConfigBuilder {
         self
     }
     /// Set a custom footer component to use instead of the default footer
-    pub fn set_footer(&mut self, footer: fn(contexts: Contexts) -> Html) -> &mut Self {
+    pub fn set_footer(&mut self, footer: fn(contexts: &Contexts) -> Html) -> &mut Self {
         self.footer = Some(footer);
         self
     }
@@ -272,7 +283,10 @@ impl AppConfigBuilder {
         self
     }
     /// Set extra content to display in the header, between the middle togle button and the user info panel
-    pub fn set_user_info_panel(&mut self, info_panel: fn(contexts: Contexts) -> Html) -> &mut Self {
+    pub fn set_user_info_panel(
+        &mut self,
+        info_panel: fn(contexts: &Contexts) -> Html,
+    ) -> &mut Self {
         self.user_info_panel = Some(info_panel);
         self
     }
@@ -287,10 +301,14 @@ impl AppConfigBuilder {
         self
     }
     /// Register a component that can be dynamically loaded from Markdown content
-    pub fn register_component(&mut self, name: &str, component: fn(Contexts) -> Html) -> &mut Self {
+    pub fn register_component(
+        &mut self,
+        name: &str,
+        component: fn(&Contexts) -> Html,
+    ) -> &mut Self {
         let mut registry = match self.component_registry {
             Some(ref mut registry) => registry.to_owned(),
-            None => HashMap::<String, fn(Contexts) -> Html>::new(),
+            None => HashMap::<String, fn(&Contexts) -> Html>::new(),
         };
         registry.insert(name.to_string(), component);
         self.component_registry = Some(registry);

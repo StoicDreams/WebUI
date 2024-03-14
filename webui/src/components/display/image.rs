@@ -23,7 +23,7 @@ pub struct ImageProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Image src="Logo.svg" alt="" class="d-flex flex-column" />
 ///     }
@@ -37,7 +37,7 @@ pub struct ImageProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Image src="Logo.svg" elevation={10} />
 ///     }

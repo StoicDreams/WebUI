@@ -19,7 +19,7 @@ fn setup_app_config() -> AppConfig {
         "WebUI.StoicDreams.com".to_owned(),
     )
     .set_header_logo_src("Logo.svg".to_owned())
-    .set_nav_routing(nav_menu::get_nav_routing())
+    .set_nav_routing(NavRoutingCallback::new(nav_menu::get_nav_routing))
     .set_drawer_toggle_header_left(nav_menu::nav_menu_info())
     .set_drawer_toggle_header_middle(myfi_feedback_button_info())
     .set_header_strip_bar(stoic_header_strip_bar)

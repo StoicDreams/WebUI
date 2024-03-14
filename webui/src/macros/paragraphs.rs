@@ -4,7 +4,7 @@
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         {paragraphs!(
 ///             "This is the first paragraph.",

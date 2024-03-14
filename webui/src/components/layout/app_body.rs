@@ -14,7 +14,7 @@ pub(crate) fn app_body() -> Html {
     let page_state = use_state(|| PageState::Show);
     let nav = contexts.nav.deref().to_owned();
     let path = use_state(|| interop::get_path().to_lowercase());
-    let routes = contexts.config.nav_routing.clone();
+    let routes = contexts.config.nav_routing.clone().run(&contexts);
     let user_roles = contexts.user_roles.deref().to_owned();
     if let NavigationMessage::PathUpdate(new_path) = nav {
         if *path.deref() != new_path {
@@ -25,7 +25,7 @@ pub(crate) fn app_body() -> Html {
             if page_check.is_some() && *page_state.deref() == PageState::Show {
                 contexts.drawer.set(DrawerMessage::Close);
                 let page_state = page_state.clone();
-                load_page_data(&path, contexts.clone());
+                load_page_data(&path, &contexts);
                 let path_timeout = path.clone();
                 set_timeout!(1, {
                     let page_state_out = page_state.clone();
@@ -62,7 +62,7 @@ pub(crate) fn app_body() -> Html {
         PageState::Show => "",
     };
 
-    load_page_data(&path, contexts.clone());
+    load_page_data(&path, &contexts);
 
     let page = path.to_string();
     html! {
@@ -80,17 +80,18 @@ pub(crate) fn app_body() -> Html {
 }
 
 #[cfg(not(feature = "myfi"))]
-fn load_page_data(_path: &str, _contexts: Contexts) {}
+fn load_page_data(_path: &str, _contexts: &Contexts) {}
 
 #[cfg(feature = "myfi")]
-fn load_page_data(path: &str, contexts: Contexts) {
-    let data = contexts.page_data;
+fn load_page_data(path: &str, contexts: &Contexts) {
+    let data = contexts.page_data.clone();
     let path = path.to_owned();
     let last_fetched = contexts.page_loaded.deref().as_str();
     if last_fetched == path {
         return;
     }
     contexts.page_loaded.set(path.clone());
+    let contexts = contexts.clone();
     spawn_async!({
         let fetched = get_myfi_page_data(&path).await;
         data.set(fetched.unwrap_or_default());
@@ -130,7 +131,7 @@ fn page_content(props: &PageContentProps) -> Html {
     match use_get_page(&props.routes, &props.page, &user_roles) {
         yew::suspense::SuspensionResult::Ok(link_info) => {
             let page = link_info.page;
-            html! {<>{page(contexts)}</>}
+            html! {<>{page(&contexts)}</>}
         }
         yew::suspense::SuspensionResult::Err(_err) => {
             jslog!("Get page failed!");

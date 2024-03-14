@@ -18,7 +18,7 @@ pub(crate) struct DynamicComponentProps {
 /// Example:
 ///
 /// ```Rust,no_run
-/// pub fn render_test(_contexts: Contexts) -> Html {
+/// pub fn render_test(_contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Test />
 ///     }
@@ -48,7 +48,7 @@ pub(crate) fn dynamic_component(props: &DynamicComponentProps) -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     if let Some(registry) = contexts.config.component_registry.to_owned() {
         if let Some(component) = registry.get(&props.name) {
-            return component(contexts);
+            return component(&contexts);
         }
     }
     html!(

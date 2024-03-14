@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub fn render_test(_contexts: Contexts) -> Html {
+pub fn render_test(_contexts: &Contexts) -> Html {
     html! {
         <Test />
     }

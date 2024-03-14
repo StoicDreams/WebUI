@@ -67,13 +67,13 @@ pub fn app_drawer_button(props: &AppDrawerButtonProps) -> Html {
         <>
             {match drawer_info.clone() {
                 Some(drawer_info) => {
-                    let title = (drawer_info.title)(title_context);
+                    let title = (drawer_info.title)(&title_context);
                     let btn_class = if drawer_info.class.is_empty() {"toggle".to_string()} else {drawer_info.class.to_string()};
                     html! {
                         <Button title={title.to_owned()} class={classes.to_string()}
                             elevation={elevation}
                             onclick={setup_onclick}>
-                            <span class={btn_class}>{(drawer_info.display)(contexts.clone())}</span>
+                            <span class={btn_class}>{(drawer_info.display)(&contexts)}</span>
                             {match &logo_src {
                                 Some(logo) => {
                                     html! {

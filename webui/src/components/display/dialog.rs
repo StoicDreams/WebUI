@@ -4,9 +4,9 @@ pub struct Dialog {
     info: DrawerToggleInfoBuilder,
 }
 impl Dialog {
-    pub fn new(title: fn(Contexts) -> String, content: DynContextsHtml) -> Self {
+    pub fn new(title: fn(&Contexts) -> String, content: DynContextsHtml) -> Self {
         Dialog {
-            info: DrawerToggleInfo::builder(title, |_contexts: Contexts| html!(), content)
+            info: DrawerToggleInfo::builder(title, |_contexts: &Contexts| html!(), content)
                 .set_drawer(Direction::Top)
                 .set_on_confirm("Confirm", |_| true)
                 .to_owned(),
@@ -14,9 +14,9 @@ impl Dialog {
     }
 
     /// Create a new dialog without any close buttons, only a confirmation button.
-    pub fn alert(title: fn(Contexts) -> String, content: DynContextsHtml) -> Self {
+    pub fn alert(title: fn(&Contexts) -> String, content: DynContextsHtml) -> Self {
         Dialog {
-            info: DrawerToggleInfo::builder(title, |_contexts: Contexts| html!(), content)
+            info: DrawerToggleInfo::builder(title, |_contexts: &Contexts| html!(), content)
                 .set_drawer(Direction::Top)
                 .hide_cancel_button()
                 .hide_close_x_button()
@@ -69,7 +69,11 @@ impl Dialog {
     /// Set the confirmation display text and handler handler
     ///
     /// This button will display on the right side of the drawer footer
-    pub fn set_on_confirm(&mut self, display: &str, on_confirm: fn(Contexts) -> bool) -> &mut Self {
+    pub fn set_on_confirm(
+        &mut self,
+        display: &str,
+        on_confirm: fn(&Contexts) -> bool,
+    ) -> &mut Self {
         self.info.set_on_confirm(display, on_confirm);
         self
     }

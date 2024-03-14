@@ -25,7 +25,7 @@ pub struct AvatarProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Avatar icon="fa-solid fa-acorn" alt="Acorn Icon" />
 ///     }
@@ -36,7 +36,7 @@ pub struct AvatarProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Avatar image="Logo.svg" alt="" class="d-flex flex-column" />
 ///     }
@@ -50,7 +50,7 @@ pub struct AvatarProps {
 /// ```rust
 /// use webui::prelude::*;
 ///
-/// fn page(contexts: Contexts) -> Html {
+/// fn page(contexts: &Contexts) -> Html {
 ///     html! {
 ///         <Avatar image="Logo.svg" elevation={10} />
 ///     }

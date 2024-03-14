@@ -15,7 +15,7 @@ pub(crate) fn loaders() -> Html {
                 let contexts = contexts.clone();
                 if is_loaded & 1 == 0 {
                     data_loaded.set(1 | *data_loaded);
-                    myfi_loader(contexts).await;
+                    myfi_loader(&contexts).await;
                 }
             }
         });
@@ -24,7 +24,7 @@ pub(crate) fn loaders() -> Html {
 }
 
 #[cfg(feature = "myfi")]
-pub(crate) async fn myfi_loader(contexts: Contexts) {
+pub(crate) async fn myfi_loader(contexts: &Contexts) {
     let context = contexts.clone();
     let user_state = context.user.clone();
     let roles_state = context.user_roles.clone();

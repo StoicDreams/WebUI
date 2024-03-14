@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub(crate) fn page_sdauth(_contexts: Contexts) -> Html {
+pub(crate) fn page_sdauth(_contexts: &Contexts) -> Html {
     set_title("Stoic Dreams Account Authentication");
     html! {
         <RenderPage />
@@ -17,7 +17,7 @@ fn render_page() -> Html {
     let contexts = use_context::<Contexts>().expect("Contexts not found");
     let auth_key = query_url("key", None);
     if auth_key.is_none() {
-        return render_no_key(contexts);
+        return render_no_key(&contexts);
     }
     let page_messages = use_state(|| {
         String::from(
@@ -88,7 +88,7 @@ Expected key was not found for account authentication.
     render_loading(&displayed_markdown)
 }
 
-fn render_no_key(contexts: Contexts) -> Html {
+fn render_no_key(contexts: &Contexts) -> Html {
     match contexts.user.deref().to_owned() {
         Some(user) => {
             if user.roles == 0 {

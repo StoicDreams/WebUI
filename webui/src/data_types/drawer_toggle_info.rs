@@ -3,8 +3,8 @@ use crate::prelude::*;
 /// Struct used for defining details for displaying buttons that toggle drawer content.
 #[derive(Clone, Debug, PartialEq)]
 pub struct DrawerToggleInfo {
-    pub(crate) display: fn(Contexts) -> Html,
-    pub(crate) title: fn(Contexts) -> String,
+    pub(crate) display: fn(&Contexts) -> Html,
+    pub(crate) title: fn(&Contexts) -> String,
     pub(crate) class: String,
     pub(crate) content_class: String,
     pub(crate) drawer: Direction,
@@ -13,15 +13,15 @@ pub struct DrawerToggleInfo {
     pub(crate) hide_footer: bool,
     pub(crate) hide_close_x: bool,
     pub(crate) hide_cancel: bool,
-    pub(crate) on_confirm: Option<fn(Contexts) -> bool>,
+    pub(crate) on_confirm: Option<fn(&Contexts) -> bool>,
     pub(crate) confirm_display: String,
     pub(crate) confirm_render: Option<DynContextsHtml>,
 }
 
 #[derive(Clone, Debug, PartialEq)]
 pub struct DrawerToggleInfoBuilder {
-    display: fn(Contexts) -> Html,
-    title: fn(Contexts) -> String,
+    display: fn(&Contexts) -> Html,
+    title: fn(&Contexts) -> String,
     class: String,
     content_class: String,
     drawer: Direction,
@@ -30,15 +30,15 @@ pub struct DrawerToggleInfoBuilder {
     hide_footer: bool,
     hide_close_x: bool,
     hide_cancel: bool,
-    on_confirm: Option<fn(Contexts) -> bool>,
+    on_confirm: Option<fn(&Contexts) -> bool>,
     confirm_display: String,
     confirm_render: Option<DynContextsHtml>,
 }
 
 impl DrawerToggleInfo {
     pub fn builder(
-        title: fn(Contexts) -> String,
-        button_display: fn(Contexts) -> Html,
+        title: fn(&Contexts) -> String,
+        button_display: fn(&Contexts) -> Html,
         drawer_content: DynContextsHtml,
     ) -> DrawerToggleInfoBuilder {
         DrawerToggleInfoBuilder {
@@ -142,7 +142,11 @@ impl DrawerToggleInfoBuilder {
     /// Set the confirmation display text and handler handler
     ///
     /// This button will display on the right side of the drawer footer
-    pub fn set_on_confirm(&mut self, display: &str, on_confirm: fn(Contexts) -> bool) -> &mut Self {
+    pub fn set_on_confirm(
+        &mut self,
+        display: &str,
+        on_confirm: fn(&Contexts) -> bool,
+    ) -> &mut Self {
         self.on_confirm = Some(on_confirm);
         self.confirm_display = String::from(display);
         self

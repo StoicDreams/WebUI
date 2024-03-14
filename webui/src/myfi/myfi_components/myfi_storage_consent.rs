@@ -1,6 +1,6 @@
 use crate::prelude::*;
 
-pub fn render_myfi_storage_consent(_contexts: Contexts) -> Html {
+pub fn render_myfi_storage_consent(_contexts: &Contexts) -> Html {
     html!(
         <MyFiStorageConsent />
     )
