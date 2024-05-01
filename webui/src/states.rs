@@ -51,7 +51,7 @@ pub struct Contexts {
     pub app_data: UseStateHandle<HashMap<String, String>>,
     pub nav: UseStateHandle<NavigationMessage>,
     pub drawer: UseStateHandle<DrawerMessage>,
-    pub user_roles: UseStateHandle<u32>,
+    pub user_roles: UseStateHandle<i32>,
     #[cfg(feature = "myfi")]
     pub user: UseStateHandle<Option<MyFiUser>>,
 }

@@ -147,7 +147,7 @@ fn page_content(props: &PageContentProps) -> Html {
 fn use_get_page(
     routes: &[NavRoute],
     page: &str,
-    user_roles: &u32,
+    user_roles: &i32,
 ) -> yew::suspense::SuspensionResult<NavLinkInfo> {
     match get_page_option(routes, page, user_roles) {
         Some(info) => Ok(info),
@@ -165,7 +165,7 @@ fn get_page_failure<F: FnOnce()>(handler: F) {
     handler();
 }
 
-fn get_page_option(routes: &[NavRoute], page: &str, user_roles: &u32) -> Option<NavLinkInfo> {
+fn get_page_option(routes: &[NavRoute], page: &str, user_roles: &i32) -> Option<NavLinkInfo> {
     for route in routes {
         match route {
             NavRoute::NavLink(link_info) => {

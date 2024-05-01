@@ -33,7 +33,7 @@ pub fn nav_display(props: &NavDisplayProps) -> Html {
     }
 }
 
-fn nav_display_group(routes: &[NavRoute], user_roles: &u32) -> Html {
+fn nav_display_group(routes: &[NavRoute], user_roles: &i32) -> Html {
     html! {
         <>
             {
@@ -45,7 +45,7 @@ fn nav_display_group(routes: &[NavRoute], user_roles: &u32) -> Html {
     }
 }
 
-fn display_nav_route(route: &NavRoute, user_roles: &u32) -> Html {
+fn display_nav_route(route: &NavRoute, user_roles: &i32) -> Html {
     match route {
         NavRoute::NavGroup(group_info) => {
             if group_info.role != 0 && group_info.role & user_roles == 0 {

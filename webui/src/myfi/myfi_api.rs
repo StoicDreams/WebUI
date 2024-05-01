@@ -31,7 +31,7 @@ pub(crate) fn get_myfi_app_key() -> Option<&'static str> {
 
 pub(crate) async fn myfi_get_my_info(
     user_state: UseStateHandle<Option<MyFiUser>>,
-    roles_state: UseStateHandle<u32>,
+    roles_state: UseStateHandle<i32>,
 ) -> bool {
     let user_state = user_state.clone();
     let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_MYINFO);
