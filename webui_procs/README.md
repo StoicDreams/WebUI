@@ -1,14 +1,14 @@
 # Web UI
 
-[WebUI Version: 0.8.1](https://github.com/StoicDreams/RustWebUI)
+[WebUI Version: 0.8.2](https://github.com/StoicDreams/RustWebUI)
+
+[View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
 [View on crates.io - crates.io/crates/webui](https://crates.io/crates/webui)
 
 [View on GitHub - github.com/StoicDreams/RustWebUI](https://github.com/StoicDreams/RustWebUI)
-
-[View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
 [Stoic Dreams Discord](https://discord.gg/Z6WFptDyQn)
 
@@ -104,11 +104,11 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.8.1"
+webui = "0.8.2"
 # Customize with specific feature flags (pages is included by default)
-# webui = { version = "0.8.1", default-features = false }
-# webui = { version = "0.8.1", features = ["all"] }
-# webui = { version = "0.8.1", features = ["myfi", "pages"] }
+# webui = { version = "0.8.2", default-features = false }
+# webui = { version = "0.8.2", features = ["all"] }
+# webui = { version = "0.8.2", features = ["myfi", "pages"] }
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/RustWebUI", branch = "main" }
 ```

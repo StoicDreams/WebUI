@@ -1,14 +1,14 @@
 # Web UI Workspace - Stoic Dreams
 
-[WebUI Version: 0.8.1](https://github.com/StoicDreams/RustWebUI)
+[WebUI Version: 0.8.2](https://github.com/StoicDreams/RustWebUI)
+
+[View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
 [View on crates.io - crates.io/crates/webui](https://crates.io/crates/webui)
 
 [View on GitHub - github.com/StoicDreams/RustWebUI](https://github.com/StoicDreams/RustWebUI)
-
-[View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
 [Stoic Dreams Discord](https://discord.gg/Z6WFptDyQn)
 

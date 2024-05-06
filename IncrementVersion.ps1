@@ -97,7 +97,7 @@ if ($null -ne $version) {
     ApplyVersionUpdates .\webui_procs README.md 'webui = { version = "([0-9\.]+)"' "webui = { version = ""$version"""
     ApplyVersionUpdates "..\..\" service-worker.js 'webui_([0-9\.]+)' "webui_$version"
     ApplyVersionUpdates "..\..\" Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
-    ApplyVersionUpdates "..\..\" README.md '\[WebUI Version\: ([0-9\.]+)\]\(https\://github\.com/StoicDreams/RustWebUI\)' "[WebUI Version: $version](https://github.com/StoicDreams/RustWebUI)"
+    ApplyVersionUpdates "..\..\" README.md '\[WebUI Version\: ([0-9\.]+)\]' "[WebUI Version: $version]"
 }
 else {
     Write-Host Current version was not found -ForegroundColor Red
