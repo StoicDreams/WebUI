@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.8.2" #syncwebui
+version = "0.8.3" #syncwebui
 crate-type = ["dylib", "rlib"]
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
@@ -9,7 +9,7 @@ categories = ["wasm", "web-programming"]
 license = "MIT"
 authors = ["Erik Gasssler"]
 documentation = "https://docs.rs/webui"
-repository = "https://github.com/StoicDreams/RustWebUI"
+repository = "https://github.com/StoicDreams/WebUI"
 homepage = "https://webui.stoicdreams.com"
 
 [features]

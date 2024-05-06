@@ -1,6 +1,6 @@
 # WebUI Web Components
 
-[WebUI Version: 0.8.2](https://github.com/StoicDreams/RustWebUI)
+[WebUI Version: 0.8.3](https://github.com/StoicDreams/WebUI)
 
 [View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 

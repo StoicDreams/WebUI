@@ -42,7 +42,7 @@ stages:
         inputs:
           targetType: 'inline'
           script: |
-            cargo install webapp_post_build --git https://github.com/StoicDreams/RustWebUI
+            cargo install webapp_post_build --git https://github.com/StoicDreams/WebUI
       - task: PowerShell@2
         displayName: 'Build Web App'
         inputs:

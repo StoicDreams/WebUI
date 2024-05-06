@@ -29,7 +29,7 @@ pub(crate) fn hello_world() -> Html {
 ```section
 The `CLASSES_*` helper variables contain class values for one or more classes. In most cases, a variable is only referencing a single class. But some variables will contain multiple classes.
 
-See the [classes.rs file on GitHub](https://github.com/StoicDreams/RustWebUI/blob/main/webui/src/common/classes.rs) for the full suite of `CLASSES_*` variables.
+See the [classes.rs file on GitHub](https://github.com/StoicDreams/WebUI/blob/main/webui/src/common/classes.rs) for the full suite of `CLASSES_*` variables.
 ```
 
 ### CLASSES_PAGE_SECTION
