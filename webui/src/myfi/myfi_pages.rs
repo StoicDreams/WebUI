@@ -8,7 +8,7 @@ pub async fn get_myfi_page_data(page: &str) -> Option<String> {
     match to_base64(page) {
         Some(page_encoded) => {
             let response = fetch(FetchRequest::new(
-                format!("https://data.myfi.ws/page/{}", page_encoded),
+                format!("https://api.myfi.ws/data/page/{}", page_encoded),
                 FetchMethod::Get,
             ))
             .await;

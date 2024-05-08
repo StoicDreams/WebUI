@@ -34,7 +34,7 @@ pub(crate) async fn myfi_get_my_info(
     roles_state: UseStateHandle<i32>,
 ) -> bool {
     let user_state = user_state.clone();
-    let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_MYINFO);
+    let url = format!("https://api.myfi.ws/{}/{}", MYFI_ROOT_AUTH, MYFI_URL_MYINFO);
     let response = fetch_cors(FetchRequest::new(url.to_string(), FetchMethod::Get)).await;
     if response.is_ok() {
         if let Some(result) = response.get_result() {
@@ -65,7 +65,10 @@ pub fn myfi_sign_out(contexts: &Contexts, scope: SignoutScope) {
         SignoutScope::ThisBrowser => "browser",
         SignoutScope::AllDevices => "all",
     };
-    let url = format!("https://{}.myfi.ws/{}", MYFI_ROOT_AUTH, MYFI_URL_SIGNOUT);
+    let url = format!(
+        "https://api.myfi.ws/{}/{}",
+        MYFI_ROOT_AUTH, MYFI_URL_SIGNOUT
+    );
     let contexts = contexts.clone();
     let request = FetchRequest::new(url.to_string(), FetchMethod::Get)
         .add_header("x-scope", scope)

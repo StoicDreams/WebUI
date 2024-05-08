@@ -47,7 +47,7 @@ fn handle_confirm(contexts: &Contexts) -> bool {
             spawn_async!({
                 // wasm_bindgen_futures::spawn_local(async move {
                 let response = fetch(FetchRequest::new(
-                    "https://feedback.myfi.ws/api/new".to_string(),
+                    "https://api.myfi.ws/feedback/new".to_string(),
                     FetchMethod::Post(post_body.to_string()),
                 ))
                 .await;

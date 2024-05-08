@@ -191,10 +191,13 @@ mod tests {
     fn verify_myfi_domains() {
         use web_sys::console::assert;
 
-        assert!(is_domain("https://auth.myfi.ws", "*.myfi.ws"));
-        assert!(is_domain("https://auth.myfi.ws/some_command", "*.myfi.ws"));
+        assert!(is_domain("https://api.myfi.ws", "*.myfi.ws"));
         assert!(is_domain(
-            "https://auth.myfi.ws/category/some_command",
+            "https://api.myfi.ws/auth/some_command",
+            "*.myfi.ws"
+        ));
+        assert!(is_domain(
+            "https://api.myfi.ws/auth/category/some_command",
             "*.myfi.ws"
         ));
         assert!(!is_domain("myfi.ws", "*.myfi.ws"));
