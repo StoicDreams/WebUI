@@ -96,6 +96,7 @@ if ($null -ne $version) {
     ApplyVersionUpdates .\webui_procs README.md 'webui = "([0-9\.]+)"' "webui = ""$version"""
     ApplyVersionUpdates .\webui_procs README.md 'webui = { version = "([0-9\.]+)"' "webui = { version = ""$version"""
     ApplyVersionUpdates "..\..\" service-worker.js 'webui_([0-9\.]+)' "webui_$version"
+    ApplyVersionUpdates "..\..\" service-worker.min.js 'webui_([0-9\.]+)' "webui_$version"
     ApplyVersionUpdates "..\..\" Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates "..\..\" README.md '\[WebUI Version\: ([0-9\.]+)\]' "[WebUI Version: $version]"
 }

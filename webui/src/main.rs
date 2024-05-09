@@ -8,6 +8,7 @@ static MANIFEST: &str = include_str!("starter_files/app.webmanifest");
 static LOGO: &str = include_str!("starter_files/Logo.svg");
 static ROBOTS: &str = include_str!("starter_files/robots.txt");
 static SERVICEWORKER: &str = include_str!("starter_files/service-worker.js");
+static SERVICEWORKERMIN: &str = include_str!("starter_files/service-worker.min.js");
 
 fn main() {
     starter_files::add_file_if_missing("index.html", INDEX);
@@ -15,4 +16,5 @@ fn main() {
     starter_files::add_file_if_missing("root_files/Logo.svg", LOGO);
     starter_files::add_file_if_missing("root_files/robots.txt", ROBOTS);
     starter_files::add_file_if_missing("root_files/service-worker.js", SERVICEWORKER);
+    starter_files::add_file_if_missing("root_files/service-worker.min.js", SERVICEWORKERMIN);
 }

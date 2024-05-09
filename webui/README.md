@@ -154,6 +154,7 @@ Other files are considered starter files that you will probably want or need to 
 | robots.txt | X | | Update as needed to manage search bot rules. |
 | Logo.svg | X | | Placeholder logo. Update with your own.
 | service-worker.js | X | | Basic service worker for file caching, also required for installable SPA apps. |
+| service-worker.min.js | X | | Minified version of basic service worker for file caching, also required for installable SPA apps. |
 
 ### Run Dev Server for Testing
 
