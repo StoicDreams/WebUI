@@ -95,17 +95,17 @@ fn image_svg(props: &UrlProp) -> Html {
                             image.set(clean_html(&svg));
                         } else {
                             image.set(String::from(
-                                r#"<i class="fa-regular fa-triangle-exlamation" title="Image data was not expected SVG content" />"#,
+                                r#"<webui-fa icon="triangle-exclamation" family="regular" title="Image data was not expected SVG content"></webui-fa>"#,
                             ))
                         }
                     },
                     None => image.set(String::from(
-                        r#"<i class="fa-regular fa-triangle-exlamation" title="failed to load image" />"#,
+                        r#"<webui-fa icon="triangle-exclamation" family="regular" title="failed to load image"></webui-fa>"#,
                     )),
                 }
             } else {
                 image.set(String::from(
-                    r#"<i class="fa-regular fa-triangle-exlamation" title="Failed to load image" />"#,
+                    r#"<webui-fa icon="triangle-exclamation" family="regular" title="Failed to load image"></webui-fa>"#,
                 ))
             }
         });

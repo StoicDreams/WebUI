@@ -5,7 +5,7 @@ use std::collections::HashMap;
 pub fn myfi_feedback_button_info() -> DrawerToggleInfo {
     drawer!(
         "Give us your Feedback!",
-        html! {<i class="fa-solid fa-comment" />},
+        html! {<webui-fa icon="comment" family="solid" />},
         get_render_wrapper,
         Direction::Top
     )

@@ -1,6 +1,12 @@
 use crate::prelude::*;
 use yew::Html;
 
+#[derive(Clone, PartialEq)]
+pub enum AvatarOption {
+    Icon(FaIcon),
+    Image(String),
+}
+
 /// Properties for Paper component
 #[derive(Properties, PartialEq)]
 pub struct CardProps {
@@ -15,7 +21,7 @@ pub struct CardProps {
     #[prop_or_default]
     pub style: String,
     #[prop_or_default]
-    pub avatar: Option<String>,
+    pub avatar: Option<AvatarOption>,
     #[prop_or_default]
     pub link: Option<String>,
     #[prop_or_default]
@@ -35,15 +41,13 @@ pub struct CardProps {
 /// Display a group of content with a header, body, and optional footer content.
 /// Header content generally consists of an Avatar (icon or image), a title, and a link or button for some context related action.
 ///
-/// Note: avatar string is expected to start with "fa-" if using an icon, otherwise string is treated as an image source value.
-///
 /// Basic example
 /// ```rust
 /// use webui::prelude::*;
 ///
 /// fn page(contexts: &Contexts) -> Html {
 ///     html! {
-///         <Card title="Hello World" avatar="fa-solid fa-acorn">{"Your card body content here"}</Card>
+///         <Card title="Hello World" avatar={AvatarOption::Icon(FaIcon::solid("acorn"))}>{"Your card body content here"}</Card>
 ///     }
 /// }
 /// ```
@@ -115,18 +119,11 @@ pub fn card(props: &CardProps) -> Html {
     html! {
         <Paper class={classes.to_string()} style={styles.join(" ")}>
             <Paper class={header_classes.to_string()}>
-                {match props.avatar.to_owned() {
+                {match &props.avatar {
                     Some(avatar) => {
-                        if avatar.is_empty() {
-                            html!()
-                        } else if avatar.starts_with("fa-") {
-                            html! {
-                                <Avatar class="f3 ml-1 pa-1" icon={avatar} />
-                            }
-                        } else {
-                            html! {
-                                <Avatar class="ml-1 pa-1" image={avatar} />
-                            }
+                        match avatar {
+                            AvatarOption::Icon(fa_icon) => html!(<Avatar class="f3 ml-1 pa-1" icon={fa_icon.to_owned()} />),
+                            AvatarOption::Image(src) => html!(<Avatar class="ml-1 pa-1" image={src.to_string()} />)
                         }
                     },
                     None => html! {}
@@ -154,7 +151,7 @@ pub fn card(props: &CardProps) -> Html {
                         if !link.is_empty() {
                             html!(
                                 <Link href={link} class="f3 pr-3" title={props.link_title.to_owned()}>
-                                    <i class="fa-solid fa-external-link" />
+                                    <webui-fa family="solid" icon="arrow-up-right-from-square" />
                                 </Link>
                             )
                         } else {

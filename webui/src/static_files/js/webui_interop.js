@@ -208,7 +208,7 @@ const APP_CLASS_KEY = "app_classes";
 export function app_has_classes(classes) {
     classes = classes.split(' ');
     let current = app.className.split(' ');
-    for(let i = 0;i < classes.length; ++i) {
+    for (let i = 0; i < classes.length; ++i) {
         if (current.indexOf(classes[i]) !== -1) continue;
         return false;
     }
@@ -246,11 +246,11 @@ export function remove_app_class(classes) {
     applyDynamicStyleRules();
 }
 
-function loadAppClasses(){
+function loadAppClasses() {
     app.className = memStorage.getItem(APP_CLASS_KEY);
 }
 
-function setupTauriIntegrations(){
+function setupTauriIntegrations() {
     if (!window.__TAURI__) return;
     console.log('Setup Tauri integrations!');
 
@@ -260,9 +260,9 @@ function setupTauriIntegrations(){
     getEl('#titlebar-maximize', 30000).then(el => {
         el.addEventListener('click', async () => {
             if (await await window.__TAURI__.window.appWindow.isMaximized()) {
-                el.innerHTML = el.getAttribute('data-maximize') || `<i class="far fa-window-maximize"></i>`;
+                el.innerHTML = el.getAttribute('data-maximize') || `<webui-fa icon="window-maximize" family="regular"></webui-fa>`;
             } else {
-                el.innerHTML = el.getAttribute('data-restore') || `<i class="far fa-window-restore"></i>`;
+                el.innerHTML = el.getAttribute('data-restore') || `<webui-fa icon="window-restore" family="regular"></webui-fa>`;
             }
             window.__TAURI__.window.appWindow.toggleMaximize();
         })
@@ -334,7 +334,7 @@ const applyDynamicStyleRules = async function applyDynamicStyleRules() {
     }
 };
 
-(function periodicUpates(){
+(function periodicUpates() {
     applyDynamicStyleRules();
     setTimeout(periodicUpates, 1000);
 })();
@@ -379,7 +379,7 @@ const setupWatchers = function setupWatchers() {
     styles.setAttribute('type', 'text/css');
     document.head.appendChild(styles);
     window.addEventListener('resize', handlResize);
-    setTimeout(applyDynamicStyleRules,10);
+    setTimeout(applyDynamicStyleRules, 10);
 }
 
 getEl('#app', 30000).then(el => {
@@ -407,7 +407,7 @@ getEl('#app', 30000).then(el => {
     }, 200);
 });
 
-(function checkHighlighting(){
+(function checkHighlighting() {
     if (window.hljs) {
         document.querySelectorAll('pre code:not([data-hl])').forEach((el) => {
             el.setAttribute('data-hl', true);

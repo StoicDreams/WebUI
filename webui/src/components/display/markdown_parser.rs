@@ -264,7 +264,13 @@ fn handle_code(code: &mdast::Code) -> Html {
                 let title = get_meta(&meta, 1);
                 let width = u16::from_str(&get_meta(&meta, 2)).unwrap_or(800u16);
                 let theme = get_meta(&meta, 3);
-                let avatar = get_meta(&meta, 4);
+                let avatar = match get_meta(&meta, 4) {
+                    s if s.starts_with("fa-") || s.contains(' ') => {
+                        Some(AvatarOption::Icon(FaIcon::from(&s)))
+                    }
+                    s if !s.is_empty() => Some(AvatarOption::Image(s)),
+                    _ => None,
+                };
                 let link = get_meta(&meta, 5);
                 let link_title = get_meta(&meta, 6);
                 let theme = get_theme(theme.as_str());
@@ -440,9 +446,9 @@ fn handle_list_item(list_item: &mdast::ListItem) -> Html {
         return html!(
             <li>
             if checked {
-                <i class="fa-regular fa-square-check theme-success"></i>
+                {FaIcon::regular("square-check").class("theme-success").to_html()}
             } else {
-                <i class="fa-regular fa-square theme-shade"></i>
+                {FaIcon::regular("square").class("theme-shade").to_html()}
             }
             {handle_children(&list_item.children)}
             </li>
@@ -506,7 +512,10 @@ fn handle_text_enhancements(text: &str) -> Html {
 }
 
 fn parse_for_icon_refs(text: &str) -> String {
-    let re = Regex::new(r"\!\[([A-Za-z-_ ]*)\]\(([A-Za-z-_ ]+)\)").unwrap();
-    let result = re.replace(text, "<i class=\"$2\" title=\"$1\"></i>");
+    let re = Regex::new(r"\!\[([A-Za-z-_ ]*)\]\(([A-Za-z-_]+) ([A-Za-z-_]+)\)").unwrap();
+    let result = re.replace(
+        text,
+        r#"<webui-fa icon="$2" family="$3" title="$1"></webui-fa>"#,
+    );
     result.to_string()
 }

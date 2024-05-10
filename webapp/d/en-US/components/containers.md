@@ -33,7 +33,7 @@ World
 ```card "Foo" "300"
 Foo
 ```
-```card "Lorem" "400" "info" "fa-solid fa-acorn" "https://loremipsum.io/"
+```card "Lorem" "400" "info" "solid acorn" "https://loremipsum.io/"
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 ```
 ````
@@ -45,7 +45,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     <Card title="Foo" width={300}>
         {"Bar"}
     </Card>
-    <Card title="Lorem" width={400} color={Theme::Info} avatar="fa-solid fa-acorn" link="https://loremipsum.io/">
+    <Card title="Lorem" width={400} color={Theme::Info} avatar="solid acorn" link="https://loremipsum.io/">
         {"Lorem ipsum dolor..."}
     </Card>
 </Cards>

@@ -34,7 +34,7 @@ pub fn next_page_button(props: &NextPageProps) -> Html {
                 <Paper class="d-flex flex-column align-center justify-center ma-5 pa-5">
                     <Link class="btn theme-info" {href}>
                         <span>{format!("Continue to {}", display)}</span>
-                        <Avatar class="d-inline ml-2" icon="fa-duotone fa-right" />
+                        {FaIcon::duotone("right").to_html()}
                     </Link>
                 </Paper>
             </>

@@ -188,12 +188,12 @@ impl AppConfigBuilder {
                 let mut nav_list = nav_routing.run(contexts);
                 let mut myfi_nav = vec![NavGroupInfo::link(
                     "MyFiPages",
-                    "fa-solid fa-user-secret",
+                    &FaIcon::solid("user-secret"),
                     roles::INVALID,
                     vec![NavLinkInfo::link(
                         "Stoic Dreams Account Authentication",
                         "/sdauth",
-                        "fa-solid fa-user",
+                        &FaIcon::solid("user"),
                         roles::PUBLIC,
                         page_sdauth,
                     )],

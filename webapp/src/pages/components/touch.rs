@@ -23,7 +23,7 @@ fn page_content() -> Html {
         DropdownOption::new(
             "Sample 2",
             DynHtml::new(
-                || html!(<Icon icon="fa-duotone fa-fire-flame-simple" color={Theme::Danger} />),
+                || html!(<Icon icon={FaIcon::duotone("fire-flame-simple")} color={Theme::Danger} />),
             ),
         ),
     ];
@@ -55,7 +55,7 @@ fn page_content() -> Html {
                             DropdownOption::new("Sample 1", DynHtml::new(move || html!(<span>{dynamic_value.clone()}</span>))),
                             DropdownOption::new(
                                 "Sample 2",
-                                DynHtml::new(||html!(<Icon icon="fa-duotone fa-fire-flame-simple" color={Theme::Danger} />)),
+                                DynHtml::new(||html!(<Icon icon={FaIcon::duotone("fire-flame-simple")} color={Theme::Danger} />)),
                             ),
                         ];
                         if (*dropdown_value).is_empty() {

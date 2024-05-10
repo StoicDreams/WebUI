@@ -1,4 +1,4 @@
-use crate::{function_component, html, Classes, Html, Paper, Properties};
+use crate::{function_component, html, Classes, FaIcon, Html, Paper, Properties};
 
 /// Properties for Avatar component
 #[derive(Properties, PartialEq)]
@@ -10,7 +10,7 @@ pub struct AvatarProps {
     #[prop_or_default]
     pub alt: String,
     #[prop_or_default]
-    pub icon: Option<String>,
+    pub icon: Option<FaIcon>,
     #[prop_or_default]
     pub image: Option<String>,
     #[prop_or_default]
@@ -27,7 +27,7 @@ pub struct AvatarProps {
 ///
 /// fn page(contexts: &Contexts) -> Html {
 ///     html! {
-///         <Avatar icon="fa-solid fa-acorn" alt="Acorn Icon" />
+///         <Avatar icon={FaIcon::solid("acorn")} alt="Acorn Icon" />
 ///     }
 /// }
 /// ```
@@ -72,8 +72,8 @@ pub fn avatar(props: &AvatarProps) -> Html {
     html! {
         <Paper class={classes.to_string()} style={props.style.to_owned()}>
             {match props.icon.to_owned() {
-                Some(class) => html! {
-                    <i {class} alt={props.alt.to_string()} title={props.alt.to_string()} />
+                Some(fa_icon) => html! {
+                    {fa_icon.to_html()}
                 },
                 None => {
                     {match props.image.to_owned() {

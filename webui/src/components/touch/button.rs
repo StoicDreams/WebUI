@@ -1,12 +1,12 @@
 use crate::prelude::*;
 
 /// Properties/options for buttons
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Default)]
 pub struct ButtonOptions {
     #[prop_or_default]
     pub children: Children,
     #[prop_or_default]
-    pub icon: String,
+    pub icon: Option<FaIcon>,
     #[prop_or_default]
     pub onclick: Option<Callback<MouseEvent>>,
     #[prop_or_default]
@@ -21,22 +21,6 @@ pub struct ButtonOptions {
     pub style: String,
     #[prop_or_default]
     pub disabled: bool,
-}
-
-impl Default for ButtonOptions {
-    fn default() -> Self {
-        Self {
-            children: Default::default(),
-            icon: Default::default(),
-            onclick: Default::default(),
-            elevation: Default::default(),
-            color: Default::default(),
-            class: Default::default(),
-            title: Default::default(),
-            style: Default::default(),
-            disabled: Default::default(),
-        }
-    }
 }
 
 /// Display button
@@ -66,8 +50,8 @@ pub fn button(props: &ButtonOptions) -> Html {
         classes.push("disabled");
         return html! {
             <button type="button" class={classes.to_owned()} title={props.title.to_string()} aria-label={props.title.to_string()} disabled={true}>
-                {if !props.icon.is_empty() {
-                    html!{<i class={&props.icon} />}
+                {if let Some(icon) = props.icon.to_owned() {
+                    html!{icon.to_html()}
                 }else{html!()}}
                 {for props.children.iter()}
             </button>
@@ -75,8 +59,8 @@ pub fn button(props: &ButtonOptions) -> Html {
     }
     html! {
         <button type="button" class={classes.to_owned()} title={props.title.to_string()} aria-label={props.title.to_string()} onclick={onclick}>
-            {if !props.icon.is_empty() {
-                html!{<i class={&props.icon} />}
+            {if let Some(icon) = props.icon.to_owned() {
+                html!{icon.to_html()}
             }else{html!()}}
             {for props.children.iter()}
         </button>

@@ -7,9 +7,9 @@ Web UI Display components are components that are expected to display some speci
 ## Avatar
 
 ```section
-Avatar display components are used when you want to display either an image or icon (e.g. `fa-solid fa-acorn`) within a Paper.avatar container.
+Avatar display components are used when you want to display either an image or icon (e.g. `FaIcon::solid("acorn")`) within a Paper.avatar container.
 
-You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-acorn). If an avatar image is within a paragraph tag, then it will default its size to match the current font size within that paragraph.
+You can use an avatar in inline text, such as ![](/Logo.svg) or ![](acorn solid). If an avatar image is within a paragraph tag, then it will default its size to match the current font size within that paragraph.
 ```
 
 ``````sidebyside
@@ -20,13 +20,13 @@ You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-
 ![](/Logo.svg)
 ```
 ```paper  "ma-10 pa-10 f10 d-flex align-center"
-![](fa-solid fa-acorn)
+![](acorn solid)
 ```
 ```paper  "ma-10 pa-10"
 ![Logo](/Logo.svg)
 ```
 ```paper  "ma-10 pa-10 f5 d-flex align-center"
-![Acorn](fa-solid fa-acorn)
+![Acorn](acorn solid)
 ```
 ````
 `````
@@ -37,13 +37,13 @@ You can use an avatar in inline text, such as ![](/Logo.svg) or ![](fa-solid fa-
         <Avatar image="/Logo.svg" />
     </Paper>
     <Paper class="ma-10 pa-10 f10 d-flex align-center">
-        <Avatar icon="fa-solid fa-acorn" />
+        <Avatar icon={FaIcon::solid("acorn")} />
     </Paper>
     <Paper class="ma-10 pa-10">
         <Avatar image="/Logo.svg" alt="Logo" />
     </Paper>
     <Paper class="ma-10 pa-10 f5 d-flex align-center">
-        <Avatar icon="fa-solid fa-acorn" alt="Acorn" />
+        <Avatar icon={FaIcon::solid("acorn")} alt="Acorn" />
     </Paper>
 </Paper>
 `````
@@ -283,10 +283,10 @@ Another Card with a max width
 ```card "Hello World" "200" "secondary"
 Another Card with a theme
 ```
-```card "Hello World" "200" "tertiary" "fa-solid fa-acorn"
+```card "Hello World" "200" "tertiary" "acorn solid"
 Another Card with an Avatar
 ```
-```card "Hello World" "300" "info" "fa-solid fa-acorn" "/"
+```card "Hello World" "300" "info" "acorn solid" "/"
 Another Card With a Link
 ```
 ````
@@ -387,10 +387,10 @@ Another Card with a max width
 ```card "Hello World" "200" "secondary"
 Another Card with a theme
 ```
-```card "Hello World" "200" "tertiary" "fa-solid fa-acorn"
+```card "Hello World" "200" "tertiary" "acorn solid"
 Another Card with an Avatar
 ```
-```card "Hello World" "300" "info" "fa-solid fa-acorn" "/"
+```card "Hello World" "300" "info" "acorn solid" "/"
 Another Card With a Link
 ```
 ````

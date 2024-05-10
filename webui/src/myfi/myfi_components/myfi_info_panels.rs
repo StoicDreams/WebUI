@@ -31,7 +31,7 @@ pub fn myfi_info_panel(contexts: &Contexts) -> Html {
 fn drawer_toggle_info(_contexts: &Contexts) -> DrawerToggleInfo {
     drawer!(
         "Account Services",
-        html! {<i class="fa-duotone fa-user" />},
+        html! {<webui-fa icon="user" family="duotone" />},
         get_render_wrapper,
         Direction::Right
     )
@@ -137,7 +137,7 @@ fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
                 let contexts = contexts.clone();
                 let code_input = code_input.clone();
                 let start_icon = IconOptions {
-                    icon: "fa-duotone fa-key".into(),
+                    icon: FaIcon::duotone("key"),
                     color: Theme::Secondary,
                     ..Default::default()
                 };

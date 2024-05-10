@@ -15,7 +15,7 @@ pub struct LinkProps {
     #[prop_or_default]
     pub title: String,
     #[prop_or_default]
-    pub icon: String,
+    pub icon: Option<FaIcon>,
     #[prop_or_default]
     pub onclick: Option<Callback<MouseEvent>>,
 }
@@ -73,8 +73,8 @@ pub fn link(props: &LinkProps) -> Html {
             target={target}
             class={props.class.to_owned()}
             onclick={onclick}>
-            {if !props.icon.is_empty() {
-                html! {<i class={props.icon.to_string()} />}
+            {if let Some(icon) = props.icon.to_owned() {
+                html! {icon.to_html()}
             } else {
                 html! {}
             }}

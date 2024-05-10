@@ -65,7 +65,7 @@ fn display_nav_route(route: &NavRoute, user_roles: &i32) -> Html {
             html! {
                 <Paper class="nav-link">
                     <NavLink to={link_info.path.to_string()}>
-                        <i class={&link_info.icon} />
+                        {link_info.icon.to_html()}
                         <span>{link_info.name.to_string()}</span>
                     </NavLink>
                 </Paper>
@@ -94,7 +94,7 @@ fn display_nav_group_toggle(props: &DisplayNavGroupToggleProps) -> Html {
     }
     html! {
         <a {onclick} class={classes.to_string()}>
-            <i class={&props.group_info.icon} />
+            {props.group_info.icon.to_html()}
             <span>{props.group_info.name.to_string()}</span>
             {display_caret(*show_children)}
         </a>
@@ -102,25 +102,8 @@ fn display_nav_group_toggle(props: &DisplayNavGroupToggleProps) -> Html {
 }
 
 fn display_caret(is_showing: bool) -> Html {
-    let status_classes = &mut Classes::new();
-    status_classes.push("fa-solid");
-    if is_showing {
-        status_classes.push("fa-caret-up");
-    } else {
-        status_classes.push("fa-caret-down");
-    }
-
-    let path = if is_showing {
-        "M182.6 137.4c-12.5-12.5-32.8-12.5-45.3 0l-128 128c-9.2 9.2-11.9 22.9-6.9 34.9s16.6 19.8 29.6 19.8H288c12.9 0 24.6-7.8 29.6-19.8s2.2-25.7-6.9-34.9l-128-128z"
-    } else {
-        "M137.4 374.6c12.5 12.5 32.8 12.5 45.3 0l128-128c9.2-9.2 11.9-22.9 6.9-34.9s-16.6-19.8-29.6-19.8L32 192c-12.9 0-24.6 7.8-29.6 19.8s-2.2 25.7 6.9 34.9l128 128z"
-    };
-    let class = if is_showing {
-        "svg-inline--fa fa-caret-up"
-    } else {
-        "svg-inline--fa fa-caret-down"
-    };
-    html! {
-        <svg {class} aria-hidden="true" focusable="false" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path fill="currentColor" d={path}></path></svg>
+    match is_showing {
+        true => html! {FaIcon::solid("caret-up").to_html()},
+        false => html! {FaIcon::solid("caret-down").to_html()},
     }
 }

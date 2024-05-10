@@ -5,7 +5,7 @@ use crate::pages::*;
 pub fn nav_menu_info() -> DrawerToggleInfo {
     drawer!(
         "Navigation Menu",
-        html! {<i class="fa-solid fa-bars"></i>},
+        html! {FaIcon::solid("bars").to_html()},
         nav_menu_render,
         Direction::Left
     )
@@ -17,42 +17,48 @@ pub fn nav_menu_info() -> DrawerToggleInfo {
 
 pub(crate) fn get_nav_routing(contexts: &Contexts) -> Vec<NavRoute> {
     let nav_routes = vec![
-        NavLinkInfo::link("Home", "/", "fa-duotone fa-house", roles::PUBLIC, page_home),
+        NavLinkInfo::link(
+            "Home",
+            "/",
+            &FaIcon::duotone("house"),
+            roles::PUBLIC,
+            page_home,
+        ),
         NavGroupInfo::link(
             "Stoic Dreams Admin",
-            "fa-duotone fa-jedi",
+            &FaIcon::duotone("jedi"),
             roles::SITE_ADMIN,
             vec![NavLinkInfo::link(
                 "Site Admin",
                 "/site_admin",
-                "fa-duotone fa-jedi",
+                &FaIcon::duotone("jedi"),
                 roles::SITE_ADMIN,
                 page_site_admin_home,
             )],
         ),
         NavGroupInfo::link(
             "Classes",
-            "fa-duotone fa-file-code",
+            &FaIcon::duotone("file-code"),
             roles::PUBLIC,
             vec![
                 NavLinkInfo::link(
                     "Helpers",
                     "/classes/helpers",
-                    "fa-brands fa-css3",
+                    &FaIcon::brands("css3"),
                     roles::PUBLIC,
                     page_classes_helpers,
                 ),
                 NavLinkInfo::link(
                     "Themes",
                     "/classes/themes",
-                    "fa-duotone fa-palette",
+                    &FaIcon::duotone("palette"),
                     roles::PUBLIC,
                     page_classes_themes,
                 ),
                 NavLinkInfo::link(
                     "Variables",
                     "/classes/variables",
-                    "fa-brands fa-rust",
+                    &FaIcon::brands("rust"),
                     roles::PUBLIC,
                     page_classes_variables,
                 ),
@@ -60,27 +66,27 @@ pub(crate) fn get_nav_routing(contexts: &Contexts) -> Vec<NavRoute> {
         ),
         NavGroupInfo::link(
             "Components",
-            "fa-duotone fa-toolbox",
+            &FaIcon::duotone("toolbox"),
             roles::PUBLIC,
             vec![
                 NavLinkInfo::link(
                     "Containers",
                     "/components/containers",
-                    "fa-duotone fa-box-open-full",
+                    &FaIcon::duotone("box-open-full"),
                     roles::PUBLIC,
                     page_components_containers,
                 ),
                 NavLinkInfo::link(
                     "Display",
                     "/components/display",
-                    "fa-duotone fa-photo-film",
+                    &FaIcon::duotone("photo-film"),
                     roles::PUBLIC,
                     page_components_display,
                 ),
                 NavLinkInfo::link(
                     "Touch",
                     "/components/touch",
-                    "fa-duotone fa-hand-back-point-up",
+                    &FaIcon::duotone("hand-back-point-up"),
                     roles::PUBLIC,
                     page_components_touch,
                 ),
@@ -88,24 +94,24 @@ pub(crate) fn get_nav_routing(contexts: &Contexts) -> Vec<NavRoute> {
         ),
         NavGroupInfo::link(
             "Blogs",
-            "fa-duotone fa-blog",
+            &FaIcon::duotone("blog"),
             roles::PUBLIC,
             vec![NavLinkInfo::link(
                 "What is a web framework?",
                 "/blogs/what-is-a-website-framework",
-                "fa-duotone fa-block-question",
+                &FaIcon::duotone("block-question"),
                 roles::PUBLIC,
                 page_blogs_what_is_ui_framework,
             )],
         ),
         NavGroupInfo::link(
             "Starter Pages",
-            "fa-duotone fa-file-code",
+            &FaIcon::duotone("file-code"),
             roles::PUBLIC,
             vec![NavLinkInfo::link(
                 "Under Construction",
                 "/under-construction",
-                "fa-duotone fa-traffic-cone",
+                &FaIcon::duotone("traffic-cone"),
                 roles::PUBLIC,
                 starter_page_under_construction,
             )],
@@ -113,21 +119,21 @@ pub(crate) fn get_nav_routing(contexts: &Contexts) -> Vec<NavRoute> {
         NavLinkInfo::link(
             "About",
             "/about",
-            "fa-duotone fa-circle-info",
+            &FaIcon::duotone("circle-info"),
             roles::PUBLIC,
             page_about,
         ),
         NavLinkInfo::link(
             "Terms",
             "/terms",
-            "fa-duotone fa-handshake",
+            &FaIcon::duotone("handshake"),
             roles::PUBLIC,
             starter_page_terms,
         ),
         NavLinkInfo::link(
             "Privacy",
             "/privacy",
-            "fa-duotone fa-shield-exclamation",
+            &FaIcon::duotone("shield-exclamation"),
             roles::PUBLIC,
             starter_page_privacy,
         ),

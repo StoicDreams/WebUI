@@ -308,7 +308,7 @@ pub(crate) fn app_drawer(props: &AppDrawerProps) -> Html {
                                         {if show_close_x {
                                             html! {
                                                 <Button title="close" class="btn theme-danger mr-1 pt-1 bt-1 pl-3 pr-3" onclick={close_x_click}>
-                                                    <i class="fa-solid fa-times" />
+                                                    <webui-fa icon="times" family="solid" />
                                                 </Button>
                                             }
                                         } else {html!{}}}
@@ -380,18 +380,18 @@ fn render_pin_buttons(drawer: &Direction, pinnable: &PinOptions) -> Html {
     html! {
         <Paper class={format!("d-flex flex-wrap pin-options gap-2 f10 justify-center pa-3 pinnable-{}", drawer)}>
             <Button onclick={set_unpinned} class={format!("pin-button pin-unpinned")} title="Hide Panel">
-                <i class="fa-regular fa-square" />
+                <webui-fa family="regular" icon="square" />
             </Button>
             {match pinnable {
                 PinOptions::PinnableWithThinOption => html!{
                     <Button onclick={set_pinned_thin} class={format!("pin-button pin-pinned-icon-only")} title="Pin Minimal Panel">
-                        <i class="fa-regular fa-ellipsis-stroke-vertical" />
+                        <webui-fa family="regular" icon="ellipsis-stroke-vertical" />
                     </Button>
                    },
                 _ => html!()
             }}
             <Button onclick={set_pinned_full} class={format!("pin-button pin-pinned-full")} title="Pin full Panel">
-                <i class="fa-regular fa-sidebar" />
+                <webui-fa family="regular" icon="sidebar" />
             </Button>
         </Paper>
     }

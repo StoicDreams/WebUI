@@ -16,13 +16,13 @@ use crate::prelude::*;
 ///     }
 /// }
 ///
-/// let link_info = NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home);
+/// let link_info = NavLinkInfo::new("Home", "/", &FaIcon::solid("bars"), roles::PUBLIC, page_home);
 /// ```
 #[derive(Debug, Clone, PartialEq)]
 pub struct NavLinkInfo {
     pub name: String,
     pub path: String,
-    pub icon: String,
+    pub icon: FaIcon,
     pub role: i32,
     pub page: fn(&Contexts) -> Html,
 }
@@ -40,13 +40,19 @@ impl NavLinkInfo {
     ///     }
     /// }
     ///
-    /// let link_info = NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home);
+    /// let link_info = NavLinkInfo::new("Home", "/", &FaIcon::solid("bars"), roles::PUBLIC, page_home);
     /// ```
-    pub fn new(name: &str, path: &str, icon: &str, role: i32, page: fn(&Contexts) -> Html) -> Self {
+    pub fn new(
+        name: &str,
+        path: &str,
+        icon: &FaIcon,
+        role: i32,
+        page: fn(&Contexts) -> Html,
+    ) -> Self {
         Self {
             name: name.to_string(),
             path: path.to_string(),
-            icon: icon.to_string(),
+            icon: icon.to_owned(),
             role,
             page,
         }
@@ -55,14 +61,14 @@ impl NavLinkInfo {
     pub fn link(
         name: &str,
         path: &str,
-        icon: &str,
+        icon: &FaIcon,
         role: i32,
         page: fn(&Contexts) -> Html,
     ) -> NavRoute {
         NavRoute::NavLink(Self {
             name: name.to_string(),
             path: path.to_string(),
-            icon: icon.to_string(),
+            icon: icon.to_owned(),
             role,
             page,
         })
@@ -83,7 +89,7 @@ impl NavLinkInfo {
 #[derive(Debug, Clone, PartialEq)]
 pub struct NavGroupInfo {
     pub name: String,
-    pub icon: String,
+    pub icon: FaIcon,
     pub role: i32,
     pub children: Vec<NavRoute>,
 }
@@ -101,23 +107,23 @@ impl NavGroupInfo {
     ///     }
     /// }
     ///
-    /// let link_info = NavGroupInfo::new("Home", "fa-solid fa-bars", roles::PUBLIC, vec![
-    ///     NavRoute::NavLink(NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home))
+    /// let link_info = NavGroupInfo::new("Home", &FaIcon::solid("bars"), roles::PUBLIC, vec![
+    ///     NavRoute::NavLink(NavLinkInfo::new("Home", "/", &FaIcon::solid("bars"), roles::PUBLIC, page_home))
     /// ]);
     /// ```
-    pub fn new(name: &str, icon: &str, role: i32, children: Vec<NavRoute>) -> Self {
+    pub fn new(name: &str, icon: &FaIcon, role: i32, children: Vec<NavRoute>) -> Self {
         Self {
             name: name.to_string(),
-            icon: icon.to_string(),
+            icon: icon.to_owned(),
             role,
             children,
         }
     }
 
-    pub fn link(name: &str, icon: &str, role: i32, children: Vec<NavRoute>) -> NavRoute {
+    pub fn link(name: &str, icon: &FaIcon, role: i32, children: Vec<NavRoute>) -> NavRoute {
         NavRoute::NavGroup(Self {
             name: name.to_string(),
-            icon: icon.to_string(),
+            icon: icon.to_owned(),
             role,
             children,
         })
@@ -147,8 +153,8 @@ impl NavGroupInfo {
 ///
 /// pub(crate) fn get_nav_routing() -> Vec<NavRoute> {
 ///     let nav_routes: &mut Vec<NavRoute> = &mut Vec::new();
-///     nav_routes.push(NavRoute::NavLink(NavLinkInfo::new("Home", "/", "fa-solid fa-bars", roles::PUBLIC, page_home)));
-///     nav_routes.push(NavRoute::NavLink(NavLinkInfo::new("About", "/about", "fa-solid fa-circle-info", roles::PUBLIC, page_about)));
+///     nav_routes.push(NavRoute::NavLink(NavLinkInfo::new("Home", "/", &FaIcon::solid("bars"), roles::PUBLIC, page_home)));
+///     nav_routes.push(NavRoute::NavLink(NavLinkInfo::new("About", "/about", &FaIcon::solid("circle-info"), roles::PUBLIC, page_about)));
 ///     nav_routes.to_owned()
 /// }
 /// ```
