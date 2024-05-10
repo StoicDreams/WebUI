@@ -45,7 +45,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
     <Card title="Foo" width={300}>
         {"Bar"}
     </Card>
-    <Card title="Lorem" width={400} color={Theme::Info} avatar="solid acorn" link="https://loremipsum.io/">
+    <Card title="Lorem" width={400} color={Theme::Info} avatar={AvatarOption::Icon(FaIcon::solid("acorn"))} link="https://loremipsum.io/">
         {"Lorem ipsum dolor..."}
     </Card>
 </Cards>
