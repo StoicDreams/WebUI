@@ -5,13 +5,13 @@ function get_uuid() {
     try {
         return crypto.randomUUID();
     } catch (ex) {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
             return v.toString(16);
         });
     }
 }
-const currentVersion = location.host.substring(0,9) === 'localhost' ? `${get_uuid()}` : 'webui_0.8.8';
+const currentVersion = location.host.substring(0, 9) === 'localhost' ? `${get_uuid()}` : 'webui_0.8.8';
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${currentVersion}`;
 const offlineAssetsInclude = [/\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/];
