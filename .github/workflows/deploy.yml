@@ -36,11 +36,11 @@ jobs:
       uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Remove Old Files
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az storage blob delete-batch -s '$web' --account-name ${{ env.ACCOUNT_NAME }}
+    #- name: Remove Old Files
+    #  uses: azure/CLI@v1
+    #  with:
+    #    inlineScript: |
+    #      az storage blob delete-batch -s '$web' --account-name ${{ env.ACCOUNT_NAME }}
     - name: Copy Files to Azure Blob Storage
       uses: azure/CLI@v1
       with:
