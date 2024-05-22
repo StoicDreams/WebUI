@@ -74,7 +74,10 @@ The Stoic Dreams company portal.
 ```
 
 ```card "Erik Gassler" "500" "tertiary" "https://www.erikgassler.com/Logo.svg" "https://www.erikgassler.com" "Erik Gassler"
-Bio website for Erik Gassler ([YouTube](https://youtu.be/IVPHtC0H2fU)), owner of Stoic dreams, and author of [the book CASE: Continuous Agile Software Engineering](https://www.amazon.com/dp/B0C4FX1F1S).
+Bio website for Erik Gassler ([YouTube](https://youtu.be/IVPHtC0H2fU)), owner of Stoic dreams, and author of [the book CASE: Continuous Agile Software Engineering](https://amzn.to/3QuGnQy).
+
+> As an Amazon Associate I earn from qualifying purchases.
+
 ```
 
 ```card "Software Development Standards" "500" "tertiary" "https://www.softwarestandards.dev/Logo.svg" "https://www.softwarestandards.dev" "Gassler Design"
