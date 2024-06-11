@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.8.10" #syncwebui
+version = "0.8.11" #syncwebui
 crate-type = ["dylib", "rlib"]
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."

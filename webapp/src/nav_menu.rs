@@ -5,9 +5,9 @@ use crate::pages::*;
 pub fn nav_content(contexts: &Contexts) -> Html {
     html! {
         <>
-            <Paper class="logo d-flex pa-1 justify-center ml-a mr-a">
-                <AppLogo text="Web" second="UI" />
-            </Paper>
+            <section class="d-flex justify-center" slot="header">
+                <webui-stoic-dreams-logo title="WebUI Logo" text="Web" text2="UI"></webui-stoic-dreams-logo>
+            </section>
             <NavDisplay routes={get_nav_routing(contexts)} class="d-flex flex-column pa-1" />
         </>
     }
