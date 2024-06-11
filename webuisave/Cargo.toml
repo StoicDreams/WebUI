@@ -1,6 +1,6 @@
 [package]
 name = "webuisave"
-version = "0.8.9" #syncwebui
+version = "0.8.10" #syncwebui
 edition = "2021"
 
 [dependencies]
