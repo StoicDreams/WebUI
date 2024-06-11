@@ -1,9 +1,6 @@
 /// Module holding data types for app configuration
 pub mod app_config;
 
-/// Module holding data types for drawer toggle button configurations
-pub mod drawer_toggle_info;
-
 /// Module holding data types for direction values
 pub mod direction;
 
@@ -30,7 +27,6 @@ mod poc;
 
 pub use crate::data_types::app_config::*;
 pub use crate::data_types::direction::*;
-pub use crate::data_types::drawer_toggle_info::*;
 pub use crate::data_types::dyn_html::*;
 pub use crate::data_types::errors::*;
 pub use crate::data_types::format::*;

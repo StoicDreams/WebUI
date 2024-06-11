@@ -58,7 +58,6 @@ pub fn link(props: &NavLinkProps) -> Html {
         let mymessage = NavigationMessage::PathUpdate(mypath);
         Callback::from(move |_| {
             let mymessage = mymessage.clone();
-            contexts.drawer.set(DrawerMessage::Close);
             navigation.set(mymessage);
         })
     };

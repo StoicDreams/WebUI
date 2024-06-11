@@ -8,37 +8,25 @@ const WRAPPER_STYLES: &str = "min-width:300px;";
 /// The info panel for myfi account and other services.
 pub fn myfi_info_panel(contexts: &Contexts) -> Html {
     let user = contexts.user.deref().to_owned();
-    if let Some(user) = user {
-        let class = if user.roles > 0 {
-            "btn theme-success"
-        } else {
-            ""
-        }
-        .to_string();
-        return html! {
-            <AppDrawerButton info={drawer_toggle_info(contexts)} {class}>
-                <span>{user.display_name}</span>
-            </AppDrawerButton>
-        };
-    }
-    html! {
-        <Paper class="d-inlineblock">
-            <Loading variant={LoadingVariant::Circle} size={LOADING_SIZE_MEDIUM} color={Theme::Info} />
-        </Paper>
-    }
-}
-
-fn drawer_toggle_info(_contexts: &Contexts) -> DrawerToggleInfo {
-    drawer!(
-        "Account Services",
-        html! {<webui-fa icon="user" family="duotone" />},
-        get_render_wrapper,
-        Direction::Right
-    )
-    .hide_close_x_button()
-    .hide_cancel_button()
-    .set_on_confirm("Close", handle_confirm)
-    .build()
+    html!()
+    // if let Some(user) = user {
+    //     let class = if user.roles > 0 {
+    //         "btn theme-success"
+    //     } else {
+    //         ""
+    //     }
+    //     .to_string();
+    //     return html! {
+    //         <a data-toggleclass=".shared|open">
+    //             {user.display_name}
+    //         </a>
+    //     };
+    // }
+    // html! {
+    //     <Paper class="d-inlineblock">
+    //         <Loading variant={LoadingVariant::Circle} size={LOADING_SIZE_MEDIUM} color={Theme::Info} />
+    //     </Paper>
+    // }
 }
 
 pub(crate) fn get_render_wrapper(contexts: &Contexts) -> Html {
@@ -147,7 +135,7 @@ fn display_signin_link(props: &DisplaySigninLinkOptions) -> Html {
                     Callback::from(move |_| {
                         let key = code_input.deref();
                         if key.is_empty() {
-                            alert!(contexts, "Missing Input", "No Sign-In Auth code was entered!");
+                            show_alert("No Sign-In Auth code was entered!","danger");
                         } else {
                             jslog!("Navigate to triggered {}", key);
                             nav_to!(contexts, format!("/sdauth?key={}", key));
@@ -238,6 +226,7 @@ fn sign_out(contexts: &Contexts) {
         Selecting `All Devices` will sign you out of all Stoic Dreams services across all devices and browsers."#
     };
     // confirm if user wants to sign out of just this website or all websites
+    /*
     dialog!(
         contexts,
         "Sign Out Options",
@@ -250,6 +239,7 @@ fn sign_out(contexts: &Contexts) {
         },
         render_confirmation
     );
+    */
 }
 
 fn handle_confirm(_contexts: &Contexts) -> bool {

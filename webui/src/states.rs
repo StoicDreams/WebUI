@@ -1,15 +1,13 @@
-pub mod drawers;
 pub mod navigation;
 
 use crate::prelude::*;
 use std::{
     any::Any,
     collections::HashMap,
-    fmt::{Debug, Formatter},
+    fmt::{Debug, Display, Formatter},
     sync::{Arc, Mutex},
 };
 
-pub use drawers::*;
 pub use navigation::*;
 
 use crate::AppConfig;
@@ -24,9 +22,9 @@ impl<T: Any> DynamicContext for T {
     }
 }
 
-impl ToString for dyn DynamicContext {
-    fn to_string(&self) -> String {
-        format!("{:?}", self)
+impl Display for dyn DynamicContext {
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
     }
 }
 
@@ -50,7 +48,6 @@ pub struct Contexts {
     pub page_data: UseStateHandle<String>,
     pub app_data: UseStateHandle<HashMap<String, String>>,
     pub nav: UseStateHandle<NavigationMessage>,
-    pub drawer: UseStateHandle<DrawerMessage>,
     pub user_roles: UseStateHandle<i32>,
     #[cfg(feature = "myfi")]
     pub user: UseStateHandle<Option<MyFiUser>>,

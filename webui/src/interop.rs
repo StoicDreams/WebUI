@@ -32,6 +32,9 @@ extern "C" {
     #[wasm_bindgen]
     pub fn run_method(method: &str, args: &JsValue) -> JsValue;
 
+    #[wasm_bindgen]
+    pub fn show_alert(message: &str, variant: &str);
+
     /// Set the document/page title
     #[wasm_bindgen]
     pub fn set_title(title: &str);

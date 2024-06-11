@@ -1,6 +1,6 @@
 "use strict"
 
-let app = null;
+let app = document.body;
 export function open_external_link(href, target) {
     let is_open_in_new_tab = target && target != '_self';
     if (is_open_in_new_tab) {
@@ -13,6 +13,12 @@ export function open_external_link(href, target) {
     }
 
     window.location.href = href;
+}
+
+export function show_alert(message, variant) {
+    if (window.webuiAlert) {
+        webuiAlert(message, variant);
+    }
 }
 
 export function run_method(method, args) {
@@ -229,7 +235,6 @@ export function add_app_class(classes) {
     });
     app.className = current.join(' ');
     memStorage.setItem(APP_CLASS_KEY, app.className);
-    applyDynamicStyleRules();
 }
 
 export function remove_app_class(classes) {
@@ -243,7 +248,6 @@ export function remove_app_class(classes) {
     });
     app.className = updated.join(' ');
     memStorage.setItem(APP_CLASS_KEY, app.className);
-    applyDynamicStyleRules();
 }
 
 function loadAppClasses() {
@@ -307,38 +311,6 @@ const set_body_class = function set_body_class(winWidth) {
     document.body.className = `${w}`;
 };
 
-let _adsrCache = '';
-const applyDynamicStyleRules = async function applyDynamicStyleRules() {
-    let w = window;
-    let h = await getEl('#app > header', 1) || { clientHeight: 0 };
-    let m = await getEl('#app > main', 1) || { clientHeight: 0, clientWidth: 0 };
-    let f = await getEl('#app > footer', 1) || { clientHeight: 0 };
-    let dl = await getEl('aside.app-drawer.left .drawer-content') || { clientWidth: 0 };
-    let dr = await getEl('aside.app-drawer.right .drawer-content') || { clientWidth: 0 };
-    let value = `
-:root {
---window-width: ${w.innerWidth}px;
---window-height: ${w.innerHeight}px;
---main-width: ${m.clientWidth}px;
---main-height: ${m.clientHeight}px;
---header-height: ${h.clientHeight}px;
---footer-height: ${f.clientHeight}px;
---drawer-left-width: ${dl.clientWidth}px;
---drawer-right-width: ${dr.clientWidth}px;
-}
-`;
-    if (_adsrCache !== value) {
-        _adsrCache = value;
-        styles.innerHTML = value;
-        set_body_class(w.innerWidth);
-    }
-};
-
-(function periodicUpates() {
-    applyDynamicStyleRules();
-    setTimeout(periodicUpates, 1000);
-})();
-
 const getMatchByKey = function getMatchByKey(target, key) {
     let el = target;
     let i = 0;
@@ -370,19 +342,8 @@ const handleNav = function handleNav(target) {
     }
     return false;
 }
-const styles = document.createElement('style');
-const handlResize = function handlResize(ev) {
-    applyDynamicStyleRules();
-}
 
-const setupWatchers = function setupWatchers() {
-    styles.setAttribute('type', 'text/css');
-    document.head.appendChild(styles);
-    window.addEventListener('resize', handlResize);
-    setTimeout(applyDynamicStyleRules, 10);
-}
-
-getEl('#app', 30000).then(el => {
+getEl('.page', 30000).then(el => {
     if (!el) {
         console.error('WebUI Interop failed to load application');
         return;
@@ -398,7 +359,6 @@ getEl('#app', 30000).then(el => {
         }
         return true;
     });
-    setupWatchers();
     setTimeout(() => {
         update_app_classes("page transition in", "out");
         setTimeout(() => {

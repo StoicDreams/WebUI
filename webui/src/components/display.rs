@@ -4,9 +4,6 @@ pub mod alert;
 /// Module for Avatar components
 pub mod avatar;
 
-/// Module for Dialog components
-pub mod dialog;
-
 /// Module for dynamic components
 pub(crate) mod dynamic_component;
 
@@ -39,7 +36,6 @@ pub mod table;
 
 pub use alert::*;
 pub use avatar::*;
-pub use dialog::*;
 pub(crate) use dynamic_component::*;
 pub use html_content::*;
 pub use icon::*;

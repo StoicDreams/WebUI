@@ -1,6 +1,3 @@
-/// Module for app drawer buttons
-pub mod app_drawer_button;
-
 /// Module for buttons
 pub mod button;
 
@@ -25,7 +22,6 @@ pub mod navlink;
 /// Module for next page buttons
 pub mod next_page_button;
 
-pub use app_drawer_button::*;
 pub use button::*;
 pub use dropdown::*;
 pub use input_field::*;

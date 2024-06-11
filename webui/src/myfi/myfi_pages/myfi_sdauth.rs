@@ -53,10 +53,9 @@ Validating account.
                         {
                             let contexts = contexts.clone();
                             spawn_async!({
-                                alert!(
-                                    contexts,
-                                    "Success",
-                                    "You have successfully signed in to your Stoic Dreams account."
+                                show_alert(
+                                    "You have successfully signed in to your Stoic Dreams account.",
+                                    "success",
                                 )
                             });
                         }

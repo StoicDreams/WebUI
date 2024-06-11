@@ -23,7 +23,6 @@ pub(crate) fn app_body() -> Html {
             let page_path = get_path_from_url(&new_path);
             let page_check = get_page_option(&routes, &page_path, &user_roles);
             if page_check.is_some() && *page_state.deref() == PageState::Show {
-                contexts.drawer.set(DrawerMessage::Close);
                 let page_state = page_state.clone();
                 load_page_data(&path, &contexts);
                 let path_timeout = path.clone();

@@ -1,14 +1,11 @@
 use chrono::{Datelike, Utc};
 use rust_decimal::prelude::ToPrimitive;
 
-use crate::{function_component, html, use_context, AppDrawerButton, Contexts, Html, Paper};
+use crate::{function_component, html, use_context, Contexts, Html, Paper};
 
 /// App footer component
 pub(crate) fn default_app_footer(contexts: &Contexts) -> Html {
     let app_config = contexts.config.clone();
-    let left_drawer_info = app_config.footer_left_drawer_toggle.clone();
-    let bottom_drawer_info = app_config.footer_bottom_drawer_toggle.clone();
-    let right_drawer_info = app_config.footer_right_drawer_toggle.clone();
     let copy_end = Utc::now().year().to_i16().unwrap_or(2022);
     let copy_start = app_config.copyright_year_start.unwrap_or(copy_end);
     let copy_display = if copy_start == copy_end {
@@ -17,21 +14,11 @@ pub(crate) fn default_app_footer(contexts: &Contexts) -> Html {
         format!("{}-{}", copy_start, copy_end)
     };
     html! {
-        <footer>
-            <AppDrawerButton info={left_drawer_info.clone()} />
-            <Paper class="flex-grow" />
-            <Paper>
+        <>
+            <webui-flex grow="true"></webui-flex>
+            <webui-paper>
                 {format!("© {} {} All Rights Reserved", copy_display, app_config.company_name)}
-            </Paper>
-            <AppDrawerButton info={bottom_drawer_info.clone()} />
-            <Paper class="flex-grow" />
-            if !app_config.hide_powered_by {
-                <Paper>
-                    <sup>{"Powered by "}</sup>
-                    <a title={format!("Web UI version {}", crate::VERSION)} href="https://webui.stoicdreams.com">{"Web UI"}</a>
-                </Paper>
-            }
-            <AppDrawerButton info={right_drawer_info.clone()} />
-        </footer>
+            </webui-paper>
+        </>
     }
 }

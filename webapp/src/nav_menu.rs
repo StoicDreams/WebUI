@@ -2,17 +2,15 @@ use crate::prelude::*;
 
 use crate::pages::*;
 
-pub fn nav_menu_info() -> DrawerToggleInfo {
-    drawer!(
-        "Navigation Menu",
-        html! {FaIcon::solid("bars").to_html()},
-        nav_menu_render,
-        Direction::Left
-    )
-    .set_button_class("btn toggle theme-inherit")
-    .hide_header()
-    .hide_footer()
-    .build()
+pub fn nav_content(contexts: &Contexts) -> Html {
+    html! {
+        <>
+            <Paper class="logo d-flex pa-1 justify-center ml-a mr-a">
+                <AppLogo text="Web" second="UI" />
+            </Paper>
+            <NavDisplay routes={get_nav_routing(contexts)} class="d-flex flex-column pa-1" />
+        </>
+    }
 }
 
 pub(crate) fn get_nav_routing(contexts: &Contexts) -> Vec<NavRoute> {
@@ -139,15 +137,4 @@ pub(crate) fn get_nav_routing(contexts: &Contexts) -> Vec<NavRoute> {
         ),
     ];
     nav_routes
-}
-
-fn nav_menu_render(contexts: &Contexts) -> Html {
-    html! {
-        <>
-            <Paper class="logo d-flex pa-1 justify-center ml-a mr-a">
-                <AppLogo text="Web" second="UI" />
-            </Paper>
-            <NavDisplay routes={get_nav_routing(contexts)} class="d-flex flex-column pa-1" />
-        </>
-    }
 }

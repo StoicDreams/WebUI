@@ -1,7 +1,3 @@
-/// Macro for alerts and dialogs
-#[macro_use]
-pub mod dialogs;
-
 /// Macro for classes
 #[macro_use]
 pub mod classes;

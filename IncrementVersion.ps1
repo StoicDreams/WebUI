@@ -99,7 +99,8 @@ if ($null -ne $version) {
     ApplyVersionUpdates "..\..\" service-worker.min.js 'webui_([0-9\.]+)' "webui_$version"
     ApplyVersionUpdates "..\..\" Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates "..\..\" README.md '\[WebUI Version\: ([0-9\.]+)\]' "[WebUI Version: $version]"
-    ApplyVersionUpdates "..\..\" index.html '\Web UI version ([0-9\.]+)' "Web UI version $version"
+    ApplyVersionUpdates "..\..\" index.html 'Web UI version ([0-9\.]+)' "Web UI version $version"
+    ApplyVersionUpdates "..\..\" index.html 'webui-poweredby version="([0-9\.]+)"' "webui-poweredby version=""$version"""
 }
 else {
     Write-Host Current version was not found -ForegroundColor Red
