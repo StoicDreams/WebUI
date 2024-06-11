@@ -1,6 +1,6 @@
 [package]
 name = "webui_procs"
-version = "0.8.11" #syncwebui
+version = "0.8.12" #syncwebui
 edition = "2021"
 description = "`early development` Macros for WebUI - Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 keywords = ["webassembly", "ui"]
