@@ -103,6 +103,12 @@ fn run_ma(command: &str, commandargs: &[&str]) {
 
     if !output.status.success() {
         let s = String::from_utf8_lossy(&output.stderr);
+        println!("Failed command {}:\n{}", command, s);
+        // If a commit failed we'll assume it's because nothing needed committing
+        if command == "git" && commandargs.iter().any(|val| *val == "commit") {
+            return;
+        }
+
         panic!("Failed command {}:\n{}", command, s);
     }
 
