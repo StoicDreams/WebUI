@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.10.1" #syncwebui
+version = "0.10.2" #syncwebui
 crate-type = ["dylib", "rlib"]
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
@@ -41,6 +41,7 @@ async-std = { version = "1.12", features = ["attributes"] }
 chrono = "0.4"
 lazy_static = "1.4"
 num-format = "0.4"
+
 
 
 
