@@ -3,13 +3,13 @@ $domain = "https://webui.stoicdreams.com"
 
 $urls = [System.Collections.ArrayList]@();
 
-$appsettings = Get-Content "webapp/src/nav_menu.rs" -Raw
+$appsettings = Get-Content "webapp/root_files/nav.json" -Raw
 
 if ($appsettings.Length -eq 0) {
-    throw "webapp/src/nav_menu.rs file not found";
+	throw "webapp/root_files/nav.json file not found";
 }
 
-$appsettings | Select-String -Pattern '(?<=NavLinkInfo::link\([^,]+,[^"]*")([^"]+)(?=",[^,]+,[\s]*roles::PUBLIC,)' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object {
+$appsettings | Select-String -Pattern '(?<="url":[ ]*)("([^"]*)")' -AllMatches | ForEach-Object { $_.Matches } | ForEach-Object {
     $item = @{url = $_.Value};
     $urls.Add($item) | Out-Null
 }

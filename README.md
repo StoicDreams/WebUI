@@ -14,9 +14,11 @@
 
 ## About
 
-Web UI is a framework with the purpose of simplifying and minizing boilerplate code when creating new SPA websites built in Rust and running solely on front-end webassembly (i.e. a web browser.)
+Web UI is a Vanilla JavaScript Web Component library purpose of simplifying and minizing boilerplate code when creating new SPA websites.
 
-Web UI is not suitable for those looking to build a website that is hosted and run on a webserver, only feeding html, css, and javascript to a browser.
+Web UI Rust Crate is also being designed to allow running a Rust language WebAssembly companion that allows communication between your Rust services running in the browser and your JavaScript code and/or Web UI app services.
+
+Web UI is very early in development and is subject to breaking changes at any time while we are in this experimental stage of development.
 
 ## Goals
 
@@ -25,6 +27,10 @@ Web UI is not suitable for those looking to build a website that is hosted and r
 - Provide robust component systems for handling common display types, user input and interactions, and data processing.
 
 ## Getting Started
+
+The following instructions are for our developers working on the Rust Web UI solution.
+
+If you're wanting instructions on how to use Web UI to develop websites, whether for new or existing sites, then check out our [Web UI documentation and Demo](https://webui.stoicdreams.com) website.
 
 ### Download
 
@@ -169,7 +175,3 @@ webuisave -c "Your commit message" --major
 ## License
 
 [MIT](LICENSE)
-
-
-
-
