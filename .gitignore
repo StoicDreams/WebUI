@@ -4,3 +4,6 @@
 # Ignore Build Folders
 target
 dist
+
+# Ignore Legacy Files
+.legacy

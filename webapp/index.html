@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Web UI for Rust Webassembly Development</title>
+    <title>Web UI - Framework for Component based Website Development</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
@@ -15,6 +15,7 @@
     <link rel="apple-touch-icon" href="apple-icon.png">
     <link href="https://cdn.myfi.ws/fa/css/svg-with-js.min.css" rel="stylesheet" />
     <link href="https://cdn.myfi.ws/css/webui.min.css" rel="stylesheet" />
+    <link data-trunk href="css/app.min.css" rel="css" />
 
     <link data-trunk href="root_files" rel="copy-dir" />
     <link data-trunk href="d" rel="copy-dir" data-target-path="d" />
@@ -33,10 +34,55 @@
     <meta name="twitter:site" content="@stoicdreamsllc">
     <meta name="twitter:description" content="Rust-based Web UI framework for developing Webassembly websites.">
     <meta name="twitter:image" content="https://webui.stoicdreams.com/Logo.svg">
-    <script src="https://cdn.myfi.ws/webui/loader.min.js" async></script>
-    <link data-trunk href="css/app.min.css" rel="css" />
 </head>
 
-<body></body>
+<body>
+    <webui-app data-removeclass=".nav|open;.shared|open">
+        <webui-drawer slot="left" class="nav elevation-20" data-state="slot|fixed" data-moveable data-dockable>
+            <webui-flex justify="center" slot="header">
+                <webui-stoic-dreams-logo title="MyFi CDN Logo" text="MyFi" text2="CDN"></webui-stoic-dreams-logo>
+            </webui-flex>
+            <webui-nav routes="/nav.json" data-subscribe="nav-routes"></webui-nav>
+        </webui-drawer>
+        <webui-drawer slot="right" class="shared elevation-20" data-stopclick data-moveable data-state="slot|fixed" fixed>
+        </webui-drawer>
+        <header slot="header">
+            <button data-toggleclass=".nav|open" class="elevation-10 pa-1 mx-1">
+                <webui-fa icon="bars"></webui-fa>
+            </button>
+            <h1 data-subscribe="page-title" data-set="innerHTML">Web UI</h1>
+            <h2 data-subscribe="page-subtitle" data-set="innerHTML"></h2>
+            <webui-flex grow></webui-flex>
+            <webui-stoic-social-links></webui-stoic-social-links>
+            <webui-feedback title="Provide us your feedback" data-post="https://api.myfi.ws/feedback/new" data-json-name="message">
+                <p>You can also come <a href="https://discord.com/channels/972856291909332993/1025781071608037466">chat with us on the Stoic Dreams discord server.</a></p>
+            </webui-feedback>
+            <webui-alerts title="View your notifications" data-title="My Alerts" data-toggleclass=".shared|open"></webui-alerts>
+            <webui-myfi-info></webui-myfi-info>
+        </header>
+        <noscript>Javascript is required to view this site</noscript>
+        <webui-data data-app-name="Web UI"></webui-data>
+        <webui-data data-company-possessive="Stoic Dreams'"></webui-data>
+        <webui-data data-company-singular="Stoic Dreams"></webui-data>
+        <webui-page-footer copyright="2022" company="Stoic Dreams"></webui-page-footer>
+    </webui-app>
+
+    <script src="https://cdn.myfi.ws/webui/loader.min.js" async></script>
+    <script src="https://cdn.myfi.ws/app-loader.min.js" async></script>
+    <script src="https://cdn.myfi.ws/js/marked.min.js" async></script>
+    <script src="https://cdn.myfi.ws/highlight/highlight.min.js" async></script>
+    <script src="https://cdn.myfi.ws/i/tooltips.min.js" async></script>
+    <script type="text/javascript">
+        (function checkHighlighting() {
+            if (window.hljs) {
+                document.querySelectorAll('pre code:not([data-hl])').forEach((el) => {
+                    el.setAttribute('data-hl', true);
+                    window.hljs.highlightElement(el);
+                });
+            }
+            setTimeout(checkHighlighting, 100);
+        })();
+    </script>
+</body>
 
 </html>

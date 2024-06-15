@@ -1,7 +1,11 @@
 [package]
 name = "webapp_post_build"
-version = "0.9.0" #syncwebui
+version = "0.10.1" #syncwebui
 edition = "2021"
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
+
+
+
+

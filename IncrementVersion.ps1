@@ -49,19 +49,20 @@ function UpdateProjectVersion {
         Write-Host "Not found - $projectPath" -BackgroundColor Red -ForegroundColor White
         return;
     }
-    $content = Get-Content -Path $projectPath
-    $oldMatch = $content -match $rgxTargetXML
-    if ($oldMatch.Length -eq 0) {
-        return;
+    $content = Get-Content -Path $projectPath -Encoding UTF8 -Raw
+
+    $content -match $rgxTargetXML | ForEach {
+        if ($_ -eq $False) { return; }
+        $old = $Matches[0];
+        Write-Host "Matches '$old'";
+        if ($old -eq $newXML) {
+            Write-Host "Already up to date - $projectPath - $old === $newXML" -ForegroundColor Cyan
+            return;
+        }
+        $newContent = ($content).replace($old, $newXML)
+        $newContent | Set-Content -Path $projectPath -Encoding UTF8
+        Write-Host "Updated - $projectPath" -ForegroundColor Green
     }
-    $fileMatches = $content -match $newXML
-    if ($fileMatches.Length -eq 1) {
-        Write-Host "Already up to date - $projectPath - $newXML" -ForegroundColor Cyan
-        return;
-    }
-    $newContent = $content -replace $rgxTargetXML, $newXML
-    $newContent | Set-Content -Path $projectPath
-    Write-Host "Updated - $projectPath" -ForegroundColor Green
 }
 
 function ApplyVersionUpdates {
@@ -82,6 +83,8 @@ if ($null -ne $version) {
     $rootpath = $rootpath.ToString().ToLower()
     Write-Host Path: "Root Path Start: $rootpath"
 
+    ApplyVersionUpdates "..\..\" poweredby.min.js '"version","([0-9\.]+)"' """version"",""$version"""
+    ApplyVersionUpdates "..\..\" poweredby.js 'setAttribute\("version", "([0-9\.]+)"\)' "setAttribute(""version"", ""$version"")"
     ApplyVersionUpdates .\webui\src lib.rs 'pub const VERSION: &str = "([0-9\.]+)";' "pub const VERSION: &str = ""$version"";"
     ApplyVersionUpdates .\webui Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates .\webapp Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"

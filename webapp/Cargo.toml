@@ -1,13 +1,12 @@
 [package]
 name = "webapp"
-version = "0.9.0" #syncwebui
+version = "0.10.1" #syncwebui
 edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
 webui = { path = "../webui", features = ["all", "stoic"] }
-yew = { version = "0.20", features = ["csr"] }
 serde = { version = "1.0", features = ["derive"] }
 
 [profile.dev]
@@ -32,3 +31,7 @@ codegen-units = 16
 [profile.release.build-override]
 opt-level = "s"
 codegen-units = 16
+
+
+
+

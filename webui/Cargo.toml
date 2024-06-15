@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.9.0" #syncwebui
+version = "0.10.1" #syncwebui
 crate-type = ["dylib", "rlib"]
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
@@ -26,9 +26,6 @@ tauri = []
 [dependencies]
 webui_procs = "0.7.11" # { path = "../webui_procs" }
 web-sys = "0.3"
-yew = "0.20"
-yew-agent = "0.2"
-yew-hooks = "0.2"
 js-sys = "0.3"
 wasm-bindgen = "0.2"
 wasm-bindgen-futures = "0.4"
@@ -44,4 +41,8 @@ async-std = { version = "1.12", features = ["attributes"] }
 chrono = "0.4"
 lazy_static = "1.4"
 num-format = "0.4"
-markdown = "1.0.0-alpha.16"
+
+
+
+
+

@@ -1,6 +1,6 @@
 [package]
 name = "webui_procs"
-version = "0.9.0" #syncwebui
+version = "0.10.1" #syncwebui
 edition = "2021"
 description = "`early development` Macros for WebUI - Website UI framework and component library for quickly building websites with native support for Material UI standardization."
 keywords = ["webassembly", "ui"]
@@ -14,3 +14,7 @@ homepage = "https://webui.stoicdreams.com"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [lib]
 proc-macro = true
+
+
+
+

@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Web UI</title>
+    <title>Web UI Starter File</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="robots" content="index, follow">
@@ -40,10 +40,52 @@
         We welcome you to use our component which will use our CDN to deliver your FontAwesome icons.
         However you must still aquire your own license through https://fontawesome.com for use of pro icons.
     -->
-    <script src="https://cdn.myfi.ws/webui/loader.min.js" async></script>
-    <script src="https://cdn.myfi.ws/highlight/highlight.min.js"></script>
 </head>
 
-<body></body>
+<body>
+    <webui-app data-removeclass=".nav|open;.shared|open">
+        <webui-drawer slot="left" class="nav elevation-20" data-state="slot|fixed" data-moveable data-dockable>
+            <webui-flex justify="center" slot="header">
+                Your Logo Here!
+            </webui-flex>
+            <webui-nav routes="/nav.json" data-subscribe="nav-routes"></webui-nav>
+        </webui-drawer>
+        <webui-drawer slot="right" class="shared elevation-20" data-stopclick data-moveable data-state="slot|fixed" fixed>
+        </webui-drawer>
+        <header slot="header">
+            <button data-toggleclass=".nav|open" class="elevation-10 pa-1 mx-1">
+                <webui-fa icon="bars"></webui-fa>
+            </button>
+            <h1 data-subscribe="page-title" data-set="innerHTML"></h1>
+            <h2 data-subscribe="page-subtitle" data-set="innerHTML"></h2>
+            <webui-flex grow></webui-flex>
+            <webui-feedback title="Provide us your feedback" data-post="https://api.myfi.ws/feedback/new" data-json-name="message">Your custom message here! </webui-feedback>
+            <webui-alerts title="View your notifications" data-title="My Alerts" data-toggleclass=".shared|open"></webui-alerts>
+            <webui-myfi-info></webui-myfi-info>
+        </header>
+        <noscript>Javascript is required to view this site</noscript>
+        <webui-data data-app-name="App Name"></webui-data>
+        <webui-data data-company-possessive="Company '"></webui-data>
+        <webui-data data-company-singular="Stoic Dreams"></webui-data>
+        <webui-page-footer copyright="2024" company="Your Company"></webui-page-footer>
+    </webui-app>
+
+    <script src="https://cdn.myfi.ws/webui/loader.min.js" async></script>
+    <script src="https://cdn.myfi.ws/app-loader.min.js" async></script>
+    <script src="https://cdn.myfi.ws/js/marked.min.js" async></script>
+    <script src="https://cdn.myfi.ws/highlight/highlight.min.js" async></script>
+    <script src="https://cdn.myfi.ws/i/tooltips.min.js" async></script>
+    <script type="text/javascript">
+        (function checkHighlighting() {
+            if (window.hljs) {
+                document.querySelectorAll('pre code:not([data-hl])').forEach((el) => {
+                    el.setAttribute('data-hl', true);
+                    window.hljs.highlightElement(el);
+                });
+            }
+            setTimeout(checkHighlighting, 100);
+        })();
+    </script>
+</body>
 
 </html>

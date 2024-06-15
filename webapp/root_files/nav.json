@@ -1,0 +1,65 @@
+[
+    {
+        "name": "Home",
+        "icon": "house",
+        "iconFamily": "duotone",
+        "url": "/"
+    },
+    {
+        "name": "Components",
+        "icon": "toolbox",
+        "iconFamily": "duotone",
+        "children": [
+            {
+                "name": "Containers",
+                "icon": "box-open-full",
+                "iconFamily": "duotone",
+                "url": "/components/containers"
+            }
+        ]
+    },
+    {
+        "name": "Blogs",
+        "icon": "blog",
+        "iconFamily": "duotone",
+        "children": [
+            {
+                "name": "What is a web framework?",
+                "icon": "block-question",
+                "iconFamily": "duotone",
+                "url": "/blogs/what-is-a-website-framework"
+            }
+        ]
+    },
+    {
+        "name": "Starter Pages",
+        "icon": "file-code",
+        "iconFamily": "duotone",
+        "children": [
+            {
+                "name": "Under Construction",
+                "icon": "traffic-cone",
+                "iconFamily": "duotone",
+                "url": "/under-construction"
+            }
+        ]
+    },
+    {
+        "name": "About",
+        "icon": "circle-exclamation",
+        "iconFamily": "duotone",
+        "url": "/about"
+    },
+    {
+        "name": "Privacy",
+        "icon": "shield-exclamation",
+        "iconFamily": "duotone",
+        "url": "/privacy"
+    },
+    {
+        "name": "Terms",
+        "icon": "handshake",
+        "iconFamily": "duotone",
+        "url": "/terms"
+    }
+]
