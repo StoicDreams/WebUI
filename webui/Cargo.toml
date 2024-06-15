@@ -1,6 +1,6 @@
 [package]
 name = "webui"
-version = "0.10.3" #syncwebui
+version = "0.10.5" #syncwebui
 crate-type = ["dylib", "rlib"]
 edition = "2021"
 description = "`early development` Website UI framework and component library for quickly building websites with native support for Material UI standardization."
@@ -13,18 +13,14 @@ repository = "https://github.com/StoicDreams/WebUI"
 homepage = "https://webui.stoicdreams.com"
 
 [features]
-all = ["myfi", "nextpagebutton", "pages"]
-default = ["pages"]
-myfi = []
-nextpagebutton = []
-pages = []
-stoic = []
+all = []
+default = []
 tauri = []
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-webui_procs = "0.7.11" # { path = "../webui_procs" }
+webui_procs = "0.10" # { path = "../webui_procs" }
 web-sys = "0.3"
 js-sys = "0.3"
 wasm-bindgen = "0.2"
@@ -41,10 +37,3 @@ async-std = { version = "1.12", features = ["attributes"] }
 chrono = "0.4"
 lazy_static = "1.4"
 num-format = "0.4"
-
-
-
-
-
-
-

@@ -1,6 +1,6 @@
 # Web UI
 
-[WebUI Version: 0.10.3](https://github.com/StoicDreams/WebUI)
+[WebUI Version: 0.10.5](https://github.com/StoicDreams/WebUI)
 
 [View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
@@ -62,21 +62,7 @@ These features can be enable using feature flags. Some features are only applica
 
 Flag | Lib | Exe | Detail
 --- | --- | --- | ---
-pages | X | | Include this flag to include some starter_page_* components for setting up some initial starter pages on a new website..
-myfi | X | | Include this flag to include components that integrate with [MyFi.ws](https://www.myfi.ws) API services (`*Currently under development`.)
-
-#### Current and Planned Features
-
-Flag | Feature | Status | Detail
---- | --- | --- | ---
-pages | privacy | available | General privacy page
-pages | terms | available | General terms & conditions page
-pages | under_construction | available | General under construction page/placeholder
-myfi | feedback | development | Dialog for capturing user feedback
-myfi | event logs | development | Helper method for logging event logs
-myfi | account services | development | Pages & methods for users to signup/login/logout as well as restricting role based content
-myfi | page data | planned | Store and retrieve page data
-myfi | website editor | planned | Inline editor for managing page content through the website UI
+tauri | X | | Include this flag to enable features for integrations into a Tauri application.
 
 ### Start a new Rust project
 
@@ -102,11 +88,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.10.3"
+webui = "0.10.5"
 # Customize with specific feature flags (pages is included by default)
-# webui = { version = "0.10.3", default-features = false }
-# webui = { version = "0.10.3", features = ["all"] }
-# webui = { version = "0.10.3", features = ["myfi", "pages"] }
+# webui = { version = "0.10.5", features = ["tauri"] }
+# webui = { version = "0.10.5", default-features = false }
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/WebUI", branch = "main" }
 ```
@@ -119,18 +104,6 @@ Install webui executable - this will be used to build your boilerplate static fi
 ```bash
 # default installation, includes starter pages md files.
 cargo install webui
-
-# explicitly include starter pages
-cargo install webui --features pages
-
-# example setting multiple features
-cargo install webui --features "pages myfi"
-
-# install with all features enabled
-cargo install webui --all-features
-
-# exlude any optional features
-cargo install webui --no-default-features
 ```
 
 Run `webui` in your projects root folder (not `src`) to add static files (index.html, css, etc.)
@@ -147,14 +120,14 @@ Certain files are considered static and are not meant to be manually updated. Th
 
 Other files are considered starter files that you will probably want or need to update and will not overwrite an existing file during updates. If you want to update to the latest starter file, then you will need to delete or rename your existing file - recommend renaming file, such as postfixing .bck to the file name, so you can copy over your customizations to the new Web UI file once it's created.
 
-| File | Starter | Static | Details |
-| --- | :---:| :---: | --- |
-| index.html | X | | Update metadata information and add any links for extended js/css functionality. |
-| app.webmanifest | X | | Update with information about your app. This is used for installable SPAs. |
-| robots.txt | X | | Update as needed to manage search bot rules. |
-| Logo.svg | X | | Placeholder logo. Update with your own.
-| service-worker.js | X | | Basic service worker for file caching, also required for installable SPA apps. |
-| service-worker.min.js | X | | Minified version of basic service worker for file caching, also required for installable SPA apps. |
+File | Starter | Static | Details |
+--- | :---:| :---: | --- |
+index.html | X | | Update metadata information and add any links for extended js/css functionality.
+app.webmanifest | X | | Update with information about your app. This is used for installable SPAs.
+robots.txt | X | | Update as needed to manage search bot rules.
+Logo.svg | X | | Placeholder logo. Update with your own.
+service-worker.js | X | | Basic service worker for file caching, also required for installable SPA apps.
+service-worker.min.js | X | | Minified version of basic service worker for file caching, also required for installable SPA apps.
 
 ### Run Dev Server for Testing
 
@@ -173,21 +146,3 @@ trunk serve --open
 ## License
 
 [MIT](LICENSE)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

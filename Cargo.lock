@@ -1141,7 +1141,7 @@ checksum = "f3cb5ba0dc43242ce17de99c180e96db90b235b8a9fdc9543c96d2209116bd9f"
 
 [[package]]
 name = "saveweb"
-version = "0.10.3"
+version = "0.10.5"
 dependencies = [
  "clap",
  "powershell_script",
@@ -1434,7 +1434,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.10.3"
+version = "0.10.5"
 dependencies = [
  "serde",
  "webui",
@@ -1442,14 +1442,14 @@ dependencies = [
 
 [[package]]
 name = "webapp_post_build"
-version = "0.10.3"
+version = "0.10.5"
 dependencies = [
  "clap",
 ]
 
 [[package]]
 name = "webui"
-version = "0.10.3"
+version = "0.10.5"
 dependencies = [
  "async-std",
  "chrono",
@@ -1467,22 +1467,22 @@ dependencies = [
  "wasm-bindgen-futures",
  "wasm-logger",
  "web-sys",
- "webui_procs 0.7.11",
+ "webui_procs 0.10.3",
 ]
 
 [[package]]
 name = "webui_procs"
-version = "0.7.11"
+version = "0.10.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "baaded386ebd91bd415e431178cb392958aff65e2fdc4c8c42748a02e074262e"
+checksum = "629897e6da126dcae26cd6f263d5ae219835b9fac346ea9c7d9f076fff1cb459"
 
 [[package]]
 name = "webui_procs"
-version = "0.10.3"
+version = "0.10.5"
 
 [[package]]
 name = "webuisave"
-version = "0.10.3"
+version = "0.10.5"
 dependencies = [
  "clap",
 ]

@@ -1,14 +1,8 @@
 [package]
 name = "saveweb"
-version = "0.10.3" #syncwebui
+version = "0.10.5" #syncwebui
 edition = "2021"
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
 powershell_script = "1.0"
-
-
-
-
-
-

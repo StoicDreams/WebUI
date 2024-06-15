@@ -11,7 +11,7 @@ function get_uuid() {
         });
     }
 }
-const currentVersion = location.host.substring(0, 9) === 'localhost' ? `${get_uuid()}` : 'webui_0.10.3';
+const currentVersion = location.host.substring(0, 9) === 'localhost' ? `${get_uuid()}` : 'webui_0.10.5';
 const cacheNamePrefix = 'offline-cache-';
 const cacheName = `${cacheNamePrefix}${currentVersion}`;
 const offlineAssetsInclude = [/\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/];
@@ -50,9 +50,3 @@ function allowCache(request) {
     // All other GET requests allow navigation
     return true;
 }
-
-
-
-
-
-

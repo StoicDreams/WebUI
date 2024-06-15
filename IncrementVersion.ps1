@@ -59,7 +59,7 @@ function UpdateProjectVersion {
             Write-Host "Already up to date - $projectPath - $old === $newXML" -ForegroundColor Cyan
             return;
         }
-        $newContent = ($content).replace($old, $newXML)
+        $newContent = ($content).replace($old, $newXML).Trim()
         $newContent | Set-Content -Path $projectPath -Encoding UTF8
         Write-Host "Updated - $projectPath" -ForegroundColor Green
     }
