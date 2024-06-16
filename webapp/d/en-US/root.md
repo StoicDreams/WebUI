@@ -82,7 +82,7 @@ The Stoic Dreams company portal.
 
 Bio website for Erik Gassler (Visit me on [YouTube](https://youtu.be/IVPHtC0H2fU)), owner of Stoic dreams, and author of [the book CASE: Continuous Agile Software Engineering](https://amzn.to/3QuGnQy).
 
-> As an Amazon Associate I earn from qualifying purchases.
+*As an Amazon Associate I earn from qualifying purchases.*
 
 </webui-card>
 
