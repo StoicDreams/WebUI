@@ -48,11 +48,6 @@ fn build_sitemap() {
         println!("Missing Sitemap Builder - expected file PowerShell/BuildSiteMap.ps1");
         return;
     }
-    let nav_file = Path::new("./webapp/src/nav_menu.rs");
-    if !nav_file.exists() {
-        println!("Missing Nav Menu File - expected file webapp/src/nav_menu.rs");
-        return;
-    }
     println!("Running Sitemap Builder");
     run("pwsh", sitemap_file.as_os_str().to_str().unwrap(), None);
 }
