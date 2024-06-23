@@ -30,9 +30,9 @@ Finally, using a UI framework can help improve the quality of your code. This is
 
 <webui-page-segment>
 
-Of course, there are also some potential disadvantages to using a UI framework. One downside is that you may not have as much control over the overall design of your site or app if you're using someone else's pre-designed elements. This isn't necessarily a bad thing-in fact, it can actually be an advantage in some cases-but it's something to keep in mind if you're particular about every last detail of your project.
+Of course, there are also some potential disadvantages to using a UI framework. One downside is that you may not have as much control over the overall design of your site or app if you're using someone else's pre-designed elements. This isn't necessarily a bad thing - in fact, it can actually be an advantage in some cases - but it's something to keep in mind if you're particular about every last detail of your project.
 
-Another potential downside is that some frameworks can be quite large and complex, which can make them difficult to learn and use effectively. In some cases, it may actually be faster and easier to build everything from scratch than try to learn an overly complicated framework. However, this isn't always the case - it really depends on the specific framework you're considering using. Deciding whether or not to use a website ui framework ultimately comes down to weighing the pros and cons for your particular project. If you're building something simple, chances are there's no need to use an overly complex framework. However, if you're working on something more complex, a framework could save you time and frustration in the long run.
+Another potential downside is that some frameworks can be quite large and complex, which can make them difficult to learn and use effectively. In some cases, it may actually be faster and easier to build everything from scratch than try to learn an overly complicated framework. However, this isn't always the case - it really depends on the specific framework you're considering using.
 
 </webui-page-segment>
 
