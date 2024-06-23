@@ -1,6 +1,5 @@
 "use strict"
 
-let app = document.body;
 export function open_external_link(href, target) {
     let is_open_in_new_tab = target && target != '_self';
     if (is_open_in_new_tab) {
@@ -29,22 +28,6 @@ export function run_method(method, args) {
         args = [args];
     }
     return window[method](...args);
-}
-
-export function set_title(title) {
-    document.title = title;
-}
-
-export function push_state(path) {
-    history.pushState(null, null, path);
-}
-
-export function set_page_transition_duration(value) {
-    let number = parseInt(value);
-    if (isNaN(number)) { return; }
-    if (number < 0) { return; }
-    if (number > 1000) { return; }
-    pageTransitionDuration = number;
 }
 
 export function get_path() {
@@ -80,94 +63,6 @@ function TimeStamp() {
         pad(milliseconds)
     ].join(':');
     function pad(number) { return number < 10 ? `0${number}` : number; }
-}
-
-const STORAGE_ACCEPTED_KEY = 'storage_accepted';
-const REJECT_STORAGE_CACHING = 0;
-const ACCEPT_SESSION_STORAGE = 1;
-const ACCEPT_LOCAL_STORAGE = 2;
-const memStorage = (function () {
-    const memStorageCache = {}
-    let acceptedStorage = REJECT_STORAGE_CACHING;
-    if (localStorage.key(STORAGE_ACCEPTED_KEY)) {
-        acceptedStorage = ACCEPT_LOCAL_STORAGE;
-        Object.keys(localStorage).forEach(key => {
-            memStorageCache[key] = localStorage.getItem(key);
-        });
-    } else if (sessionStorage.key(STORAGE_ACCEPTED_KEY)) {
-        acceptedStorage = ACCEPT_SESSION_STORAGE;
-        Object.keys(sessionStorage).forEach(key => {
-            memStorageCache[key] = sessionStorage.getItem(key);
-        });
-    }
-    function getCache() {
-        return new Promise((resolve, reject) => {
-            if (localStorage.getItem(STORAGE_ACCEPTED_KEY)) {
-                resolve(localStorage);
-            } else if (sessionStorage.getItem(STORAGE_ACCEPTED_KEY)) {
-                resolve(sessionStorage);
-            } else {
-                reject('Caching not accepted');
-            }
-        });
-    }
-    class MemStorage {
-        key(key) {
-            return Object.keys(memStorageCache).filter(m => m == key).length > 0 ? key : null;
-        }
-        setItem(key, value) {
-            memStorageCache[key] = value;
-            getCache(key).then(cache => {
-                cache.setItem(key, value);
-            });
-        }
-        getItem(key) {
-            return memStorageCache[key] ?? "";
-        }
-        acceptLocalStorage() {
-            acceptedStorage = ACCEPT_LOCAL_STORAGE;
-            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
-            sessionStorage.clear();
-            Object.keys(memStorageCache).forEach(key => {
-                localStorage.setItem(key, memStorageCache[key]);
-            });
-        }
-        acceptSessionStorage() {
-            acceptedStorage = ACCEPT_SESSION_STORAGE;
-            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
-            localStorage.clear();
-            Object.keys(memStorageCache).forEach(key => {
-                sessionStorage.setItem(key, memStorageCache[key]);
-            });
-        }
-        rejectCachedStorage() {
-            acceptedStorage = REJECT_STORAGE_CACHING;
-            this.setItem(STORAGE_ACCEPTED_KEY, acceptedStorage);
-            sessionStorage.clear();
-            localStorage.clear();
-        }
-    }
-    return new MemStorage();
-})();
-
-export function user_accepts_local_storage() {
-    memStorage.acceptLocalStorage();
-}
-
-export function user_accepts_session_storage() {
-    memStorage.acceptSessionStorage();
-}
-
-export function user_rejects_cached_storage() {
-    memStorage.rejectCachedStorage();
-}
-
-export function set_user_storage_data(key, data) {
-    memStorage.setItem(key, data);
-}
-
-export function get_user_storage_data(key) {
-    return memStorage.getItem(key);
 }
 
 const GLOBALDATA = {};
@@ -207,46 +102,6 @@ export async function webui_fetch(url, jsonIn, useCors) {
         body: body
     });
     return json;
-}
-
-const APP_CLASS_KEY = "app_classes";
-export function app_has_classes(classes) {
-    classes = classes.split(' ');
-    let current = app.className.split(' ');
-    for (let i = 0; i < classes.length; ++i) {
-        if (current.indexOf(classes[i]) !== -1) continue;
-        return false;
-    }
-    return true;
-}
-
-export function update_app_classes(add_classes, remove_classes) {
-    add_app_class(add_classes);
-    remove_app_class(remove_classes);
-}
-
-export function add_app_class(classes) {
-    let current = app.className.split(' ');
-    classes.split(' ').forEach(cls => {
-        if (!cls) return;
-        if (current.indexOf(cls) != -1) return;
-        current.push(cls);
-    });
-    app.className = current.join(' ');
-    memStorage.setItem(APP_CLASS_KEY, app.className);
-}
-
-export function remove_app_class(classes) {
-    let current = app.className.split(' ');
-    let updated = [];
-    classes = classes.split(' ');
-    current.forEach(cls => {
-        if (!cls) return;
-        if (classes.indexOf(cls) != -1) return;
-        updated.push(cls);
-    });
-    app.className = updated.join(' ');
-    memStorage.setItem(APP_CLASS_KEY, app.className);
 }
 
 function setupTauriIntegrations() {
