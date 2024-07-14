@@ -46,7 +46,7 @@
 
 <body>
     <webui-app data-removeclass=".nav|open;.shared|open">
-        <webui-drawer slot="left" class="nav elevation-20" data-state="slot|docked" data-moveable data-dockable>
+        <webui-drawer slot="left" class="nav elevation-20" docked="true" data-state="slot|docked" data-moveable data-dockable>
             <webui-flex justify="center" slot="header">
                 Your Logo Here!
             </webui-flex>
@@ -69,7 +69,16 @@
         <webui-data data-app-name="App Name"></webui-data>
         <webui-data data-company-possessive="Company '"></webui-data>
         <webui-data data-company-singular="Stoic Dreams"></webui-data>
-        <webui-page-footer copyright="2024" company="Your Company"></webui-page-footer>
+        <webui-page-footer copyright="2024" company="Your Company">
+            <webui-next-page theme="tertiary" family="regular" data-subscribe="page-next-page"></webui-next-page>
+            <webui-flex class="my-3" justify="center">
+                <webui-link href="/about" icon="circle-exclamation" family="regular">About {APP_NAME}</webui-link>
+                <webui-link href="/contact" icon="messages" family="regular">Contact {APP_NAME}</webui-link>
+                <webui-link href="/privacy" icon="shield-exclamation" family="regular">Privacy</webui-link>
+                <webui-link href="/terms" icon="handshake" family="regular">Terms & Conditions</webui-link>
+            </webui-flex>
+            <webui-stoic-social-links class="mb-2"></webui-stoic-social-links>
+        </webui-page-footer>
     </webui-app>
 
     <script src="https://cdn.myfi.ws/highlight/highlight.min.js" async></script>

@@ -40,7 +40,7 @@
 
 <body>
     <webui-app data-removeclass=".nav|open;.shared|open">
-        <webui-drawer slot="left" class="nav elevation-20" data-state="slot|docked" data-moveable data-dockable>
+        <webui-drawer slot="left" class="nav elevation-20" docked="true" data-state="slot|docked" data-moveable data-dockable>
             <webui-flex justify="center" slot="header">
                 <webui-stoic-dreams-logo title="Web UI Logo" text="Web" text2="UI"></webui-stoic-dreams-logo>
             </webui-flex>
@@ -55,7 +55,6 @@
             <h1 data-subscribe="page-title" data-set="innerHTML">Web UI</h1>
             <h2 data-subscribe="page-subtitle" data-set="innerHTML"></h2>
             <webui-flex grow></webui-flex>
-            <webui-stoic-social-links></webui-stoic-social-links>
             <webui-feedback title="Provide us your feedback" data-post="https://api.myfi.ws/feedback/new" data-json-name="message">
                 <p>You can also come <a href="https://discord.com/channels/972856291909332993/1025781071608037466">chat with us on the Stoic Dreams discord server.</a></p>
             </webui-feedback>
@@ -66,7 +65,16 @@
         <webui-data data-app-name="Web UI"></webui-data>
         <webui-data data-company-possessive="Stoic Dreams'"></webui-data>
         <webui-data data-company-singular="Stoic Dreams"></webui-data>
-        <webui-page-footer copyright="2022" company="Stoic Dreams"></webui-page-footer>
+        <webui-page-footer copyright="2022" company="Stoic Dreams">
+            <webui-next-page theme="tertiary" family="duotone" data-subscribe="page-next-page"></webui-next-page>
+            <webui-flex class="my-3" justify="center">
+                <webui-link href="/about" icon="circle-exclamation" family="duotone">About {APP_NAME}</webui-link>
+                <webui-link href="/contact" icon="messages" family="duotone">Contact {APP_NAME}</webui-link>
+                <webui-link href="/privacy" icon="shield-exclamation" family="duotone">Privacy</webui-link>
+                <webui-link href="/terms" icon="handshake" family="duotone">Terms & Conditions</webui-link>
+            </webui-flex>
+            <webui-stoic-social-links class="mb-2"></webui-stoic-social-links>
+        </webui-page-footer>
     </webui-app>
 
     <script src="https://cdn.myfi.ws/highlight/highlight.min.js" async></script>
@@ -74,9 +82,9 @@
     <script type="text/javascript">
         (function checkHighlighting() {
             if (window.hljs) {
-                document.querySelectorAll('pre code:not([data-hl])').forEach((el) => {
-                    el.setAttribute('data-hl', true);
+                document.querySelectorAll('pre code:not([data-highlighted])').forEach((el) => {
                     window.hljs.highlightElement(el);
+                    el.dataset.highlighted = true;
                 });
             }
             setTimeout(checkHighlighting, 100);
