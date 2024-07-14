@@ -39,6 +39,7 @@
 </head>
 
 <body>
+    <webui-app-config src="appConfig.json"></webui-app-config>
     <webui-app data-removeclass=".nav|open;.shared|open">
         <webui-drawer slot="left" class="nav elevation-20" docked="true" data-state="slot|docked" data-moveable data-dockable>
             <webui-flex justify="center" slot="header">
@@ -62,9 +63,6 @@
             <webui-myfi-info></webui-myfi-info>
         </header>
         <noscript>Javascript is required to view this site</noscript>
-        <webui-data data-app-name="Web UI"></webui-data>
-        <webui-data data-company-possessive="Stoic Dreams'"></webui-data>
-        <webui-data data-company-singular="Stoic Dreams"></webui-data>
         <webui-page-footer copyright="2022" company="Stoic Dreams">
             <webui-next-page theme="tertiary" family="duotone" data-subscribe="page-next-page"></webui-next-page>
             <webui-flex class="my-3" justify="center">
