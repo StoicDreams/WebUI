@@ -61,8 +61,8 @@
             <button aria-label="open navigation menu" data-toggleclass=".nav|open" class="elevation-10 pa-1 mx-1">
                 <webui-fa icon="bars"></webui-fa>
             </button>
-            <h1 data-subscribe="page-title" data-set="innerHTML"></h1>
-            <h2 data-subscribe="page-subtitle" data-set="innerHTML"></h2>
+            <h1 data-subscribe="page-title:innerHTML"></h1>
+            <h2 data-subscribe="page-subtitle:innerHTML"></h2>
             <webui-flex grow></webui-flex>
             <webui-feedback title="Provide us your feedback" data-post="https://api.myfi.ws/feedback/new" data-json-name="message">Your custom message here! </webui-feedback>
             <webui-alerts title="View your notifications" data-title="My Alerts" data-toggleclass=".shared|open"></webui-alerts>
@@ -70,12 +70,12 @@
         </header>
         <noscript>Javascript is required to view this site</noscript>
         <webui-page-footer copyright="2024" company="Your Company">
-            <webui-next-page theme="tertiary" family="regular" data-subscribe="page-next-page"></webui-next-page>
+            <webui-next-page theme="tertiary" data-subscribe="page-next-page"></webui-next-page>
             <webui-flex class="my-3" justify="center">
-                <webui-link href="/about" icon="circle-exclamation" family="regular">About {APP_NAME}</webui-link>
-                <webui-link href="/contact" icon="messages" family="regular">Contact {APP_NAME}</webui-link>
-                <webui-link href="/privacy" icon="shield-exclamation" family="regular">Privacy</webui-link>
-                <webui-link href="/terms" icon="handshake" family="regular">Terms & Conditions</webui-link>
+                <webui-link href="/about" icon="circle-exclamation">About {APP_NAME}</webui-link>
+                <webui-link href="/contact" icon="messages">Contact {APP_NAME}</webui-link>
+                <webui-link href="/privacy" icon="shield-exclamation">Privacy</webui-link>
+                <webui-link href="/terms" icon="handshake">Terms & Conditions</webui-link>
             </webui-flex>
             <webui-stoic-social-links class="mb-2"></webui-stoic-social-links>
         </webui-page-footer>
