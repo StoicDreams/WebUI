@@ -45,9 +45,18 @@
 </head>
 
 <body>
-    <webui-data data-app-name="App Name"></webui-data>
-    <webui-data data-company-possessive="Company '"></webui-data>
-    <webui-data data-company-singular="Stoic Dreams"></webui-data>
+    <webui-data data-app-name="App Name" data-company-possessive="Company's" data-company-singular="Stoic Dreams">
+        <template slot="html" name="not-found">
+            <webui-flex grow></webui-flex>
+            <p>This is custom 404 content set by a webui-data component in the index.html file.</p>
+            <p class="text-center"><webui-link theme="info" href="/">Return Home</webui-link></p>
+            <webui-flex grow></webui-flex>
+        </template>
+        <template slot="html" name="under-construction">
+            <p>This is custom Under Construction content set by a webui-data component in the index.html file.</p>
+            <p class="text-center"><webui-link theme="success" href="/">Return Home</webui-link></p>
+        </template>
+    </webui-data>
     <webui-app data-removeclass=".nav|open;.shared|open">
         <webui-drawer slot="left" class="nav elevation-20" docked="true" data-state="slot|docked" data-moveable data-dockable>
             <webui-flex justify="center" slot="header">
