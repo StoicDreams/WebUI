@@ -1,6 +1,6 @@
 {
     "appName": "Web UI",
-    "companyPossessive": "Stoic Dreams'",
-    "companySingular": "Stoic Dreams",
-    "api": "https://api.myfi.ws"
+    "appCompanyPossessive": "Stoic Dreams'",
+    "appCompanySingular": "Stoic Dreams",
+    "appApi": "https://api.myfi.ws"
 }
