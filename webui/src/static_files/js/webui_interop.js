@@ -114,9 +114,9 @@ function setupTauriIntegrations() {
     getEl('#titlebar-maximize', 30000).then(el => {
         el.addEventListener('click', async () => {
             if (await await window.__TAURI__.window.appWindow.isMaximized()) {
-                el.innerHTML = el.getAttribute('data-maximize') || `<webui-fa icon="window-maximize" family="regular"></webui-fa>`;
+                el.innerHTML = el.getAttribute('data-maximize') || `<webui-icon icon="window-maximize" family="regular"></webui-icon>`;
             } else {
-                el.innerHTML = el.getAttribute('data-restore') || `<webui-fa icon="window-restore" family="regular"></webui-fa>`;
+                el.innerHTML = el.getAttribute('data-restore') || `<webui-icon icon="window-restore" family="regular"></webui-icon>`;
             }
             window.__TAURI__.window.appWindow.toggleMaximize();
         })

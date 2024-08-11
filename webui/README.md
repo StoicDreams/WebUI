@@ -1,6 +1,6 @@
 # Web UI
 
-[WebUI Version: 0.10.7](https://github.com/StoicDreams/WebUI)
+[WebUI Version: 0.10.8](https://github.com/StoicDreams/WebUI)
 
 [View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
@@ -88,10 +88,10 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-webui = "0.10.7"
+webui = "0.10.8"
 # Customize with specific feature flags (pages is included by default)
-# webui = { version = "0.10.7", features = ["tauri"] }
-# webui = { version = "0.10.7", default-features = false }
+# webui = { version = "0.10.8", features = ["tauri"] }
+# webui = { version = "0.10.8", default-features = false }
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/WebUI", branch = "main" }
 ```
