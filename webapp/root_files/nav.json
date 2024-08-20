@@ -5,6 +5,11 @@
         "url": "/"
     },
     {
+        "name": "Icons",
+        "icon": "icons",
+        "url": "/icons"
+    },
+    {
         "name": "Components",
         "icon": "toolbox",
         "children": [
