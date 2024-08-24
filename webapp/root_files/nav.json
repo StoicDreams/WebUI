@@ -37,7 +37,7 @@
         "children": [
             {
                 "name": "Under Construction",
-                "icon": "traffic-cone",
+                "icon": "traffic-cone|stroke:thin|fill|shade|tri",
                 "url": "/under-construction"
             }
         ]
