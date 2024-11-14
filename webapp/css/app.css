@@ -1,6 +1,5 @@
 /* Example for where to add custom app styles */
 :root {
-    --fa-default-family: duotone;
     --color-black: #101010FF;
     --color-white: #FFFFFFFF;
     --color-background: #333333FF;
