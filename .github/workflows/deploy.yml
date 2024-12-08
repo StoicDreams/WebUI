@@ -14,6 +14,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    if: false
     steps:
     - uses: actions/checkout@v3
     - name: Set Target
@@ -52,6 +53,7 @@ jobs:
       if: always()
   purge-storage-cache:
     runs-on: ubuntu-latest
+    if: false
     needs: build-and-deploy
     steps:
     - name: Azure Login
