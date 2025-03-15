@@ -39,7 +39,7 @@ pub use prelude::*;
 /// ```
 pub fn start_app() {}
 
-pub const VERSION: &str = "0.10.8";
+pub const VERSION: &str = "0.10.9";
 #[cfg(feature = "tauri")]
 pub const IS_TAURI_APP: bool = true;
 

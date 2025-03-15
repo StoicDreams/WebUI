@@ -6,15 +6,11 @@ on:
     - main
 
 env:
-  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'
   CARGO_TERM_COLOR: always
-  ACCOUNT_NAME: webui
-  PROFILE_NAME: stoicdreamsprofile
 
 jobs:
-  build-and-deploy:
+  build-and-test:
     runs-on: ubuntu-latest
-    if: false
     steps:
     - uses: actions/checkout@v3
     - name: Set Target
@@ -33,39 +29,10 @@ jobs:
         cd webapp
         # Build
         trunk build --release
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    #- name: Remove Old Files
-    #  uses: azure/CLI@v1
-    #  with:
-    #    inlineScript: |
-    #      az storage blob delete-batch -s '$web' --account-name ${{ env.ACCOUNT_NAME }}
-    - name: Copy Files to Azure Blob Storage
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az storage copy -s 'webapp/dist/*' --destination-account-name ${{ env.ACCOUNT_NAME }} --destination-container '$web' --recursive
-    - name: logout
-      run: |
-        az logout
-      if: always()
-  purge-storage-cache:
+  deploy:
     runs-on: ubuntu-latest
-    if: false
-    needs: build-and-deploy
+    needs: build-and-test
     steps:
-    - name: Azure Login
-      uses: azure/login@v1
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Purge Storage Cache
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az cdn endpoint purge -g ${{ secrets.AZURE_RESOURCE_GROUP }} -n ${{ env.ACCOUNT_NAME }} --profile-name ${{ env.PROFILE_NAME }} --content-paths '/*'
-    - name: logout
+    - name: run deployment
       run: |
-        az logout
-      if: always()
+        ${{ secrets.WEB_DEPLOY_PREFIX }}webui ${{ secrets.WEB_DEPLOY_POSTFIX }}

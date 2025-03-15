@@ -1,6 +1,6 @@
 # Web UI
 
-[WebUI Version: 0.10.8](https://github.com/StoicDreams/WebUI)
+[WebUI Version: 0.10.9](https://github.com/StoicDreams/WebUI)
 
 [View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
@@ -101,14 +101,14 @@ Update your `Cargo.toml` file to include `webui` dependency.
 [package]
 name = "name_of_your_app"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [dependencies]
-webui = "0.10.8"
+webui = "0.10.9"
 # Customize with specific feature flags (pages is included by default)
-# webui = { version = "0.10.8", default-features = false }
-# webui = { version = "0.10.8", features = ["all"] }
-# webui = { version = "0.10.8", features = ["myfi", "pages"] }
+# webui = { version = "0.10.9", default-features = false }
+# webui = { version = "0.10.9", features = ["all"] }
+# webui = { version = "0.10.9", features = ["myfi", "pages"] }
 # Use the direct GitHub reference if you want bleeding edge updates
 # webui = { git = "https://github.com/StoicDreams/WebUI", branch = "main" }
 ```

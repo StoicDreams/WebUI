@@ -15,10 +15,6 @@ macro_rules! set_timeout {
 #[macro_export]
 macro_rules! spawn_async {
     ( $x:expr ) => {
-        wasm_bindgen_futures::spawn_local(async move {
-            {
-                $x
-            }
-        });
+        wasm_bindgen_futures::spawn_local(async move { { $x } });
     };
 }
