@@ -1,5 +1,6 @@
 use clap::Parser;
 use powershell_script::PsScriptBuilder;
+use regex::Regex;
 use std::{fs, path::Path};
 
 #[derive(Parser, Debug)]
@@ -23,6 +24,7 @@ fn main() {
     run("cargo", "build", None);
     run("cargo", "test", None);
     build_sitemap();
+    update_webdate_value();
     if let Some(commit) = args.commit {
         run_ma("git", &["add", "-A"], None);
         run_ma("git", &["commit", "-m", &format!("\"{}\"", &commit)], None);
@@ -50,6 +52,26 @@ fn build_sitemap() {
     }
     println!("Running Sitemap Builder");
     run("pwsh", sitemap_file.as_os_str().to_str().unwrap(), None);
+}
+
+fn update_webdate_value() {
+    let webapp_file = Path::new("./webapp/root_files/service-worker.js");
+    if !webapp_file.exists() {
+        return;
+    }
+    let webapp_text = fs::read_to_string(webapp_file).unwrap();
+    let timestamp = chrono::Utc::now().format("%y%m%d%H%M").to_string();
+    let re = Regex::new(r"const cacheWebDate = '(\d+)';").unwrap();
+    let new_webapp_text = re
+        .replace(&webapp_text, |_caps: &regex::Captures| {
+            format!("const cacheWebDate = '{}';", timestamp)
+        })
+        .to_string();
+    fs::write(webapp_file, new_webapp_text).unwrap();
+    println!(
+        "Updated webapp/service-worker.js with new timestamp: {}",
+        timestamp
+    );
 }
 
 fn rc(command: &str, directory: Option<&str>) {

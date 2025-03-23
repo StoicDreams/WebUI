@@ -6,3 +6,5 @@ edition = "2024"
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
 powershell_script = "1.0"
+chrono = "0.4"
+regex = "1"
