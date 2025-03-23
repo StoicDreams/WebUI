@@ -55,16 +55,21 @@ fn build_sitemap() {
 }
 
 fn update_webdate_value() {
-    let webapp_file = Path::new("./webapp/root_files/service-worker.js");
+    update_webdate_value_for_file("./webapp/root_files/service-worker.js");
+    update_webdate_value_for_file("./webapp/root_files/service-worker.min.js");
+}
+
+fn update_webdate_value_for_file(file: &str) {
+    let webapp_file = Path::new(file);
     if !webapp_file.exists() {
         return;
     }
     let webapp_text = fs::read_to_string(webapp_file).unwrap();
     let timestamp = chrono::Utc::now().format("%y%m%d%H%M").to_string();
-    let re = Regex::new(r"const cacheWebDate = '(\d+)';").unwrap();
+    let re = Regex::new(r"_ts_(\d+)").unwrap();
     let new_webapp_text = re
         .replace(&webapp_text, |_caps: &regex::Captures| {
-            format!("const cacheWebDate = '{}';", timestamp)
+            format!("_ts_{}", timestamp)
         })
         .to_string();
     fs::write(webapp_file, new_webapp_text).unwrap();
