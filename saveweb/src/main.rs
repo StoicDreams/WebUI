@@ -11,18 +11,14 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    check_correct_folder();
+    check_solution_root();
     run(
         "echo",
         "echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\"",
         None,
     );
-    rc("webui", Some("webapp"));
-    delete_file_if_exists("./Cargo.lock");
-    run("cargo", "fmt", None);
-    run("cargo", "update", None);
-    run("cargo", "build", None);
-    run("cargo", "test", None);
+    run_webui_if_webui_project();
+    run_cargo_if_rust_project();
     build_sitemap();
     update_webdate_value();
     if let Some(commit) = args.commit {
@@ -33,15 +29,35 @@ fn main() {
     run("echo", "Finished Successfully", None);
 }
 
-fn check_correct_folder() {
-    let nav_file = Path::new("./webapp");
+fn check_solution_root() {
+    let nav_file = Path::new("./.git");
     if !nav_file.exists() {
-        let nav_file = Path::new("../webapp");
+        let nav_file = Path::new("../.git");
         if !nav_file.exists() {
             panic!("Must be in solution root folder to run this command.");
         }
         run_ma("cd", &[".."], None);
     }
+}
+
+fn run_webui_if_webui_project() {
+    let nav_file = Path::new("./webapp");
+    if !nav_file.exists() {
+        return;
+    }
+    rc("webui", Some("webapp"));
+}
+
+fn run_cargo_if_rust_project() {
+    let nav_file = Path::new("./Cargo.toml");
+    if !nav_file.exists() {
+        return;
+    }
+    delete_file_if_exists("./Cargo.lock");
+    run("cargo", "fmt", None);
+    run("cargo", "update", None);
+    run("cargo", "build", None);
+    run("cargo", "test", None);
 }
 
 fn build_sitemap() {
@@ -55,6 +71,8 @@ fn build_sitemap() {
 }
 
 fn update_webdate_value() {
+    update_webdate_value_for_file("./cdn/service-worker.js");
+    update_webdate_value_for_file("./cdn/service-worker.min.js");
     update_webdate_value_for_file("./webapp/root_files/service-worker.js");
     update_webdate_value_for_file("./webapp/root_files/service-worker.min.js");
 }
@@ -73,10 +91,7 @@ fn update_webdate_value_for_file(file: &str) {
         })
         .to_string();
     fs::write(webapp_file, new_webapp_text).unwrap();
-    println!(
-        "Updated webapp/service-worker.js with new timestamp: {}",
-        timestamp
-    );
+    println!("Updated {} with new timestamp: {}", file, timestamp);
 }
 
 fn rc(command: &str, directory: Option<&str>) {
