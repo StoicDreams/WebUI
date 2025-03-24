@@ -38,3 +38,4 @@ function buildSitemap
 
 
 $urls | buildSitemap | Out-File webapp/root_files/sitemap.xml -Encoding ascii
+Write-Host "Sitemap Updated!"
