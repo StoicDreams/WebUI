@@ -1010,7 +1010,7 @@ checksum = "28d3b2b1366ec20994f1fd18c3c594f05c5dd4bc44d8bb0c1c632c8d6829481f"
 
 [[package]]
 name = "saveweb"
-version = "0.10.10"
+version = "0.10.11"
 dependencies = [
  "chrono",
  "clap",
@@ -1289,7 +1289,7 @@ dependencies = [
 
 [[package]]
 name = "webapp"
-version = "0.10.10"
+version = "0.10.11"
 dependencies = [
  "serde",
  "webui",
@@ -1297,14 +1297,14 @@ dependencies = [
 
 [[package]]
 name = "webapp_post_build"
-version = "0.10.10"
+version = "0.10.11"
 dependencies = [
  "clap",
 ]
 
 [[package]]
 name = "webui"
-version = "0.10.10"
+version = "0.10.11"
 dependencies = [
  "async-std",
  "chrono",
@@ -1333,11 +1333,11 @@ checksum = "338fdef3aaa38e5a5d4d1accdf01ccac506f611f1e6830d85c1d8214f439a7fa"
 
 [[package]]
 name = "webui_procs"
-version = "0.10.10"
+version = "0.10.11"
 
 [[package]]
 name = "webuisave"
-version = "0.10.10"
+version = "0.10.11"
 dependencies = [
  "clap",
 ]

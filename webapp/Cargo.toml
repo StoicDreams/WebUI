@@ -1,6 +1,6 @@
 [package]
 name = "webapp"
-version = "0.10.10" #syncwebui
+version = "0.10.11" #syncwebui
 edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html

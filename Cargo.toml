@@ -8,3 +8,4 @@ members = [
     "webapp",
     "webapp_post_build",
 ]
+resolver = "3"
