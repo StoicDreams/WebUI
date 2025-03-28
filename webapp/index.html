@@ -5,10 +5,12 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-TVHLTPX6QF"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-TVHLTPX6QF');
+        if (location.hostname !== 'localhost') {
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-TVHLTPX6QF');
+        }
     </script>
     <title>Web UI Framework - Build Fast Web UIs with a Pure JS Component Framework</title>
     <meta charset="utf-8">
