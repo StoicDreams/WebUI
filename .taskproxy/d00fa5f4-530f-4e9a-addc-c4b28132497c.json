@@ -1,0 +1,185 @@
+{
+  "id": "d00fa5f4-530f-4e9a-addc-c4b28132497c",
+  "sections": [
+    {
+      "Id": "b5c9269e-61f0-4138-8cda-59c107c3dd7f",
+      "ContentType": 1,
+      "Content": "{\"Markdown\":\"Use the scripts below during development to perform desired tasks.\"}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "c3f1475e-79a4-497a-8454-3549c14e8c7e",
+      "Content": "{\"Markdown\":\"## Push Rust Updates\\n\\nUse \\u0060pushrust\\u0060 command for projects outside of this solution (e.g. ApTul, StoicDreams, DataProxy, etc.).\"}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "aaf0c0d4-6fd2-418b-8df7-70458171d4a6",
+      "ContentType": 9,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "b78416c9-42b7-4342-b76d-3e95329f15d8",
+      "ContentType": 3,
+      "Name": "Push Rust Install",
+      "Content": "{\"PowerShell\":\"cargo install --path pushrust\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "0561bc05-2f7a-4e5e-84a8-931abdb8f631",
+      "ContentType": 10,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "060a3a4c-eff9-4d6b-a434-ae4a9d8ab6bb",
+      "Content": "{\"Markdown\":\"## Web UI Updates\"}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "4d04a157-70c1-421c-932a-0591d5e6352c",
+      "ContentType": 9,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "e0dbfb74-2a0b-4d5f-82dd-5c7391f8d5c1",
+      "ContentType": 3,
+      "Name": "Install WebUI",
+      "Content": "{\"PowerShell\":\"#cargo install --path webui --features all\\ncargo install --path webui\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "1d8dfcf0-4142-45cb-aa61-bd82d97f6d79",
+      "ContentType": 3,
+      "Name": "Install WebUISave",
+      "Content": "{\"PowerShell\":\"cargo install --path webuisave\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "6fd8bb9a-ad0c-421d-b012-8470be5a2f6f",
+      "ContentType": 10,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "5a6d5b4f-a92a-41f1-8912-889aa2c833a4",
+      "ContentType": 9,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "d9b3eca7-9978-4d9c-8573-30be711e64a6",
+      "ContentType": 3,
+      "Name": "Run WebUI",
+      "Content": "{\"PowerShell\":\"cd webapp\\nwebui\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "9aa722dd-4fb2-41bd-8ab2-8ccbbcb4505a",
+      "ContentType": 3,
+      "Name": "Run Web App",
+      "Content": "{\"PowerShell\":\"start pwsh \\u0027-NoExit -command \\u0022$Host.UI.RawUI.WindowTitle = \\u0027\\u0027Rust App Demo\\u0027\\u0027\\u0022\\u0027\\n$wshell = New-Object -ComObject wscript.shell\\n$wshell.AppActivate(\\u0027TPT\\u0027)\\nSleep 1\\n$wshell.SendKeys(\\u0027web_run~\\u0027)\\n\\n\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "40011a1c-ed15-44f9-b411-59fdce681ce1",
+      "ContentType": 3,
+      "Name": "Run Web App Open",
+      "Content": "{\"PowerShell\":\"start pwsh \\u0027-NoExit -command \\u0022$Host.UI.RawUI.WindowTitle = \\u0027\\u0027Rust App Demo\\u0027\\u0027\\u0022\\u0027\\n$wshell = New-Object -ComObject wscript.shell\\n$wshell.AppActivate(\\u0027TPT\\u0027)\\nSleep 1\\n$wshell.SendKeys(\\u0027cd webapp~\\u0027)\\n$wshell.SendKeys(\\u0027trunk serve --open~\\u0027)\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "16ab9105-a86c-4c79-a055-473ca4733d7d",
+      "ContentType": 10,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "7fe93b72-c5f2-48b3-9372-1ad6abb23163",
+      "ContentType": 6,
+      "Content": "{\"Variable\":{\"Name\":\"output\"}}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    }
+  ]
+}

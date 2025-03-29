@@ -1,0 +1,142 @@
+{
+  "id": "d0f2d7ed-2b31-4ee7-b66b-f905b3ae8fe1",
+  "sections": [
+    {
+      "Id": "6fad0eb4-286d-4ee5-8c70-50258ead3aa4",
+      "ContentType": 1,
+      "Content": "{\"Markdown\":\"Use scripts from this page to handle commits and publishing.\"}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "7a734b1c-2eee-4bf7-afca-22e3a2de3925",
+      "Content": "{\"Markdown\":\"## WebUI\"}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "d9e4e4f0-29b5-4a89-867b-0705eb358d62",
+      "ContentType": 4,
+      "Content": "[{\"InputType\":1,\"Name\":\"commitmessage\",\"DefaultValue\":\"\"}]",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "63ce0afb-7c9d-472f-88ed-a99f744bcb7b",
+      "ContentType": 9,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "0ad0d26f-9de8-4422-b944-736781532227",
+      "ContentType": 3,
+      "Name": "V+ Major",
+      "Content": "{\"PowerShell\":\".\\\\IncrementVersion.ps1 -major\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "f9999f94-ff93-493f-b344-08183f6a7991",
+      "ContentType": 3,
+      "Name": "V+ Minor",
+      "Content": "{\"PowerShell\":\".\\\\IncrementVersion.ps1 -minor\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "2da5e46b-16c6-449d-a14e-49084f149fc7",
+      "ContentType": 3,
+      "Name": "V+ Patch",
+      "Content": "{\"PowerShell\":\".\\\\IncrementVersion.ps1\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "b33d3873-f4e0-4f89-adfc-f79feb3c8f4a",
+      "ContentType": 3,
+      "Name": "Git Commit",
+      "Content": "{\"PowerShell\":\"webuisave -c \\u0022%commitmessage%\\u0022\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "e48c45c6-698f-4192-8b26-581f08634e87",
+      "ContentType": 3,
+      "Name": "Git Push",
+      "Content": "{\"PowerShell\":\"git push\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "5d94b929-a58e-4b0f-85e5-ec306fa7032c",
+      "ContentType": 3,
+      "Name": "Cargo Publish WebUI",
+      "Content": "{\"PowerShell\":\"cd webui\\ncargo publish\\n\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "ccc9e592-0df4-4207-bf6f-dc631937f92b",
+      "ContentType": 10,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "e5eb6c44-a4e1-4f99-a5ae-332250ce4a0d",
+      "ContentType": 6,
+      "Content": "{\"Variable\":{\"Name\":\"output\"}}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "id": "e4aad621-d5f5-4803-8a67-8eea4ce3689f",
+  "sections": [
+    {
+      "Id": "ff400609-254b-463e-9c18-3df48c15b44b",
+      "ContentType": 1,
+      "Content": "{\"Markdown\":\"Use these scripts when setting up this project on a new device for the first time.\\n\\nAlso, utilize \\u0060rustup update\\u0060 below periodically to update rust to the latest version.\"}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "3f7b6a7c-596f-4f72-96f0-bcece427a26b",
+      "ContentType": 9,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "aba7da7a-4bd8-41e9-8768-17cf752dd08b",
+      "ContentType": 3,
+      "Name": "Version",
+      "Content": "{\"PowerShell\":\"rustup --version\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "0c762b96-07ff-44cd-9474-5600ad8ee109",
+      "ContentType": 3,
+      "Name": "Rust Update",
+      "Content": "{\"PowerShell\":\"rustup update\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "d8710591-a35b-440d-a6f3-39a642fe86b1",
+      "ContentType": 3,
+      "Name": "Tool Installs",
+      "Content": "{\"PowerShell\":\"rustup component add rustfmt\\nrustup component add clippy\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "1a7a9cac-c664-4f29-b45c-7fb78c4e3e7b",
+      "ContentType": 3,
+      "Name": "Install Waxm Build Target",
+      "Content": "{\"PowerShell\":\"rustup target add wasm32-unknown-unknown\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "4c331e5f-c114-4832-85b9-9e24e23d24e7",
+      "ContentType": 3,
+      "Name": "Install Trunk",
+      "Content": "{\"PowerShell\":\"cargo install trunk\"}",
+      "OutputVariable": {
+        "Name": "output"
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "b343d103-a55f-4a01-b472-37cfe6ad419c",
+      "ContentType": 10,
+      "Content": "",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    },
+    {
+      "Id": "b2b54576-18c2-462c-9401-9272fdcc09f1",
+      "ContentType": 6,
+      "Content": "{\"Variable\":{\"Name\":\"output\"}}",
+      "OutputVariable": {
+        "Name": ""
+      },
+      "ActiveId": 1,
+      "ConditionValue": "",
+      "ConditionRequired": ""
+    }
+  ]
+}
