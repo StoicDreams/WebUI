@@ -26,20 +26,20 @@ fn main() {
         "echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\"",
         None,
     );
-    run_webui_if_webui_project();
-    run_cargo_if_rust_project();
-    build_sitemap();
-    update_webdate_value();
-    if let Some(commit) = args.commit {
-        if args.noversion {
-            // Skip incrementing versioning
-        } else if args.major {
+    if args.commit.is_some() && !args.noversion {
+        if args.major {
             increment_major_version("--major");
         } else if args.minor {
             increment_major_version("--minor");
         } else {
             increment_patch_version();
         }
+    }
+    run_webui_if_webui_project();
+    run_cargo_if_rust_project();
+    build_sitemap();
+    update_webdate_value();
+    if let Some(commit) = args.commit {
         run_ma("git", &["add", "-A"], None);
         run_ma("git", &["commit", "-m", &format!("\"{}\"", &commit)], None);
         run_ma("git", &["push", "-u", "origin", "main"], None);
