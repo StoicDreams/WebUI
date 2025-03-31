@@ -9,8 +9,8 @@ webui.define("app-template", {
                 break;
         }
     },
-    connectedCallback: function () { },
-    disconnectedCallback: function () { }
+    connected: function (t) { },
+    disconnected: function (t) { }
 });
 
 /* Template for Web UI components. */
@@ -24,8 +24,8 @@ webui.define("app-shadow-template", {
                 break;
         }
     },
-    connectedCallback: function () { },
-    disconnectedCallback: function () { },
+    connected: function (t) { },
+    disconnected: function (t) { },
     shadowTemplate: `
 <style type="text/css">
 :host {
