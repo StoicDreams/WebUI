@@ -42,8 +42,8 @@ fn main() {
         let version = get_current_version();
         println!("Version:{:?}", version);
         if let Some(version) = version {
-            run_ma("git", &["tag", "-a", &format!("v{}", version), "-m", &format!("Release v{}", version)], None);
-            run_ma("git", &["push", "origin", "release", "--tags"], None);
+            run_ma("git", &["tag", "-a", &format!("v{}", version), "-m", &format!("\"Release v{}\"", version)], None);
+            run_ma("git", &["push", "origin", "main", "--tags"], None);
         }
     }
     run("echo", "Finished Successfully", None);
