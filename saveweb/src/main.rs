@@ -196,10 +196,36 @@ fn get_current_version() -> Option<String> {
                     None => return None
                 }
             }
-            None
+            find_readme_version()
         },
-        Err(_) => None
+        Err(_) => find_readme_version()
     }
+}
+
+fn find_readme_version() -> Option<String> {
+    if let Some(version) = find_readme_version_in_file("README.md") {
+        return Some(version);
+    }
+    if let Some(version) = find_readme_version_in_file("Docs/README.md") {
+        return Some(version);
+    }
+    None
+}
+
+fn find_readme_version_in_file(path: &str) -> Option<String> {
+    let current_dir = env::current_dir().unwrap();
+    let readme_path = current_dir.join(path);
+    if readme_path.exists() {
+        let readme_content = fs::read_to_string(readme_path).unwrap();
+        for line in readme_content.lines() {
+            let trimmed_line = line.trim();
+            if trimmed_line.starts_with("[Version: ") {
+                let version = trimmed_line.split("[Version: ").nth(1).unwrap().split(']').nth(0).unwrap();
+                return Some(version.to_string());
+            }
+        }
+    }
+    None
 }
 
 fn find_cargo_versions() -> std::io::Result<HashMap<PathBuf, Option<String>>> {
