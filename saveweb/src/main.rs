@@ -14,6 +14,8 @@ struct Args {
     major: bool,
     #[arg(short = 'm', long)]
     minor: bool,
+    #[arg(short = 'v', long)]
+    noversion: bool,
 }
 
 fn main() {
@@ -29,7 +31,9 @@ fn main() {
     build_sitemap();
     update_webdate_value();
     if let Some(commit) = args.commit {
-        if args.major {
+        if args.noversion {
+            // Skip incrementing versioning
+        } else if args.major {
             increment_major_version("--major");
         } else if args.minor {
             increment_major_version("--minor");
@@ -39,11 +43,13 @@ fn main() {
         run_ma("git", &["add", "-A"], None);
         run_ma("git", &["commit", "-m", &format!("\"{}\"", &commit)], None);
         run_ma("git", &["push", "-u", "origin", "main"], None);
-        let version = get_current_version();
-        println!("Version:{:?}", version);
-        if let Some(version) = version {
-            run_ma("git", &["tag", "-a", &format!("v{}", version), "-m", &format!("\"Release v{}\"", version)], None);
-            run_ma("git", &["push", "origin", "main", "--tags"], None);
+        if !args.noversion {
+            let version = get_current_version();
+            println!("Version:{:?}", version);
+            if let Some(version) = version {
+                run_ma("git", &["tag", "-a", &format!("v{}", version), "-m", &format!("\"Release v{}\"", version)], None);
+                run_ma("git", &["push", "origin", "main", "--tags"], None);
+            }
         }
     }
     run("echo", "Finished Successfully", None);
