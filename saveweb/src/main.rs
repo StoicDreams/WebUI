@@ -26,6 +26,7 @@ fn main() {
         "echo \"Starting $(Split-Path -Path (Get-Location) -Leaf) ******\"",
         None,
     );
+    build_setup();
     if args.commit.is_some() && !args.noversion {
         if args.major {
             increment_major_version("--major");
@@ -86,12 +87,15 @@ fn run_cargo_if_rust_project() {
     run("cargo", "test", None);
 }
 
+fn build_setup() {
+    run_powershell_file_if_exists("./BuildSetup.ps1", "Build Setup");
+}
+
 fn build_sitemap() {
     run_powershell_file_if_exists("./BuildSiteMap.ps1", "Sitemap Builder");
 }
 
 fn increment_patch_version() {
-    run_powershell_file_if_exists("./PowerShell/IncrementVersion.ps1", "Increment Version");
     run_powershell_file_if_exists("./IncrementVersion.ps1", "Increment Version");
 }
 
@@ -105,6 +109,9 @@ fn increment_major_version(flag:&str) {
 
 fn run_powershell_file_if_exists(file: &str, name: &str) {
     if let Some(file_path) = get_path(file) {
+        println!("Running {} ({})", name, file);
+        run("pwsh", file_path.as_os_str().to_str().unwrap(), None);
+    } else if let Some(file_path) = get_path(&file.replace("./", "./PowerShell/")) {
         println!("Running {} ({})", name, file);
         run("pwsh", file_path.as_os_str().to_str().unwrap(), None);
     }
