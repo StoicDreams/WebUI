@@ -16,15 +16,24 @@
 
 Web UI is a Vanilla JavaScript Web Component library purpose of simplifying and minizing boilerplate code when creating new SPA websites.
 
-Web UI Rust Crate is also being designed to allow running a Rust language WebAssembly companion that allows communication between your Rust services running in the browser and your JavaScript code and/or Web UI app services.
+The Web UI Rust Crate (WebUI) is also being designed to allow running a Rust language WebAssembly companion that allows communication between your Rust services running in the browser and your JavaScript code and/or Web UI app services.
+
+> It is important to note that the purpose of WebUI is to have a separation between Rust code and UI logic. It is our oppinion that Rust code should not be managing or building UI (i.e. HTML), but instead should be relegated to performing process intensive or long tasks.
 
 Web UI is very early in development and is subject to breaking changes at any time while we are in this experimental stage of development.
 
 ## Goals
 
 - Minimize boilerplate code when starting new website projects.
-- Adhere to Material UI standards.
+- Define and Adhere to Web UI standards.
 - Provide robust component systems for handling common display types, user input and interactions, and data processing.
+
+## Planned Features and Updates (Not currently implemented)
+
+- Setup Rust wasm to run in Web-Worker.
+- Implement boilerplate for interacting between Rust and JavaScript into WebUI.
+- Implement local Web UI web-component files (JavaScript/CSS/HTML) into WebUI.
+  - Developers will be able to choose between using a specific version/state of the Web UI files that are stored locally or use the live version on [cdn.myfi.ws](https://cdn.myfi.ws).
 
 ## Getting Started
 
