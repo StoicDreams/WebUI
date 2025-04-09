@@ -6,7 +6,7 @@ Welcome to the Web UI toolkit.
 
 Web UI at it's core is a collection of Vanilla JavaScript based Web Components.
 
-We chose to use Vanilla JavaScript as we find developing with JavaScript to be far more productive versus any other languages or frameworks. And it doesn't hurt that this also makes it virtually seemless to integrate Web UI components into any existing website, regardless of how it's build.
+We chose to use Vanilla JavaScript as we find developing with JavaScript to be far more productive versus any other languages or frameworks. And it doesn't hurt that this also makes it virtually seemless to integrate Web UI components into any existing website, regardless of how it's built.
 
 That said, Web UI is not intended to be any kind of one-size-fits-all library. It is a very opinionated library. It is expected that if a web component does not work how you think it should, then you can copy the component to your own library and modify it there to your hearts content.
 
