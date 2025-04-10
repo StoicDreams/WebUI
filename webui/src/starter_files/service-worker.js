@@ -2,51 +2,51 @@ self.addEventListener('install', event => event.waitUntil(onInstall(event)));
 self.addEventListener('activate', event => event.waitUntil(onActivate(event)));
 self.addEventListener('fetch', event => event.respondWith(onFetch(event)));
 function get_uuid() {
-    try {
-        return crypto.randomUUID();
-    } catch (ex) {
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-            return v.toString(16);
-        });
-    }
+	try {
+		return crypto.randomUUID();
+	} catch (ex) {
+		return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+			let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+			return v.toString(16);
+		});
+	}
 }
-const currentVersion = location.host.startsWith('localhost') ? `${get_uuid()}` : 'webui_0.10.11';
-const cacheNamePrefix = 'offline-cache-';
-const cacheName = `${cacheNamePrefix}${currentVersion}_ts_2501010000`;
+const cacheNamePrefix = 'offline-cache';
+const cachePostfix = location.host.startsWith('localhost') ? `_${get_uuid()}` : '_ts_2504101232';
+const cacheName = `${cacheNamePrefix}${cachePostfix}`;
 const offlineAssetsInclude = [/\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/];
 const offlineAssetsExclude = [/^service-worker\.js$/];
 
 async function onInstall(event) {
-    console.info(`Service worker: Install ${cacheName}`);
-    self.skipWaiting();
+	console.info(`Service worker: Install ${cacheName}`);
+	self.skipWaiting();
 }
 
 async function onActivate(event) {
-    console.info(`Service worker: Activate ${cacheName}`);
+	console.info(`Service worker: Activate ${cacheName}`);
 
-    // Delete unused caches
-    const cacheKeys = await caches.keys();
-    await Promise.all(cacheKeys
-        .filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
-        .map(key => caches.delete(key)));
+	// Delete unused caches
+	const cacheKeys = await caches.keys();
+	await Promise.all(cacheKeys
+		.filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
+		.map(key => caches.delete(key)));
 }
 
 async function onFetch(event) {
-    let cachedResponse = null;
-    if (allowCache(event.request)) {
-        const cache = await caches.open(cacheName);
-        cachedResponse = await cache.match(event.request);
-    }
+	let cachedResponse = null;
+	if (allowCache(event.request)) {
+		const cache = await caches.open(cacheName);
+		cachedResponse = await cache.match(event.request);
+	}
 
-    return cachedResponse || fetch(event.request);
+	return cachedResponse || fetch(event.request);
 }
 
 function allowCache(request) {
-    // Only allow caching for GET requests
-    if (request.method !== 'GET') { return false; }
-    // Exclude caching for navigation requests to ensure the latest site updates are loaded asap
-    if (request.mode === 'navigate') { return false; }
-    // All other GET requests allow navigation
-    return true;
+	// Only allow caching for GET requests
+	if (request.method !== 'GET') { return false; }
+	// Exclude caching for navigation requests to ensure the latest site updates are loaded asap
+	if (request.mode === 'navigate') { return false; }
+	// All other GET requests allow navigation
+	return true;
 }
