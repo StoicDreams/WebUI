@@ -1,0 +1,17 @@
+[
+  {
+      "name": "Onboarding",
+      "icon": "portal-enter",
+      "url": "/e4aad621-d5f5-4803-8a67-8eea4ce3689f"
+  },
+  {
+      "name": "Updates",
+      "icon": "edit",
+      "url": "/d00fa5f4-530f-4e9a-addc-c4b28132497c"
+  },
+  {
+      "name": "Publish",
+      "icon": "github",
+      "url": "/d0f2d7ed-2b31-4ee7-b66b-f905b3ae8fe1"
+  }
+]
