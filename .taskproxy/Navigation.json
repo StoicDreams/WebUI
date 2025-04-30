@@ -1,17 +1,20 @@
 [
   {
-      "name": "Onboarding",
-      "icon": "portal-enter",
-      "url": "/e4aad621-d5f5-4803-8a67-8eea4ce3689f"
+    "name": "Onboarding",
+    "icon": "portal-enter",
+    "url": "/e4aad621-d5f5-4803-8a67-8eea4ce3689f",
+    "children": null
   },
   {
-      "name": "Updates",
-      "icon": "edit",
-      "url": "/d00fa5f4-530f-4e9a-addc-c4b28132497c"
+    "name": "Updates",
+    "icon": "edit",
+    "url": "/d00fa5f4-530f-4e9a-addc-c4b28132497c",
+    "children": null
   },
   {
-      "name": "Publish",
-      "icon": "github",
-      "url": "/d0f2d7ed-2b31-4ee7-b66b-f905b3ae8fe1"
+    "name": "Publish",
+    "icon": "github",
+    "url": "/d0f2d7ed-2b31-4ee7-b66b-f905b3ae8fe1",
+    "children": null
   }
 ]

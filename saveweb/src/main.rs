@@ -1,10 +1,10 @@
 use clap::Parser;
 use powershell_script::PsScriptBuilder;
 use regex::Regex;
-use std::{fs, path::Path};
-use std::path::PathBuf;
 use std::collections::HashMap;
 use std::env;
+use std::path::PathBuf;
+use std::{fs, path::Path};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -48,7 +48,17 @@ fn main() {
             let version = get_current_version();
             println!("Version:{:?}", version);
             if let Some(version) = version {
-                run_ma("git", &["tag", "-a", &format!("v{}", version), "-m", &format!("\"Release v{}\"", version)], None);
+                run_ma(
+                    "git",
+                    &[
+                        "tag",
+                        "-a",
+                        &format!("v{}", version),
+                        "-m",
+                        &format!("\"Release v{}\"", version),
+                    ],
+                    None,
+                );
                 run_ma("git", &["push", "origin", "main", "--tags"], None);
             }
         }
@@ -99,11 +109,19 @@ fn increment_patch_version() {
     run_powershell_file_if_exists("./IncrementVersion.ps1", "Increment Version");
 }
 
-fn increment_major_version(flag:&str) {
+fn increment_major_version(flag: &str) {
     if let Some(file_path) = get_path("./PowerShell/IncrementVersion.ps1") {
-        run_ma("pwsh", &[file_path.as_os_str().to_str().unwrap(), flag], None);
+        run_ma(
+            "pwsh",
+            &[file_path.as_os_str().to_str().unwrap(), flag],
+            None,
+        );
     } else if let Some(file_path) = get_path("./IncrementVersion.ps1") {
-        run_ma("pwsh", &[file_path.as_os_str().to_str().unwrap(), flag], None);
+        run_ma(
+            "pwsh",
+            &[file_path.as_os_str().to_str().unwrap(), flag],
+            None,
+        );
     }
 }
 
@@ -200,12 +218,12 @@ fn get_current_version() -> Option<String> {
             for (_file, version) in cargo_versions {
                 match version {
                     Some(v) => return Some(v),
-                    None => return None
+                    None => return None,
                 }
             }
             find_readme_version()
-        },
-        Err(_) => find_readme_version()
+        }
+        Err(_) => find_readme_version(),
     }
 }
 
@@ -227,7 +245,13 @@ fn find_readme_version_in_file(path: &str) -> Option<String> {
         for line in readme_content.lines() {
             let trimmed_line = line.trim();
             if trimmed_line.starts_with("[Version: ") {
-                let version = trimmed_line.split("[Version: ").nth(1).unwrap().split(']').nth(0).unwrap();
+                let version = trimmed_line
+                    .split("[Version: ")
+                    .nth(1)
+                    .unwrap()
+                    .split(']')
+                    .nth(0)
+                    .unwrap();
                 return Some(version.to_string());
             }
         }
