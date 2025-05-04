@@ -22,13 +22,3 @@ pub fn parse_uuid(value: &str) -> Result<Uuid, WebUIError> {
         Err(_) => Err(WebUIError::Invalid(String::from("Invalid UUID"))),
     }
 }
-
-pub fn to_base64(value: &str) -> Option<String> {
-    let base64 = run_method("btoa", &JsValue::from(value));
-    base64.as_string()
-}
-
-pub fn from_base64(value: &str) -> Option<String> {
-    let result = run_method("atob", &JsValue::from(value));
-    result.as_string()
-}

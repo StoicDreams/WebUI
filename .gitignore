@@ -4,6 +4,7 @@
 # Ignore Build Folders
 target
 dist
+pkg
 
 # Ignore Legacy Files
 .legacy

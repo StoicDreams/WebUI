@@ -1,6 +1,6 @@
 # Web UI Workspace - Stoic Dreams
 
-[WebUI Version: 0.10.11](https://github.com/StoicDreams/WebUI)
+[WebUI Version: 0.11.1](https://github.com/StoicDreams/WebUI)
 
 [View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
@@ -18,7 +18,7 @@ Web UI is a Vanilla JavaScript Web Component library purpose of simplifying and 
 
 The Web UI Rust Crate (WebUI) is also being designed to allow running a Rust language WebAssembly companion that allows communication between your Rust services running in the browser and your JavaScript code and/or Web UI app services.
 
-> It is important to note that the purpose of WebUI is to have a separation between Rust code and UI logic. It is our oppinion that Rust code should not be managing or building UI (i.e. HTML), but instead should be relegated to performing process intensive or long running tasks.
+> It is important to note that the purpose of WebUI is to have a separation between Rust code and UI logic. It is our opinion that Rust code should not be managing or building UI (i.e. HTML), but instead should be relegated to performing process intensive or long running tasks in a worker thread.
 
 Web UI is very early in development and is subject to breaking changes at any time while we are in this experimental stage of development.
 
@@ -28,10 +28,15 @@ Web UI is very early in development and is subject to breaking changes at any ti
 - Define and Adhere to Web UI standards.
 - Provide robust component systems for handling common display types, user input and interactions, and data processing.
 
+## Current Features
+
+- Setup boilerplate files for new website project.
+  - Install WebUI and run `webui` in the root of your website project.
+- Rust code is compiled to wasm and run in Worker thread.
+  - Rust methods accessible from JavaScript by calling `let result = await webui.worker.send('nameOfMethod', arg1, arg2, etc);`;
+
 ## Planned Features and Updates (Not currently implemented)
 
-- Setup Rust wasm to run in Web-Worker.
-- Implement boilerplate for interacting between Rust and JavaScript into WebUI.
 - Implement local Web UI web-component files (JavaScript/CSS/HTML) into WebUI.
   - Developers will be able to choose between using a specific version/state of the Web UI files that are stored locally or use the live version on [cdn.myfi.ws](https://cdn.myfi.ws).
 

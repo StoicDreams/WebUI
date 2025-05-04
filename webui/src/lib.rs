@@ -26,22 +26,3 @@ pub mod macros;
 pub mod interop;
 
 pub use prelude::*;
-
-/// Initializer to run in app main() to start application/website
-///
-/// example
-/// ```rust,ignore
-/// use webui::prelude::*;
-///
-/// fn main() {
-///     // TODO: Add startup code
-/// }
-/// ```
-pub fn start_app() {}
-
-pub const VERSION: &str = "0.10.11";
-#[cfg(feature = "tauri")]
-pub const IS_TAURI_APP: bool = true;
-
-#[cfg(not(feature = "tauri"))]
-pub const IS_TAURI_APP: bool = false;

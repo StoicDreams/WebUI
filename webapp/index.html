@@ -31,6 +31,13 @@
     <link data-trunk href="cards" rel="copy-dir" data-target-path="cards" />
     <link data-trunk href="d" rel="copy-dir" data-target-path="d" />
     <link data-trunk href="wc" rel="copy-dir" data-target-path="wc" />
+    <link data-trunk href="pkg" rel="copy-dir" data-target-path="/" />
+
+    <!--Web Worker-->
+    <script data-trunk type="module" src="src-js/main.js"></script>
+    <!-- <script data-trunk type="module" src="src-js/worker.js"></script> -->
+    <link data-trunk href="src-js/worker.js" rel="copy-file" data-target-path="/" />
+    <!--End Web Worker-->
 
     <meta name="theme-color" content="#FF2E46" />
     <meta name="author" content="Erik Gassler">
@@ -78,19 +85,6 @@
             <webui-stoic-social-links class="mb-2"></webui-stoic-social-links>
         </webui-page-footer>
     </webui-app>
-
-    <!-- <script src="https://cdn.myfi.ws/highlight/highlight.min.js" async></script>
-    <script type="text/javascript">
-        (function checkHighlighting() {
-            if (window.hljs) {
-                document.querySelectorAll('pre code:not([data-highlighted])').forEach((el) => {
-                    window.hljs.highlightElement(el);
-                    el.dataset.highlighted = true;
-                });
-            }
-            setTimeout(checkHighlighting, 100);
-        })();
-    </script> -->
 </body>
 
 </html>

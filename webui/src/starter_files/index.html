@@ -20,6 +20,11 @@
     <link data-trunk href="d" rel="copy-dir" data-target-path="d" />
     <link data-trunk href="wc" rel="copy-dir" data-target-path="wc" />
 
+    <!--Web Worker-->
+    <script data-trunk type="module" src="src-js/main.js"></script>
+    <link data-trunk href="src-js/worker.js" rel="copy-file" data-target-path="/" />
+    <!--End Web Worker-->
+
     <meta name="theme-color" content="#FF2E46" />
     <!--Other useful meta tags
         <meta name="author" content="">
@@ -39,6 +44,7 @@
 </head>
 
 <body>
+    <webui-app-config src="appConfig.json"></webui-app-config>
     <webui-data data-app-name="App Name" data-company-possessive="Company's" data-company-singular="Stoic Dreams">
         <template slot="html" name="app-not-found">
             <webui-flex grow></webui-flex>
@@ -83,19 +89,6 @@
             <webui-stoic-social-links class="mb-2"></webui-stoic-social-links>
         </webui-page-footer>
     </webui-app>
-
-    <script src="https://cdn.myfi.ws/highlight/highlight.min.js" async></script>
-    <script type="text/javascript">
-        (function checkHighlighting() {
-            if (window.hljs) {
-                document.querySelectorAll('pre code:not([data-hl])').forEach((el) => {
-                    el.setAttribute('data-hl', true);
-                    window.hljs.highlightElement(el);
-                });
-            }
-            setTimeout(checkHighlighting, 100);
-        })();
-    </script>
 </body>
 
 </html>
