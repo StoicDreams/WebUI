@@ -1,11 +1,13 @@
-"use strict";
+import wasmInit, * as procs from '/webapp.js';
+const AsyncFunction = (async () => { }).constructor;
 
-onmessage = async (msg) => {
+// Listen for messages from the main thread
+self.onmessage = async (msg) => {
     if (!msg.isTrusted) return;
-    let data = JSON.parse(msg.data);
-    let result = await processMessage(data.run, data.data);
-    let response = { id: data.id, message: result };
-    postMessage(JSON.stringify(response));
+    const { id, run, data } = msg.data;
+    let result = await processMessage(run, data);
+    let response = { id: id, message: result };
+    postMessage(response);
 };
 
 async function processMessage(run, data) {
@@ -13,7 +15,11 @@ async function processMessage(run, data) {
     let proc = procs[run];
     if (typeof proc === 'function') {
         try {
-            return { ok: true, msg: await proc(data) };
+            if (proc.constructor == AsyncFunction) {
+                return { ok: true, msg: await proc(...data) };
+            } else {
+                return { ok: true, msg: proc(...data) };
+            }
         } catch (ex) {
             console.error('worker proc failed', ex);
             return { ok: false, msg: ex };
@@ -21,5 +27,9 @@ async function processMessage(run, data) {
     }
 }
 
-const procs = {
+// Optional: Handle errors originating from the worker itself
+self.onerror = (error) => {
+    console.error("Unhandled error in worker:", error);
 };
+
+wasmInit();

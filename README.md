@@ -1,6 +1,6 @@
 # Web UI Workspace - Stoic Dreams
 
-[WebUI Version: 0.11.1](https://github.com/StoicDreams/WebUI)
+[WebUI Version: 0.11.2](https://github.com/StoicDreams/WebUI)
 
 [View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
