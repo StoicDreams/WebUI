@@ -15,11 +15,15 @@ Source code for all Web UI web components can be found in our [MyFiCDN Repo on G
 </webui-sideimage>
 
 <webui-quote theme="info">
+
 <strong>Special Announcement!</strong> We have started develolping our own custom icons. Check out our [Web UI Icons Page](/icons) to see what we have so far.
+
 </webui-quote>
 
 <webui-quote theme="warning">
+
 Help [Sponsor Stoic Dreams](https://github.com/sponsors/StoicDreams) if you like what we do and would like to help support us so we can transition to working on Web UI, Web UI Icons, and our other software development tools full time.
+
 </webui-quote>
 
 <webui-sideimage reverse src="https://cdn.myfi.ws/v/Vecteezy/online-big-data-courses-illustration-exclusive-design.svg">

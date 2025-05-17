@@ -33,3 +33,7 @@ self.onerror = (error) => {
 };
 
 wasmInit();
+
+setTimeout(()=>{
+    postMessage('ready');
+},10);
