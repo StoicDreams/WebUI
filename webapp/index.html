@@ -75,7 +75,11 @@
                 <p>You can also come <a href="https://discord.com/channels/972856291909332993/1025781071608037466">chat with us on the Stoic Dreams discord server.</a></p>
             </webui-feedback>
             <webui-alerts title="View your notifications" data-title="My Alerts" data-toggleclass=".shared|open"></webui-alerts>
-            <webui-myfi-info></webui-myfi-info>
+            <webui-myfi-info>
+                <template slot="panel-content">
+                    <webui-alert show variant="info">Example Account Panel</webui-alert>
+                </template>
+            </webui-myfi-info>
         </header>
         <noscript>Javascript is required to view this site</noscript>
         <webui-page-footer copyright="2022" company="Stoic Dreams">

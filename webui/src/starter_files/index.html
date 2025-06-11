@@ -81,7 +81,11 @@
             <webui-flex grow></webui-flex>
             <webui-feedback title="Provide us your feedback" data-post="https://api.myfi.ws/feedback/new" data-json-name="message">Your custom message here! </webui-feedback>
             <webui-alerts title="View your notifications" data-title="My Alerts" data-toggleclass=".shared|open"></webui-alerts>
-            <webui-myfi-info></webui-myfi-info>
+            <webui-myfi-info>
+                <template slot="panel-content">
+                    <webui-alert show variant="info">Example Account Panel</webui-alert>
+                </template>
+            </webui-myfi-info>
         </header>
         <noscript>Javascript is required to view this site</noscript>
         <webui-page-footer copyright="2024" company="Your Company">
