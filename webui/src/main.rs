@@ -13,7 +13,7 @@ static WEBWORKERMAIN: &str = include_str!("starter_files/main.js");
 static WEBWORKERLIB: &str = include_str!("starter_files/worker.js");
 
 fn main() {
-    starter_files::add_file_if_missing("appConfig.json", APPCONFIG);
+    starter_files::add_file_if_missing("root_files/appConfig.json", APPCONFIG);
     starter_files::add_file_if_missing("index.html", INDEX);
     starter_files::add_file_if_missing("root_files/app.webmanifest", MANIFEST);
     starter_files::add_file_if_missing("root_files/Logo.svg", LOGO);
