@@ -42,5 +42,5 @@ jobs:
         WEB_DEPLOY_API: ${{ secrets.WEB_DEPLOY_API }}
         WEB_DEPLOY_TOKEN: ${{ secrets.WEB_DEPLOY_TOKEN }}
       run: |
-        curl -X ${WEB_DEPLOY_METHOD} "${WEB_DEPLOY_API}webui" -H "Accept: */*" -H '${WEB_DEPLOY_TOKEN}'
+        curl --fail-with-body -X ${WEB_DEPLOY_METHOD} "${WEB_DEPLOY_API}webui" -H "Accept: */*" -H "${WEB_DEPLOY_TOKEN}"
 
