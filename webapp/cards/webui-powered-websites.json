@@ -30,13 +30,13 @@
         "body": "Company website for Gassler Design. An interior decorating company that specializes in 3d renderings."
     },
     {
-        "name": "MyFi Services",
+        "name": "My Fidelity Services",
         "avatar": "https://www.myfi.ws/Logo.svg",
         "link": "https://www.myfi.ws",
         "body": "Documentation and services portal for API and content delivery services provide by Stoic Dreams."
     },
     {
-        "name": "MyFi CDN",
+        "name": "My Fidelity CDN",
         "avatar": "https://cdn.myfi.ws/Logo.svg",
         "link": "https://cdn.myfi.ws",
         "body": "Host for static content delivery - including all Web UI web component files, website developed using pure HTML, CSS, and JavaScript, and development stage for new Web UI components."
