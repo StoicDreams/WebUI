@@ -10,7 +10,7 @@ We chose to use Vanilla JavaScript as we find developing with JavaScript to be f
 
 That said, Web UI is not intended to be any kind of one-size-fits-all library. It is a very opinionated library. It is expected that if a web component does not work how you think it should, then you can copy the component to your own library and modify it there to your hearts content.
 
-Source code for all Web UI web components can be found in our [MyFiCDN Repo on GitHub](https://github.com/StoicDreams/MyFiCDN/tree/main/cdn/webui).
+Source code for all Web UI web components can be found in our [My Fidelity CDN Repo on GitHub](https://github.com/StoicDreams/MyFiCDN/tree/main/cdn/webui).
 
 </webui-sideimage>
 
