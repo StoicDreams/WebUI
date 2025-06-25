@@ -1,12 +1,12 @@
 <webui-data data-page-title="Container Components" data-page-subtitle=""></webui-data>
 
-<webui-page-segment>
+<webui-page-segment elevation="10">
     Web UI Container components are components that are expected to contain child components and/or other content passed through attributes.
 </webui-page-segment>
 
 ### page-segment-standard
 
-<webui-page-segment>
+<webui-page-segment elevation="10">
     Use this component for standard page section padding.
 </webui-page-segment>
 
@@ -31,7 +31,7 @@
 
 ### webui-cards
 
-<webui-page-segment>
+<webui-page-segment elevation="10">
     Use this component for card elements.
 </webui-page-segment>
 
@@ -92,7 +92,7 @@
 
 ### side-by-side
 
-<webui-page-segment>
+<webui-page-segment elevation="10">
     Use this class for a 2 column container.
 </webui-page-segment>
 
