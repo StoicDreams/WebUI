@@ -21,7 +21,7 @@
 ## Goals
 
 - Minimize boilerplate code when starting new website projects.
-- Adhere to Material UI standards.
+- Adhere to consistent UI standards.
 - Provide robust component systems for handling common display types, user input and interactions, and data processing.
 
 Development is just getting started, so we do not recommend using at this point for anything more than experimenting.
