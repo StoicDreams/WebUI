@@ -24,12 +24,6 @@
         "body": "Additional documentation for Continuous Agile Software Engineering methodologies and related practices."
     },
     {
-        "name": "Gassler Design",
-        "avatar": "https://www.gassler.design/Logo.svg",
-        "link": "https://www.gassler.design",
-        "body": "Company website for Gassler Design. An interior decorating company that specializes in 3d renderings."
-    },
-    {
         "name": "My Fidelity Services",
         "avatar": "https://www.myfi.ws/Logo.svg",
         "link": "https://www.myfi.ws",
@@ -40,5 +34,29 @@
         "avatar": "https://cdn.myfi.ws/Logo.svg",
         "link": "https://cdn.myfi.ws",
         "body": "Host for static content delivery - including all Web UI web component files, website developed using pure HTML, CSS, and JavaScript, and development stage for new Web UI components."
+    },
+    {
+        "name": "Gassler Design",
+        "avatar": "https://www.gassler.design/Logo.svg",
+        "link": "https://www.gassler.design",
+        "body": "Company website for Gassler Design. An interior decorating company that specializes in 3d renderings."
+    },
+    {
+        "name": "Task Proxy",
+        "avatar": "https://www.taskproxy.com/ms-icon-310x310.png",
+        "link": "https://www.taskproxy.com",
+        "body": "Task Proxy is our desktop application that is being designed to allow developers to manage code documenation and scripts, speed up workflows, and simplify collaboration with other developers."
+    },
+    {
+        "name": "Task Story",
+        "avatar": "https://www.taskstory.com/Logo.svg",
+        "link": "https://www.taskstory.com",
+        "body": "Task Story is our Project Management tool that provides a guided workflow to organize projects with a Problem / Solution architecture."
+    },
+    {
+        "name": "Did You Hear About This Job?",
+        "avatar": "https://www.didyouhearaboutthisjob.com/Logo.svg",
+        "link": "https://www.didyouhearaboutthisjob.com",
+        "body": "Job Search resources and tips.\n\nCurrently rebuilding as part of migration to Web UI."
     }
 ]
