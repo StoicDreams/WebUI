@@ -12,10 +12,10 @@ function get_uuid() {
 	}
 }
 const cacheNamePrefix = 'offline-cache';
-const cachePostfix = location.host.startsWith('localhost') ? `_${get_uuid()}` : '_ts_2504101232';
+const cachePostfix = location.host.startsWith('localhost') ? `_${get_uuid()}` : '_ts_2507081608';
 const cacheName = `${cacheNamePrefix}${cachePostfix}`;
-const offlineAssetsInclude = [/\.wasm/, /\.html/, /\.js$/, /\.json$/, /\.css$/, /\.woff$/, /\.png$/, /\.jpe?g$/, /\.gif$/, /\.ico$/];
-const offlineAssetsExclude = [/^service-worker\.js$/];
+const cdnCacheTimestamps = new Map();
+const CACHE_REFRESH_INTERVAL = 60 * 60 * 1000;
 
 async function onInstall(event) {
 	console.info(`Service worker: Install ${cacheName}`);
@@ -24,8 +24,6 @@ async function onInstall(event) {
 
 async function onActivate(event) {
 	console.info(`Service worker: Activate ${cacheName}`);
-
-	// Delete unused caches
 	const cacheKeys = await caches.keys();
 	await Promise.all(cacheKeys
 		.filter(key => key.startsWith(cacheNamePrefix) && key !== cacheName)
@@ -33,20 +31,29 @@ async function onActivate(event) {
 }
 
 async function onFetch(event) {
-	let cachedResponse = null;
-	if (allowCache(event.request)) {
-		const cache = await caches.open(cacheName);
-		cachedResponse = await cache.match(event.request);
+	const request = event.request;
+	const url = new URL(request.url);
+	if (url.hostname === 'api.myfi.ws') {
+		return fetch(request, { cache: 'no-store' });
 	}
-
-	return cachedResponse || fetch(event.request);
-}
-
-function allowCache(request) {
-	// Only allow caching for GET requests
-	if (request.method !== 'GET') { return false; }
-	// Exclude caching for navigation requests to ensure the latest site updates are loaded asap
-	if (request.mode === 'navigate') { return false; }
-	// All other GET requests allow navigation
-	return true;
+	if (url.hostname === 'cdn.myfi.ws' && request.method === 'GET') {
+		const cache = await caches.open(cacheName);
+		const cachedResponse = await cache.match(request);
+		const now = Date.now();
+		const lastFetched = cdnCacheTimestamps.get(request.url) || 0;
+		if (cachedResponse && (now - lastFetched) < CACHE_REFRESH_INTERVAL) {
+			return cachedResponse;
+		}
+		try {
+			const freshResponse = await fetch(request);
+			if (freshResponse.ok) {
+				cache.put(request, freshResponse.clone());
+				cdnCacheTimestamps.set(request.url, now);
+			}
+			return freshResponse;
+		} catch (error) {
+			return cachedResponse || Response.error();
+		}
+	}
+	return fetch(request);
 }
