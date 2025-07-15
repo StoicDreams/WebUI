@@ -7,7 +7,7 @@
   },
   {
     "name": "Updates",
-    "icon": "edit",
+    "icon": "pencil|has-shadow:true|shade:tri",
     "url": "/d00fa5f4-530f-4e9a-addc-c4b28132497c",
     "children": null
   },
