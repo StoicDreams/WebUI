@@ -5,20 +5,170 @@
         "url": "/"
     },
     {
-        "name": "Icons",
-        "icon": "icons",
-        "url": "/icons"
+        "name": "Overview",
+        "icon": "book",
+        "url": "/overview"
+    },
+    {
+        "name": "Getting Started",
+        "icon": "rocket",
+        "url": "/getting-started"
+    },
+    {
+        "name": "Concepts",
+        "icon": "lightbulb",
+        "children": [
+            {
+                "name": "Architecture",
+                "icon": "flowchart",
+                "url": "/concepts/architecture"
+            },
+            {
+                "name": "State & Events",
+                "icon": "bolt",
+                "url": "/concepts/state-events"
+            },
+            {
+                "name": "Routing",
+                "icon": "route",
+                "url": "/concepts/routing"
+            },
+            {
+                "name": "Data & Networking",
+                "icon": "cloud-download",
+                "url": "/concepts/data-networking"
+            },
+            {
+                "name": "Styling & Theming",
+                "icon": "palette",
+                "url": "/concepts/styling"
+            },
+            {
+                "name": "Accessibility",
+                "icon": "universal-access",
+                "url": "/concepts/a11y"
+            },
+            {
+                "name": "Performance",
+                "icon": "gauge",
+                "url": "/concepts/performance"
+            }
+        ]
     },
     {
         "name": "Components",
         "icon": "toolbox",
+        "url": "/components"
+    },
+    {
+        "name": "Patterns",
+        "icon": "puzzle",
         "children": [
             {
-                "name": "Containers",
-                "icon": "box-open-full",
-                "url": "/components/containers"
+                "name": "Tabbed Docs Page",
+                "icon": "tabs",
+                "url": "/patterns/tabbed-docs"
+            },
+            {
+                "name": "Dialog Action Flows",
+                "icon": "flow",
+                "url": "/patterns/dialog-flows"
+            },
+            {
+                "name": "Auth Gates",
+                "icon": "lock",
+                "url": "/patterns/auth"
+            },
+            {
+                "name": "Error Handling",
+                "icon": "bug",
+                "url": "/patterns/error-boundaries"
             }
         ]
+    },
+    {
+        "name": "Tools",
+        "icon": "tools",
+        "children": [
+            {
+                "name": "CLI",
+                "icon": "terminal",
+                "url": "/tools/cli"
+            },
+            {
+                "name": "Rust Integration",
+                "icon": "gear",
+                "url": "/tools/rust"
+            }
+        ]
+    },
+    {
+        "name": "Deployment",
+        "icon": "rocket-launch",
+        "children": [
+            {
+                "name": "Hosting",
+                "icon": "server",
+                "url": "/deployment/hosting"
+            },
+            {
+                "name": "CDN & Versioning",
+                "icon": "boxes",
+                "url": "/deployment/cdn-versioning"
+            },
+            {
+                "name": "Environments",
+                "icon": "globe",
+                "url": "/deployment/environments"
+            }
+        ]
+    },
+    {
+        "name": "Guides",
+        "icon": "book-open",
+        "children": [
+            {
+                "name": "Tutorials",
+                "icon": "school",
+                "url": "/guides/tutorials"
+            },
+            {
+                "name": "FAQ",
+                "icon": "block-question",
+                "url": "/guides/faq"
+            },
+            {
+                "name": "Troubleshooting",
+                "icon": "wrench",
+                "url": "/guides/troubleshooting"
+            }
+        ]
+    },
+    {
+        "name": "Graphics",
+        "icon": "icons|fill",
+        "children": [
+            {
+                "name": "Icons",
+                "icon": "icons|fill|theme:primary",
+                "url": "/graphics/icons"
+            },
+            {
+                "name": "Emojis",
+                "icon": "icons|fill|theme:secondary",
+                "url": "/emojis"
+            }
+        ]
+    },
+    {
+        "name": "Changelog",
+        "icon": "history",
+        "url": "/changelog"
+    },
+    {
+        "name": "Contributing",
+        "icon": "handshake",
+        "url": "/contributing"
     },
     {
         "name": "Blogs",
@@ -38,7 +188,7 @@
             {
                 "name": "Under Construction",
                 "icon": "traffic-cone|stroke:thin|fill|shade|tri",
-                "url": "/under-construction"
+                "url": "/starter/under-construction"
             }
         ]
     }
