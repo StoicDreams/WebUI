@@ -61,6 +61,16 @@
         "url": "/components"
     },
     {
+        "name": "Functions",
+        "icon": "diamond",
+        "url": "/functions"
+    },
+    {
+        "name": "CSS Helpers",
+        "icon": "diamond",
+        "url": "/css"
+    },
+    {
         "name": "Patterns",
         "icon": "puzzle",
         "children": [
