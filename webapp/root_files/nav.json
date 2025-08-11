@@ -57,12 +57,12 @@
     },
     {
         "name": "Components",
-        "icon": "toolbox",
+        "icon": "hierarchy|has-shadow:true|rotate:270|theme:secondary",
         "url": "/components"
     },
     {
         "name": "Functions",
-        "icon": "diamond",
+        "icon": "hierarchy|has-shadow:true|rotate:270|theme:primary",
         "url": "/functions"
     },
     {
