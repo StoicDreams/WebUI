@@ -40,6 +40,6 @@ Another potential downside is that most frameworks tend to be relatively large a
 
 <webui-page-segment elevation="10">
 
-Deciding whether or not to use a website ui framework ultimately comes down to weighing the pros and cons for your particular project. If you're building something simple, chances are there's no need to use an overly complex framework. However, if you're working on something more complex, a framework could save you time and frustration in the long run.
+Deciding whether or not to use a website UI framework ultimately comes down to weighing the pros and cons for your particular project. If you're building something simple, chances are there's no need to use an overly complex framework. However, if you're working on something more complex, a framework could save you time and frustration in the long run.
 
 </webui-page-segment>
