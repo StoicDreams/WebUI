@@ -196,6 +196,11 @@
         "icon": "file-code",
         "children": [
             {
+                "name": "Website Starter",
+                "icon": "diamond",
+                "url": "/starter/website"
+            },
+            {
                 "name": "Under Construction",
                 "icon": "traffic-cone|stroke:thin|fill|shade|tri",
                 "url": "/starter/under-construction"
