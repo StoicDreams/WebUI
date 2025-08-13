@@ -14,7 +14,7 @@
 - We chose to use Vanilla JavaScript as we at Stoic Dreams find developing with pure JavaScript, HTML, and CSS to be far more productive versus any other languages or frameworks. And it doesn't hurt that this also makes it virtually seemless to integrate Web UI components into any existing website, regardless of how it's built.
 </webui-page-segment>
 
-> [warning] That said, Web UI is not intended to be any kind of one-size-fits-all library. It is a very opinionated library. It is expected that if a web component does not work how you think it should, then you can copy the component to your own library and modify it there to your hearts content.
+> [warning] That said, Web UI is not intended to be any kind of one-size-fits-all library. It is a very opinionated library. It is expected that if a web component does not work how you think it should, then you can copy the component to your own library and modify it there to fit your needs.
 </webui-sideimage>
 
 ## Quick Start
