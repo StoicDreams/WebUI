@@ -3,5 +3,17 @@ param(
 )
 
 Set-Location $PSScriptRoot
-Set-Location ../webapp;
-web_run $Port
+Set-Location ../
+
+cargo clean
+if (!(Test-Path "./target")) {
+    New-Item -ItemType Directory -Name "target"
+}
+if (!(Test-Path "./target/wasm32-unknown-unknown")) {
+    New-Item -ItemType Directory -Name "target/wasm32-unknown-unknown"
+}
+cargo update
+cargo build
+rustsave
+Clear-Host
+trunk serve --config webapp/Trunk.toml --port $Port

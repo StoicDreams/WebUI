@@ -8,11 +8,11 @@ command = "wasm-pack"
 command_arguments = [
     "build",
     "--target", "web",
-    "--out-dir", "./pkg"
+    "--out-dir", "pkg"
 ]
 
 [watch]
 # Paths to watch. The `build.target`'s parent folder is watched by default.
 watch = []
 # Paths to ignore.
-ignore = ['./pkg']
+ignore = ['pkg']

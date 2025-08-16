@@ -38,3 +38,11 @@ Web UI has a `webui` command tool that can be used to setup boilerplate code for
 ```terminal:Install Web UI CLI Tool
 cargo install webui --git https://github.com/StoicDreams/WebUI
 ```
+
+## Run Weebsite
+
+Web UI with Rust integrations are expected to be built using Rust's `trunk serve` command.
+
+```terminal:Run Website from Root
+trunk serve --config webapp/Trunk.toml --port 3210
+```
