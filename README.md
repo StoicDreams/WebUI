@@ -175,6 +175,20 @@ webuisave -c "Your commit message" --minor
 webuisave -c "Your commit message" --major
 ```
 
+## Website Development
+
+### Setup
+
+Before running this project, follow the [Web CLI Setup](https://webui.stoicdeams.com/tools/cli) guide and the [Web UI Rust Tools Setup](https://webui.stoicdreams.com/tools/rust) guide to install the necessary tools and dependencies.
+
+### Running the Project
+
+To run the project locally, you can use the following command:
+
+```terminal:Run the project from the root directory
+./PowerShell/RunLocal.ps1 -port 3210
+```
+
 ## Other Resources
 
 [Rust Docs](https://www.rust-lang.org/)
