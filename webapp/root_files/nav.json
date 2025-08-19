@@ -80,7 +80,7 @@
                 "url": "/patterns/tabbed-docs"
             },
             {
-                "name": "Dialog Action Flows",
+                "name": "Dialog Flows",
                 "icon": "flow",
                 "url": "/patterns/dialog-flows"
             },
