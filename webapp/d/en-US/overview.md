@@ -15,7 +15,7 @@ Web UI is a lightweight, Vanilla JS component framework built on Web Components 
 ### Why Web UI?
 
 <webui-page-segment elevation="10">
-Most projects only need a sharp set of **well‑behaved UI primitives** - not a 700kb framework and six build steps. After years of rebuilding the same patterns for security, performance, and reliability, we distilled them into a **reusable, opinionated** toolkit you can drop into any website or embeded webview.
+Most projects only need a sharp set of **well‑behaved UI primitives** - not a 700kb framework and six build steps. After years of rebuilding the same patterns for security, performance, and reliability, we distilled them into a **reusable, opinionated** toolkit you can drop into any website or embedded webview.
 
 **What you get**
 
