@@ -3,5 +3,9 @@
     "appCompanyPossessive": "Company's",
     "appCompanySingular": "Company",
     "appApi": "https://api.myfi.ws",
-    "rolesApi": "user/roles"
+    "rolesApi": "user/roles",
+    "dynNavRoutes": [
+        "/content",
+        "/forms"
+    ]
 }
