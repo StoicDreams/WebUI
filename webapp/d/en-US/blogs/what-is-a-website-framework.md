@@ -1,4 +1,6 @@
-<webui-data data-page-title="What is a Website UI Framework?"></webui-data>
+<webui-data data-page-title="What is a Website UI Framework?" data-page-subtitle=""></webui-data>
+
+> [Erik Gassler] Published on: June 14, 2024
 
 <webui-page-segment elevation="10">
 

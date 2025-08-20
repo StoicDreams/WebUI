@@ -185,6 +185,11 @@
         "icon": "blog",
         "children": [
             {
+                "name": "A New Approach to UI Development",
+                "icon": "diamond",
+                "url": "/blogs/new-approach-to-ui-development"
+            },
+            {
                 "name": "What is a web framework?",
                 "icon": "block-question",
                 "url": "/blogs/what-is-a-website-framework"
