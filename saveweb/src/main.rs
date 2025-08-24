@@ -1,5 +1,4 @@
 use clap::Parser;
-use powershell_script::PsScriptBuilder;
 use regex::Regex;
 use std::collections::HashMap;
 use std::env;
@@ -41,14 +40,14 @@ fn main() {
     build_sitemap();
     update_webdate_value();
     if let Some(commit) = args.commit {
-        run_ma("git", &["add", "-A"], None);
-        run_ma("git", &["commit", "-m", &format!("\"{}\"", &commit)], None);
-        run_ma("git", &["push", "-u", "origin", "main"], None);
+        run_pwsh("git", &["add", "-A"], None);
+        run_pwsh("git", &["commit", "-m", &format!("\"{}\"", &commit)], None);
+        run_pwsh("git", &["push", "-u", "origin", "main"], None);
         if !args.noversion {
             let version = get_current_version();
             println!("Version:{:?}", version);
             if let Some(version) = version {
-                run_ma(
+                run_pwsh(
                     "git",
                     &[
                         "tag",
@@ -59,7 +58,7 @@ fn main() {
                     ],
                     None,
                 );
-                run_ma("git", &["push", "origin", "main", "--tags"], None);
+                run_pwsh("git", &["push", "origin", "main", "--tags"], None);
             }
         }
     }
@@ -73,7 +72,7 @@ fn check_solution_root() {
         if !nav_file.exists() {
             panic!("Must be in solution root folder to run this command.");
         }
-        run_ma("cd", &[".."], None);
+        run_pwsh("cd", &[".."], None);
     }
 }
 
@@ -111,13 +110,13 @@ fn increment_patch_version() {
 
 fn increment_major_version(flag: &str) {
     if let Some(file_path) = get_path("./PowerShell/IncrementVersion.ps1") {
-        run_ma(
+        run_pwsh(
             "pwsh",
             &[file_path.as_os_str().to_str().unwrap(), flag],
             None,
         );
     } else if let Some(file_path) = get_path("./IncrementVersion.ps1") {
-        run_ma(
+        run_pwsh(
             "pwsh",
             &[file_path.as_os_str().to_str().unwrap(), flag],
             None,
@@ -169,20 +168,14 @@ fn update_webdate_value_for_file(file: &str) {
 }
 
 fn rc(command: &str, directory: Option<&str>) {
-    run_ma(command, &[], directory);
+    run_pwsh(command, &[], directory);
 }
 
 fn run(command: &str, commandarg: &str, directory: Option<&str>) {
-    run_ma(command, &[commandarg], directory);
+    run_pwsh(command, &[commandarg], directory);
 }
 
-fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
-    let ps = PsScriptBuilder::new()
-        .no_profile(true)
-        .non_interactive(true)
-        .hidden(false)
-        .print_commands(true)
-        .build();
+fn run_pwsh(command: &str, commandargs: &[&str], directory: Option<&str>) {
     let mut script = format!("{} {}", command, commandargs.join(" "));
     if let Some(directory) = directory {
         script = format!(
@@ -192,9 +185,18 @@ fn run_ma(command: &str, commandargs: &[&str], directory: Option<&str>) {
         );
     };
     println!("Running Command: {}", script);
-    let output = ps.run(&script).unwrap();
-    let result = output.stdout().unwrap_or_default();
-    println!("Result: {}", result);
+    let output = std::process::Command::new("pwsh")
+        .arg("-Command")
+        .arg(script)
+        .output()
+        .expect("failed to execute process");
+    if output.status.success() {
+        let stdout = String::from_utf8_lossy(&output.stdout);
+        println!("Output: {}", stdout);
+    } else {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        eprintln!("Error: {}", stderr);
+    }
 }
 
 fn delete_file_if_exists(path: &str) {
