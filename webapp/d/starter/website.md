@@ -225,7 +225,7 @@
     </webui-content>
     <webui-button align="left" hash="home-content" slot="tabs">Home Page Content</webui-button>
     <webui-content cache slot="content">
-        ```md:d/en-US/root.md
+        ```md:d/root.md
         <webui-data data-page-title="Web UI Framework" data-page-subtitle=""></webui-data>
         ## Page Section Title
         <webui-page-segment elevation="10">
