@@ -144,7 +144,7 @@
             },
             {
                 "name": "FAQ",
-                "icon": "block-question",
+                "icon": "question|has-shadow:true|backing|bordered|fill",
                 "url": "/guides/faq"
             },
             {
@@ -191,7 +191,7 @@
             },
             {
                 "name": "What is a web framework?",
-                "icon": "block-question",
+                "icon": "question|has-shadow:true|fill|backing|shape:badge|bordered",
                 "url": "/blogs/what-is-a-website-framework"
             }
         ]
