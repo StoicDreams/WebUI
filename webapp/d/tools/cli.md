@@ -36,7 +36,7 @@ For local development of the static site, you can use the following steps to set
         ```
 
         ```terminal:Install Node
-        brew install node@22
+        brew install node
         ```
 
         ```terminal:Verify versions
