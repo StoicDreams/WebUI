@@ -185,6 +185,11 @@
         "icon": "blog",
         "children": [
             {
+                "name": "Why I Decided to Create My Own UI Framework",
+                "icon": "question|has-shadow:true|theme:secondary|backing|bordered|shape:octo|fill",
+                "url": "/blogs/why-i-developed-a-new-ui-framework"
+            },
+            {
                 "name": "A New Approach to UI Development",
                 "icon": "diamond",
                 "url": "/blogs/new-approach-to-ui-development"
