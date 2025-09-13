@@ -22,7 +22,10 @@
             <script type="text/javascript">
                 navigator.serviceWorker.register('service-worker.js');
             </script>
+            <link rel="dns-prefetch" href="https://cdn.myfi.ws" />
             <link rel="dns-prefetch" href="https://api.myfi.ws" />
+            <link rel="preconnect" href="https://cdn.myfi.ws">
+            <link rel="preconnect" href="https://api.myfi.ws">
             <link href="https://cdn.myfi.ws/css/webui.min.css" rel="preload" as="style" />
             <link href="https://cdn.myfi.ws/webui/loader.min.js" rel="preload" as="script" />
             <link href="Logo.svg" rel="icon" type="image/svg+xml" sizes="any" />

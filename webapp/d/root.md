@@ -1,7 +1,7 @@
 <webui-data data-page-title="Web UI Framework" data-page-subtitle=""></webui-data>
 
 
-<webui-sideimage src="https://cdn.myfi.ws/img/webui/screenshot-code-index.webp">
+<webui-sideimage src="https://cdn.myfi.ws/img/webui/screenshot-code-index.webp" alt="Screenshot of index.html code">
 ## What is Web UI?
 
 <webui-page-segment elevation="10">
@@ -21,7 +21,7 @@ And We're not just talking about starter components that will leave you wanting 
 We will never offer a paid "PRO" version, because we believe free and open source tools should be exactly that.
 </webui-page-segment>
 
-<webui-sideimage reverse src="https://cdn.myfi.ws/img/eg/me_256.webp">
+<webui-sideimage reverse src="https://cdn.myfi.ws/img/eg/me_256.webp" alt="Photo of Erik Gassler">
 ## Greetings from the founder of Stoic Dreams and creator of Web UI!
 <webui-quote elevation="10" cite="Erik Gassler">
 I originally founded Stoic Dreams to be the branding for my software development experiments back in 2008. Since then I've developed several websites, desktop tools, and even game concepts. But relatively recently I realized the projects that I get most passionate about is developing tooling that help to improve efficiencies, productivity, and workflows for myself and fellow developers.
@@ -38,7 +38,7 @@ In the meantime you can help support Web UI through our [Stoic Dreams sponsors p
 </webui-quote>
 </webui-sideimage>
 
-<webui-sideimage src="https://cdn.myfi.ws/img/webui/screenshot-icons.webp">
+<webui-sideimage src="https://cdn.myfi.ws/img/webui/screenshot-icons.webp" alt="Screenshot of Web UI Icons">
 ## Web UI Includes Icons with Animated Transitions
 
 <webui-page-segment elevation="10">
@@ -48,7 +48,7 @@ Web UI icons are also designed to only load as needed, so your page loading is n
 </webui-page-segment>
 </webui-sideimage>
 
-<webui-sideimage reverse src="https://cdn.myfi.ws/img/webui/screenshot-methods.webp">
+<webui-sideimage reverse src="https://cdn.myfi.ws/img/webui/screenshot-methods.webp" alt="Screenshot of Web UI Methods">
 ### JavaScript Tools
 
 <webui-page-segment elevation="10">
