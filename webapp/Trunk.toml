@@ -5,14 +5,13 @@ command = "webapp_post_build"
 [[hooks]]
 stage = "pre_build"
 command = "wasm-pack"
-command_arguments = [
-    "build",
-    "--target", "web",
-    "--out-dir", "pkg"
-]
+command_arguments = ["build", "--target", "web", "--out-dir", "pkg"]
 
 [watch]
 # Paths to watch. The `build.target`'s parent folder is watched by default.
 watch = []
 # Paths to ignore.
 ignore = ['pkg']
+
+[serve]
+open = false

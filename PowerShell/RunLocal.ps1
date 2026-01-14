@@ -12,8 +12,4 @@ if (!(Test-Path "./target")) {
 if (!(Test-Path "./target/wasm32-unknown-unknown")) {
     New-Item -ItemType Directory -Name "target/wasm32-unknown-unknown"
 }
-cargo update
-cargo build
-rustsave
-Clear-Host
 trunk serve --config webapp/Trunk.toml --port $Port
