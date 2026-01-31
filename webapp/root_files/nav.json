@@ -35,7 +35,7 @@
             },
             {
                 "name": "Data & Networking",
-                "icon": "cloud-download",
+                "icon": "arrow-side-from-square|has-shadow:true|rotate:90|shape:cloud|bordered|backing|shade:duo|theme:title",
                 "url": "/concepts/data-networking"
             },
             {
