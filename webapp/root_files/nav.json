@@ -11,152 +11,152 @@
     },
     {
         "name": "Getting Started",
-        "icon": "rocket",
+        "icon": "emoji-rocket",
         "url": "/getting-started"
     },
     {
         "name": "Concepts",
-        "icon": "lightbulb",
+        "icon": "emoji-bulb",
         "children": [
             {
                 "name": "Architecture",
-                "icon": "flowchart",
+                "icon": "emoji-chart",
                 "url": "/concepts/architecture"
             },
             {
                 "name": "State & Events",
-                "icon": "bolt",
+                "icon": "emoji-nut_and_bolt",
                 "url": "/concepts/state-events"
             },
             {
                 "name": "Routing",
-                "icon": "route",
+                "icon": "emoji-world_map",
                 "url": "/concepts/routing"
             },
             {
                 "name": "Data & Networking",
-                "icon": "arrow-side-from-square|has-shadow:true|rotate:90|shape:cloud|bordered|backing|shade:duo|theme:title",
+                "icon": "arrow-side-from-square|rotate:90|shape:cloud|bordered|backing|shade:duo|theme:title",
                 "url": "/concepts/data-networking"
             },
             {
                 "name": "Styling & Theming",
-                "icon": "palette",
+                "icon": "emoji-art",
                 "url": "/concepts/styling"
             },
             {
                 "name": "Accessibility",
-                "icon": "universal-access",
+                "icon": "emoji-wheelchair",
                 "url": "/concepts/a11y"
             },
             {
                 "name": "Performance",
-                "icon": "gauge",
+                "icon": "emoji-battery",
                 "url": "/concepts/performance"
             }
         ]
     },
     {
         "name": "Components",
-        "icon": "hierarchy|has-shadow:true|rotate:270|theme:secondary",
+        "icon": "hierarchy|rotate:270|theme:secondary",
         "url": "/components"
     },
     {
         "name": "Functions",
-        "icon": "hierarchy|has-shadow:true|rotate:270|theme:primary",
+        "icon": "hierarchy|rotate:270|theme:primary",
         "url": "/functions"
     },
     {
         "name": "CSS Helpers",
-        "icon": "diamond",
+        "icon": "emoji-sparkles",
         "url": "/css"
     },
     {
         "name": "Patterns",
-        "icon": "puzzle",
+        "icon": "emoji-puzzle_piece",
         "children": [
             {
                 "name": "Tabbed Docs Page",
-                "icon": "tabs",
+                "icon": "emoji-bookmark_tabs",
                 "url": "/patterns/tabbed-docs"
             },
             {
                 "name": "Dialog Flows",
-                "icon": "flow",
+                "icon": "emoji-speech_balloon",
                 "url": "/patterns/dialog-flows"
             },
             {
                 "name": "Auth Gates",
-                "icon": "lock",
+                "icon": "emoji-lock",
                 "url": "/patterns/auth"
             },
             {
                 "name": "Error Handling",
-                "icon": "bug",
+                "icon": "emoji-bug",
                 "url": "/patterns/error-boundaries"
             }
         ]
     },
     {
         "name": "Tools",
-        "icon": "tools",
+        "icon": "emoji-hammer_and_wrench",
         "children": [
             {
                 "name": "CLI",
-                "icon": "terminal",
+                "icon": "emoji-computer",
                 "url": "/tools/cli"
             },
             {
                 "name": "Rust Integration",
-                "icon": "gear",
+                "icon": "emoji-crab",
                 "url": "/tools/rust"
             }
         ]
     },
     {
         "name": "Deployment",
-        "icon": "rocket-launch",
+        "icon": "emoji-boom",
         "children": [
             {
                 "name": "Hosting",
-                "icon": "server",
+                "icon": "emoji-building_construction",
                 "url": "/deployment/hosting"
             },
             {
                 "name": "CDN & Versioning",
-                "icon": "boxes",
+                "icon": "emoji-factory",
                 "url": "/deployment/cdn-versioning"
             },
             {
                 "name": "Environments",
-                "icon": "globe",
+                "icon": "emoji-bricks",
                 "url": "/deployment/environments"
             }
         ]
     },
     {
         "name": "Guides",
-        "icon": "book-open",
+        "icon": "emoji-books",
         "children": [
             {
                 "name": "Tutorials",
-                "icon": "school",
+                "icon": "emoji-school",
                 "url": "/guides/tutorials"
             },
             {
                 "name": "FAQ",
-                "icon": "question|has-shadow:true|backing|bordered|fill",
+                "icon": "question|fill|bordered|backing|theme:primary",
                 "url": "/guides/faq"
             },
             {
                 "name": "Troubleshooting",
-                "icon": "wrench",
+                "icon": "emoji-wrench",
                 "url": "/guides/troubleshooting"
             }
         ]
     },
     {
         "name": "Graphics",
-        "icon": "icons|fill",
+        "icon": "emoji-city_sunrise",
         "children": [
             {
                 "name": "Icons",
@@ -165,54 +165,54 @@
             },
             {
                 "name": "Emojis",
-                "icon": "icons|fill|theme:secondary",
+                "icon": "emoji-face_holding_back_tears",
                 "url": "/graphics/emojis"
             }
         ]
     },
     {
         "name": "Changelog",
-        "icon": "history",
+        "icon": "emoji-new",
         "url": "/changelog"
     },
     {
         "name": "Contributing",
-        "icon": "handshake",
+        "icon": "emoji-handshake",
         "url": "/contributing"
     },
     {
         "name": "Blogs",
-        "icon": "blog",
+        "icon": "emoji-blue_book",
         "children": [
             {
                 "name": "Why I Decided to Create My Own UI Framework",
-                "icon": "question|has-shadow:true|theme:secondary|backing|bordered|shape:octo|fill",
+                "icon": "question|theme:secondary|backing|bordered|shape:octo|fill",
                 "url": "/blogs/why-i-developed-a-new-ui-framework"
             },
             {
                 "name": "A New Approach to UI Development",
-                "icon": "diamond",
+                "icon": "emoji-new",
                 "url": "/blogs/new-approach-to-ui-development"
             },
             {
                 "name": "What is a web framework?",
-                "icon": "question|has-shadow:true|fill|backing|shape:badge|bordered",
+                "icon": "question|fill|backing|shape:badge|bordered",
                 "url": "/blogs/what-is-a-website-framework"
             }
         ]
     },
     {
         "name": "Starter Pages",
-        "icon": "file-code",
+        "icon": "emoji-beginner",
         "children": [
             {
                 "name": "Website Starter",
-                "icon": "diamond",
+                "icon": "emoji-abacus",
                 "url": "/starter/website"
             },
             {
                 "name": "Under Construction",
-                "icon": "traffic-cone|stroke:thin|fill|shade|tri",
+                "icon": "traffic-cone|fill|shade:tri|theme:warning",
                 "url": "/starter/under-construction"
             }
         ]
