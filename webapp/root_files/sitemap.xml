@@ -2,138 +2,138 @@
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://webui.stoicdreams.com/</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/overview</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/getting-started</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/concepts/architecture</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/concepts/state-events</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/concepts/routing</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/concepts/data-networking</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/concepts/styling</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/concepts/a11y</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/concepts/performance</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/components</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/functions</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/css</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/patterns/tabbed-docs</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/patterns/dialog-flows</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/patterns/auth</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/patterns/error-boundaries</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/tools/cli</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/tools/rust</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/deployment/hosting</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/deployment/cdn-versioning</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/deployment/environments</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/guides/tutorials</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/guides/faq</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/guides/troubleshooting</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/graphics/icons</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/graphics/emojis</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/changelog</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/contributing</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/blogs/why-i-developed-a-new-ui-framework</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/blogs/new-approach-to-ui-development</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/blogs/what-is-a-website-framework</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/starter/website</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
     <url>
         <loc>https://webui.stoicdreams.com/starter/under-construction</loc>
-        <lastmod>2026-01-15</lastmod>
+        <lastmod>2026-02-01</lastmod>
     </url>
 </urlset>
