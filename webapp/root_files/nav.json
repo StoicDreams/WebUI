@@ -1,7 +1,7 @@
 [
     {
         "name": "Home",
-        "icon": "home",
+        "icon": "emoji-house|theme:title|shape:circle|backing",
         "url": "/"
     },
     {
