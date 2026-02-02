@@ -6,7 +6,7 @@
     },
     {
         "name": "Overview",
-        "icon": "book",
+        "icon": "emoji-telescope",
         "url": "/overview"
     },
     {
@@ -50,7 +50,7 @@
             },
             {
                 "name": "Performance",
-                "icon": "emoji-battery",
+                "icon": "emoji-zap",
                 "url": "/concepts/performance"
             }
         ]
