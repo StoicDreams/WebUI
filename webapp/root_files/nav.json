@@ -57,12 +57,12 @@
     },
     {
         "name": "Components",
-        "icon": "hierarchy|rotate:270|theme:secondary",
+        "icon": "emoji-package",
         "url": "/components"
     },
     {
         "name": "Functions",
-        "icon": "hierarchy|rotate:270|theme:primary",
+        "icon": "emoji-gear",
         "url": "/functions"
     },
     {
