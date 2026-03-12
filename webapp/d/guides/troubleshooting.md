@@ -10,4 +10,4 @@
 
 </webui-page-segment>
 
-> Need more help? Review the [FAQ](/guides/faq) or join the [Stoic Dreams Discord](https://discord.gg/Z6WFptDyQn) community for support.
+> Need more help? Review the [FAQ](/guides/faq) or join the [Stoic Dreams Discord](https://discord.gg/5X4YSDFdHD) community for support.

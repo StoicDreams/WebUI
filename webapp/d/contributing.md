@@ -10,6 +10,6 @@ Here are some ways you can contribute:
 
 3. **Improve Documentation**: We appreciate help with improving our documentation. If you see something that could be clearer or more detailed, please submit a pull request with your changes.
 
-4. **Join the Community**: Engage with other contributors and users in our [Web UI Discord](https://discord.com/channels/972856291909332993/1025781071608037466) or chat channels. Your feedback and ideas are valuable to us!
+4. **Join the Community**: Engage with other contributors and users in our [Web UI Discord](https://discord.gg/5X4YSDFdHD) or chat channels. Your feedback and ideas are valuable to us!
 
 Thank you for considering contributing to the Web UI library. We look forward to your contributions!

@@ -140,7 +140,7 @@ We welcome issues, ideas, and improvements. See [Contributing](/contributing) fo
 ## Web UI Powered Websites
 
 <webui-page-segment elevation="10">
-Here are our featured projects currently powered by Web UI. If you are using Web UI in a project and would like it featured here, then let us know through our <a data-click="feedback">feedback</a>, on our [Web UI Discord Channel](https://discord.com/channels/972856291909332993/1409218226218467452), or send us a message at [support@stoicdreams.com](mailto:support@stoicdreams.com?subject=Feature Project).
+Here are our featured projects currently powered by Web UI. If you are using Web UI in a project and would like it featured here, then let us know through our <a data-click="feedback">feedback</a>, on our [Web UI Discord Channel](https://discord.gg/5X4YSDFdHD), or send us a message at [support@stoicdreams.com](mailto:support@stoicdreams.com?subject=Feature Project).
 </webui-page-segment>
 
 <webui-cards card-width="500" elevation="n10" src="/cards/webui-powered-websites.json" theme="tertiary"></webui-cards>

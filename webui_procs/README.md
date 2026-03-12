@@ -10,7 +10,7 @@
 
 [View on GitHub - github.com/StoicDreams/WebUI](https://github.com/StoicDreams/WebUI)
 
-[Stoic Dreams Discord](https://discord.gg/Z6WFptDyQn)
+[Stoic Dreams Discord](https://discord.gg/5X4YSDFdHD)
 
 ## About
 
