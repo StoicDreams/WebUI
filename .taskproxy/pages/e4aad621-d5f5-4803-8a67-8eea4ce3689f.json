@@ -75,7 +75,7 @@
       "Id": "4c331e5f-c114-4832-85b9-9e24e23d24e7",
       "ContentType": 3,
       "Name": "Install Trunk",
-      "Content": "{\"PowerShell\":\"cargo install trunk\"}",
+      "Content": "{\"PowerShell\":\"cargo install trunk --locked\"}",
       "OutputVariable": {
         "Name": "output"
       },

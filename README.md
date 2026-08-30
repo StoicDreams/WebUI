@@ -87,7 +87,7 @@ cargo clippy
 Install [Trunk](https://trunkrs.dev/) executable - this will be used to run your website locally for testing in your browser.
 
 ```bash
-cargo install trunk
+cargo install trunk --locked
 ```
 
 Add waxm build target
