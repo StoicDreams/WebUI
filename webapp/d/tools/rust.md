@@ -16,7 +16,7 @@ cargo --version # Should print the version of Cargo.
 > You will also need to install the Cargo crate `trunk` for building and serving your Web UI applications.
 
 ```terminal:Install Trunk
-cargo install trunk
+cargo install trunk --locked
 ```
 
 > You will also need to install the `wasm-pack` tool, which is used for building Rust-generated WebAssembly packages.

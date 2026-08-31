@@ -45,7 +45,7 @@ rustup update
 Install [Trunk](https://trunkrs.dev/) executable - this will be used to run your website locally for testing in your browser.
 
 ```bash
-cargo install trunk wasm-bindgen-cli
+cargo install trunk wasm-bindgen-cli --locked
 ```
 
 Add waxm build target

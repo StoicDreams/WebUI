@@ -17,15 +17,16 @@ jobs:
       run: |
         rustup update
         rustup target add wasm32-unknown-unknown
-    - name: Install Crates
-      run: |
-        cargo install wasm-pack
+    - name: Cache Rust Dependencies
+      uses: Swatinem/rust-cache@v2
     - name: Build
       run: cargo build
     - name: Run Tests
       run: cargo test
     - name: Install Trunk
-      run: cargo install trunk
+      uses: taiki-e/install-action@v2
+      with:
+        tool: trunk, wasm-pack
     - name: Install Post Build
       run: cargo install webapp_post_build --git https://github.com/StoicDreams/WebUI
     - name: Build Web App
@@ -45,4 +46,3 @@ jobs:
         WEB_DEPLOY_TOKEN: ${{ secrets.WEB_DEPLOY_TOKEN }}
       run: |
         curl --fail-with-body -X ${WEB_DEPLOY_METHOD} "${WEB_DEPLOY_API}webui" -H "Accept: */*" -H "${WEB_DEPLOY_TOKEN}"
-
