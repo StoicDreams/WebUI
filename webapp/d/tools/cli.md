@@ -9,14 +9,8 @@ For local development of the static site, you can use the following steps to set
 <webui-tabs pad="var(--padding)" transition-timing="200" data-subscribe="session-home-tab-index:setTab">
     <webui-button align="left" hash="welcome" slot="tabs">Windows</webui-button>
     <webui-content slot="content">
-        ```terminal:Download and install Chocolatey
-        powershell -c "irm https://community.chocolatey.org/install.ps1|iex"
-        ```
-
-        > Restart terminal
-
         ```terminal:Download and install Node.js:
-        choco install nodejs --version="22.18.0"
+        winget install OpenJS.NodeJS.LTS
         ```
 
         > Restart terminal
