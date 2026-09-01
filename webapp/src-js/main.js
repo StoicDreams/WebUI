@@ -14,9 +14,9 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     const workerObject = new Object()
     const workerProxy = new Proxy(workerObject, {
-        get(_,name) {
-            let func = webui.toSnake(name).replace(/-/g,'_');
-            return function(...args) {
+        get(_, name) {
+            let func = webui.toSnake(name).replace(/-/g, '_');
+            return function (...args) {
                 let msg = { id: webui.uuid(), run: func, data: args };
                 return new Promise(async (resolve, reject) => {
                     myWorker.postMessage(msg);
