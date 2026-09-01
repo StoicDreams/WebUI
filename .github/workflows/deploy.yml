@@ -3,7 +3,7 @@ name: Deploy Web UI
 on:
   push:
     branches:
-    - main
+      - main
 
 env:
   CARGO_TERM_COLOR: always
@@ -12,37 +12,60 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Set Target
-      run: |
-        rustup update
-        rustup target add wasm32-unknown-unknown
-    - name: Cache Rust Dependencies
-      uses: Swatinem/rust-cache@v2
-    - name: Build
-      run: cargo build
-    - name: Run Tests
-      run: cargo test
-    - name: Install Trunk
-      uses: taiki-e/install-action@v2
-      with:
-        tool: trunk, wasm-pack
-    - name: Install Post Build
-      run: cargo install webapp_post_build --git https://github.com/StoicDreams/WebUI
-    - name: Build Web App
-      run: |
-        # Change directory to project folder
-        cd webapp
-        # Build
-        trunk build --release
+      - uses: actions/checkout@v3
+      - name: Set Target
+        run: |
+          rustup update
+          rustup target add wasm32-unknown-unknown
+      - name: Cache Rust Dependencies
+        uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build
+      - name: Run Tests
+        run: cargo test
+      - name: Install Trunk
+        uses: taiki-e/install-action@v2
+        with:
+          tool: trunk, wasm-pack
+      - name: Install Post Build
+        run: cargo install webapp_post_build --git https://github.com/StoicDreams/WebUI
+      - name: Build Web App
+        run: |
+          # Change directory to project folder
+          cd webapp
+          # Build
+          trunk build --release
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-test
     steps:
-    - name: run deployment
-      env:
-        WEB_DEPLOY_METHOD: ${{ secrets.WEB_DEPLOY_METHOD }}
-        WEB_DEPLOY_API: ${{ secrets.WEB_DEPLOY_API }}
-        WEB_DEPLOY_TOKEN: ${{ secrets.WEB_DEPLOY_TOKEN }}
-      run: |
-        curl --fail-with-body -X ${WEB_DEPLOY_METHOD} "${WEB_DEPLOY_API}webui" -H "Accept: */*" -H "${WEB_DEPLOY_TOKEN}"
+      - name: run deployment
+        env:
+          WEB_DEPLOY_METHOD: ${{ secrets.WEB_DEPLOY_METHOD }}
+          WEB_DEPLOY_API: ${{ secrets.WEB_DEPLOY_API }}
+          WEB_DEPLOY_TOKEN: ${{ secrets.WEB_DEPLOY_TOKEN }}
+        run: |
+          MAX_RETRIES=3
+          MIN_WAIT=60  # Minimum wait in seconds (1 minute)
+          MAX_WAIT=180 # Maximum wait in seconds (3 minutes)
+
+          for ((i=1; i<=MAX_RETRIES; i++)); do
+            echo "Deployment attempt $i of $MAX_RETRIES for GuidedPiano..."
+
+            # Run the curl command. If it succeeds, break out of the loop.
+            if curl --fail-with-body -X ${WEB_DEPLOY_METHOD} "${WEB_DEPLOY_API}guidedpiano" -H "Accept: */*" -H "${WEB_DEPLOY_TOKEN}"; then
+              echo -e "\nDeployment successful!"
+              exit 0
+            fi
+
+            # If it fails, check if we have attempts left
+            if [ $i -lt $MAX_RETRIES ]; then
+              # Calculate random sleep time in seconds
+              WAIT_TIME=$((RANDOM % (MAX_WAIT - MIN_WAIT + 1) + MIN_WAIT))
+              echo -e "\nDeployment failed. Retrying in $WAIT_TIME seconds..."
+              sleep $WAIT_TIME
+            else
+              echo -e "\nAll $MAX_RETRIES attempts failed."
+              exit 1
+            fi
+          done
