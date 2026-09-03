@@ -50,10 +50,10 @@ jobs:
           MAX_WAIT=180 # Maximum wait in seconds (3 minutes)
 
           for ((i=1; i<=MAX_RETRIES; i++)); do
-            echo "Deployment attempt $i of $MAX_RETRIES for GuidedPiano..."
+            echo "Deployment attempt $i of $MAX_RETRIES for WebUI..."
 
             # Run the curl command. If it succeeds, break out of the loop.
-            if curl --fail-with-body -X ${WEB_DEPLOY_METHOD} "${WEB_DEPLOY_API}guidedpiano" -H "Accept: */*" -H "${WEB_DEPLOY_TOKEN}"; then
+            if curl --fail-with-body -X ${WEB_DEPLOY_METHOD} "${WEB_DEPLOY_API}webui" -H "Accept: */*" -H "${WEB_DEPLOY_TOKEN}"; then
               echo -e "\nDeployment successful!"
               exit 0
             fi
