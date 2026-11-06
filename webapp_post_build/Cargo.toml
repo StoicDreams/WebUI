@@ -5,3 +5,6 @@ edition = "2024"
 
 [dependencies]
 clap = { version = "4.0", features = ["derive"] }
+pulldown-cmark = { version = "0.13", default-features = false, features = ["html"] }
+regex = "1"
+serde_json = "1"
