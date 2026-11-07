@@ -33,6 +33,13 @@ Web UI has a post-build tool that helps with integrating Rust projects into Web 
 cargo install webapp_post_build --git https://github.com/StoicDreams/WebUI
 ```
 
+Trunk runs it after each build, as the `post_build` hook in `Trunk.toml`. It:
+
+- Copies `root_files` to the site root.
+- Removes the copy of the site's WebAssembly that Trunk starts on the main thread of every page. Web UI runs the site's Rust in a web worker (`webui.worker`), which loads its own copy only when a page needs it. If any script uses `window.wasmBindings` or `TrunkApplicationStarted`, the main thread copy is kept.
+- Writes a static HTML file for each page in `d/`, with its title, description, and text, for search engines and link previews.
+- Adds preload hints to each of those pages for the components it uses, including everything the site's own `app-*` components use, so they load alongside the framework instead of one level at a time.
+
 Web UI has a `webui` command tool that can be used to setup boilerplate code for a new or existing Web UI Rust project.
 
 ```terminal:Install Web UI CLI Tool

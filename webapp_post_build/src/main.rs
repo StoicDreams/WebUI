@@ -2,6 +2,8 @@ use clap::Parser;
 use std::fs;
 use std::path::Path;
 
+mod main_wasm;
+mod preload;
 mod prerender;
 
 #[derive(Parser, Debug)]
@@ -16,6 +18,8 @@ fn main() {
     copy_root_files_to_dist();
     // Trunk tells hooks where the staged build is. Older Trunk versions do not, so fall back to its default.
     let stage = std::env::var("TRUNK_STAGING_DIR").unwrap_or_else(|_| "dist/.stage".to_string());
+    // Before prerendering, so the prerendered pages are copies of the cleaned index.html.
+    main_wasm::run(Path::new(&stage));
     prerender::run(Path::new(&stage));
     println!("Finished Web UI Post Build Successfully!");
 }

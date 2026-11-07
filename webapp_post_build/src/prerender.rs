@@ -114,7 +114,9 @@ pub fn run(stage: &Path) -> usize {
             );
             continue;
         }
-        let html = render_page(&index, &page, &origin);
+        // Hints for the components this page and the site's shell use, so they load alongside the framework.
+        let links = crate::preload::preload_links(&stage.join("wc"), &[&index, &markdown]);
+        let html = crate::preload::add_to_head(&render_page(&index, &page, &origin), &links);
         if let Some(parent) = target.parent() {
             let _ = fs::create_dir_all(parent);
         }
