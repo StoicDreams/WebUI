@@ -83,9 +83,9 @@
                     <webui-line></webui-line>
                     <webui-next-page theme="tertiary" data-subscribe="page-next-page"></webui-next-page>
                     <webui-flex class="my-3" justify="center" wrap>
-                        <webui-link href="/about" icon="exclamation|shape:circle|backing|bordered">About {APP_NAME}</webui-link>
+                        <webui-link href="/about" icon="circle_exclamation|backing|bordered">About {APP_NAME}</webui-link>
                         <webui-link href="/contact" icon="messages|fill|shade:tri">Contact {COMPANY_SINGULAR}</webui-link>
-                        <webui-link href="/privacy" icon="exclamation|shape:shield|backing|bordered">Privacy</webui-link>
+                        <webui-link href="/privacy" icon="shield_exclamation|backing|bordered">Privacy</webui-link>
                         <webui-link href="/terms" icon="handshake|fill|shade|tri">Terms & Conditions</webui-link>
                     </webui-flex>
                     <webui-stoic-social-links class="mb-2"></webui-stoic-social-links>
