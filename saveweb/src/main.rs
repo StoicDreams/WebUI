@@ -215,57 +215,36 @@ fn delete_file_if_exists(path: &str) {
 }
 
 fn get_current_version() -> Option<String> {
-    match find_cargo_versions() {
-        Ok(cargo_versions) => {
-            for (_file, version) in cargo_versions {
-                match version {
-                    Some(v) => return Some(v),
-                    None => return None,
-                }
-            }
-            find_readme_version()
-        }
-        Err(_) => find_readme_version(),
-    }
+    let root = env::current_dir().ok()?;
+    current_version_in(&root)
 }
 
-fn find_readme_version() -> Option<String> {
-    if let Some(version) = find_readme_version_in_file("README.md") {
-        return Some(version);
-    }
-    if let Some(version) = find_readme_version_in_file("Docs/README.md") {
-        return Some(version);
-    }
-    None
-}
-
-fn find_readme_version_in_file(path: &str) -> Option<String> {
-    let current_dir = env::current_dir().unwrap();
-    let readme_path = current_dir.join(path);
-    if readme_path.exists() {
-        let readme_content = fs::read_to_string(readme_path).unwrap();
-        for line in readme_content.lines() {
-            let trimmed_line = line.trim();
-            if trimmed_line.starts_with("[Version: ") {
-                let version = trimmed_line
-                    .split("[Version: ")
-                    .nth(1)
-                    .unwrap()
-                    .split(']')
-                    .nth(0)
-                    .unwrap();
-                return Some(version.to_string());
-            }
-        }
-    }
-    None
-}
-
-fn find_cargo_versions() -> std::io::Result<HashMap<PathBuf, Option<String>>> {
-    let current_dir = env::current_dir()?;
+/// The version from the first Cargo.toml with a package version, in path order so the result is
+/// the same every run, or else from the README.
+fn current_version_in(root: &Path) -> Option<String> {
     let mut versions = HashMap::new();
-    visit_dirs(&current_dir, &mut versions)?;
-    Ok(versions)
+    if visit_dirs(root, &mut versions).is_ok() {
+        let mut paths: Vec<&PathBuf> = versions.keys().collect();
+        paths.sort();
+        if let Some(version) = paths.into_iter().find_map(|path| versions[path].clone()) {
+            return Some(version);
+        }
+    }
+    find_readme_version_in(root)
+}
+
+fn find_readme_version_in(root: &Path) -> Option<String> {
+    ["README.md", "Docs/README.md"]
+        .iter()
+        .find_map(|path| find_readme_version_in_file(&root.join(path)))
+}
+
+fn find_readme_version_in_file(readme_path: &Path) -> Option<String> {
+    let readme_content = fs::read_to_string(readme_path).ok()?;
+    readme_content.lines().find_map(|line| {
+        let rest = line.trim().strip_prefix("[Version: ")?;
+        Some(rest.split(']').next().unwrap_or_default().to_string())
+    })
 }
 
 fn visit_dirs(dir: &Path, versions: &mut HashMap<PathBuf, Option<String>>) -> std::io::Result<()> {
@@ -274,7 +253,12 @@ fn visit_dirs(dir: &Path, versions: &mut HashMap<PathBuf, Option<String>>) -> st
             let entry = entry?;
             let path = entry.path();
             if path.is_dir() {
-                visit_dirs(&path, versions)?;
+                let skip = path.file_name().is_some_and(|name| {
+                    matches!(name.to_str(), Some("target" | "node_modules" | ".git"))
+                });
+                if !skip {
+                    visit_dirs(&path, versions)?;
+                }
             } else if path.file_name().map_or(false, |name| name == "Cargo.toml") {
                 let version = extract_version(&path);
                 versions.insert(path, version);
@@ -306,4 +290,99 @@ fn extract_version(file_path: &Path) -> Option<String> {
         }
     }
     None
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// A new empty folder, removed when the test ends.
+    struct TempDir(PathBuf);
+    impl TempDir {
+        fn new(name: &str) -> Self {
+            let dir = env::temp_dir().join(format!("saveweb-{}-{}", name, std::process::id()));
+            _ = fs::remove_dir_all(&dir);
+            fs::create_dir_all(&dir).unwrap();
+            TempDir(dir)
+        }
+        fn write(&self, path: &str, text: &str) {
+            let path = self.0.join(path);
+            fs::create_dir_all(path.parent().unwrap()).unwrap();
+            fs::write(path, text).unwrap();
+        }
+    }
+    impl Drop for TempDir {
+        fn drop(&mut self) {
+            _ = fs::remove_dir_all(&self.0);
+        }
+    }
+
+    #[test]
+    fn the_package_version_is_read_from_cargo_toml() {
+        let dir = TempDir::new("package");
+        dir.write(
+            "Cargo.toml",
+            "[package]\nname = \"x\"\nversion = \"1.2.3\" #syncwebui\n\n[dependencies]\nserde = { version = \"9.9.9\" }\n",
+        );
+        assert_eq!(
+            extract_version(&dir.0.join("Cargo.toml")).as_deref(),
+            Some("1.2.3")
+        );
+    }
+
+    #[test]
+    fn a_dependency_version_is_not_the_package_version() {
+        let dir = TempDir::new("dependency");
+        dir.write(
+            "Cargo.toml",
+            "[workspace]\nmembers = []\n\n[dependencies]\nversion = \"9.9.9\"\n",
+        );
+        assert_eq!(extract_version(&dir.0.join("Cargo.toml")), None);
+    }
+
+    #[test]
+    fn a_workspace_root_without_a_version_does_not_hide_its_members_version() {
+        let dir = TempDir::new("workspace");
+        dir.write("Cargo.toml", "[workspace]\nmembers = [\"webapp\"]\n");
+        dir.write(
+            "webapp/Cargo.toml",
+            "[package]\nname = \"webapp\"\nversion = \"0.4.2\"\n",
+        );
+        assert_eq!(current_version_in(&dir.0).as_deref(), Some("0.4.2"));
+    }
+
+    #[test]
+    fn build_and_dependency_folders_are_not_searched() {
+        let dir = TempDir::new("skip");
+        dir.write(
+            "target/package/Cargo.toml",
+            "[package]\nversion = \"0.0.1\"\n",
+        );
+        dir.write(
+            "node_modules/x/Cargo.toml",
+            "[package]\nversion = \"0.0.2\"\n",
+        );
+        dir.write(
+            "Docs/README.md",
+            "# Site\n\n[Version: 2.0.0](https://example.com)\n",
+        );
+        assert_eq!(current_version_in(&dir.0).as_deref(), Some("2.0.0"));
+    }
+
+    #[test]
+    fn the_readme_version_is_used_when_there_is_no_cargo_version() {
+        let dir = TempDir::new("readme");
+        dir.write(
+            "README.md",
+            "# CDN\n\n  [Version: 0.11.49](https://github.com/x)\n",
+        );
+        assert_eq!(current_version_in(&dir.0).as_deref(), Some("0.11.49"));
+    }
+
+    #[test]
+    fn with_no_version_anywhere_there_is_none() {
+        let dir = TempDir::new("none");
+        dir.write("README.md", "# Nothing here\n");
+        assert_eq!(current_version_in(&dir.0), None);
+    }
 }

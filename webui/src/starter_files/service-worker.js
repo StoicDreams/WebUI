@@ -33,23 +33,25 @@ async function onActivate(event) {
         .map(key => caches.delete(key)));
     await self.clients.claim();
 }
+/**
+ * Network first, so a CDN deploy reaches the app on its next load. The cache is only a fallback for when the
+ * network fails, such as when offline, or answers with an error.
+ */
 async function onFetch(event) {
-    let request = applyCacheBusting(event.request);
     const cache = await caches.open(cacheName);
-    const cachedResponse = await cache.match(event.request);
-    const networkFetchPromise = fetch(request).then(networkResponse => {
-        if (networkResponse && networkResponse.ok) {
-            cache.put(event.request, networkResponse.clone());
-        }
-        return networkResponse;
-    }).catch(error => {
-        console.error('Background fetch failed:', error);
-    });
-    if (cachedResponse) {
-        event.waitUntil(networkFetchPromise);
-        return cachedResponse;
+    let networkResponse;
+    try {
+        networkResponse = await fetch(applyCacheBusting(event.request));
+    } catch (error) {
+        const cachedResponse = await cache.match(event.request);
+        if (cachedResponse) return cachedResponse;
+        throw error;
     }
-    return networkFetchPromise;
+    if (networkResponse.ok) {
+        event.waitUntil(cache.put(event.request, networkResponse.clone()).catch(() => { }));
+        return networkResponse;
+    }
+    return (await cache.match(event.request)) || networkResponse;
 }
 function applyCacheBusting(request) {
     try {

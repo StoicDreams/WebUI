@@ -15,45 +15,29 @@ const DEFAULT_OPTION_RETURN: &str = "()";
 /// ```
 #[proc_macro]
 pub fn option(stream: TokenStream) -> TokenStream {
-    let mut option = String::default();
-    let mut missing_returns = DEFAULT_OPTION_RETURN.to_string();
+    // Tokens are kept as they are, so spaces inside strings and literal return values survive.
+    let mut option = TokenStream::new();
+    let mut missing_returns = TokenStream::new();
     let mut build_option = true;
-    stream.into_iter().for_each(|x| match x {
-        TokenTree::Ident(ident) => {
-            if build_option {
-                option = format!("{}{}", option, ident);
-            } else {
-                if missing_returns == DEFAULT_OPTION_RETURN {
-                    missing_returns = String::default();
-                }
-                missing_returns = format!("{}{}", missing_returns, ident);
-            }
+    for token in stream {
+        if !build_option {
+            missing_returns.extend([token]);
+            continue;
         }
-        TokenTree::Group(group) => {
-            let group = group.to_string().replace(' ', "");
-            if build_option {
-                option = format!("{}{}", option, group);
-            } else {
-                missing_returns = format!("{}{}", missing_returns, group);
-            }
+        match &token {
+            TokenTree::Punct(punct) if punct.as_char() == ',' => build_option = false,
+            TokenTree::Literal(literal) => panic!("Unexpected literal:{}", literal),
+            _ => option.extend([token]),
         }
-        TokenTree::Literal(literal) => {
-            panic!("Unexpected literal:{}", literal);
-        }
-        TokenTree::Punct(punct) => {
-            let punct = punct.to_string().replace(' ', "");
-            if punct == "," || punct == " " {
-                build_option = false;
-            } else if build_option {
-                option = format!("{}{}", option, punct);
-            } else {
-                missing_returns = format!("{}{}", missing_returns, punct);
-            }
-        }
-    });
+    }
     if option.is_empty() {
         panic!("Missing Option variable");
     }
+    let missing_returns = if missing_returns.is_empty() {
+        DEFAULT_OPTION_RETURN.to_string()
+    } else {
+        missing_returns.to_string()
+    };
     let result = format!(
         r#"match {}.to_owned() {{
     Some(value) => value,
