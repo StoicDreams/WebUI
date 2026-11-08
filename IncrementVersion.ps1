@@ -91,6 +91,8 @@ if ($null -ne $version) {
     ApplyVersionUpdates .\saveweb Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates .\webui_procs Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates .\webapp Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$version"""
+    ApplyVersionUpdates .\webapp\root_files service-worker.js "const currentVersion = '([0-9\.]+)'" "const currentVersion = '$version'"
+    ApplyVersionUpdates .\webapp\root_files service-worker.min.js 'currentVersion="([0-9\.]+)"' "currentVersion=""$version"""
     ApplyVersionUpdates .\ README.md 'Version ([0-9\.]+)' "Version $version"
     ApplyVersionUpdates .\webui README.md 'webui = "([0-9\.]+)"' "webui = ""$version"""
     ApplyVersionUpdates .\webui README.md 'webui = { version = "([0-9\.]+)"' "webui = { version = ""$version"""
