@@ -30,6 +30,9 @@
     <link href="Logo.svg" rel="icon" type="image/svg+xml" sizes="any" />
     <link rel="manifest" href="app.webmanifest">
     <link rel="apple-touch-icon" href="apple-icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link href="https://cdn.myfi.ws/css/webui.min.css" rel="stylesheet" />
     <link data-trunk href="css/app.min.css" rel="css" />
     <script src="https://cdn.myfi.ws/webui/loader.min.js"></script>
@@ -77,7 +80,7 @@
                 <p>You can also come <a href="https://discord.gg/5X4YSDFdHD">chat with us on the Stoic Dreams Web UI discord server.</a></p>
             </webui-feedback>
             <webui-alerts title="View your notifications" data-title="My Alerts" data-toggleclass=".shared|open"></webui-alerts>
-            <webui-myfi-info>
+            <webui-myfi-info sign-in-label="Sign In">
                 <template slot="panel-content">
                     <webui-alert show variant="info">Example Account Panel</webui-alert>
                 </template>
@@ -93,7 +96,7 @@
                 <webui-link href="/about" icon="circle_exclamation|backing|bordered">About {APP_NAME}</webui-link>
                 <webui-link href="/contact" icon="messages|fill|shade:tri">Contact {COMPANY_SINGULAR}</webui-link>
                 <webui-link href="/privacy" icon="shield_exclamation|backing|bordered">Privacy</webui-link>
-                <webui-link href="/terms" icon="handshake|fill|shade|tri">Terms & Conditions</webui-link>
+                <webui-link href="/terms" icon="handshake|fill|shade:tri">Terms & Conditions</webui-link>
             </webui-flex>
             <webui-stoic-social-links class="mb-2"></webui-stoic-social-links>
         </webui-page-footer>

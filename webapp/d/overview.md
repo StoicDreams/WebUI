@@ -8,7 +8,7 @@
 Web UI is a lightweight, Vanilla JS component framework built on Web Components and a simple‑config loader. It helps teams ship features fast - without bundlers, compiling, lock‑in, or a massive dependency tree.
 </webui-page-segment>
 
-> **Core ideas** :key:: native‑first, predictable APIs, small surface area, CDN‑friendly delivery, and components that fail gracefully.
+> <webui-icon icon="key"></webui-icon> **Core ideas:** native‑first, predictable APIs, small surface area, CDN‑friendly delivery, and components that fail gracefully.
 </webui-paper>
 
 <webui-paper class="content">

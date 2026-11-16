@@ -23,6 +23,19 @@ jobs:
         run: cargo build
       - name: Run Tests
         run: cargo test
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install UI Test Tools
+        run: |
+          npm ci
+          # No --with-deps: it runs apt, which fails when Ubuntu's mirrors are down. The runner image already has the libraries Chromium needs.
+          npx playwright install chromium
+      # The pages load the minified files and the live CDN, the same as the deployed site.
+      - name: Run UI Tests
+        run: npm test
       - name: Install Trunk
         uses: taiki-e/install-action@v2
         with:

@@ -1,19 +1,25 @@
 [
   {
     "name": "Onboarding",
-    "icon": "emoji-locomotive",
+    "icon": "graduation-cap",
     "url": "/e4aad621-d5f5-4803-8a67-8eea4ce3689f",
     "children": null
   },
   {
     "name": "Dev",
-    "icon": "emoji-gear|shade:tri",
+    "icon": "desktop",
     "url": "/d00fa5f4-530f-4e9a-addc-c4b28132497c",
     "children": null
   },
   {
+    "name": "Tests",
+    "icon": "test",
+    "url": "/56aa2d93-8627-4a31-bbd6-717abf053209",
+    "children": null
+  },
+  {
     "name": "Publish",
-    "icon": "emoji-package",
+    "icon": "rocket",
     "url": "/d0f2d7ed-2b31-4ee7-b66b-f905b3ae8fe1",
     "children": null
   }

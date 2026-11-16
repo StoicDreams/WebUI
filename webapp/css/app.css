@@ -1,28 +1,280 @@
-/* Example for where to add custom app styles */
+/*
+ * Web UI docs theme (2026-11-15): a calm, neutral dark slate built for reading. Web UI red is the one accent, used
+ * for links, the current page, and small heading marks. Headings are plain text instead of solid color bars,
+ * sections are flat, and page content keeps to a readable, centered column. Inter for text.
+ * Theme only: build layouts as components, not CSS here.
+ */
 :root {
-    --color-black: #101010FF;
-    --color-white: #FFFFFFFF;
-    --color-background: #333333FF;
-    --color-offset: var(--color-white);
-    --color-title: #b13b3bFF;
-    --color-title-offset: var(--color-white);
-    --color-primary: #9e091aFF;
+    --color-black: #101010;
+    --color-white: #FFFFFF;
+    --color-background: #14161b;
+    --color-background-offset: #e4e6eb;
+    --color-title: #1a1d23;
+    --color-title-offset: #f3f4f6;
+    --color-primary: #c8102e;
     --color-primary-offset: var(--color-white);
-    --color-secondary: #2e54ffFF;
+    --color-secondary: #3451d1;
     --color-secondary-offset: var(--color-white);
-    --color-tertiary: #7d0b77FF;
+    --color-tertiary: #7d0b77;
     --color-tertiary-offset: var(--color-white);
-    --color-info: #2196f3FF;
+    --color-info: #1f6fc5;
     --color-info-offset: var(--color-white);
-    --color-success: #1c970eFF;
+    --color-success: #19890d;
     --color-success-offset: var(--color-white);
     --color-warning: rgb(191, 84, 31);
     --color-warning-offset: var(--color-white);
     --color-danger: rgb(183, 5, 5);
     --color-danger-offset: var(--color-white);
-    --color-shade-offset: var(--color-white);
-    --color-active: rgb(31, 112, 92);
+    --color-active: #3a1a21;
     --color-active-offset: var(--color-white);
-    --color-button: var(--color-info);
-    --color-button-offset: var(--color-info-offset);
+    --color-button: #c8102e;
+    --color-button-offset: var(--color-white);
+    --color-footer: #111318;
+    --color-footer-offset: #a7adb9;
+    --color-focus: #ff7a8a;
+    --color-code-background: #0e1014;
+    --link-shadow: none;
+    --corners: 6px;
+    --typography-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --typography-size: 16px;
+    --typography-lineheight: 1.65;
+    --drawer-width-left: 270px;
+
+    /* Site tokens */
+    --color-link: #ff8796;
+    --color-muted: #a7adb9;
+    --color-heading: #f3f4f6;
+    --color-surface: #1b1e25;
+    --color-line: rgb(255 255 255 / 8%);
+    --content-width: 860px;
+}
+
+body,
+webui-app {
+    font-family: var(--typography-family);
+    line-height: var(--typography-lineheight);
+}
+
+webui-app {
+    background-color: var(--color-background);
+    color: var(--color-background-offset);
+}
+
+/* Page content keeps to a readable column, centered, with a gutter. Slotted shell parts are left alone. */
+webui-app>:not([slot]) {
+    margin-left: max(20px, calc((100% - var(--content-width)) / 2));
+    margin-right: max(20px, calc((100% - var(--content-width)) / 2));
+}
+
+/*
+ * Headings in page content: plain text in a clear size scale, in place of the framework's solid color bars.
+ * The :is() parent list includes a class, so these outrank the framework's .readable-content>h2 rules.
+ */
+:is(webui-app, webui-content, .readable-content, webui-page-segment, webui-paper)>:is(h1, h2, h3, h4, h5, h6):not(header *, webui-drawer *, webui-page-footer *, webui-card *, webui-alert *, webui-dialog *) {
+    background-color: transparent;
+    color: var(--color-heading);
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    align-items: center;
+}
+
+:is(webui-app, webui-content, .readable-content, webui-page-segment, webui-paper)>h1:not(header *, webui-drawer *, webui-page-footer *, webui-card *, webui-alert *, webui-dialog *) {
+    font-size: 2.1rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+}
+
+/* Section headings: a hairline under them and a small red mark, so long pages are easy to scan. */
+:is(webui-app, webui-content, .readable-content, webui-page-segment, webui-paper)>h2:not(header *, webui-drawer *, webui-page-footer *, webui-card *, webui-alert *, webui-dialog *) {
+    font-size: 1.55rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.9rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--color-line);
+}
+
+:is(webui-app, webui-content, .readable-content, webui-page-segment, webui-paper)>h2:not(header *, webui-drawer *, webui-page-footer *, webui-card *, webui-alert *, webui-dialog *)::before {
+    content: "";
+    flex: 0 0 auto;
+    width: 4px;
+    height: 0.9em;
+    margin-right: 0.15em;
+    border-radius: 2px;
+    background-color: var(--color-primary);
+}
+
+:is(webui-app, webui-content, .readable-content, webui-page-segment, webui-paper)>h3:not(header *, webui-drawer *, webui-page-footer *, webui-card *, webui-alert *, webui-dialog *) {
+    font-size: 1.2rem;
+    margin-top: 1.9rem;
+    margin-bottom: 0.6rem;
+}
+
+:is(webui-app, webui-content, .readable-content, webui-page-segment, webui-paper)>:is(h4, h5, h6):not(header *, webui-drawer *, webui-page-footer *, webui-card *, webui-alert *, webui-dialog *) {
+    font-size: 1.02rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-background-offset);
+}
+
+/* The first heading on a page needs no gap above it. */
+webui-app>:is(h1, h2, h3):first-of-type {
+    margin-top: 1.5rem;
+}
+
+/* Links: the accent color without the framework's glow, underlined more lightly. */
+a[href]:not([disabled]):not(:disabled):not(.disabled),
+a[data-click]:not([disabled]):not(:disabled):not(.disabled) {
+    color: var(--color-link);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+    text-decoration-color: rgb(255 135 150 / 45%);
+    text-shadow: none;
+}
+
+a[href]:not([disabled]):not(:disabled):not(.disabled):hover {
+    text-decoration-color: currentColor;
+}
+
+a[href] :is(svg, webui-icon, webui-avatar),
+a[data-click] :is(svg, webui-icon, webui-avatar) {
+    filter: none;
+}
+
+/* Sections: flat, with spacing between them instead of shadows and boxes. */
+webui-page-segment {
+    background-color: transparent;
+    padding: 0;
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+}
+
+/* Outranks the .elevation-* classes the elevation attribute adds. */
+webui-page-segment[elevation] {
+    box-shadow: none;
+}
+
+webui-page-segment>:is(p, ul, ol):not(:first-child) {
+    margin-top: 0.85rem;
+}
+
+webui-app>p,
+webui-content>p {
+    padding: 0;
+    margin: 0.5rem 0;
+}
+
+webui-app :is(ul, ol):not(webui-drawer *, header *) {
+    padding-left: 1.4em;
+}
+
+webui-app li+li {
+    margin-top: 0.3rem;
+}
+
+/* Inline code reads as code without shouting. */
+:not(pre)>code {
+    font-family: var(--font-family-mono);
+    font-size: 0.9em;
+    padding: 0.1em 0.35em;
+    border-radius: 4px;
+    background-color: var(--color-surface);
+    color: var(--color-heading);
+    border: 1px solid var(--color-line);
+    outline: none;
+}
+
+/* Code samples: a quiet frame with a slim title bar instead of a bright blue one. */
+webui-code {
+    --theme: var(--color-surface);
+    --theme-offset: var(--color-muted);
+    border: 1px solid var(--color-line);
+    border-radius: var(--corners);
+    box-shadow: none;
+    overflow: hidden;
+    margin: 0.75rem 0;
+}
+
+/* Quotes and callouts: a thin accent edge and no shadow. */
+webui-quote,
+webui-alert {
+    box-shadow: none;
+    border-radius: var(--corners);
+}
+
+webui-quote {
+    border-left-width: 3px;
+    font-style: italic;
+}
+
+/* Header: a dark bar with a hairline, not a solid red band. */
+webui-app>header {
+    background-color: var(--color-title);
+    box-shadow: none;
+    border-bottom: 1px solid var(--color-line);
+}
+
+webui-app>header :is(h1, h2) {
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+webui-app>header h2 {
+    color: var(--color-muted);
+    font-weight: 500;
+}
+
+/* Menu: a slightly darker drawer, links without underlines, and the current page marked with a red edge. */
+webui-drawer.nav {
+    --theme-color: #101217;
+    --color-background: #101217;
+    border-right: 1px solid var(--color-line);
+}
+
+webui-nav .navlink {
+    padding: 6px 10px;
+    border-radius: var(--corners);
+    font-weight: 500;
+    font-size: 0.95rem;
+    color: var(--color-muted);
+    transition: background-color 140ms ease, color 140ms ease;
+}
+
+/* The framework underlines every a[href]; this selector has to outrank its a[href]:not(...) rule. */
+webui-nav a.navlink[href]:not([disabled]):not(:disabled):not(.disabled) {
+    color: var(--color-muted);
+    text-decoration: none;
+}
+
+webui-nav .navlink:hover,
+webui-nav a.navlink[href]:not([disabled]):not(:disabled):not(.disabled):hover {
+    background-color: var(--color-surface);
+    color: var(--color-heading);
+}
+
+webui-nav-link.theme-active {
+    background-color: transparent;
+}
+
+webui-nav-link.theme-active>a.navlink,
+webui-nav-link.theme-active>a.navlink[href]:not([disabled]):not(:disabled):not(.disabled) {
+    background-color: rgb(200 16 46 / 16%);
+    box-shadow: inset 3px 0 0 var(--color-primary);
+    color: var(--color-heading);
+}
+
+/* Footer: a quiet band below the content. */
+webui-app>footer[slot="content-footer"] {
+    margin-top: 3rem;
+    border-top: 1px solid var(--color-line);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    webui-nav .navlink {
+        transition: none;
+    }
 }

@@ -60,7 +60,7 @@ With this loader you also get the `webui` object with many helper methods - most
 
 <webui-sideimage src="https://cdn.myfi.ws/v/Vecteezy/cartoon-style-cloud-storage-data-processing-message.svg">
 > Build modern, fast web apps with a lightweight framework designed for WebAssembly‑powered SPAs - without drowning in boilerplate.
-> <webui-flex align="center" justify="center">[Get Started](/getting-started) :dot: [Explore Components](/components) · [Concepts](/concepts/architecture) · [Icons](/icons) · [Changelog](/changelog)</webui-flex>
+> <webui-flex align="center" justify="center">[Get Started](/getting-started) · [Explore Components](/components) · [Concepts](/concepts/architecture) · [Icons](/graphics/icons) · [Changelog](/changelog)</webui-flex>
 
 ### Why Web UI
 

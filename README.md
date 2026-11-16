@@ -1,6 +1,6 @@
 # Web UI Workspace - Stoic Dreams
 
-[WebUI Version: 0.11.8](https://github.com/StoicDreams/WebUI)
+[WebUI Version: 0.11.9](https://github.com/StoicDreams/WebUI)
 
 [View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
 
@@ -126,7 +126,7 @@ Run this script to increment the patch version and apply the new version to any 
 
 ```powershell
 # From the workspace root folder
-.\IncrementVersion.ps1
+./PowerShell/IncrementVersion.ps1
 ```
 
 ### Publish Latest Updates to [crates.io](https://crates.io/crates/webui/)
@@ -183,11 +183,22 @@ Before running this project, follow the [Web CLI Setup](https://webui.stoicdream
 
 ### Running the Project
 
-To run the project locally, you can use the following command:
+To run the doc site locally at http://localhost:8114, use the following command. It lists any missing tools before building.
 
 ```terminal:Run the project from the root directory
-./PowerShell/RunLocal.ps1 -port 3210
+./PowerShell/RunLocal.ps1
 ```
+
+### Testing and Publishing
+
+The doc site has the same Playwright tests as the Stoic Dreams websites. They need no build or server.
+
+```terminal:Run the UI tests
+npm install
+npm test
+```
+
+`./PowerShell/Publish.ps1` prepares a commit: it increments the version, minifies the CSS and JavaScript, rebuilds the sitemap, updates the page screenshots, and runs the tests that CI runs.
 
 ## Other Resources
 

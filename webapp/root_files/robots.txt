@@ -4,4 +4,4 @@ Allow: /nogooglebot/
 User-agent: *
 Allow: /
 
-Sitemap: http://webui.stoicdreams.com/sitemap.xml
+Sitemap: https://webui.stoicdreams.com/sitemap.xml
