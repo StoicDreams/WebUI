@@ -5,7 +5,6 @@ members = [
     "webui_procs",
     "webui",
     "webuisave",
-    "webapp",
     "webapp_post_build",
 ]
 resolver = "3"

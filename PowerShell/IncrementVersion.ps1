@@ -1,4 +1,5 @@
-# Increments the Web UI version (patch by default) in the crates, the doc site, and the READMEs.
+# Increments the Web UI version (patch by default) in the crates and the READMEs.
+# The Web UI website has its own version, in the WebUIWeb repo.
 Param (
     [Switch]$major,
     [Switch]$minor
@@ -88,14 +89,10 @@ if ($null -ne $version) {
 
     ApplyVersionUpdates ./webui/src lib.rs 'pub const VERSION: &str = "([0-9\.]+)";' "pub const VERSION: &str = ""$version"";"
     ApplyVersionUpdates ./webui Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
-    ApplyVersionUpdates ./webapp Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates ./webuisave Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates ./webapp_post_build Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates ./saveweb Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
     ApplyVersionUpdates ./webui_procs Cargo.toml 'version = "([0-9\.]+)"[ ]*#syncwebui' "version = ""$version"" #syncwebui"
-    ApplyVersionUpdates ./webapp Cargo.toml 'webui = "([0-9\.]+)"' "webui = ""$version"""
-    ApplyVersionUpdates ./webapp/root_files service-worker.js "const currentVersion = '([0-9\.]+)'" "const currentVersion = '$version'"
-    ApplyVersionUpdates ./webapp/root_files service-worker.min.js 'currentVersion="([0-9\.]+)"' "currentVersion=""$version"""
     # Only the READMEs that hold the version, so the search skips target/ and node_modules/.
     foreach ($readme in @('./README.md', './webui/README.md', './webui_procs/README.md')) {
         UpdateProjectVersion $readme $version 'Version ([0-9\.]+)' "Version $version"

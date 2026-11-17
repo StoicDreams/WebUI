@@ -2,7 +2,7 @@
 
 [WebUI Version: 0.11.11](https://github.com/StoicDreams/WebUI)
 
-[View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com)
+[View Demo and Doc Site - webui.stoicdreams.com](https://webui.stoicdreams.com) (source: [github.com/StoicDreams/WebUIWeb](https://github.com/StoicDreams/WebUIWeb))
 
 [View Rust WebUI Docs - docs.rs/webui](https://docs.rs/webui)
 
@@ -108,7 +108,7 @@ cargo install --path webui --features all
 Delete any starter files that need refeshing (index.html, etc) and run `webui`
 
 ```bash
-# From the webapp folder
+# From a website's webapp folder, such as WebUIWeb/webapp
 webui
 ```
 
@@ -144,12 +144,11 @@ cargo publish
 
 This console app provides a single command to:
 
-- Sync static files from webapp to webui
-- Increment the Patch version for webui
-- Verify tests
-- Commit changes
-- Push to GitHub
-- Publish to crates.io
+- Run the tests, format, update, and build
+- Increment the Patch version for webui (with `-c`)
+- Install the local `webui`
+- Commit changes and push to GitHub (with `-c`)
+- Publish `webui_procs` and `webui` to crates.io (with `-c` and `--publish`)
 
 Install the `webuisave` script
 
@@ -175,30 +174,9 @@ webuisave -c "Your commit message" --minor
 webuisave -c "Your commit message" --major
 ```
 
-## Website Development
+## Website
 
-### Setup
-
-Before running this project, follow the [Web CLI Setup](https://webui.stoicdreams.com/tools/cli) guide and the [Web UI Rust Tools Setup](https://webui.stoicdreams.com/tools/rust) guide to install the necessary tools and dependencies.
-
-### Running the Project
-
-To run the doc site locally at http://localhost:8114, use the following command. It lists any missing tools before building.
-
-```terminal:Run the project from the root directory
-./PowerShell/RunLocal.ps1
-```
-
-### Testing and Publishing
-
-The doc site has the same Playwright tests as the Stoic Dreams websites. They need no build or server.
-
-```terminal:Run the UI tests
-npm install
-npm test
-```
-
-`./PowerShell/Publish.ps1` prepares a commit: it increments the version, minifies the CSS and JavaScript, rebuilds the sitemap, updates the page screenshots, and runs the tests that CI runs.
+The Web UI website, [webui.stoicdreams.com](https://webui.stoicdreams.com), is in its own repo, [WebUIWeb](https://github.com/StoicDreams/WebUIWeb). Its README explains how to run, test, and publish it.
 
 ## Other Resources
 

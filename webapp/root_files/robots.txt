@@ -1,7 +1,0 @@
-﻿User-agent: Googlebot
-Allow: /nogooglebot/
-
-User-agent: *
-Allow: /
-
-Sitemap: https://webui.stoicdreams.com/sitemap.xml

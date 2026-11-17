@@ -10,7 +10,3 @@ pkg
 # Ignore Legacy Files
 .legacy
 
-# Ignore test tooling output
-node_modules
-test-results
-playwright-report

@@ -12,12 +12,6 @@
     "children": null
   },
   {
-    "name": "Tests",
-    "icon": "test",
-    "url": "/56aa2d93-8627-4a31-bbd6-717abf053209",
-    "children": null
-  },
-  {
     "name": "Publish",
     "icon": "rocket",
     "url": "/d0f2d7ed-2b31-4ee7-b66b-f905b3ae8fe1",

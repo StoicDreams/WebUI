@@ -36,20 +36,6 @@ mod tests {
     }
 
     #[test]
-    fn the_starter_service_worker_matches_the_one_this_site_uses() {
-        // The service worker's behavior is tested in the websites, which all share this file.
-        let site = include_str!("../../webapp/root_files/service-worker.js");
-        let without_version = |text: &str| -> String {
-            text.replace('\r', "")
-                .lines()
-                .filter(|line| !line.starts_with("const currentVersion"))
-                .collect::<Vec<_>>()
-                .join("\n")
-        };
-        assert_eq!(without_version(SERVICEWORKER), without_version(site));
-    }
-
-    #[test]
     fn the_minified_starter_service_worker_has_the_same_version() {
         assert!(version_in(SERVICEWORKER).is_some());
         assert_eq!(version_in(SERVICEWORKERMIN), version_in(SERVICEWORKER));

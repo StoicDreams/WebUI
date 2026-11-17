@@ -21,10 +21,9 @@ fn main() {
     run("cargo", "fmt");
     run("cargo", "update");
     run("cargo", "build");
-    build_sitemap();
     if args.commit.is_some() {
         let version_args = &mut Vec::new();
-        version_args.push("./IncrementVersion.ps1");
+        version_args.push("./PowerShell/IncrementVersion.ps1");
         if args.major {
             version_args.push("-major");
         } else if args.minor {
@@ -69,16 +68,6 @@ fn check_correct_folder() {
         }
         run_ma("cd", &[".."]);
     }
-}
-
-fn build_sitemap() {
-    let sitemap_file = Path::new("./PowerShell/BuildSiteMap.ps1");
-    if !sitemap_file.exists() {
-        println!("Missing Sitemap Builder - expected file PowerShell/BuildSiteMap.ps1");
-        return;
-    }
-    println!("Running Sitemap Builder");
-    run("pwsh", sitemap_file.as_os_str().to_str().unwrap());
 }
 
 fn run(command: &str, commandarg: &str) {
