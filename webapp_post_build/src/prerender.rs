@@ -395,7 +395,8 @@ pub fn parse_page(route: &str, markdown: &str, tokens: &HashMap<String, String>)
         route: route.to_string(),
         ..Default::default()
     };
-    if let Some(tag) = RX_WEBUI_DATA.find(&markdown) {
+    // A page can split its data across several tags. The app reads them all in order, so a later value wins.
+    for tag in RX_WEBUI_DATA.find_iter(&markdown) {
         for caps in RX_ATTR.captures_iter(tag.as_str()) {
             let value = caps
                 .get(2)
@@ -692,6 +693,18 @@ This is the **first** paragraph, with enough words to be a description.
             page.content
         );
         assert!(!page.content.contains("webui-"), "{}", page.content);
+    }
+
+    #[test]
+    fn reads_data_from_every_webui_data_tag() {
+        let md = r#"<webui-data data-page-title="About Erik" data-page-subtitle="Sub"></webui-data>
+<webui-data data-page-description="From the second tag"></webui-data>
+<webui-data data-page-next-page='{"name":"Projects"}'></webui-data>
+
+First paragraph that would otherwise become the description."#;
+        let page = parse_page("/about", md, &tokens());
+        assert_eq!(page.title, "About Erik");
+        assert_eq!(page.description, "From the second tag");
     }
 
     #[test]

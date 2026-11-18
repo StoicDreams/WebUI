@@ -26,10 +26,13 @@
     <link data-trunk href="root_files" rel="copy-dir" />
     <link data-trunk href="d" rel="copy-dir" data-target-path="d" />
     <link data-trunk href="wc" rel="copy-dir" data-target-path="wc" />
+    <!-- Prerendered pages from webapp_post_build prerender. Release builds copy them to the site root. -->
+    <link data-trunk href="pages" rel="copy-dir" data-target-path="pages" />
     <link data-trunk href="pkg" rel="copy-dir" data-target-path="/" />
 
     <!--Web Worker-->
-    <script data-trunk type="module" src="src-js/main.js"></script>
+    <script type="module" src="main.js"></script>
+    <link data-trunk href="src-js/main.js" rel="copy-file" data-target-path="/" />
     <link data-trunk href="src-js/worker.js" rel="copy-file" data-target-path="/" />
     <!--End Web Worker-->
 

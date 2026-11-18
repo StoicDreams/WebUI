@@ -22,6 +22,8 @@ fn main() {
     starter_files::add_file_if_missing("root_files/service-worker.min.js", SERVICEWORKERMIN);
     starter_files::add_file_if_missing("src-js/main.js", WEBWORKERMAIN);
     starter_files::add_file_if_missing("src-js/worker.js", WEBWORKERLIB);
+    // index.html copies pages/, which Trunk needs to exist. `webapp_post_build prerender` fills it with the site's pages.
+    starter_files::add_file_if_missing("pages/.gitkeep", "");
 }
 
 #[cfg(test)]
