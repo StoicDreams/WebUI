@@ -48,6 +48,13 @@ static RX_HEADER_SUBTITLE: LazyLock<Regex> = LazyLock::new(|| {
     Regex::new(r#"(?is)(<h2\s+data-subscribe="page-subtitle:innerHTML"[^>]*>).*?(</h2>)"#).unwrap()
 });
 // Must not match <webui-app-config>, which comes first in index.html.
+static RX_TRUNK_LINE: LazyLock<Regex> = LazyLock::new(|| {
+    Regex::new(r"(?im)^[ \t]*<(?:link|script)\b[^>]*\bdata-trunk\b[^>]*>(?:\s*</script>)?[ \t]*\r?\n").unwrap()
+});
+static RX_ASSET_TAG: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r"(?is)<(?:link|script)\b[^>]*>").unwrap());
+static RX_LOCAL_ASSET: LazyLock<Regex> =
+    LazyLock::new(|| Regex::new(r##"\b(href|src)="([^"#?:]+)""##).unwrap());
 static RX_APP_OPEN: LazyLock<Regex> =
     LazyLock::new(|| Regex::new(r"(?is)<webui-app(?:\s[^>]*)?>").unwrap());
 
@@ -61,21 +68,19 @@ pub struct Page {
     pub content: String,
 }
 
-/// Write a prerendered file for every page in `{stage}/d`. Returns the number of pages written.
-pub fn run(stage: &Path) -> usize {
-    let index_file = stage.join("index.html");
-    let Ok(index) = fs::read_to_string(&index_file) else {
-        println!("Prerender: skipped, no index.html in {}", stage.display());
-        return 0;
-    };
-    let Some(origin) = site_origin(&index) else {
-        println!("Prerender: skipped, index.html has no og:url to build page addresses from");
-        return 0;
-    };
-    let config = read_json(&stage.join("appConfig.json"));
-    let tokens = data_tokens(&config, &origin);
+/// Every page of a site as `(route, markdown file, html)`, rendered from the site's `index.html`, `appConfig.json`, pages, and
+/// components. Dynamic routes are left out, since they have no page file of their own.
+pub fn render_site(
+    index: &str,
+    config: &Value,
+    pages_dir: &Path,
+    wc: &Path,
+) -> Result<Vec<(String, PathBuf, String)>, String> {
+    let origin = site_origin(index)
+        .ok_or("index.html has no og:url to build page addresses from")?;
+    let tokens = data_tokens(config, &origin);
     // The app fills in placeholders such as the footer's "About {APP_NAME}" when it loads. Fill them in for crawlers.
-    let index = replace_tokens(&index, &tokens);
+    let index = replace_tokens(index, &tokens);
     let dynamic: Vec<String> = config
         .get("dynNavRoutes")
         .and_then(Value::as_array)
@@ -87,11 +92,9 @@ pub fn run(stage: &Path) -> usize {
                 .collect()
         })
         .unwrap_or_default();
-
-    let pages_dir = stage.join("d");
-    let mut written = 0;
-    for file in markdown_files(&pages_dir) {
-        let route = route_for(&pages_dir, &file);
+    let mut pages = Vec::new();
+    for file in markdown_files(pages_dir) {
+        let route = route_for(pages_dir, &file);
         if dynamic
             .iter()
             .any(|prefix| route.starts_with(prefix.as_str()))
@@ -102,11 +105,56 @@ pub fn run(stage: &Path) -> usize {
             continue;
         };
         let page = parse_page(&route, &markdown, &tokens);
-        let target = if route == "/" {
-            index_file.clone()
-        } else {
-            stage.join(format!("{}.html", route.trim_start_matches('/')))
-        };
+        // Hints for the components this page and the site's shell use, so they load alongside the framework.
+        let links = crate::preload::preload_links(wc, &[&index, &markdown]);
+        let html = crate::preload::add_to_head(&render_page(&index, &page, &origin), &links);
+        pages.push((route, file, html));
+    }
+    Ok(pages)
+}
+
+/// The file a page is written to: `index.html` for the home page, `about.html` for `/about`.
+pub fn page_file(dir: &Path, route: &str) -> PathBuf {
+    if route == "/" {
+        dir.join("index.html")
+    } else {
+        dir.join(format!("{}.html", route.trim_start_matches('/')))
+    }
+}
+
+fn write_page(target: &Path, html: &str) -> bool {
+    if let Some(parent) = target.parent() {
+        let _ = fs::create_dir_all(parent);
+    }
+    match fs::write(target, html) {
+        Ok(_) => true,
+        Err(err) => {
+            println!("Prerender: failed writing {}: {err}", target.display());
+            false
+        }
+    }
+}
+
+/// Write a prerendered file for every page in `{stage}/d`, during a Trunk build. Returns the number of pages written.
+///
+/// Sites that commit their prerendered pages in `webapp/pages` (written by [`generate`]) skip this.
+pub fn run(stage: &Path) -> usize {
+    let index_file = stage.join("index.html");
+    let Ok(index) = fs::read_to_string(&index_file) else {
+        println!("Prerender: skipped, no index.html in {}", stage.display());
+        return 0;
+    };
+    let config = read_json(&stage.join("appConfig.json"));
+    let pages = match render_site(&index, &config, &stage.join("d"), &stage.join("wc")) {
+        Ok(pages) => pages,
+        Err(err) => {
+            println!("Prerender: skipped, {err}");
+            return 0;
+        }
+    };
+    let mut written = 0;
+    for (route, _, html) in pages {
+        let target = page_file(stage, &route);
         if route != "/" && target.exists() {
             println!(
                 "Prerender: skipped {route}, {} already exists",
@@ -114,15 +162,8 @@ pub fn run(stage: &Path) -> usize {
             );
             continue;
         }
-        // Hints for the components this page and the site's shell use, so they load alongside the framework.
-        let links = crate::preload::preload_links(&stage.join("wc"), &[&index, &markdown]);
-        let html = crate::preload::add_to_head(&render_page(&index, &page, &origin), &links);
-        if let Some(parent) = target.parent() {
-            let _ = fs::create_dir_all(parent);
-        }
-        match fs::write(&target, html) {
-            Ok(_) => written += 1,
-            Err(err) => println!("Prerender: failed writing {}: {err}", target.display()),
+        if write_page(&target, &html) {
+            written += 1;
         }
     }
     if written > 0 {
@@ -130,6 +171,119 @@ pub fn run(stage: &Path) -> usize {
     }
     println!("Prerender: wrote {written} pages");
     written
+}
+
+/// Write a prerendered file for every page into `{webapp}/pages`, from the site's source files, so the pages can be
+/// committed. Run in Publish.ps1, before the tests. The build copies them to the site root (see `main.rs`).
+///
+/// The folder is emptied first, so pages that were removed lose their file too. Returns the number of pages written.
+pub fn generate(webapp: &Path) -> Result<usize, String> {
+    let index = fs::read_to_string(webapp.join("index.html"))
+        .map_err(|err| format!("could not read {}: {err}", webapp.join("index.html").display()))?;
+    let shell = versioned_assets(&without_trunk_links(&index), webapp);
+    let root_files = webapp.join("root_files");
+    let config_bytes = fs::read(root_files.join("appConfig.json")).unwrap_or_default();
+    let config = read_json(&root_files.join("appConfig.json"));
+    let pages = render_site(&shell, &config, &webapp.join("d"), &webapp.join("wc"))?;
+    let out = webapp.join(PAGES_DIR);
+    if out.exists() {
+        fs::remove_dir_all(&out).map_err(|err| format!("could not empty {}: {err}", out.display()))?;
+    }
+    let mut written = 0;
+    for (route, file, html) in &pages {
+        let markdown = fs::read(file).unwrap_or_default();
+        let source = source_version(&[index.as_bytes(), &config_bytes, &markdown]);
+        let html = html.replacen(
+            "</head>",
+            &format!("\t<meta name=\"{SOURCE_META}\" content=\"{source}\">\n</head>"),
+            1,
+        );
+        if !write_page(&page_file(&out, route), &html) {
+            return Err(format!("could not write the page for {route}"));
+        }
+        written += 1;
+    }
+    add_web_config_rule(&root_files.join("web.config"));
+    Ok(written)
+}
+
+/// The folder in `webapp` that holds the committed prerendered pages.
+pub const PAGES_DIR: &str = "pages";
+
+/// Trunk replaces its `data-trunk` links with blank lines. Prerendered pages are written without Trunk, so remove them.
+pub fn without_trunk_links(index: &str) -> String {
+    RX_TRUNK_LINE.replace_all(index, "").into_owned()
+}
+
+/// The local files a page links to, such as `css/app.min.css` and `main.js`, with `?v=` and a hash of the file, so
+/// browsers fetch a file again whenever it changes. Trunk does this by renaming files, which a page written before
+/// the build can't know.
+///
+/// Only `<link>` and `<script>` tags are changed. Components that load a file from an attribute, such as
+/// `webui-app-config src="appConfig.json"`, are left as they are.
+pub fn versioned_assets(html: &str, webapp: &Path) -> String {
+    RX_ASSET_TAG
+        .replace_all(html, |tag: &regex::Captures| {
+            RX_LOCAL_ASSET
+                .replace_all(&tag[0], |caps: &regex::Captures| {
+                    let path = &caps[2];
+                    match site_file(webapp, path).and_then(|file| fs::read(file).ok()) {
+                        Some(bytes) => {
+                            format!(r#"{}="{path}?v={}""#, &caps[1], file_version(&bytes))
+                        }
+                        None => caps[0].to_string(),
+                    }
+                })
+                .into_owned()
+        })
+        .into_owned()
+}
+
+/// Names the meta tag holding [`source_version`], which the site tests check to find pages not regenerated
+/// after a change to `index.html`, `appConfig.json`, or the page.
+pub const SOURCE_META: &str = "webui-prerender";
+
+/// The first 10 hex digits of the file's SHA-256, with Windows line endings read as Unix ones, so a checkout on
+/// either gives the same value. The site tests compute the same value to find stale pages.
+pub fn file_version(bytes: &[u8]) -> String {
+    source_version(&[bytes])
+}
+
+/// [`file_version`] of several files, joined with a zero byte between them.
+pub fn source_version(files: &[&[u8]]) -> String {
+    use sha2::{Digest, Sha256};
+    let mut hasher = Sha256::new();
+    for (index, bytes) in files.iter().enumerate() {
+        if index > 0 {
+            hasher.update([0u8]);
+        }
+        let mut last = 0;
+        for (i, pair) in bytes.windows(2).enumerate() {
+            if pair == b"\r\n" {
+                hasher.update(&bytes[last..i]);
+                last = i + 1;
+            }
+        }
+        hasher.update(&bytes[last..]);
+    }
+    let hash = hasher.finalize();
+    hash.iter().map(|b| format!("{b:02x}")).collect::<String>()[..10].to_string()
+}
+
+/// Where a site address is in the source, matching where Trunk copies files from: `root_files/`, `webapp/` itself,
+/// and `src-js/` (for `main.js` and `worker.js`).
+fn site_file(webapp: &Path, path: &str) -> Option<PathBuf> {
+    if path.contains("://") || path.starts_with("//") || path.contains("..") {
+        return None;
+    }
+    let relative = path.trim_start_matches('/');
+    if relative.is_empty() {
+        return None;
+    }
+    ["root_files", "", "src-js"]
+        .iter()
+        .map(|dir| webapp.join(dir).join(relative))
+        .find(|file| file.is_file())
 }
 
 fn read_json(file: &Path) -> Value {
@@ -378,6 +532,13 @@ pub fn render_page(index: &str, page: &Page, origin: &str) -> String {
         format!("{origin}{}", page.route)
     };
     let mut html = index.to_string();
+    // The home page keeps the title written in index.html, but uses its own description when it sets one.
+    if !page.description.is_empty() {
+        let description = escape(&page.description);
+        html = set_meta(&html, "name", "description", &description);
+        html = set_meta(&html, "property", "og:description", &description);
+        html = set_meta(&html, "name", "twitter:description", &description);
+    }
     if !is_root {
         let title = escape(&full_title(page));
         html = RX_TITLE
@@ -387,12 +548,6 @@ pub fn render_page(index: &str, page: &Page, origin: &str) -> String {
         html = set_meta(&html, "name", "twitter:title", &title);
         html = set_meta(&html, "property", "og:url", &escape(&url));
         html = set_meta(&html, "name", "twitter:url", &escape(&url));
-        if !page.description.is_empty() {
-            let description = escape(&page.description);
-            html = set_meta(&html, "name", "description", &description);
-            html = set_meta(&html, "property", "og:description", &description);
-            html = set_meta(&html, "name", "twitter:description", &description);
-        }
         // index.html is also served for addresses without a file of their own, so only pages get a canonical link.
         html = RX_CANONICAL.replace_all(&html, "").into_owned();
         html = html.replacen(
@@ -624,11 +779,13 @@ This is the **first** paragraph, with enough words to be a description.
         let page = Page {
             route: "/".into(),
             title: "Ap Tul".into(),
+            description: "Home description".into(),
             content: "<p>Home</p>".into(),
             ..Default::default()
         };
         let html = render_page(INDEX, &page, "https://www.aptul.com");
         assert!(html.contains("<title>Ap Tul | Toolkit</title>"));
+        assert!(html.contains(r#"<meta name="description" content="Home description">"#));
         assert!(!html.contains("canonical"));
         assert!(html.contains("<p>Home</p>"));
     }
@@ -664,5 +821,46 @@ This is the **first** paragraph, with enough words to be a description.
             "{updated}"
         );
         assert!(web_config_with_rule(&updated).is_none());
+    }
+
+    #[test]
+    fn trunk_links_are_removed_with_their_lines() {
+        let index = "<head>\n\t<link data-trunk href=\"d\" rel=\"copy-dir\" />\n\t<script data-trunk type=\"module\" src=\"a.js\"></script>\n\t<link href=\"css/app.min.css\" rel=\"stylesheet\" />\r\n</head>";
+        assert_eq!(
+            without_trunk_links(index),
+            "<head>\n\t<link href=\"css/app.min.css\" rel=\"stylesheet\" />\r\n</head>"
+        );
+    }
+
+    #[test]
+    fn file_versions_are_a_short_sha256() {
+        // The site tests compute the same value with node:crypto to find stale pages.
+        assert_eq!(file_version(b"abc"), "ba7816bf8f");
+        assert_eq!(file_version(b"a\r\nb\r\n"), file_version(b"a\nb\n"));
+        assert_eq!(file_version(b"a\rb"), source_version(&[b"a\rb"]));
+        assert_eq!(source_version(&[b"a", b"b"]), file_version(b"a\0b"));
+    }
+
+    #[test]
+    fn local_files_get_a_version_and_others_do_not() {
+        let dir = std::env::temp_dir().join(format!("webui-prerender-{}", std::process::id()));
+        let _ = fs::remove_dir_all(&dir);
+        fs::create_dir_all(dir.join("css")).unwrap();
+        fs::create_dir_all(dir.join("src-js")).unwrap();
+        fs::create_dir_all(dir.join("root_files")).unwrap();
+        fs::write(dir.join("css/app.min.css"), "a").unwrap();
+        fs::write(dir.join("src-js/main.js"), "b").unwrap();
+        fs::write(dir.join("root_files/Logo.svg"), "c").unwrap();
+        let html = r#"<base href="/" /><link href="css/app.min.css" rel="stylesheet" /><script type="module" src="/main.js"></script><link href="Logo.svg" rel="icon" /><a href="/about">About</a><img src="https://x.com/a.png" /><link href="missing.css" /><webui-app-config src="Logo.svg"></webui-app-config>"#;
+        let out = versioned_assets(html, &dir);
+        let _ = fs::remove_dir_all(&dir);
+        assert!(out.contains(&format!(r#"href="css/app.min.css?v={}""#, file_version(b"a"))), "{out}");
+        assert!(out.contains(&format!(r#"src="/main.js?v={}""#, file_version(b"b"))), "{out}");
+        assert!(out.contains(&format!(r#"href="Logo.svg?v={}""#, file_version(b"c"))), "{out}");
+        assert!(out.contains(r#"<base href="/" />"#), "{out}");
+        assert!(out.contains(r#"href="/about""#), "{out}");
+        assert!(out.contains(r#"src="https://x.com/a.png""#), "{out}");
+        assert!(out.contains(r#"href="missing.css""#), "{out}");
+        assert!(out.contains(r#"<webui-app-config src="Logo.svg">"#), "{out}");
     }
 }
