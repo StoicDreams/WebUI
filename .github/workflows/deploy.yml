@@ -1,0 +1,59 @@
+name: Test Web UI
+
+# Builds and tests the crates, then has the server reinstall webapp_post_build and update its other Rust tools
+# (/sync/rustupdates), so the next site build uses this version. The Web UI website is in the WebUIWeb repo, which deploys it.
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set Target
+        run: |
+          rustup update
+          rustup target add wasm32-unknown-unknown
+      - name: Cache Rust Dependencies
+        uses: Swatinem/rust-cache@v2
+      - name: Build
+        run: cargo build
+      - name: Run Tests
+        run: cargo test
+  update-server:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    steps:
+      - name: Update the server's Rust tools
+        env:
+          WEB_DEPLOY_METHOD: ${{ secrets.WEB_DEPLOY_METHOD }}
+          WEB_DEPLOY_API: ${{ secrets.WEB_DEPLOY_API }}
+          WEB_DEPLOY_TOKEN: ${{ secrets.WEB_DEPLOY_TOKEN }}
+        run: |
+          MAX_RETRIES=3
+          MIN_WAIT=60  # Minimum wait in seconds (1 minute)
+          MAX_WAIT=180 # Maximum wait in seconds (3 minutes)
+
+          for ((i=1; i<=MAX_RETRIES; i++)); do
+            echo "Server update attempt $i of $MAX_RETRIES for rustupdates..."
+
+            if curl --fail-with-body -X ${WEB_DEPLOY_METHOD} "${WEB_DEPLOY_API}rustupdates" -H "Accept: */*" -H "${WEB_DEPLOY_TOKEN}"; then
+              echo -e "\nServer update successful!"
+              exit 0
+            fi
+
+            if [ $i -lt $MAX_RETRIES ]; then
+              WAIT_TIME=$((RANDOM % (MAX_WAIT - MIN_WAIT + 1) + MIN_WAIT))
+              echo -e "\nServer update failed. Retrying in $WAIT_TIME seconds..."
+              sleep $WAIT_TIME
+            else
+              echo -e "\nAll $MAX_RETRIES attempts failed."
+              exit 1
+            fi
+          done
