@@ -1,0 +1,5 @@
+# Text files are stored, and checked out on every computer, with LF line endings.
+* text=auto eol=lf
+# Windows command scripts only run with CRLF.
+*.bat text eol=crlf
+*.cmd text eol=crlf
